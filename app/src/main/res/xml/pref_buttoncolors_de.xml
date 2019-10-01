@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.rarepebble.colorpicker.ColorPreference
+        android:key="ActColor"
+        android:title="@string/ActColorDE"
+        android:defaultValue="#ffc60aff"
+        />
+    <com.rarepebble.colorpicker.ColorPreference
+        android:key="FktColor"
+        android:title="@string/FktColorDE"
+        android:defaultValue="#FF9100"
+        />
+    <com.rarepebble.colorpicker.ColorPreference
+        android:key="FopsColor"
+        android:title="@string/FopsColorDE"
+        android:defaultValue="#00E676"
+        />
+    <com.rarepebble.colorpicker.ColorPreference
+        android:key="NumbersColor"
+        android:title="@string/NumbersColorDE"
+        android:defaultValue="#FFFFFF"
+        />
+    <com.rarepebble.colorpicker.ColorPreference
+        android:key="SaveColor"
+        android:title="@string/SaveColorDE"
+        android:defaultValue="#AFAFAF"
+        />
+    <com.rarepebble.colorpicker.ColorPreference
+        android:key="SpecialColor"
+        android:title="@string/SpecialColorDE"
+        android:defaultValue="#00B0FF"
+        />
+    <com.rarepebble.colorpicker.ColorPreference
+        android:key="DisplayColor"
+        android:title="@string/DisplayColorDE"
+        android:defaultValue="#FFFFFF"
+        />
+    <com.rarepebble.colorpicker.ColorPreference
+        android:key="BackgroundColor"
+        android:title="@string/BackgroundColorDE"
+        android:defaultValue="#FFFFFF"
+        />
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="color_default_switch"
+        android:summary="@string/pref_summary_colors_default"
+        android:title="@string/pref_title_colors_default" />
+</PreferenceScreen>

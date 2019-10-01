@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="white">#FFFFFF</color>
+    <color name="colorPrimaryDark">#0097A7</color>
+    <color name="hint_foreground_material_light">#B2EBF2</color>
+
+    <color name="lightPrimaryLIGHT">#B2EBF2</color>
+    <color name="colorPrimary">#00BCD4</color>
+    <color name="Text">#FFFFFF</color>
+    <color name="colorAccent">#9E9E9E</color>
+    <color name="PrimaryText">#212121</color>
+    <color name="SecondaryText">#757575</color>
+    <color name="DividerColor">#BDBDBD</color>
+
+
+    //Flat Colors
+    <color name="Flat_Blau">#3498db</color>
+    <color name="Flat_Lila">#9b59b6</color>
+    <color name="Flat_Grün">#2ecc71</color>
+    <color name="Flat_Orange">#e67e22</color>
+    <color name="Flat_Grau">#ecf0f1</color>
+
+
+</resources>
