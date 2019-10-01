@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
@@ -349,6 +350,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
 
         //L1
         ArrayAdapter adpt_modeoptions = new ArrayAdapter<String>(this, R.layout.lvitem_layout, mode_options);
@@ -1014,7 +1016,6 @@ public class MainActivity extends AppCompatActivity {
                 setBackground(btn_eq);
             }
         });
-
     }
 
 
@@ -1171,9 +1172,30 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setFonts(ArrayList<Button> BTN_ALL){
+        String font_family = PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getString("fontfamily", "monospace");
+        String fontsize = PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getString("fontsize", "20");
+        String fontstlye = PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getString("fontstyle", "normal");
+
+        if(fontstlye == null || fontstlye.equals("") || font_family == null || font_family.equals("") || fontsize == null || fontsize.equals(""))return;
+
         for(Button b: BTN_ALL){
             b.setTextSize(TypedValue.COMPLEX_UNIT_SP, DisplaySetupHelper.getDefaultTextSize(MainActivity.this));
+            b.setTypeface(FontSettingsActivity.getTypeFace(font_family,fontstlye));
+            Float f = 10f;
+            if(!fontsize.isEmpty() && !fontsize.equals("automatic"))f = Float.valueOf(fontsize);
+            if(fontsize.equals("automatic")){
+                f = DisplaySetupHelper.getDefaultTextSize(this);
+            }
+            if(!fontsize.equals("automatic"))b.setTextSize(f);
         }
+
+        tV_eingabe.setTextSize(TypedValue.COMPLEX_UNIT_SP, DisplaySetupHelper.getDefaultTextSize(MainActivity.this));
+        tV_eingabe.setTypeface(FontSettingsActivity.getTypeFace(font_family,fontstlye));
+        if(!fontsize.equals("automatic"))tV_eingabe.setTextSize(Float.valueOf(fontsize));
+
+        tV_ausgabe.setTextSize(TypedValue.COMPLEX_UNIT_SP, DisplaySetupHelper.getDefaultTextSize(MainActivity.this));
+        tV_ausgabe.setTypeface(FontSettingsActivity.getTypeFace(font_family,fontstlye));
+        if(!fontsize.equals("automatic"))tV_ausgabe.setTextSize(Float.valueOf(fontsize));
     }
     
     void setBackground(View x){
@@ -1298,6 +1320,8 @@ public class MainActivity extends AppCompatActivity {
             ColorDrawable colorDrawable = (ColorDrawable) background;
             colorDrawable.setColor(c);
         }
+        else Log.e("setColor Error","");
+
     }
 
 

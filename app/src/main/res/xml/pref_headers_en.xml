@@ -18,6 +18,14 @@
         android:fragment="com.example.titancalculator.SettingsActivity$ButtoncolorSettingsFragment" />
 
     <header
+        android:icon="@drawable/ic_font_download_black_24dp"
+        android:title="set font">
+        <intent
+            android:targetPackage="com.example.titancalculator"
+            android:targetClass="com.example.titancalculator.FontSettingsActivity" />
+    </header>
+
+    <header
         android:icon="@drawable/ic_image_black_24dp"
         android:title="Set Backgroundimage">
         <intent

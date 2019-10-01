@@ -19,9 +19,10 @@ public class MathEvaluator {
 	int marker = 1;
 	
 	public static void main(String[] args) {
-        System.out.println(MathEvaluator.evaluate("3!",10));
+        System.out.println(MathEvaluator.evaluate("8^10",10));
         System.out.println(MathEvaluator.evaluate("SUME(1,6)",10));
         System.out.println(MathEvaluator.evaluate("SUME(1,6)",10));
+
 
 
         //System.out.println(MathEvaluator.evaluate("179910.2528331071280870501336296069"));
@@ -134,10 +135,10 @@ public class MathEvaluator {
         Expression expression = new Expression(input);
         try {
             String res = expression.eval().toString();
-            return baseConversion(res,10,base);
+            return res; //baseConversion(res,10,base);
         }
         catch (Exception e) {
-            return "";
+            return "Math Error";
         }
 
     }

@@ -14,8 +14,11 @@
 
     <header
         android:icon="@drawable/ic_font_download_black_24dp"
-        android:title="globale Einstellungen Schriftart"
-        android:fragment="com.example.titancalculator.SettingsActivity$FontPreferenceFragment" />
+        android:title="SChriftart einstellen">
+        <intent
+            android:targetPackage="com.example.titancalculator"
+            android:targetClass="com.example.titancalculator.FontSettingsActivity" />
+    </header>
 
     <header
         android:icon="@drawable/ic_colorpicker"

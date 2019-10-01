@@ -22,7 +22,7 @@
         </ListView>
 
         <ListView
-            android:id="@+id/lv_fontstyle"
+            android:id="@+id/lv_style"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight=".8" />

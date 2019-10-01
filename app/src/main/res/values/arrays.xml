@@ -43,8 +43,10 @@
     </string-array>
 
     <string-array name="Fonts">
-        <item></item>
-        <item></item>
+        <item>SANS_SERIF</item>
+        <item>SERIF</item>
+        <item>MONOSPACE</item>
+
     </string-array>
 
 

@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    app:autoSizeMaxTextSize="200sp"
-    app:autoSizeMinTextSize="30sp"
+    app:autoSizeMaxTextSize="50sp"
+    app:autoSizeMinTextSize="10sp"
     app:autoSizeStepGranularity="1sp"
     app:autoSizeTextType="uniform">
 
