@@ -2,14 +2,14 @@
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/background"
+    android:id="@+id/m_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_weight="10"
     android:background="#FFFFFF"
     android:orientation="vertical"
     tools:context=".MainActivity">    <TableRow
-    android:id="@+id/display"
+    android:id="@+id/m_display"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginLeft="15dp"
@@ -26,7 +26,7 @@
     android:minHeight="120dp"
     android:orientation="vertical">
     <EditText
-        android:id="@+id/tV_Eingabe"
+        android:id="@+id/m_tV_Eingabe"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -38,7 +38,7 @@
         android:maxLines="1"
         android:minHeight="55sp"
         android:textSize="50sp" />            <EditText
-    android:id="@+id/tV_Ausgabe"
+    android:id="@+id/m_tV_Ausgabe"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="fill"
@@ -54,7 +54,7 @@
     android:minHeight="45sp"
     android:textSize="60sp" />
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/m_textView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:visibility="invisible" />
@@ -65,7 +65,7 @@
         android:layout_height="match_parent"
         android:layout_weight=".1">
         <TableRow
-            android:id="@+id/LN1"
+            android:id="@+id/m_LN1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="10dp"
@@ -73,7 +73,7 @@
             android:layout_weight=".9">
 
             <Spinner
-                android:id="@+id/spinner_SHIFT"
+                android:id="@+id/m_spinner_SHIFT"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
@@ -94,7 +94,7 @@
                 android:textSize="30sp"
                 android:textStyle="bold" />
             <Button
-                android:id="@+id/btn_CONV"
+                android:id="@+id/m_btn_CONV"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
@@ -113,7 +113,7 @@
 
                 />
             <Button
-                android:id="@+id/btn_CONST"
+                android:id="@+id/m_btn_CONST"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
@@ -132,7 +132,7 @@
 
                 />
             <Button
-                android:id="@+id/btn_Verlauf"
+                android:id="@+id/m_btn_Verlauf"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
@@ -151,7 +151,7 @@
 
                 />
             <Button
-                android:id="@+id/btn_menu"
+                android:id="@+id/m_btn_menu"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
@@ -162,263 +162,20 @@
                 android:text="@string/MENU_DE" />
         </TableRow>
     </TableRow>
+
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight=".1">
         <TableRow
-            android:id="@+id/LN2"
+            android:id="@+id/m_LN5"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:layout_weight=".9">
             <Button
-                android:id="@+id/btn_11"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/buttonshape_square"
-                android:drawableBottom="#00E676"
-                android:elevation="16dp"
-                android:maxLines="1"
-                android:shadowRadius="30"
-                android:text="@string/PI"
-                android:textSize="20sp"
-                android:visibility="visible"
-
-
-                app:autoSizeStepGranularity="6sp"
-                />
-            <Button
-                android:id="@+id/btn_12"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/buttonshape_square"
-                android:elevation="16dp"
-                android:maxLines="1"
-                android:shadowRadius="30"
-                android:text="@string/e"
-                android:textSize="20sp"
-                android:visibility="visible"
-
-
-                app:autoSizeStepGranularity="6sp"
-                />
-            <Button
-                android:id="@+id/btn_13"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/buttonshape_square"
-                android:elevation="16dp"
-                android:maxLines="1"
-                android:shadowRadius="30"
-                android:text="@string/SQUR"
-                android:textSize="15sp"
-                android:visibility="visible"
-
-
-                />
-            <Button
-                android:id="@+id/btn_14"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/buttonshape_square"
-                android:elevation="16dp"
-                android:maxLines="1"
-                android:shadowRadius="30"
-                android:text="@string/DECLOG"
-                android:textSize="15sp"
-                android:visibility="visible"
-
-
-                />
-            <Button
-                android:id="@+id/btn_15"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/buttonshape_square"
-                android:elevation="16dp"
-                android:maxLines="1"
-                android:shadowRadius="30"
-                android:text="@string/LN"
-                android:textSize="15sp"
-                android:visibility="visible"
-
-
-                />
-            <Button
-                android:id="@+id/btn_16"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/buttonshape_square"
-                android:elevation="16dp"
-                android:maxLines="1"
-                android:shadowRadius="30"
-                android:text="@string/LB"
-                android:textSize="15sp"
-                android:visibility="visible"
-
-
-                />
-        </TableRow>
-    </TableRow>
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight=".1">
-        <TableRow
-            android:id="@+id/LN3"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_weight=".9">
-            <Button
-                android:id="@+id/btn_21"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/buttonshape_square"
-                android:elevation="16dp"
-                android:maxLines="1"
-                android:shadowRadius="30"
-                android:text="%"
-                android:textSize="20sp"
-                android:visibility="visible"
-
-
-                />
-            <Button
-                android:id="@+id/btn_22"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/buttonshape_square"
-                android:elevation="16dp"
-                android:maxLines="1"
-                android:shadowRadius="30"
-                android:text="n!"
-                android:textSize="20sp"
-                android:visibility="visible"
-
-
-                />
-            <Button
-                android:id="@+id/btn_23"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/buttonshape_square"
-                android:elevation="16dp"
-                android:maxLines="1"
-                android:shadowRadius="30"
-                android:text="^"
-                android:textSize="20sp"
-                android:visibility="visible"
-
-
-                />
-            <Button
-                android:id="@+id/btn_24"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/buttonshape_square"
-                android:elevation="16dp"
-                android:maxLines="1"
-                android:text="@string/bruch"
-                android:textSize="20sp"
-                android:visibility="visible"
-
-
-                />
-            <Button
-                android:id="@+id/btn_25"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/buttonshape_square"
-                android:elevation="16dp"
-                android:maxLines="1"
-                android:shadowRadius="30"
-                android:text="@string/x_h_one"
-                android:textSize="20sp"
-                android:visibility="visible"
-
-
-                />
-            <Button
-                android:id="@+id/btn_26"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/buttonshape_square"
-                android:elevation="16dp"
-                android:maxLines="1"
-                android:shadowRadius="30"
-                android:text="+/-"
-                android:textSize="20sp"
-                android:visibility="visible"
-
-
-                />
-        </TableRow>
-    </TableRow>
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight=".1">
-        <TableRow
-            android:id="@+id/LN5"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_weight=".9">
-            <Button
-                android:id="@+id/btn_clearall"
+                android:id="@+id/m_btn_clearall"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
@@ -437,7 +194,7 @@
 
                 app:autoSizeStepGranularity="1sp" />
             <Button
-                android:id="@+id/btn_clear"
+                android:id="@+id/m_btn_clear"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
@@ -456,7 +213,7 @@
 
                 app:autoSizeStepGranularity="1sp" />
             <Button
-                android:id="@+id/btn_LINKS"
+                android:id="@+id/m_btn_LINKS"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
@@ -474,7 +231,7 @@
                 app:autoSizeStepGranularity="1sp"
                 app:autoSizeTextType="uniform" />
             <Button
-                android:id="@+id/btn_RECHTS"
+                android:id="@+id/m_btn_RECHTS"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
@@ -498,14 +255,14 @@
         android:layout_height="match_parent"
         android:layout_weight=".1">
         <TableRow
-            android:id="@+id/LN6"
+            android:id="@+id/m_LN6"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:layout_weight=".9">
             <Button
-                android:id="@+id/btn_7"
+                android:id="@+id/m_btn_11"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
@@ -523,7 +280,7 @@
                 app:autoSizeStepGranularity="1sp"
                 app:autoSizeTextType="uniform" />
             <Button
-                android:id="@+id/btn_8"
+                android:id="@+id/m_btn_12"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
@@ -541,7 +298,7 @@
                 app:autoSizeStepGranularity="1sp"
                 app:autoSizeTextType="uniform" />
             <Button
-                android:id="@+id/btn_9"
+                android:id="@+id/m_btn_13"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
@@ -559,7 +316,7 @@
                 app:autoSizeStepGranularity="1sp"
                 app:autoSizeTextType="uniform" />
             <Button
-                android:id="@+id/btn_open_bracket"
+                android:id="@+id/m_btn_open_bracket"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
@@ -576,7 +333,7 @@
                 app:autoSizeStepGranularity="1sp"
                 app:autoSizeTextType="uniform" />
             <Button
-                android:id="@+id/btn_close_bracket"
+                android:id="@+id/m_btn_close_bracket"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
@@ -599,14 +356,14 @@
         android:layout_height="match_parent"
         android:layout_weight=".1">
         <TableRow
-            android:id="@+id/LN7"
+            android:id="@+id/m_LN7"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:layout_weight=".9">
             <Button
-                android:id="@+id/btn_4"
+                android:id="@+id/m_btn_14"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
@@ -623,7 +380,7 @@
                 app:autoSizeStepGranularity="1sp"
                 app:autoSizeTextType="uniform" />
             <Button
-                android:id="@+id/btn_5"
+                android:id="@+id/m_btn_15"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
@@ -640,7 +397,7 @@
                 app:autoSizeStepGranularity="1sp"
                 app:autoSizeTextType="uniform" />
             <Button
-                android:id="@+id/btn_6"
+                android:id="@+id/m_btn_16"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
@@ -657,7 +414,7 @@
                 app:autoSizeStepGranularity="1sp"
                 app:autoSizeTextType="uniform" />
             <Button
-                android:id="@+id/btn_mul"
+                android:id="@+id/m_btn_mul"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
@@ -674,7 +431,7 @@
                 app:autoSizeStepGranularity="1sp"
                 app:autoSizeTextType="uniform" />
             <Button
-                android:id="@+id/btn_div"
+                android:id="@+id/m_btn_div"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
@@ -697,14 +454,14 @@
         android:layout_height="match_parent"
         android:layout_weight=".1">
         <TableRow
-            android:id="@+id/LN8"
+            android:id="@+id/m_LN8"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:layout_weight=".9">
             <Button
-                android:id="@+id/btn_1"
+                android:id="@+id/m_btn_21"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
@@ -721,7 +478,7 @@
                 app:autoSizeStepGranularity="1sp"
                 app:autoSizeTextType="uniform" />
             <Button
-                android:id="@+id/btn_2"
+                android:id="@+id/m_btn_22"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
@@ -738,7 +495,7 @@
                 app:autoSizeStepGranularity="1sp"
                 app:autoSizeTextType="uniform" />
             <Button
-                android:id="@+id/btn_3"
+                android:id="@+id/m_btn_23"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
@@ -754,7 +511,7 @@
                 app:autoSizeStepGranularity="1sp"
                 app:autoSizeTextType="uniform" />
             <Button
-                android:id="@+id/btn_sub"
+                android:id="@+id/m_btn_sub"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
@@ -771,7 +528,7 @@
                 app:autoSizeStepGranularity="1sp"
                 app:autoSizeTextType="uniform" />
             <Button
-                android:id="@+id/btn_add"
+                android:id="@+id/m_btn_add"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
@@ -794,13 +551,13 @@
         android:layout_height="match_parent"
         android:layout_weight=".1">
         <TableRow
-            android:id="@+id/LN9"
+            android:id="@+id/m_LN9"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:layout_weight=".9">            <Button
-            android:id="@+id/btn_0"
+            android:id="@+id/m_btn_24"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
@@ -817,7 +574,7 @@
             app:autoSizeStepGranularity="1sp"
             app:autoSizeTextType="uniform" />
             <Button
-                android:id="@+id/btn_com"
+                android:id="@+id/m_btn_25"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
@@ -834,7 +591,7 @@
                 app:autoSizeStepGranularity="1sp"
                 app:autoSizeTextType="uniform" />
             <Button
-                android:id="@+id/btn_ANS"
+                android:id="@+id/m_btn_26"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
@@ -851,7 +608,7 @@
                 app:autoSizeStepGranularity="1sp"
                 app:autoSizeTextType="uniform" />
             <Button
-                android:id="@+id/btn_eq"
+                android:id="@+id/m_btn_eq"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"

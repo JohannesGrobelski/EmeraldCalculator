@@ -51,6 +51,7 @@ import com.example.titancalculator.helper.MainDisplay.OnSwipeTouchListener;
 import com.example.titancalculator.helper.MainDisplay.SettingsApplier;
 import com.example.titancalculator.helper.Math_String.NavigatableString;
 import com.example.titancalculator.helper.Math_String.NumberString;
+import com.example.titancalculator.helper.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -59,8 +60,8 @@ import java.util.List;
 import java.util.Set;
 
 
-public class CalcActivity_normal extends AppCompatActivity {
-    TableLayout background;
+public class CalcActivity_middle extends AppCompatActivity {
+    TableLayout m_background;
 
     static final int REQUEST_CODE_CONST = 1;  // The request code
     static final int REQUEST_CODE_CONV = 1;  // The request code
@@ -81,6 +82,7 @@ public class CalcActivity_normal extends AppCompatActivity {
     String[] mode_options;
 
 
+    TableLayout background;
     TableRow display;
     //L1
     Button btn_CONV;
@@ -117,19 +119,7 @@ public class CalcActivity_normal extends AppCompatActivity {
     Button btn_LINKS;
     Button btn_RECHTS;
 
-    //G1
-    Button btn_1;
-    Button btn_2;
-    Button btn_3;
-    Button btn_4;
-    Button btn_5;
-    Button btn_6;
-    Button btn_7;
-    Button btn_8;
-    Button btn_9;
-    Button btn_0;
-    Button btn_com;
-    Button btn_ans;
+
 
 
     //G2
@@ -161,12 +151,11 @@ public class CalcActivity_normal extends AppCompatActivity {
     private Set<Button> BTN_ACT;
     private Set<Button> BTN_FKT;
     private Set<Button> BTN_FOPS;
-    private Set<Button> BTN_NUMBERS;
     private Set<Button> BTN_SAVES;
     private Set<Button> BTN_SPECIALS;
     private ArrayList<Button> BTN_ALL;
 
-    String mode = "BASIC";
+    String mode = "NUMBER";
 
     Animation buttonClick = new AlphaAnimation(1.0f, 0.6f);
 
@@ -176,30 +165,16 @@ public class CalcActivity_normal extends AppCompatActivity {
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.einstellungen:
-                Intent settingsIntent = new Intent(this,
-                        SettingsActivity.class);
-                startActivity(settingsIntent);
-            case R.id.taschenrechner:
-                return true;
-
-            default:
-                return super.onContextItemSelected(item);
-        }
-    }
 
     @Override
     protected void onResume() {
         super.onResume();
         setTitle("Rechner");
-        SettingsApplier.setColors(CalcActivity_normal.this);
+        SettingsApplier.setColors(CalcActivity_middle.this);
         applySettings();
         setBackgrounds();
         ArrayList<View> list = new ArrayList<View>() {{addAll(BTN_ALL);add(tV_eingabe);add(tV_ausgabe);}};
-        SettingsApplier.setFonts(CalcActivity_normal.this,list);
+        SettingsApplier.setFonts(CalcActivity_middle.this,list);
 
 
         tV_ausgabe.setOnFocusChangeListener(focusListener);
@@ -211,7 +186,7 @@ public class CalcActivity_normal extends AppCompatActivity {
 
         //ArrayAdapter adpt_modeoptions = new ArrayAdapter<String>(this, R.layout.lvitem_layout, mode_options);
         ArrayAdapter<String> adapter =
-                new ArrayAdapter<String>(CalcActivity_normal.this, R.layout.spinner_shift_style, mode_options)
+                new ArrayAdapter<String>(CalcActivity_middle.this, R.layout.spinner_shift_style, mode_options)
                 {
 
                     float factor_font = 0.5f;
@@ -258,40 +233,40 @@ public class CalcActivity_normal extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_calc_normal);
+        setContentView(R.layout.activity_calc_middle);
 
         setTitle("Rechner");
+        Toast.makeText(CalcActivity_middle.this,"UI MODE MIDDLE",Toast.LENGTH_LONG).show();
 
-        background = findViewById(R.id.background);
+        m_background = findViewById(R.id.m_background);
 
-        background.setOnTouchListener(new OnSwipeTouchListener(CalcActivity_normal.this) {
+        m_background.setOnTouchListener(new OnSwipeTouchListener(CalcActivity_middle.this) {
             public void onSwipeTop() {
-                Toast.makeText(CalcActivity_normal.this, "top", Toast.LENGTH_SHORT).show();
+                Toast.makeText(CalcActivity_middle.this, "top", Toast.LENGTH_SHORT).show();
             }
             public void onSwipeRight() {
-                Toast.makeText(CalcActivity_normal.this, "right", Toast.LENGTH_SHORT).show();
-                Intent conversionIntent = new Intent(CalcActivity_normal.this, MainActivity.class);
+                Toast.makeText(CalcActivity_middle.this, "left", Toast.LENGTH_SHORT).show();
+                Intent conversionIntent = new Intent(CalcActivity_middle.this, MainActivity.class);
                 conversionIntent.putExtra("swipeDir","right");
-                conversionIntent.putExtra("layout","normal");
+                conversionIntent.putExtra("layout","middle");
                 startActivity(conversionIntent);
                 finish();
             }
             public void onSwipeLeft() {
-                Toast.makeText(CalcActivity_normal.this, "left", Toast.LENGTH_SHORT).show();
-                Intent conversionIntent = new Intent(CalcActivity_normal.this, MainActivity.class);
+                Toast.makeText(CalcActivity_middle.this, "left", Toast.LENGTH_SHORT).show();
+                Intent conversionIntent = new Intent(CalcActivity_middle.this, MainActivity.class);
                 conversionIntent.putExtra("swipeDir","left");
-                conversionIntent.putExtra("layout","normal");
+                conversionIntent.putExtra("layout","middle");
                 startActivity(conversionIntent);
                 finish();
             }
             public void onSwipeBottom() {
-                Toast.makeText(CalcActivity_normal.this, "bottom", Toast.LENGTH_SHORT).show();
+                Toast.makeText(CalcActivity_middle.this, "bottom", Toast.LENGTH_SHORT).show();
             }
         });
 
-
-        tV_eingabe = findViewById(R.id.tV_Eingabe);
-        tV_ausgabe = findViewById(R.id.tV_Ausgabe);
+        tV_eingabe = findViewById(R.id.m_tV_Eingabe);
+        tV_ausgabe = findViewById(R.id.m_tV_Ausgabe);
 
         tV_ausgabe.setOnFocusChangeListener(focusListener);
         tV_eingabe.setOnFocusChangeListener(focusListener);
@@ -302,7 +277,7 @@ public class CalcActivity_normal extends AppCompatActivity {
         tV_eingabe.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                hideKeyboard(CalcActivity_normal.this);
+                hideKeyboard(CalcActivity_middle.this);
                 //v.performClick();
                 return false;
             }
@@ -312,7 +287,7 @@ public class CalcActivity_normal extends AppCompatActivity {
         tV_ausgabe.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                hideKeyboard(CalcActivity_normal.this);
+                hideKeyboard(CalcActivity_middle.this);
                 //v.performClick();
                 return false;
             }
@@ -327,94 +302,77 @@ public class CalcActivity_normal extends AppCompatActivity {
 
 
         //find
-        display = findViewById(R.id.display);
-        background = findViewById(R.id.background);
+        display = findViewById(R.id.m_display);
+        background = findViewById(R.id.m_background);
         //L1
-        spinner_shift = findViewById(R.id.spinner_SHIFT);
-        btn_CONV = findViewById(R.id.btn_CONV);
-        btn_verlauf = findViewById(R.id.btn_Verlauf);
-        btn_CONST = findViewById(R.id.btn_CONST);
-        btn_menu = findViewById(R.id.btn_menu);
-        btn_clear = findViewById(R.id.btn_clear);
-        btn_clearall = findViewById(R.id.btn_clearall);
+        spinner_shift = findViewById(R.id.m_spinner_SHIFT);
+        btn_CONV = findViewById(R.id.m_btn_CONV);
+        btn_verlauf = findViewById(R.id.m_btn_Verlauf);
+        btn_CONST = findViewById(R.id.m_btn_CONST);
+        btn_menu = findViewById(R.id.m_btn_menu);
+        btn_clear = findViewById(R.id.m_btn_clear);
+        btn_clearall = findViewById(R.id.m_btn_clearall);
 
         //L2
         //normal: PI,E,->DEC,->BIN,->OCT
         //TRIGO: SIN,COS,TAN,ASIN,ACOS,ATAN
 
-        btn_11 = findViewById(R.id.btn_11);
-        btn_12 = findViewById(R.id.btn_12);
-        btn_13 = findViewById(R.id.btn_13);
-        btn_14 = findViewById(R.id.btn_14);
-        btn_15 = findViewById(R.id.btn_15);
-        btn_16 = findViewById(R.id.btn_16);
+        btn_11 = findViewById(R.id.m_btn_11);
+        btn_12 = findViewById(R.id.m_btn_12);
+        btn_13 = findViewById(R.id.m_btn_13);
+        btn_14 = findViewById(R.id.m_btn_14);
+        btn_15 = findViewById(R.id.m_btn_15);
+        btn_16 = findViewById(R.id.m_btn_16);
 
         //L3
         //normal: %,!,^,a/b,x^-1,+/-
         //TRIGO: ASINH,ACOSH,ATANH,SINH,COSH,TANH
-        btn_21 = findViewById(R.id.btn_21);
-        btn_22 = findViewById(R.id.btn_22);
-        btn_23 = findViewById(R.id.btn_23);
-        btn_24 = findViewById(R.id.btn_24);
-        btn_25 = findViewById(R.id.btn_25);
-        btn_26 = findViewById(R.id.btn_26);
+        btn_21 = findViewById(R.id.m_btn_21);
+        btn_22 = findViewById(R.id.m_btn_22);
+        btn_23 = findViewById(R.id.m_btn_23);
+        btn_24 = findViewById(R.id.m_btn_24);
+        btn_25 = findViewById(R.id.m_btn_25);
+        btn_26 = findViewById(R.id.m_btn_26);
 
 
         //L5
-        //btn_X = findViewById(R.id.btn_X);
-        //btn_Y = findViewById(R.id.btn_Y);
-        //btn_FKT1 = findViewById(R.id.btn_FKT1);
-        //btn_FKT2 = findViewById(R.id.btn_FKT2);
-        btn_LINKS = findViewById(R.id.btn_LINKS);
-        btn_RECHTS = findViewById(R.id.btn_RECHTS);
+        //btn_X = findViewById(R.id.m_btn_X);
+        //btn_Y = findViewById(R.id.m_btn_Y);
+        //btn_FKT1 = findViewById(R.id.m_btn_FKT1);
+        //btn_FKT2 = findViewById(R.id.m_btn_FKT2);
+        btn_LINKS = findViewById(R.id.m_btn_LINKS);
+        btn_RECHTS = findViewById(R.id.m_btn_RECHTS);
 
 
-        //G1
-        btn_1 = findViewById(R.id.btn_1);
-        btn_2 = findViewById(R.id.btn_2);
-        btn_3 = findViewById(R.id.btn_3);
-        btn_4 = findViewById(R.id.btn_4);
-        btn_5 = findViewById(R.id.btn_5);
-        btn_6 = findViewById(R.id.btn_6);
-        btn_7 = findViewById(R.id.btn_7);
-        btn_8 = findViewById(R.id.btn_8);
-        btn_9 = findViewById(R.id.btn_9);
-        btn_0 = findViewById(R.id.btn_0);
-        btn_com = findViewById(R.id.btn_com);
-        btn_ans = findViewById(R.id.btn_ANS);
+
 
         //G2
-        btn_open_bracket = findViewById(R.id.btn_open_bracket);
-        btn_close_bracket = findViewById(R.id.btn_close_bracket);
-        btn_add = findViewById(R.id.btn_add);
-        btn_sub = findViewById(R.id.btn_sub);
-        btn_mul = findViewById(R.id.btn_mul);
-        btn_div = findViewById(R.id.btn_div);
-        btn_eq = findViewById(R.id.btn_eq);
+        btn_open_bracket = findViewById(R.id.m_btn_open_bracket);
+        btn_close_bracket = findViewById(R.id.m_btn_close_bracket);
+        btn_add = findViewById(R.id.m_btn_add);
+        btn_sub = findViewById(R.id.m_btn_sub);
+        btn_mul = findViewById(R.id.m_btn_mul);
+        btn_div = findViewById(R.id.m_btn_div);
+        btn_eq = findViewById(R.id.m_btn_eq);
 
-        LN2 = findViewById(R.id.LN2);
-        LN3 = findViewById(R.id.LN3);
-        LN4 = findViewById(R.id.LN4);
 
         BTN_ACT = new HashSet<>(Arrays.asList(new Button[]{btn_CONST, btn_CONV, btn_verlauf, btn_menu}));
         BTN_FKT = new HashSet<>(Arrays.asList(new Button[]{btn_clear, btn_clearall, btn_LINKS, btn_RECHTS}));
         BTN_FOPS = new HashSet<>(Arrays.asList(new Button[]{btn_11, btn_12, btn_13, btn_14, btn_15, btn_16, btn_21, btn_22, btn_23, btn_24, btn_25, btn_26}));
-        BTN_NUMBERS = new HashSet<>(Arrays.asList(new Button[]{btn_com, btn_ans, btn_0, btn_1, btn_2, btn_3, btn_4, btn_5, btn_6, btn_7, btn_8, btn_9}));
         BTN_SAVES = new HashSet<>(Arrays.asList(new Button[]{btn_eq}));
         BTN_SPECIALS = new HashSet<>(Arrays.asList(new Button[]{btn_open_bracket, btn_close_bracket, btn_mul, btn_div, btn_sub, btn_add}));
         BTN_ALL = new ArrayList<>();
         BTN_ALL.addAll(BTN_ACT);
         BTN_ALL.addAll(BTN_FKT);
         BTN_ALL.addAll(BTN_FOPS);
-        BTN_ALL.addAll(BTN_NUMBERS);
         BTN_ALL.addAll(BTN_SAVES);
         BTN_ALL.addAll(BTN_SPECIALS);
 
         applySettings();
-        SettingsApplier.setColors(CalcActivity_normal.this);
+        SettingsApplier.setColors(CalcActivity_middle.this);
         setBackgrounds();
         ArrayList<View> list = new ArrayList<View>() {{addAll(BTN_ALL);add(tV_eingabe);add(tV_ausgabe);}};
-        SettingsApplier.setFonts(CalcActivity_normal.this,list);
+        SettingsApplier.setFonts(CalcActivity_middle.this,list);
 
         try {
             setBackgroundImage();
@@ -463,7 +421,7 @@ public class CalcActivity_normal extends AppCompatActivity {
                 view.startAnimation(buttonClick);
 
                 current_Callback = "";
-                Intent conversionIntent = new Intent(CalcActivity_normal.this, SettingsActivity.class);
+                Intent conversionIntent = new Intent(CalcActivity_middle.this, SettingsActivity.class);
                 startActivity(conversionIntent);
             }
         });
@@ -494,7 +452,7 @@ public class CalcActivity_normal extends AppCompatActivity {
                 view.startAnimation(buttonClick);
 
                 current_Callback = "";
-                Intent conversionIntent = new Intent(CalcActivity_normal.this,SettingsActivity.class);
+                Intent conversionIntent = new Intent(CalcActivity_middle.this,SettingsActivity.class);
                 startActivity(conversionIntent);
 
 
@@ -510,7 +468,7 @@ public class CalcActivity_normal extends AppCompatActivity {
                 view.startAnimation(buttonClick);
 
                 current_Callback = "";
-                Intent conversionIntent = new Intent(CalcActivity_normal.this, ConversionActivity.class);
+                Intent conversionIntent = new Intent(CalcActivity_middle.this, ConversionActivity.class);
                 startActivityForResult(conversionIntent, REQUEST_CODE_CONV);
 
 
@@ -524,7 +482,7 @@ public class CalcActivity_normal extends AppCompatActivity {
                 view.startAnimation(buttonClick);
 
                 current_Callback = "";
-                Intent constIntent = new Intent(CalcActivity_normal.this, ConstantsActivity.class);
+                Intent constIntent = new Intent(CalcActivity_middle.this, ConstantsActivity.class);
                 startActivityForResult(constIntent, REQUEST_CODE_CONST);
 
                 setBackground(btn_CONST);
@@ -536,11 +494,11 @@ public class CalcActivity_normal extends AppCompatActivity {
                 view.startAnimation(buttonClick);
 
                 current_Callback = "";
-                Intent verlaufIntent = new Intent(CalcActivity_normal.this, HistoryActivity.class);
+                Intent verlaufIntent = new Intent(CalcActivity_middle.this, HistoryActivity.class);
                 String[] verlaufarray = verlauf.toArray(new String[verlauf.size()]);
                 verlaufIntent.putExtra("verlauf", verlaufarray);
                 String[] arrayVerlauf = verlaufIntent.getStringArrayExtra("verlauf");
-                //Toast.makeText(CalcActivity_normal.this,Arrays.toString(arrayVerlauf),Toast.LENGTH_LONG).show();
+                //Toast.makeText(CalcActivity_middle.this,Arrays.toString(arrayVerlauf),Toast.LENGTH_LONG).show();
 
                 startActivityForResult(verlaufIntent, REQUEST_CODE_Verlauf);
                 setBackground(btn_CONST);
@@ -578,7 +536,9 @@ public class CalcActivity_normal extends AppCompatActivity {
 
                 view.startAnimation(buttonClick);
 
-                if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
+                if (mode.equals("NUMBER") || mode.equals("ZAHLEN")) {
+                    eingabeAddText("7");
+                } else if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
                     eingabeAddText("PI");
                 } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
                     eingabeAddText("R");
@@ -596,7 +556,7 @@ public class CalcActivity_normal extends AppCompatActivity {
                     transBtnFct(btn_11.getText().toString());
                 } else {
                     String display = "Unknown Mode: " + mode;
-                    Toast unknownMode = Toast.makeText(CalcActivity_normal.this, display, Toast.LENGTH_LONG);
+                    Toast unknownMode = Toast.makeText(CalcActivity_middle.this, display, Toast.LENGTH_LONG);
                     unknownMode.show();
                 }
                 setBackground(btn_11);
@@ -607,7 +567,9 @@ public class CalcActivity_normal extends AppCompatActivity {
             public void onClick(View view) {
                 view.startAnimation(buttonClick);
 
-                if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
+                if (mode.equals("NUMBER") || mode.equals("ZAHLEN")) {
+                    eingabeAddText("8");
+                } else if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
                     eingabeAddText("E");
                 } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
                     ausgabe_setText(I.getPFZ());
@@ -625,7 +587,7 @@ public class CalcActivity_normal extends AppCompatActivity {
                     transBtnFct(btn_12.getText().toString());
                 }else {
                     String display = "Unknown Mode: " + mode;
-                    Toast unknownMode = Toast.makeText(CalcActivity_normal.this, display, Toast.LENGTH_LONG);
+                    Toast unknownMode = Toast.makeText(CalcActivity_middle.this, display, Toast.LENGTH_LONG);
                     unknownMode.show();
                 }
                 setBackground(btn_12);
@@ -636,7 +598,9 @@ public class CalcActivity_normal extends AppCompatActivity {
             public void onClick(View view) {
                 view.startAnimation(buttonClick);
 
-                if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
+                if (mode.equals("NUMBER") || mode.equals("ZAHLEN")) {
+                    eingabeAddText("9");
+                } else if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
                     eingabeAddText("√");
                 } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
                     eingabeAddText("ggt(;)");
@@ -654,7 +618,7 @@ public class CalcActivity_normal extends AppCompatActivity {
                     transBtnFct(btn_13.getText().toString());
                 }else {
                     String display = "Unknown Mode: " + mode;
-                    Toast unknownMode = Toast.makeText(CalcActivity_normal.this, display, Toast.LENGTH_LONG);
+                    Toast unknownMode = Toast.makeText(CalcActivity_middle.this, display, Toast.LENGTH_LONG);
                     unknownMode.show();
                 }
                 setBackground(btn_13);
@@ -665,7 +629,9 @@ public class CalcActivity_normal extends AppCompatActivity {
             public void onClick(View view) {
                 view.startAnimation(buttonClick);
 
-                if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
+                if (mode.equals("NUMBER") || mode.equals("ZAHLEN")) {
+                    eingabeAddText("4");
+                } else if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
                     eingabeAddText("LOG ");
                 } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
                     eingabeAddText("kgv(;)");
@@ -683,7 +649,7 @@ public class CalcActivity_normal extends AppCompatActivity {
                     transBtnFct(btn_14.getText().toString());
                 }else {
                     String display = "Unknown Mode: " + mode;
-                    Toast unknownMode = Toast.makeText(CalcActivity_normal.this, display, Toast.LENGTH_LONG);
+                    Toast unknownMode = Toast.makeText(CalcActivity_middle.this, display, Toast.LENGTH_LONG);
                     unknownMode.show();
                 }
                 setBackground(btn_14);
@@ -694,7 +660,9 @@ public class CalcActivity_normal extends AppCompatActivity {
             public void onClick(View view) {
                 view.startAnimation(buttonClick);
 
-                if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
+                if (mode.equals("NUMBER") || mode.equals("ZAHLEN")) {
+                    eingabeAddText("5");
+                } else if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
                     eingabeAddText("LN ");
                 } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
                     eingabeAddText(getResources().getString(R.string.SUME) + "(;)");
@@ -711,7 +679,7 @@ public class CalcActivity_normal extends AppCompatActivity {
                     transBtnFct(btn_15.getText().toString());
                 }else {
                     String display = "Unknown Mode: " + mode;
-                    Toast unknownMode = Toast.makeText(CalcActivity_normal.this, display, Toast.LENGTH_LONG);
+                    Toast unknownMode = Toast.makeText(CalcActivity_middle.this, display, Toast.LENGTH_LONG);
                     unknownMode.show();
                 }
                 setBackground(btn_15);
@@ -722,7 +690,9 @@ public class CalcActivity_normal extends AppCompatActivity {
             public void onClick(View view) {
                 view.startAnimation(buttonClick);
 
-                if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
+                if (mode.equals("NUMBER") || mode.equals("ZAHLEN")) {
+                    eingabeAddText("6");
+                } else if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
                     eingabeAddText("LB ");
                 } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
                     eingabeAddText(getResources().getString(R.string.MULP) + "(;)");
@@ -739,7 +709,7 @@ public class CalcActivity_normal extends AppCompatActivity {
                     transBtnFct(btn_16.getText().toString());
                 }else {
                     String display = "Unknown Mode: " + mode;
-                    Toast unknownMode = Toast.makeText(CalcActivity_normal.this, display, Toast.LENGTH_LONG);
+                    Toast unknownMode = Toast.makeText(CalcActivity_middle.this, display, Toast.LENGTH_LONG);
                     unknownMode.show();
                 }
                 setBackground(btn_16);
@@ -755,7 +725,9 @@ public class CalcActivity_normal extends AppCompatActivity {
             public void onClick(View view) {
                 view.startAnimation(buttonClick);
 
-                if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
+                if (mode.equals("NUMBER") || mode.equals("ZAHLEN")) {
+                    eingabeAddText("1");
+                } else if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
                     ausgabe_setText(I.getPercent());
                 } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
 
@@ -772,7 +744,7 @@ public class CalcActivity_normal extends AppCompatActivity {
                     transBtnFct(btn_21.getText().toString());
                 }else {
                     String display = "Unknown Mode: " + mode;
-                    Toast unknownMode = Toast.makeText(CalcActivity_normal.this, display, Toast.LENGTH_LONG);
+                    Toast unknownMode = Toast.makeText(CalcActivity_middle.this, display, Toast.LENGTH_LONG);
                     unknownMode.show();
                 }
                 setBackground(btn_21);
@@ -783,7 +755,9 @@ public class CalcActivity_normal extends AppCompatActivity {
             public void onClick(View view) {
                 view.startAnimation(buttonClick);
 
-                if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
+                if (mode.equals("NUMBER") || mode.equals("ZAHLEN")) {
+                    eingabeAddText("2");
+                } else if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
                     eingabeAddText("!");
                 } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
 
@@ -800,7 +774,7 @@ public class CalcActivity_normal extends AppCompatActivity {
                     transBtnFct(btn_22.getText().toString());
                 }else {
                     String display = "Unknown Mode: " + mode;
-                    Toast unknownMode = Toast.makeText(CalcActivity_normal.this, display, Toast.LENGTH_LONG);
+                    Toast unknownMode = Toast.makeText(CalcActivity_middle.this, display, Toast.LENGTH_LONG);
                     unknownMode.show();
                 }
                 setBackground(btn_22);
@@ -811,7 +785,9 @@ public class CalcActivity_normal extends AppCompatActivity {
             public void onClick(View view) {
                 view.startAnimation(buttonClick);
 
-                if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
+                if (mode.equals("NUMBER") || mode.equals("ZAHLEN")) {
+                    eingabeAddText("3");
+                } else if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
                     eingabeAddText("^");
 
                 } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
@@ -828,7 +804,7 @@ public class CalcActivity_normal extends AppCompatActivity {
                     transBtnFct(btn_23.getText().toString());
                 }else {
                     String display = "Unknown Mode: " + mode;
-                    Toast unknownMode = Toast.makeText(CalcActivity_normal.this, display, Toast.LENGTH_LONG);
+                    Toast unknownMode = Toast.makeText(CalcActivity_middle.this, display, Toast.LENGTH_LONG);
                     unknownMode.show();
                 }
                 setBackground(btn_23);
@@ -839,7 +815,9 @@ public class CalcActivity_normal extends AppCompatActivity {
             public void onClick(View view) {
                 view.startAnimation(buttonClick);
 
-                if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
+                if (mode.equals("NUMBER") || mode.equals("ZAHLEN")) {
+                    eingabeAddText("0");
+                } else if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
                     ausgabe_setText(I.getBruch());
                 } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
 
@@ -855,7 +833,7 @@ public class CalcActivity_normal extends AppCompatActivity {
                     transBtnFct(btn_24.getText().toString());
                 }else {
                     String display = "Unknown Mode: " + mode;
-                    Toast unknownMode = Toast.makeText(CalcActivity_normal.this, display, Toast.LENGTH_LONG);
+                    Toast unknownMode = Toast.makeText(CalcActivity_middle.this, display, Toast.LENGTH_LONG);
                     unknownMode.show();
                 }
                 setBackground(btn_24);
@@ -866,7 +844,9 @@ public class CalcActivity_normal extends AppCompatActivity {
             public void onClick(View view) {
                 view.startAnimation(buttonClick);
 
-                if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
+                if (mode.equals("NUMBER") || mode.equals("ZAHLEN")) {
+                    eingabeAddText(",");
+                } else if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
                     ausgabe_setText(I.getReciproke());
                 } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
 
@@ -882,7 +862,7 @@ public class CalcActivity_normal extends AppCompatActivity {
                     transBtnFct(btn_25.getText().toString());
                 }else {
                     String display = "Unknown Mode: " + mode;
-                    Toast unknownMode = Toast.makeText(CalcActivity_normal.this, display, Toast.LENGTH_LONG);
+                    Toast unknownMode = Toast.makeText(CalcActivity_middle.this, display, Toast.LENGTH_LONG);
                     unknownMode.show();
                 }
                 setBackground(btn_25);
@@ -893,7 +873,9 @@ public class CalcActivity_normal extends AppCompatActivity {
             public void onClick(View view) {
                 view.startAnimation(buttonClick);
 
-                if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
+                if (mode.equals("NUMBER") || mode.equals("ZAHLEN")) {
+                    eingabeAddText("ANS");
+                } else if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
                     ausgabe_setText(I.getInvert());
                 } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
 
@@ -909,7 +891,7 @@ public class CalcActivity_normal extends AppCompatActivity {
                     transBtnFct(btn_26.getText().toString());
                 } else {
                     String display = "Unknown Mode: " + mode;
-                    Toast unknownMode = Toast.makeText(CalcActivity_normal.this, display, Toast.LENGTH_LONG);
+                    Toast unknownMode = Toast.makeText(CalcActivity_middle.this, display, Toast.LENGTH_LONG);
                     unknownMode.show();
                 }
                 setBackground(btn_26);
@@ -940,127 +922,6 @@ public class CalcActivity_normal extends AppCompatActivity {
         });
 
 
-        //G1
-        btn_1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                view.startAnimation(buttonClick);
-
-                eingabeAddText("1");
-                setBackground(btn_1);
-
-            }
-        });
-        btn_2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                view.startAnimation(buttonClick);
-
-                eingabeAddText("2");
-                setBackground(btn_2);
-
-            }
-        });
-        btn_3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                view.startAnimation(buttonClick);
-
-                eingabeAddText("3");
-                setBackground(btn_3);
-
-            }
-        });
-        btn_4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                view.startAnimation(buttonClick);
-
-                eingabeAddText("4");
-                setBackground(btn_4);
-
-            }
-        });
-        btn_5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                view.startAnimation(buttonClick);
-
-                eingabeAddText("5");
-                setBackground(btn_5);
-
-            }
-        });
-        btn_6.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                view.startAnimation(buttonClick);
-
-                eingabeAddText("6");
-                setBackground(btn_6);
-
-            }
-        });
-        btn_7.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                view.startAnimation(buttonClick);
-
-                eingabeAddText("7");
-                setBackground(btn_7);
-
-            }
-        });
-        btn_8.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                view.startAnimation(buttonClick);
-
-                eingabeAddText("8");
-                setBackground(btn_8);
-
-            }
-        });
-        btn_9.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                view.startAnimation(buttonClick);
-
-                eingabeAddText("9");
-                setBackground(btn_9);
-
-            }
-        });
-        btn_0.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                view.startAnimation(buttonClick);
-
-                eingabeAddText("0");
-                setBackground(btn_0);
-
-            }
-        });
-        btn_com.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                view.startAnimation(buttonClick);
-
-                eingabeAddText(",");
-                setBackground(btn_com);
-
-            }
-        });
-        btn_ans.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                view.startAnimation(buttonClick);
-
-                eingabeAddText("ANS");
-                setBackground(btn_ans);
-
-            }
-        });
 
         //G2
         btn_open_bracket.setOnClickListener(new View.OnClickListener() {
@@ -1144,7 +1005,7 @@ public class CalcActivity_normal extends AppCompatActivity {
 
 
     private void ausgabe_setText(String res) {
-        //Toast.makeText(CalcActivity_normal.this,"Ausgabe: "+res,Toast.LENGTH_SHORT).show();
+        //Toast.makeText(CalcActivity_middle.this,"Ausgabe: "+res,Toast.LENGTH_SHORT).show();
         tV_ausgabe.setText(res);
     }
 
@@ -1168,11 +1029,27 @@ public class CalcActivity_normal extends AppCompatActivity {
     }
 
     public void setUpButton(Button x, String name){
-        x.setText(PreferenceManager.getDefaultSharedPreferences(CalcActivity_normal.this).getString(name, name));
+        x.setText(PreferenceManager.getDefaultSharedPreferences(CalcActivity_middle.this).getString(name, name));
     }
 
     void assignModeFct(){
-        if(mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))){
+        if(mode.equals("NUMBER") || mode.equals("ZAHLEN")){
+            //L1 normal: SIN,COS,TAN,ASIN,ACOS,ATAN
+            btn_11.setText("7");
+            btn_12.setText("8");
+            btn_13.setText("9");
+            btn_14.setText("4");
+            btn_15.setText("5");
+            btn_16.setText("6");
+
+            //L3 normal: >DEG/>RAD/>Polar/>Cart
+            btn_21.setText("1");
+            btn_22.setText("2");
+            btn_23.setText("3");
+            btn_24.setText("0");
+            btn_25.setText(",");
+            btn_26.setText("ANS");
+        } else if(mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))){
             //L1 normal: SIN,COS,TAN,ASIN,ACOS,ATAN
             btn_11.setText("SIN");
             btn_12.setText("COS");
@@ -1299,7 +1176,7 @@ public class CalcActivity_normal extends AppCompatActivity {
     void setBackground(View x){
         if(buttonshapeID==0)applySettings();
         Drawable background;
-        SettingsApplier.setColors(CalcActivity_normal.this);
+        SettingsApplier.setColors(CalcActivity_middle.this);
         float factor_font = 0.5f;
         boolean stroke = true;
 
@@ -1352,12 +1229,6 @@ public class CalcActivity_normal extends AppCompatActivity {
             darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.color_fops,factor_font);
             if(x instanceof Button) ((Button) x).setTextColor(darker);
         }
-        else if(BTN_NUMBERS.contains(x)){
-            background = getResources().getDrawable(buttonshapeID);
-            setColor(background, SettingsApplier.color_numbers,buttonfüllung,stroke);
-            darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.color_numbers,factor_font);
-            if(x instanceof Button) ((Button) x).setTextColor(darker);
-        }
         else if(BTN_SAVES.contains(x)){
             background = getResources().getDrawable(buttonshapeID);
             setColor(background, SettingsApplier.color_saves,buttonfüllung,stroke);
@@ -1370,7 +1241,7 @@ public class CalcActivity_normal extends AppCompatActivity {
     }
 
     void setBackgroundImage() throws Exception {
-        String path = PreferenceManager.getDefaultSharedPreferences(CalcActivity_normal.this).getString("backgroundimage", "");
+        String path = PreferenceManager.getDefaultSharedPreferences(CalcActivity_middle.this).getString("backgroundimage", "");
         if(path.equals(""))return;
 
         if(!checkPermissionForReadExtertalStorage(this))requestPermissionForReadExtertalStorage(this);
@@ -1382,7 +1253,7 @@ public class CalcActivity_normal extends AppCompatActivity {
             View view = (ImageView) findViewById(R.id.container);
             view.setBackground(bd);
         } catch (Exception e){
-            Toast t =  Toast.makeText(CalcActivity_normal.this,"Could not draw Backgroundimage:"+e.getMessage(),Toast.LENGTH_LONG);
+            Toast t =  Toast.makeText(CalcActivity_middle.this,"Could not draw Backgroundimage:"+e.getMessage(),Toast.LENGTH_LONG);
             t.show();
             Log.e("IMAGEERROR",path);
         }
@@ -1450,7 +1321,7 @@ public class CalcActivity_normal extends AppCompatActivity {
                 current_Callback = data.getStringExtra("RESULT_STRING");
                 if(!current_Callback.isEmpty()){
                     //eingabeSetText(current_Callback);
-                    //Toast.makeText(CalcActivity_normal.this, "SET: "+current_Callback, Toast.LENGTH_LONG).show();
+                    //Toast.makeText(CalcActivity_middle.this, "SET: "+current_Callback, Toast.LENGTH_LONG).show();
 
                     //ausgabe_setText("");
                 }
@@ -1533,14 +1404,19 @@ public class CalcActivity_normal extends AppCompatActivity {
 
     private void applySettings(){
         //language
-        language = PreferenceManager.getDefaultSharedPreferences(CalcActivity_normal.this).getString("pref_lang","english");
+        language = PreferenceManager.getDefaultSharedPreferences(CalcActivity_middle.this).getString("pref_lang","english");
         if(language.equals("english") || language.equals("englisch")){
             btn_CONV.setText(R.string.CONVEN);
             btn_CONST.setText(R.string.CONSTEN);
             btn_menu.setText(R.string.MENU_EN);
             btn_verlauf.setText(R.string.VERLAUFEN);
             act_options = getResources().getStringArray(R.array.act_EN);
-            mode_options = FunctionGroupSettingsActivity.getGroups(CalcActivity_normal.this);
+            mode_options = FunctionGroupSettingsActivity.getGroups(CalcActivity_middle.this);
+            if(language.equals("german") || language.equals("deutsch")){
+                mode_options = StringUtils.concatenate(new String[]{"ZAHLEN"},mode_options);
+            }else {
+                mode_options = StringUtils.concatenate(new String[]{"NUMBER"},mode_options);
+            }
         }
         else if(language.equals("german") || language.equals("deutsch")){
             btn_CONV.setText(R.string.CONVDE);
@@ -1548,22 +1424,27 @@ public class CalcActivity_normal extends AppCompatActivity {
             btn_menu.setText(R.string.MENU_DE);
             btn_verlauf.setText(R.string.VERLAUFDE);
             act_options = getResources().getStringArray(R.array.act_DE);
-            mode_options = FunctionGroupSettingsActivity.translateGroup(FunctionGroupSettingsActivity.getGroups(CalcActivity_normal.this),"german");
+            mode_options = FunctionGroupSettingsActivity.translateGroup(FunctionGroupSettingsActivity.getGroups(CalcActivity_middle.this),"german");
+            if(language.equals("german") || language.equals("deutsch")){
+                mode_options = StringUtils.concatenate(new String[]{"ZAHLEN"},mode_options);
+            }else {
+                mode_options = StringUtils.concatenate(new String[]{"NUMBER"},mode_options);
+            }
         }
 
         //UserFctGroups.addAll(mode_options); UserFctGroups
-        //Toast.makeText(CalcActivity_normal.this,"Modes: "+Arrays.toString(mode_options),Toast.LENGTH_SHORT).show();
-        UserFctGroups = new HashSet<>(Arrays.asList(FunctionGroupSettingsActivity.getUserGroups(CalcActivity_normal.this)));
+        //Toast.makeText(CalcActivity_middle.this,"Modes: "+Arrays.toString(mode_options),Toast.LENGTH_SHORT).show();
+        UserFctGroups = new HashSet<>(Arrays.asList(FunctionGroupSettingsActivity.getUserGroups(CalcActivity_middle.this)));
 
         //numbers
-        if (PreferenceManager.getDefaultSharedPreferences(CalcActivity_normal.this).contains("pref_precision")) {
-            String prec = PreferenceManager.getDefaultSharedPreferences(CalcActivity_normal.this).getString("pref_precision","10");
+        if (PreferenceManager.getDefaultSharedPreferences(CalcActivity_middle.this).contains("pref_precision")) {
+            String prec = PreferenceManager.getDefaultSharedPreferences(CalcActivity_middle.this).getString("pref_precision","10");
             if(prec != null)NumberString.precision =  Integer.valueOf(prec) + 1;
         }
 
         //buttonshape
-        if (PreferenceManager.getDefaultSharedPreferences(CalcActivity_normal.this).contains("buttonshape")) {
-            String form = PreferenceManager.getDefaultSharedPreferences(CalcActivity_normal.this).getString("buttonshape","round");
+        if (PreferenceManager.getDefaultSharedPreferences(CalcActivity_middle.this).contains("buttonshape")) {
+            String form = PreferenceManager.getDefaultSharedPreferences(CalcActivity_middle.this).getString("buttonshape","round");
             if(form != null){
                 switch(form){
                     case "Round": {
@@ -1576,12 +1457,12 @@ public class CalcActivity_normal extends AppCompatActivity {
                     }
                 }
             }
-            else Toast.makeText(CalcActivity_normal.this,"no buttonshape settings",Toast.LENGTH_SHORT).show();
+            else Toast.makeText(CalcActivity_middle.this,"no buttonshape settings",Toast.LENGTH_SHORT).show();
         }
 
         //buttonfüllung
-        if (PreferenceManager.getDefaultSharedPreferences(CalcActivity_normal.this).contains("buttonfüllung")) {
-            buttonfüllung = PreferenceManager.getDefaultSharedPreferences(CalcActivity_normal.this).getString("buttonfüllung","voll");
+        if (PreferenceManager.getDefaultSharedPreferences(CalcActivity_middle.this).contains("buttonfüllung")) {
+            buttonfüllung = PreferenceManager.getDefaultSharedPreferences(CalcActivity_middle.this).getString("buttonfüllung","voll");
         }
 
         //Fonts

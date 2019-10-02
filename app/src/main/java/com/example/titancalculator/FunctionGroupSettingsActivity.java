@@ -289,7 +289,7 @@ public class FunctionGroupSettingsActivity extends AppCompatActivity {
         if(language.equals("german") || language.equals("deutsch")){
             for(int i=0; i<groups.length; i++){
                 groups[i] = groups[i].replace("BASIC","STANDART");
-                groups[i] = groups[i].replace("LOGIC","LOGISCHE");
+                groups[i] = groups[i].replace("LOGIC","LOGISCH");
                 groups[i] = groups[i].replace("STATISTIC","STATISTIK");
                 groups[i] = groups[i].replace("USER","NUTZER");
             }
@@ -360,7 +360,7 @@ public class FunctionGroupSettingsActivity extends AppCompatActivity {
 
     public void setBackground(View v, int color){
         Drawable background = getResources().getDrawable(buttonshapeID);
-        MainActivity.setColor(background, color,buttonfüllung,true);
+        CalcActivity_normal.setColor(background, color,buttonfüllung,true);
         int darker = ButtonSettingsActivity.manipulateColor(color,0.6f);
         if(v instanceof Button) ((Button) v).setTextColor(darker);
     }

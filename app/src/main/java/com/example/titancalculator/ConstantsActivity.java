@@ -356,7 +356,7 @@ public class ConstantsActivity extends AppCompatActivity {
             tV_cur_const.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
-                    MainActivity.hideKeyboard(ConstantsActivity.this);
+                    CalcActivity_normal.hideKeyboard(ConstantsActivity.this);
                     //v.performClick();
                     return false;
                 }
@@ -367,7 +367,7 @@ public class ConstantsActivity extends AppCompatActivity {
             tV_cur_const_val.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
-                    MainActivity.hideKeyboard(ConstantsActivity.this);
+                    CalcActivity_normal.hideKeyboard(ConstantsActivity.this);
                     //v.performClick();
                     return false;
                 }

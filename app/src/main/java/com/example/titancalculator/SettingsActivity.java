@@ -384,7 +384,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                             }
 
                             PreferenceManager.setDefaultValues(getActivity(), R.xml.pref_buttoncolors_en, true);
-                            MainActivity.setDefaultColors();
+                            CalcActivity_normal.setDefaultColors();
                         }
 
 
