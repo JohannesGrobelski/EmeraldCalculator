@@ -48,6 +48,14 @@
 
     <header
         android:icon="@drawable/ic_button_fct"
+        android:title="Funktionsgruppen">
+        <intent
+            android:targetPackage="com.example.titancalculator"
+            android:targetClass="com.example.titancalculator.FunctionGroupSettingsActivity" />
+    </header>
+
+    <header
+        android:icon="@drawable/ic_button_fct"
         android:title="Nutzerfunktionen">
         <intent
             android:targetPackage="com.example.titancalculator"

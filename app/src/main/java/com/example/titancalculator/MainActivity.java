@@ -1512,7 +1512,7 @@ public class MainActivity extends AppCompatActivity {
             btn_menu.setText(R.string.MENU_EN);
             btn_verlauf.setText(R.string.VERLAUFEN);
             act_options = getResources().getStringArray(R.array.act_EN);
-            mode_options = getResources().getStringArray(R.array.modes_EN);
+            mode_options = FunctionGroupSettingsActivity.getGroups(MainActivity.this);
         }
         else if(language.equals("german") || language.equals("deutsch")){
             btn_CONV.setText(R.string.CONVDE);
@@ -1520,7 +1520,7 @@ public class MainActivity extends AppCompatActivity {
             btn_menu.setText(R.string.MENU_DE);
             btn_verlauf.setText(R.string.VERLAUFDE);
             act_options = getResources().getStringArray(R.array.act_DE);
-            mode_options = getResources().getStringArray(R.array.modes_DE);
+            mode_options = FunctionGroupSettingsActivity.translateGroup(FunctionGroupSettingsActivity.getGroups(MainActivity.this),"german");
         }
 
         //numbers
