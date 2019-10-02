@@ -49,7 +49,6 @@ public class ButtonshapeActivity extends AppCompatActivity {
         ArrayAdapter<String> aa_füllung = new ArrayAdapter<String>(this,R.layout.lvitem_layout, füllungsoptionen);
         lv_füllung.setAdapter(aa_füllung);
 
-
         lv_form.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
@@ -93,6 +92,7 @@ public class ButtonshapeActivity extends AppCompatActivity {
         MainActivity.setColor(d,0xffc60aff,füllung,true);
 
         return d;
+
     }
 
     private void setPreviewImage(){

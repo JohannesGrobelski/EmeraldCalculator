@@ -20,10 +20,12 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.inputmethod.InputMethodManager;
@@ -35,6 +37,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
@@ -53,7 +56,7 @@ import java.util.Set;
 
 
 public class MainActivity extends AppCompatActivity {
-    public static int color_act,color_fkt,color_fops,color_numbers,color_saves,color_specials,color_display,color_background;
+    public static int color_act,color_fkt,color_fops,color_numbers,color_saves,color_specials,color_displaytext,color_display,color_background;
 
     static final int REQUEST_CODE_CONST = 1;  // The request code
     static final int REQUEST_CODE_CONV = 1;  // The request code
@@ -63,6 +66,8 @@ public class MainActivity extends AppCompatActivity {
     int buttonshapeID = R.drawable.buttonshape_square;
     String buttonfüllung="voll";
     DisplayMetrics screen_density;
+
+    String current_font_family, current_fontsize, current_fontstlye;
 
     String current_Callback="";
     String answer="";
@@ -200,8 +205,38 @@ public class MainActivity extends AppCompatActivity {
         mode = "BASIC";
 
 
-        ArrayAdapter adpt_modeoptions = new ArrayAdapter<String>(this, R.layout.lvitem_layout, mode_options);
-        spinner_shift.setAdapter(adpt_modeoptions);
+        //ArrayAdapter adpt_modeoptions = new ArrayAdapter<String>(this, R.layout.lvitem_layout, mode_options);
+        ArrayAdapter<String> adapter =
+                new ArrayAdapter<String>(MainActivity.this, R.layout.spinner_shift_style, mode_options)
+                {
+
+                    float factor_font = 0.5f;
+                    int darker = ButtonSettingsActivity.manipulateColor(color_fops,factor_font);
+
+                    public View getView(int position, View convertView, ViewGroup parent) {
+                        View v = super.getView(position, convertView, parent);
+
+                        ((TextView) v).setTextSize(16);
+                        ((TextView) v).setTypeface(FontSettingsActivity.getTypeFace(current_font_family,current_fontstlye));
+                        ((TextView) v).setTextColor(darker);
+
+                        return v;
+                    }
+
+                    public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                        View v = super.getDropDownView(position, convertView, parent);
+                        v.setBackgroundResource(R.drawable.buttonshape_square);
+
+                        ((TextView) v).setTextColor(darker);
+
+                        ((TextView) v).setTypeface(FontSettingsActivity.getTypeFace(current_font_family,current_fontstlye));
+                        ((TextView) v).setGravity(Gravity.CENTER);
+
+                        return v;
+                    }
+                };
+
+        spinner_shift.setAdapter(adapter);
 
         try {
             setBackgroundImage();
@@ -255,7 +290,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //setzt hintergrundbild
-
 
 
         I = new NavigatableString("content");
@@ -333,13 +367,19 @@ public class MainActivity extends AppCompatActivity {
         LN3 = findViewById(R.id.LN3);
         LN4 = findViewById(R.id.LN4);
 
-        BTN_ACT = new HashSet<>(Arrays.asList(new Button[]{btn_CONST,btn_CONV,btn_verlauf,btn_menu}));
-        BTN_FKT = new HashSet<>(Arrays.asList(new Button[]{btn_clear,btn_clearall,btn_LINKS,btn_RECHTS}));
-        BTN_FOPS = new HashSet<>(Arrays.asList( new Button[]{btn_11,btn_12,btn_13,btn_14,btn_15,btn_16,btn_21,btn_22,btn_23,btn_24,btn_25,btn_26}));
-        BTN_NUMBERS = new HashSet<>(Arrays.asList(new Button[]{btn_com,btn_ans,btn_0,btn_1,btn_2,btn_3,btn_4,btn_5,btn_6,btn_7,btn_8,btn_9}));
+        BTN_ACT = new HashSet<>(Arrays.asList(new Button[]{btn_CONST, btn_CONV, btn_verlauf, btn_menu}));
+        BTN_FKT = new HashSet<>(Arrays.asList(new Button[]{btn_clear, btn_clearall, btn_LINKS, btn_RECHTS}));
+        BTN_FOPS = new HashSet<>(Arrays.asList(new Button[]{btn_11, btn_12, btn_13, btn_14, btn_15, btn_16, btn_21, btn_22, btn_23, btn_24, btn_25, btn_26}));
+        BTN_NUMBERS = new HashSet<>(Arrays.asList(new Button[]{btn_com, btn_ans, btn_0, btn_1, btn_2, btn_3, btn_4, btn_5, btn_6, btn_7, btn_8, btn_9}));
         BTN_SAVES = new HashSet<>(Arrays.asList(new Button[]{btn_eq}));
-        BTN_SPECIALS = new HashSet<>(Arrays.asList( new Button[]{btn_open_bracket,btn_close_bracket,btn_mul,btn_div,btn_sub,btn_add}));
-        BTN_ALL = new ArrayList<>(); BTN_ALL.addAll(BTN_ACT); BTN_ALL.addAll(BTN_FKT); BTN_ALL.addAll(BTN_FOPS); BTN_ALL.addAll(BTN_NUMBERS); BTN_ALL.addAll(BTN_SAVES); BTN_ALL.addAll(BTN_SPECIALS);
+        BTN_SPECIALS = new HashSet<>(Arrays.asList(new Button[]{btn_open_bracket, btn_close_bracket, btn_mul, btn_div, btn_sub, btn_add}));
+        BTN_ALL = new ArrayList<>();
+        BTN_ALL.addAll(BTN_ACT);
+        BTN_ALL.addAll(BTN_FKT);
+        BTN_ALL.addAll(BTN_FOPS);
+        BTN_ALL.addAll(BTN_NUMBERS);
+        BTN_ALL.addAll(BTN_SAVES);
+        BTN_ALL.addAll(BTN_SPECIALS);
 
         applySettings();
         updateColors();
@@ -354,7 +394,37 @@ public class MainActivity extends AppCompatActivity {
 
         //L1
         ArrayAdapter adpt_modeoptions = new ArrayAdapter<String>(this, R.layout.lvitem_layout, mode_options);
+        adpt_modeoptions = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, mode_options) {
+
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                TextView text = (TextView) view.findViewById(android.R.id.text1);
+                text.setTextColor(color_fkt);
+                return view;
+            }
+
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                TextView text = (TextView) view.findViewById(android.R.id.text1);
+                text.setTextColor(color_fkt);
+                return view;
+            }
+        };
+
         spinner_shift.setAdapter(adpt_modeoptions);
+        spinner_shift.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                ((TextView) parent.getChildAt(0)).setTextColor(color_fkt);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                ((TextView) parent.getChildAt(0)).setTextColor(color_fkt);
+            }
+        });
 
         btn_menu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -362,7 +432,7 @@ public class MainActivity extends AppCompatActivity {
                 view.startAnimation(buttonClick);
 
                 current_Callback = "";
-                Intent conversionIntent = new Intent(MainActivity.this,SettingsActivity.class);
+                Intent conversionIntent = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivity(conversionIntent);
             }
         });
@@ -410,7 +480,7 @@ public class MainActivity extends AppCompatActivity {
 
                 current_Callback = "";
                 Intent conversionIntent = new Intent(MainActivity.this, ConversionActivity.class);
-                startActivityForResult(conversionIntent,REQUEST_CODE_CONV);
+                startActivityForResult(conversionIntent, REQUEST_CODE_CONV);
 
 
                 //TODO
@@ -424,7 +494,7 @@ public class MainActivity extends AppCompatActivity {
 
                 current_Callback = "";
                 Intent constIntent = new Intent(MainActivity.this, ConstantsActivity.class);
-                startActivityForResult(constIntent,REQUEST_CODE_CONST);
+                startActivityForResult(constIntent, REQUEST_CODE_CONST);
 
                 setBackground(btn_CONST);
             }
@@ -437,15 +507,14 @@ public class MainActivity extends AppCompatActivity {
                 current_Callback = "";
                 Intent verlaufIntent = new Intent(MainActivity.this, HistoryActivity.class);
                 String[] verlaufarray = verlauf.toArray(new String[verlauf.size()]);
-                verlaufIntent.putExtra("verlauf",verlaufarray);
+                verlaufIntent.putExtra("verlauf", verlaufarray);
                 String[] arrayVerlauf = verlaufIntent.getStringArrayExtra("verlauf");
                 //Toast.makeText(MainActivity.this,Arrays.toString(arrayVerlauf),Toast.LENGTH_LONG).show();
 
-                startActivityForResult(verlaufIntent,REQUEST_CODE_Verlauf);
+                startActivityForResult(verlaufIntent, REQUEST_CODE_Verlauf);
                 setBackground(btn_CONST);
             }
         });
-
 
 
         btn_clear.setOnClickListener(new View.OnClickListener() {
@@ -470,8 +539,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
-
         //L2
         //normal: PI,E,CONST,CONV
         btn_11.setOnClickListener(new View.OnClickListener() {
@@ -480,24 +547,24 @@ public class MainActivity extends AppCompatActivity {
 
                 view.startAnimation(buttonClick);
 
-                if(mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))){
+                if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
                     eingabeAddText("PI");
-                } else if(mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))){
+                } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
                     eingabeAddText("R");
-                } else if(mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))){
+                } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
                     eingabeAddText("SIN");
-                } else if(mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))){
+                } else if (mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))) {
                     transBtnFct("btn_11");
-                } else if(mode.equals(getResources().getString(R.string.STATS_EN)) || mode.equals(getResources().getString(R.string.STATS_DE))) {
+                } else if (mode.equals(getResources().getString(R.string.STATS_EN)) || mode.equals(getResources().getString(R.string.STATS_DE))) {
                     eingabeAddText("Zn()");
-                } else if(mode.equals("HYPER")) {
+                } else if (mode.equals("HYPER")) {
                     eingabeAddText("SINH");
-                } else if(mode.equals("LOGIC") || mode.equals("LOGISCH")) {
+                } else if (mode.equals("LOGIC") || mode.equals("LOGISCH")) {
                     eingabeAddText("AND(;)");
                 } else {
-                      String display = "Unknown Mode: "+mode;
-                      Toast unknownMode =  Toast.makeText(MainActivity.this,display,Toast.LENGTH_LONG);
-                      unknownMode.show();
+                    String display = "Unknown Mode: " + mode;
+                    Toast unknownMode = Toast.makeText(MainActivity.this, display, Toast.LENGTH_LONG);
+                    unknownMode.show();
                 }
                 setBackground(btn_11);
             }
@@ -507,23 +574,23 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 view.startAnimation(buttonClick);
 
-                if(mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))){
+                if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
                     eingabeAddText("E");
-                } else if(mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))){
+                } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
                     ausgabe_setText(I.getPFZ());
-                } else if(mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))){
+                } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
                     eingabeAddText("COS");
-                } else if(mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))){
+                } else if (mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))) {
                     transBtnFct("btn_12");
-                } else if(mode.equals(getResources().getString(R.string.STATS_EN)) || mode.equals(getResources().getString(R.string.STATS_DE))) {
+                } else if (mode.equals(getResources().getString(R.string.STATS_EN)) || mode.equals(getResources().getString(R.string.STATS_DE))) {
                     eingabeAddText("Zb(;)");
-                } else if(mode.equals("HYPER")) {
+                } else if (mode.equals("HYPER")) {
                     eingabeAddText("COSH");
-                } else if(mode.equals("LOGIC") || mode.equals("LOGISCH")) {
+                } else if (mode.equals("LOGIC") || mode.equals("LOGISCH")) {
                     eingabeAddText("OR(;)");
                 } else {
-                    String display = "Unknown Mode: "+mode;
-					Toast unknownMode =  Toast.makeText(MainActivity.this,display,Toast.LENGTH_LONG);
+                    String display = "Unknown Mode: " + mode;
+                    Toast unknownMode = Toast.makeText(MainActivity.this, display, Toast.LENGTH_LONG);
                     unknownMode.show();
                 }
                 setBackground(btn_12);
@@ -534,24 +601,24 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 view.startAnimation(buttonClick);
 
-                if(mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
+                if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
                     eingabeAddText("√");
-                } else if(mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))){
+                } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
                     eingabeAddText("ggt(;)");
-                } else if(mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))){
+                } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
                     eingabeAddText("TAN");
-                } else if(mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))){
+                } else if (mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))) {
                     transBtnFct("btn_13");
-                } else if(mode.equals(getResources().getString(R.string.STATS_EN)) || mode.equals(getResources().getString(R.string.STATS_DE))) {
+                } else if (mode.equals(getResources().getString(R.string.STATS_EN)) || mode.equals(getResources().getString(R.string.STATS_DE))) {
                     eingabeAddText("C ");
-                } else if(mode.equals("HYPER")) {
+                } else if (mode.equals("HYPER")) {
                     eingabeAddText("TANH");
-                } else if(mode.equals("LOGIC") || mode.equals("LOGISCH")) {
+                } else if (mode.equals("LOGIC") || mode.equals("LOGISCH")) {
                     eingabeAddText("XOR(;)");
                 } else {
-                      String display = "Unknown Mode: "+mode;
-                      Toast unknownMode =  Toast.makeText(MainActivity.this,display,Toast.LENGTH_LONG);
-                      unknownMode.show();
+                    String display = "Unknown Mode: " + mode;
+                    Toast unknownMode = Toast.makeText(MainActivity.this, display, Toast.LENGTH_LONG);
+                    unknownMode.show();
                 }
                 setBackground(btn_13);
             }
@@ -561,24 +628,24 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 view.startAnimation(buttonClick);
 
-                if(mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
+                if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
                     eingabeAddText("LOG ");
-                } else if(mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))){
+                } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
                     eingabeAddText("kgv(;)");
-                } else if(mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))){
+                } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
                     eingabeAddText("ASIN");
-                } else if(mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))){
+                } else if (mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))) {
                     transBtnFct("btn_14");
-                } else if(mode.equals(getResources().getString(R.string.STATS_EN)) || mode.equals(getResources().getString(R.string.STATS_DE))) {
+                } else if (mode.equals(getResources().getString(R.string.STATS_EN)) || mode.equals(getResources().getString(R.string.STATS_DE))) {
                     eingabeAddText("P ");
-                } else if(mode.equals("HYPER")) {
+                } else if (mode.equals("HYPER")) {
                     eingabeAddText("ASINH");
-                } else if(mode.equals("LOGIC") || mode.equals("LOGISCH")) {
+                } else if (mode.equals("LOGIC") || mode.equals("LOGISCH")) {
                     eingabeAddText("NOT()");
                 } else {
-                    String display = "Unknown Mode: "+mode;
-					Toast unknownMode =  Toast.makeText(MainActivity.this,display,Toast.LENGTH_LONG);
-					unknownMode.show();
+                    String display = "Unknown Mode: " + mode;
+                    Toast unknownMode = Toast.makeText(MainActivity.this, display, Toast.LENGTH_LONG);
+                    unknownMode.show();
                 }
                 setBackground(btn_14);
             }
@@ -588,49 +655,49 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 view.startAnimation(buttonClick);
 
-                if(mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
+                if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
                     eingabeAddText("LN ");
-                } else if(mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))){
-                    eingabeAddText(getResources().getString(R.string.SUME)+"(;)");
-                } else if(mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))){
+                } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
+                    eingabeAddText(getResources().getString(R.string.SUME) + "(;)");
+                } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
                     eingabeAddText("ACOS");
-                } else if(mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))){
+                } else if (mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))) {
                     transBtnFct("btn_15");
-                } else if(mode.equals(getResources().getString(R.string.STATS_EN)) || mode.equals(getResources().getString(R.string.STATS_DE))) {
-                } else if(mode.equals("HYPER")) {
+                } else if (mode.equals(getResources().getString(R.string.STATS_EN)) || mode.equals(getResources().getString(R.string.STATS_DE))) {
+                } else if (mode.equals("HYPER")) {
                     eingabeAddText("ACOSH(");
-                } else if(mode.equals("LOGIC") || mode.equals("LOGISCH")) {
+                } else if (mode.equals("LOGIC") || mode.equals("LOGISCH")) {
                     ausgabe_setText(I.getBIN());
                 } else {
-                    String display = "Unknown Mode: "+mode;
-					Toast unknownMode =  Toast.makeText(MainActivity.this,display,Toast.LENGTH_LONG);
-					unknownMode.show();
+                    String display = "Unknown Mode: " + mode;
+                    Toast unknownMode = Toast.makeText(MainActivity.this, display, Toast.LENGTH_LONG);
+                    unknownMode.show();
                 }
                 setBackground(btn_15);
             }
-		});
+        });
         btn_16.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 view.startAnimation(buttonClick);
 
-                if(mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
+                if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
                     eingabeAddText("LB ");
-                } else if(mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))){
-                    eingabeAddText(getResources().getString(R.string.MULP)+"(;)");
-                } else if(mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))){
+                } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
+                    eingabeAddText(getResources().getString(R.string.MULP) + "(;)");
+                } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
                     eingabeAddText("ATAN");
-                } else if(mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))){
+                } else if (mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))) {
                     transBtnFct("btn_16");
-                } else if(mode.equals(getResources().getString(R.string.STATS_EN)) || mode.equals(getResources().getString(R.string.STATS_DE))) {
-                } else if(mode.equals("HYPER")) {
+                } else if (mode.equals(getResources().getString(R.string.STATS_EN)) || mode.equals(getResources().getString(R.string.STATS_DE))) {
+                } else if (mode.equals("HYPER")) {
                     eingabeAddText("ATANH");
-                } else if(mode.equals("LOGIC") || mode.equals("LOGISCH")) {
+                } else if (mode.equals("LOGIC") || mode.equals("LOGISCH")) {
                     ausgabe_setText(I.getOCT());
                 } else {
-                    String display = "Unknown Mode: "+mode;
-					Toast unknownMode =  Toast.makeText(MainActivity.this,display,Toast.LENGTH_LONG);
-					unknownMode.show();
+                    String display = "Unknown Mode: " + mode;
+                    Toast unknownMode = Toast.makeText(MainActivity.this, display, Toast.LENGTH_LONG);
+                    unknownMode.show();
                 }
                 setBackground(btn_16);
             }
@@ -645,23 +712,23 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 view.startAnimation(buttonClick);
 
-                if(mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
+                if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
                     ausgabe_setText(I.getPercent());
-                } else if(mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))){
+                } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
 
-                } else if(mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))){
+                } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
                     ausgabe_setText(I.getDEG());
-                } else if(mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))){
+                } else if (mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))) {
                     transBtnFct("btn_21");
-                } else if(mode.equals(getResources().getString(R.string.STATS_EN)) || mode.equals(getResources().getString(R.string.STATS_DE))) {
+                } else if (mode.equals(getResources().getString(R.string.STATS_EN)) || mode.equals(getResources().getString(R.string.STATS_DE))) {
 
-                } else if(mode.equals("HYPER")) {
-                } else if(mode.equals("LOGIC") || mode.equals("LOGISCH")) {
+                } else if (mode.equals("HYPER")) {
+                } else if (mode.equals("LOGIC") || mode.equals("LOGISCH")) {
                     ausgabe_setText(I.getDEC());
                 } else {
-                    String display = "Unknown Mode: "+mode;
-					Toast unknownMode =  Toast.makeText(MainActivity.this,display,Toast.LENGTH_LONG);
-					unknownMode.show();
+                    String display = "Unknown Mode: " + mode;
+                    Toast unknownMode = Toast.makeText(MainActivity.this, display, Toast.LENGTH_LONG);
+                    unknownMode.show();
                 }
                 setBackground(btn_21);
             }
@@ -671,23 +738,23 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 view.startAnimation(buttonClick);
 
-                if(mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))){
+                if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
                     eingabeAddText("!");
-                } else if(mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))){
+                } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
 
-                } else if(mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))){
+                } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
                     ausgabe_setText(I.getRAD());
-                } else if(mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))){
+                } else if (mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))) {
                     transBtnFct("btn_22");
-                } else if(mode.equals(getResources().getString(R.string.STATS_EN)) || mode.equals(getResources().getString(R.string.STATS_DE))) {
+                } else if (mode.equals(getResources().getString(R.string.STATS_EN)) || mode.equals(getResources().getString(R.string.STATS_DE))) {
 
-                } else if(mode.equals("HYPER")) {
-                } else if(mode.equals("LOGIC") || mode.equals("LOGISCH")) {
+                } else if (mode.equals("HYPER")) {
+                } else if (mode.equals("LOGIC") || mode.equals("LOGISCH")) {
                     ausgabe_setText(I.getHEX());
                 } else {
-                    String display = "Unknown Mode: "+mode;
-					Toast unknownMode =  Toast.makeText(MainActivity.this,display,Toast.LENGTH_LONG);
-					unknownMode.show();
+                    String display = "Unknown Mode: " + mode;
+                    Toast unknownMode = Toast.makeText(MainActivity.this, display, Toast.LENGTH_LONG);
+                    unknownMode.show();
                 }
                 setBackground(btn_22);
             }
@@ -697,23 +764,23 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 view.startAnimation(buttonClick);
 
-                if(mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))){
+                if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
                     eingabeAddText("^");
 
-                } else if(mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))){
+                } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
 
-                } else if(mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))){
+                } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
                     eingabeAddText("toPolar(;)");
-                } else if(mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))){
+                } else if (mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))) {
                     transBtnFct("btn_23");
-                } else if(mode.equals(getResources().getString(R.string.STATS_EN)) || mode.equals(getResources().getString(R.string.STATS_DE))) {
+                } else if (mode.equals(getResources().getString(R.string.STATS_EN)) || mode.equals(getResources().getString(R.string.STATS_DE))) {
 
-                } else if(mode.equals("HYPER")) {
-                } else if(mode.equals("LOGIC") || mode.equals("LOGISCH")) {
+                } else if (mode.equals("HYPER")) {
+                } else if (mode.equals("LOGIC") || mode.equals("LOGISCH")) {
                 } else {
-                    String display = "Unknown Mode: "+mode;
-					Toast unknownMode =  Toast.makeText(MainActivity.this,display,Toast.LENGTH_LONG);
-					unknownMode.show();
+                    String display = "Unknown Mode: " + mode;
+                    Toast unknownMode = Toast.makeText(MainActivity.this, display, Toast.LENGTH_LONG);
+                    unknownMode.show();
                 }
                 setBackground(btn_23);
             }
@@ -723,22 +790,22 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 view.startAnimation(buttonClick);
 
-                if(mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))){
+                if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
                     ausgabe_setText(I.getBruch());
-                } else if(mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))){
+                } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
 
-                } else if(mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))){
+                } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
                     eingabeAddText("toCart(;)");
-                } else if(mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))){
+                } else if (mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))) {
                     transBtnFct("btn_24");
-                } else if(mode.equals(getResources().getString(R.string.STATS_EN)) || mode.equals(getResources().getString(R.string.STATS_DE))) {
+                } else if (mode.equals(getResources().getString(R.string.STATS_EN)) || mode.equals(getResources().getString(R.string.STATS_DE))) {
 
-                } else if(mode.equals("HYPER")) {
-                } else if(mode.equals("LOGIC") || mode.equals("LOGISCH")) {
+                } else if (mode.equals("HYPER")) {
+                } else if (mode.equals("LOGIC") || mode.equals("LOGISCH")) {
                 } else {
-                    String display = "Unknown Mode: "+mode;
-					Toast unknownMode =  Toast.makeText(MainActivity.this,display,Toast.LENGTH_LONG);
-					unknownMode.show();
+                    String display = "Unknown Mode: " + mode;
+                    Toast unknownMode = Toast.makeText(MainActivity.this, display, Toast.LENGTH_LONG);
+                    unknownMode.show();
                 }
                 setBackground(btn_24);
             }
@@ -748,22 +815,22 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 view.startAnimation(buttonClick);
 
-                if(mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
+                if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
                     ausgabe_setText(I.getReciproke());
-                } else if(mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))){
+                } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
 
-                } else if(mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))){
+                } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
 
-                } else if(mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))){
+                } else if (mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))) {
                     transBtnFct("btn_25");
-                } else if(mode.equals(getResources().getString(R.string.STATS_EN)) || mode.equals(getResources().getString(R.string.STATS_DE))) {
+                } else if (mode.equals(getResources().getString(R.string.STATS_EN)) || mode.equals(getResources().getString(R.string.STATS_DE))) {
 
-                } else if(mode.equals("HYPER")) {
-                } else if(mode.equals("LOGIC") || mode.equals("LOGISCH")) {
+                } else if (mode.equals("HYPER")) {
+                } else if (mode.equals("LOGIC") || mode.equals("LOGISCH")) {
                 } else {
-                    String display = "Unknown Mode: "+mode;
-					Toast unknownMode =  Toast.makeText(MainActivity.this,display,Toast.LENGTH_LONG);
-					unknownMode.show();
+                    String display = "Unknown Mode: " + mode;
+                    Toast unknownMode = Toast.makeText(MainActivity.this, display, Toast.LENGTH_LONG);
+                    unknownMode.show();
                 }
                 setBackground(btn_25);
             }
@@ -773,24 +840,24 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 view.startAnimation(buttonClick);
 
-                if(mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
+                if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
                     ausgabe_setText(I.getInvert());
-                } else if(mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))){
+                } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
 
-                } else if(mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))){
+                } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
 
-                } else if(mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))){
+                } else if (mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))) {
                     transBtnFct("btn_26");
-                } else if(mode.equals(getResources().getString(R.string.STATS_EN)) || mode.equals(getResources().getString(R.string.STATS_DE))) {
+                } else if (mode.equals(getResources().getString(R.string.STATS_EN)) || mode.equals(getResources().getString(R.string.STATS_DE))) {
 
-                } else if(mode.equals("HYPER")) {
+                } else if (mode.equals("HYPER")) {
 
-                } else if(mode.equals("LOGIC") || mode.equals("LOGISCH")) {
+                } else if (mode.equals("LOGIC") || mode.equals("LOGISCH")) {
 
                 } else {
-                    String display = "Unknown Mode: "+mode;
-					Toast unknownMode =  Toast.makeText(MainActivity.this,display,Toast.LENGTH_LONG);
-					unknownMode.show();
+                    String display = "Unknown Mode: " + mode;
+                    Toast unknownMode = Toast.makeText(MainActivity.this, display, Toast.LENGTH_LONG);
+                    unknownMode.show();
                 }
                 setBackground(btn_26);
             }
@@ -802,7 +869,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 view.startAnimation(buttonClick);
                 int pos = tV_eingabe.getSelectionStart();
-                tV_eingabe.setSelection(Math.max(0,pos-1));
+                tV_eingabe.setSelection(Math.max(0, pos - 1));
 
                 setBackground(btn_LINKS);
             }
@@ -813,12 +880,11 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 view.startAnimation(buttonClick);
                 int pos = tV_eingabe.getSelectionStart();
-                tV_eingabe.setSelection(Math.min(tV_eingabe.length(),pos+1));
+                tV_eingabe.setSelection(Math.min(tV_eingabe.length(), pos + 1));
                 setBackground(btn_RECHTS);
 
             }
         });
-
 
 
         //G1
@@ -1008,7 +1074,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 view.startAnimation(buttonClick);
-                if(verlauf == null)verlauf = new ArrayList<>();
+                if (verlauf == null) verlauf = new ArrayList<>();
                 verlauf.add(I.getDisplayableString());
 
                 answer = I.getResult();
@@ -1016,9 +1082,11 @@ public class MainActivity extends AppCompatActivity {
                 setBackground(btn_eq);
             }
         });
+
+        setBackground(btn_clear);
+        setBackground(btn_clearall);
+
     }
-
-
 
 
 
@@ -1157,6 +1225,7 @@ public class MainActivity extends AppCompatActivity {
         color_saves = PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getInt("SaveColor", 0xffff0000);
         color_specials = PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getInt("SpecialColor", 0xffff0000);
         color_display = PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getInt("DisplayColor", 0xffff0000);
+        color_displaytext = PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getInt("DisplayTextColor", 0x000000);
         color_background = PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getInt("BackgroundColor", 0xffff0000);
     }
 
@@ -1165,37 +1234,38 @@ public class MainActivity extends AppCompatActivity {
         color_act =  0x9b59b6; //lila
         color_fkt = 0x2ecc71; //grün
         color_specials = 0xe67e22; //orange
-        color_numbers = 0xecf0f1; //grau
-        color_saves = 0xAFAFAF;
-        color_display = 0xecf0f1; //grau
+        color_numbers = 0xecf0f1; //hellgrau
+        color_saves = 0xAFAFAF; //dunkelgrau
+        color_display = 0xecf0f1; //hellgrau
+        color_displaytext = 0x000000; //schwarz
         color_background = 0xFFFFFF; //weiß
     }
 
     public void setFonts(ArrayList<Button> BTN_ALL){
-        String font_family = PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getString("fontfamily", "monospace");
-        String fontsize = PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getString("fontsize", "20");
-        String fontstlye = PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getString("fontstyle", "normal");
+        current_font_family = PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getString("fontfamily", "monospace");
+        current_fontsize = PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getString("fontsize", "20");
+        current_fontstlye = PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getString("fontstyle", "normal");
 
-        if(fontstlye == null || fontstlye.equals("") || font_family == null || font_family.equals("") || fontsize == null || fontsize.equals(""))return;
+        if(current_fontstlye == null || current_fontstlye.equals("") || current_font_family == null || current_font_family.equals("") || current_fontsize == null || current_fontsize.equals(""))return;
 
         for(Button b: BTN_ALL){
             b.setTextSize(TypedValue.COMPLEX_UNIT_SP, DisplaySetupHelper.getDefaultTextSize(MainActivity.this));
-            b.setTypeface(FontSettingsActivity.getTypeFace(font_family,fontstlye));
+            b.setTypeface(FontSettingsActivity.getTypeFace(current_font_family,current_fontstlye));
             Float f = 10f;
-            if(!fontsize.isEmpty() && !fontsize.equals("automatic"))f = Float.valueOf(fontsize);
-            if(fontsize.equals("automatic")){
+            if(!current_fontsize.isEmpty() && !current_fontsize.equals("automatic"))f = Float.valueOf(current_fontsize);
+            if(current_fontsize.equals("automatic")){
                 f = DisplaySetupHelper.getDefaultTextSize(this);
             }
-            if(!fontsize.equals("automatic"))b.setTextSize(f);
+            if(!current_fontsize.equals("automatic"))b.setTextSize(f);
         }
 
         tV_eingabe.setTextSize(TypedValue.COMPLEX_UNIT_SP, DisplaySetupHelper.getDefaultTextSize(MainActivity.this));
-        tV_eingabe.setTypeface(FontSettingsActivity.getTypeFace(font_family,fontstlye));
-        if(!fontsize.equals("automatic"))tV_eingabe.setTextSize(Float.valueOf(fontsize));
+        tV_eingabe.setTypeface(FontSettingsActivity.getTypeFace(current_font_family,current_fontstlye));
+        if(!current_fontsize.equals("automatic"))tV_eingabe.setTextSize(TypedValue.COMPLEX_UNIT_SP,Float.valueOf(current_fontsize)*2);
 
         tV_ausgabe.setTextSize(TypedValue.COMPLEX_UNIT_SP, DisplaySetupHelper.getDefaultTextSize(MainActivity.this));
-        tV_ausgabe.setTypeface(FontSettingsActivity.getTypeFace(font_family,fontstlye));
-        if(!fontsize.equals("automatic"))tV_ausgabe.setTextSize(Float.valueOf(fontsize));
+        tV_ausgabe.setTypeface(FontSettingsActivity.getTypeFace(current_font_family,current_fontstlye));
+        if(!current_fontsize.equals("automatic"))tV_ausgabe.setTextSize(TypedValue.COMPLEX_UNIT_SP,Float.valueOf(current_fontsize)*2);
     }
     
     void setBackground(View x){
@@ -1205,64 +1275,68 @@ public class MainActivity extends AppCompatActivity {
         float factor_font = 0.5f;
         boolean stroke = true;
 
+        //Default Case
+            background = getResources().getDrawable(buttonshapeID);
+            setColor(background, color_specials,buttonfüllung,stroke);
+            int darker = ButtonSettingsActivity.manipulateColor(color_specials,factor_font);
+            if(x instanceof Button) ((Button) x).setTextColor(darker);
 
         if(x instanceof Button){
             //fix für größe dieser kleinen unicode symbole
             if(((Button) x).getText().equals(getResources().getString(R.string.CLEAR_ALL)) || ((Button) x).getText().equals(getResources().getString(R.string.CLEAR))){
-                ((Button) x).setTextSize(Math.min(30,((Button) btn_LINKS).getTextSize()));
+                ((Button) x).setTextSize(Math.min(30,((Button) btn_LINKS).getTextSize()*2));
             }
         }
-        if(x.equals(spinner_shift)){
+
+        if(x.equals(spinner_shift) || x instanceof Spinner){
             background = getResources().getDrawable(buttonshapeID);
-            setColor(background, color_fkt,buttonfüllung,stroke);
+            setColor(background, color_fops,buttonfüllung,stroke);
             x.setBackground(background);
+
             ///((Spinner) x).setPopupBackgroundDrawable(background);
-            ((Spinner) x).setBackgroundColor(color_fkt);
-            ((Spinner) x).setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            x.setBackgroundColor(color_fops);
+            x.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
             //((Spinner) x).setGravity(Gravity.CENTER_HORIZONTAL);
         }
         if(x.equals(display)){
             background = getResources().getDrawable(buttonshapeID);
             setColor(background, color_display,buttonfüllung,stroke);
+            tV_ausgabe.setTextColor(color_displaytext);
+            tV_eingabe.setTextColor(color_displaytext);
             x.setBackground(background);
         }
 
         if(BTN_ACT.contains(x)){
             background = getResources().getDrawable(buttonshapeID);
             setColor(background, color_act,buttonfüllung,stroke);
-            int darker = ButtonSettingsActivity.manipulateColor(color_act,factor_font);
+            darker = ButtonSettingsActivity.manipulateColor(color_act,factor_font);
             if(x instanceof Button) ((Button) x).setTextColor(darker);
         }
         else if(BTN_FKT.contains(x)){
             background = getResources().getDrawable(buttonshapeID);
             setColor(background, color_fkt,buttonfüllung,stroke);
-            int darker = ButtonSettingsActivity.manipulateColor(color_fkt,factor_font);
+            darker = ButtonSettingsActivity.manipulateColor(color_fkt,factor_font);
             if(x instanceof Button) ((Button) x).setTextColor(darker);
         }
         else if(BTN_FOPS.contains(x)){
             background = getResources().getDrawable(buttonshapeID);
             setColor(background, color_fops,buttonfüllung,stroke);
-            int darker = ButtonSettingsActivity.manipulateColor(color_fops,factor_font);
+            darker = ButtonSettingsActivity.manipulateColor(color_fops,factor_font);
             if(x instanceof Button) ((Button) x).setTextColor(darker);
         }
         else if(BTN_NUMBERS.contains(x)){
             background = getResources().getDrawable(buttonshapeID);
             setColor(background, color_numbers,buttonfüllung,stroke);
-            int darker = ButtonSettingsActivity.manipulateColor(color_numbers,factor_font);
+            darker = ButtonSettingsActivity.manipulateColor(color_numbers,factor_font);
             if(x instanceof Button) ((Button) x).setTextColor(darker);
         }
         else if(BTN_SAVES.contains(x)){
             background = getResources().getDrawable(buttonshapeID);
             setColor(background, color_saves,buttonfüllung,stroke);
-            int darker = ButtonSettingsActivity.manipulateColor(color_saves,factor_font);
+            darker = ButtonSettingsActivity.manipulateColor(color_saves,factor_font);
             if(x instanceof Button) ((Button) x).setTextColor(darker);
         }
-        else {
-            background = getResources().getDrawable(buttonshapeID);
-            setColor(background, color_specials,buttonfüllung,stroke);
-            int darker = ButtonSettingsActivity.manipulateColor(color_specials,factor_font);
-            if(x instanceof Button) ((Button) x).setTextColor(darker);
-        }
+
         x.setBackground(background);
 
     }
@@ -1294,9 +1368,11 @@ public class MainActivity extends AppCompatActivity {
 
         //setBackground(spinner_shift);
 
+
         for(Button b: BTN_ALL){
             setBackground(b);
         }
+
         setBackground(spinner_shift);
         setBackground(display);
     }
@@ -1429,7 +1505,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void applySettings(){
         //language
-        language = PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getString("pref_lang_en","english");
+        language = PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getString("pref_lang","english");
         if(language.equals("english") || language.equals("englisch")){
             btn_CONV.setText(R.string.CONVEN);
             btn_CONST.setText(R.string.CONSTEN);
@@ -1481,9 +1557,6 @@ public class MainActivity extends AppCompatActivity {
         Typeface monospace = Typeface.create("MONOSPACE",Typeface.NORMAL);
         Typeface sansSerif = Typeface.create("SANS_SERIF",Typeface.NORMAL);
         Typeface serif = Typeface.create("SERIF",Typeface.NORMAL);
-
-        tV_eingabe.setTypeface(monospace,Typeface.BOLD);
-
 
     }
 

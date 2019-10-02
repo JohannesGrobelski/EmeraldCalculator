@@ -13,42 +13,42 @@
         android:fragment="com.example.titancalculator.SettingsActivity$MathSettingsFragment" />
 
     <header
+        android:icon="@drawable/ic_colorpicker"
+        android:title="Farben"
+        android:fragment="com.example.titancalculator.SettingsActivity$ButtoncolorSettingsFragment" />
+
+    <header
         android:icon="@drawable/ic_font_download_black_24dp"
-        android:title="SChriftart einstellen">
+        android:title="Schriftart">
         <intent
             android:targetPackage="com.example.titancalculator"
             android:targetClass="com.example.titancalculator.FontSettingsActivity" />
     </header>
 
     <header
-        android:icon="@drawable/ic_colorpicker"
-        android:title="Buttons: Farbeinstellungen"
-        android:fragment="com.example.titancalculator.SettingsActivity$ButtoncolorSettingsFragment" />
-
-    <header
-        android:icon="@drawable/ic_formen"
-        android:title="Buttons: Form einstellen">
-        <intent
-            android:targetPackage="com.example.titancalculator"
-            android:targetClass="com.example.titancalculator.ButtonshapeActivity" />
-    </header>
-
-    <header
         android:icon="@drawable/ic_image_black_24dp"
-        android:title="Hintergrundbild einstellen">
+        android:title="Hintergrundbild">
         <intent
             android:targetPackage="com.example.titancalculator"
             android:targetClass="com.example.titancalculator.SettingBackgroundimageActivity" />
     </header>
 
     <header
+        android:icon="@drawable/ic_formen"
+        android:title="Formen">
+        <intent
+            android:targetPackage="com.example.titancalculator"
+            android:targetClass="com.example.titancalculator.ButtonshapeActivity" />
+    </header>
+
+    <header
         android:icon="@drawable/ic_language_black_24dp"
-        android:title="Spracheinstellungen"
+        android:title="Sprache"
         android:fragment="com.example.titancalculator.SettingsActivity$LanguagePreferenceFragment" />
 
     <header
         android:icon="@drawable/ic_button_fct"
-        android:title="Buttonkonfiguration">
+        android:title="Nutzerfunktionen">
         <intent
             android:targetPackage="com.example.titancalculator"
             android:targetClass="com.example.titancalculator.ButtonSettingsActivity" />

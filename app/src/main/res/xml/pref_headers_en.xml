@@ -14,12 +14,12 @@
 
     <header
         android:icon="@drawable/ic_colorpicker"
-        android:title="set Button colors"
+        android:title="Colors"
         android:fragment="com.example.titancalculator.SettingsActivity$ButtoncolorSettingsFragment" />
 
     <header
         android:icon="@drawable/ic_font_download_black_24dp"
-        android:title="set font">
+        android:title="Font">
         <intent
             android:targetPackage="com.example.titancalculator"
             android:targetClass="com.example.titancalculator.FontSettingsActivity" />
@@ -27,7 +27,7 @@
 
     <header
         android:icon="@drawable/ic_image_black_24dp"
-        android:title="Set Backgroundimage">
+        android:title="Backgroundimage">
         <intent
             android:targetPackage="com.example.titancalculator"
             android:targetClass="com.example.titancalculator.SettingBackgroundimageActivity" />
@@ -35,21 +35,20 @@
 
     <header
         android:icon="@drawable/ic_formen"
-        android:title="Buttons: set form">
+        android:title="forms">
         <intent
             android:targetPackage="com.example.titancalculator"
             android:targetClass="com.example.titancalculator.ButtonshapeActivity" />
     </header>
 
-
     <header
         android:icon="@drawable/ic_language_black_24dp"
-        android:title="Language Settings"
+        android:title="Language"
         android:fragment="com.example.titancalculator.SettingsActivity$LanguagePreferenceFragment" />
 
     <header
         android:icon="@drawable/ic_button_fct"
-        android:title="Buttonkonfiguration">
+        android:title="User tab">
         <intent
             android:targetPackage="com.example.titancalculator"
             android:targetClass="com.example.titancalculator.ButtonSettingsActivity" />

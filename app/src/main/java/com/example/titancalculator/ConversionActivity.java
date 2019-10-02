@@ -408,7 +408,7 @@ public class ConversionActivity extends AppCompatActivity {
     }
 
     private void applySettings(){
-        language = PreferenceManager.getDefaultSharedPreferences(ConversionActivity.this).getString("pref_lang_en","english");
+        language = PreferenceManager.getDefaultSharedPreferences(ConversionActivity.this).getString("pref_lang","english");
         //Toast t =  Toast.makeText(SettingsActivity.this,"Lang: "+language,Toast.LENGTH_LONG);
         //t.show();
         if(language.equals("english") || language.equals("englisch")){

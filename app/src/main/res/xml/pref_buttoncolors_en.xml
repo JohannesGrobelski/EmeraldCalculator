@@ -55,6 +55,11 @@
         android:defaultValue="#FFFFFF"
         />
     <com.rarepebble.colorpicker.ColorPreference
+        android:key="DisplayTextColor"
+        android:title="@string/DisplayTextColorEN"
+        android:defaultValue="#000000"
+        />
+    <com.rarepebble.colorpicker.ColorPreference
         android:key="BackgroundColor"
         android:title="@string/BackgroundColorEN"
         android:defaultValue="#FFFFFF"

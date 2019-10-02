@@ -11,17 +11,17 @@
     <com.rarepebble.colorpicker.ColorPreference
         android:key="FktColor"
         android:title="@string/FktColorDE"
-        android:defaultValue="#FF9100"
+        android:defaultValue="#2ecc71"
         />
     <com.rarepebble.colorpicker.ColorPreference
         android:key="FopsColor"
         android:title="@string/FopsColorDE"
-        android:defaultValue="#00E676"
+        android:defaultValue="#3498db"
         />
     <com.rarepebble.colorpicker.ColorPreference
         android:key="NumbersColor"
         android:title="@string/NumbersColorDE"
-        android:defaultValue="#FFFFFF"
+        android:defaultValue="#ecf0f1"
         />
     <com.rarepebble.colorpicker.ColorPreference
         android:key="SaveColor"
@@ -31,11 +31,16 @@
     <com.rarepebble.colorpicker.ColorPreference
         android:key="SpecialColor"
         android:title="@string/SpecialColorDE"
-        android:defaultValue="#00B0FF"
+        android:defaultValue="#e67e22"
         />
     <com.rarepebble.colorpicker.ColorPreference
         android:key="DisplayColor"
         android:title="@string/DisplayColorDE"
+        android:defaultValue="#000000"
+        />
+    <com.rarepebble.colorpicker.ColorPreference
+        android:key="DisplayTextColor"
+        android:title="@string/DisplayTextColorDE"
         android:defaultValue="#FFFFFF"
         />
     <com.rarepebble.colorpicker.ColorPreference

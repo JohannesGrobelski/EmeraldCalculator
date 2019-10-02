@@ -395,7 +395,7 @@ public class ConstantsActivity extends AppCompatActivity {
 
 
     private void applyLanguage(){
-        language = PreferenceManager.getDefaultSharedPreferences(ConstantsActivity.this).getString("pref_lang_en","english");
+        language = PreferenceManager.getDefaultSharedPreferences(ConstantsActivity.this).getString("pref_lang","english");
         //Toast t =  Toast.makeText(SettingsActivity.this,"Lang: "+language,Toast.LENGTH_LONG);
         //t.show();
         if(language.equals("english") || language.equals("englisch")){

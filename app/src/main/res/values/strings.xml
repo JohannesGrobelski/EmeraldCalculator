@@ -116,6 +116,8 @@
     <string name="SpecialColorDE">Farbe der Spezialbuttons</string>
     <string name="DisplayColorEN">Color of the Display</string>
     <string name="DisplayColorDE">Farbe des Displays</string>
+    <string name="DisplayTextColorEN">Color of Text in the Display</string>
+    <string name="DisplayTextColorDE">Farbe des Text im Displays</string>
     <string name="BackgroundColorEN">Color of the Background</string>
     <string name="BackgroundColorDE">Farbe des Hintergrund</string>
 

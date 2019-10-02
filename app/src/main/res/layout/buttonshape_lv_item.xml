@@ -20,15 +20,15 @@
             android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="110dp"
-            android:gravity="center_vertical"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:paddingLeft="10dp"
-            android:text="Name"
-
             android:autoSizeMaxTextSize="200sp"
             android:autoSizeMinTextSize="30sp"
             android:autoSizeStepGranularity="1sp"
-            android:autoSizeTextType="uniform"/>
+            android:autoSizeTextType="uniform"
+            android:gravity="center_vertical"
+
+            android:paddingLeft="10dp"
+            android:text="Name"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
     </LinearLayout>
     <View

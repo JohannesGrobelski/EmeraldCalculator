@@ -39,6 +39,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.ActionBar;
 import androidx.core.app.NavUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -150,6 +151,28 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         super.onCreate(savedInstanceState);
         setLanguage();
         setupActionBar();
+        //Toast.makeText(SettingsActivity.this, "lang: "+language, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String lang = language;
+        setLanguage();
+        setupActionBar();
+
+        //TODO: besser: header neu laden, aber wie?
+        if(!lang.equals(language)){
+            Intent settingsIntent = new Intent(this,SettingsActivity.class);
+            startActivity(settingsIntent);
+            finish();
+        }
+
+        /*
+        List<Header> target = new ArrayList<>();
+        if(language.equals("english") || language.equals("englisch"))loadHeadersFromResource(R.xml.pref_headers_en,target);
+        else if(language.equals("deutsch") || language.equals("german"))loadHeadersFromResource(R.xml.pref_headers_de,target);
+        */
     }
 
     /**
@@ -207,8 +230,9 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
     private void setLanguage(){
         //language
-        language = androidx.preference.PreferenceManager.getDefaultSharedPreferences(SettingsActivity.this).getString("pref_lang_en","english");
+        language = androidx.preference.PreferenceManager.getDefaultSharedPreferences(SettingsActivity.this).getString("pref_lang","english");
     }
+
 
 
 
@@ -232,6 +256,15 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             // guidelines.
             bindPreferenceSummaryToValue(findPreference("example_text"));
             bindPreferenceSummaryToValue(findPreference("example_list"));
+        }
+
+        @Override
+        public void onResume() {
+            super.onResume();
+            String language = androidx.preference.PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("pref_lang_en","english");
+            if(language.equals("english") || language.equals("englisch"))addPreferencesFromResource(R.xml.pref_lang_en);
+            else if(language.equals("deutsch") || language.equals("german"))addPreferencesFromResource(R.xml.pref_lang_de);
+            setHasOptionsMenu(true);
         }
 
         @Override
@@ -385,13 +418,20 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class LanguagePreferenceFragment extends PreferenceFragment {
 
+        Preference prefList_lang;
+
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             if(language.equals("english") || language.equals("englisch"))addPreferencesFromResource(R.xml.pref_lang_en);
             else if(language.equals("deutsch") || language.equals("german"))addPreferencesFromResource(R.xml.pref_lang_de);
             setHasOptionsMenu(true);
+
+
+
         }
+
+
 
         @Override
         public boolean onOptionsItemSelected(MenuItem item) {

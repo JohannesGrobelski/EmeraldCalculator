@@ -1,6 +1,9 @@
 package com.example.titancalculator.helper.MainDisplay;
 
 import android.content.Context;
+
+
+import android.graphics.Color;
 import android.util.DisplayMetrics;
 
 import com.example.titancalculator.R;
@@ -33,14 +36,5 @@ public class DisplaySetupHelper {
             default: return 10f;
         }
     }
-
-
-
-
-
-
-
-
-
 
 }

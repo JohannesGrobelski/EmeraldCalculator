@@ -18,6 +18,7 @@
 
 
     <ListPreference
+        android:id="@+id/prefList_lang"
         android:defaultValue="deutsch"
         android:entries="@array/languagesNames_DE"
         android:entryValues="@array/languagesValue_DE"
