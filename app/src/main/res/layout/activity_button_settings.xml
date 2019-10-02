@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,291 +8,276 @@
     android:background="#66BDBDBD"
     android:orientation="vertical">
 
-    <TableRow
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="20dp">
+        android:layout_weight=".2"
+        android:orientation="horizontal">
 
-        <TableRow
-            android:id="@+id/LN2"
+        <Button
+            android:id="@+id/btn_12"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_weight=".9">
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/buttonshape_square"
+            android:shadowRadius="30"
+            android:text="BTN12"
+            android:textSize="20sp"
+            android:visibility="visible"
 
-            <Button
-                android:id="@+id/btn_11"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/buttonshape_square"
-                android:drawableBottom="#00E676"
-                android:shadowRadius="30"
-                android:text="BTN11"
-                android:textSize="20sp"
-                android:visibility="visible"
+            app:autoSizeMaxTextSize="20sp"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeStepGranularity="6sp"
+            app:autoSizeTextType="uniform"
 
-                app:autoSizeMaxTextSize="20sp"
-                app:autoSizeMinTextSize="12sp"
-                app:autoSizeStepGranularity="6sp"
-                app:autoSizeTextType="uniform"
+            />
 
-                />
-
-            <Button
-                android:id="@+id/btn_12"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/buttonshape_square"
-                android:shadowRadius="30"
-                android:text="BTN12"
-                android:textSize="20sp"
-                android:visibility="visible"
-
-                app:autoSizeMaxTextSize="20sp"
-                app:autoSizeMinTextSize="12sp"
-                app:autoSizeStepGranularity="6sp"
-                app:autoSizeTextType="uniform"
-
-                />
-
-            <Button
-                android:id="@+id/btn_13"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/buttonshape_square"
-                android:shadowRadius="30"
-                android:text="BTN13"
-                android:textSize="15sp"
-                android:visibility="visible"
-
-                app:autoSizeMaxTextSize="20sp"
-                app:autoSizeMinTextSize="12sp"
-                app:autoSizeStepGranularity="6sp"
-                app:autoSizeTextType="uniform"
-
-                />
-
-            <Button
-                android:id="@+id/btn_14"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/buttonshape_square"
-                android:shadowRadius="30"
-                android:text="BTN14"
-                android:textSize="15sp"
-                android:visibility="visible"
-
-                app:autoSizeMaxTextSize="20sp"
-                app:autoSizeMinTextSize="12sp"
-                app:autoSizeStepGranularity="6sp"
-                app:autoSizeTextType="uniform"
-
-                />
-
-            <Button
-                android:id="@+id/btn_15"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/buttonshape_square"
-                android:shadowRadius="30"
-                android:text="BTN15"
-                android:textSize="15sp"
-
-                android:visibility="visible"
-                app:autoSizeMaxTextSize="20sp"
-                app:autoSizeMinTextSize="12sp"
-                app:autoSizeStepGranularity="6sp"
-
-                app:autoSizeTextType="uniform" />
-
-            <Button
-                android:id="@+id/btn_16"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/buttonshape_square"
-                android:shadowRadius="30"
-                android:text="BTN16"
-
-                android:textSize="15sp"
-                android:visibility="visible"
-                app:autoSizeMaxTextSize="20sp"
-                app:autoSizeMinTextSize="12sp"
-
-                app:autoSizeStepGranularity="6sp"
-                app:autoSizeTextType="uniform" />
-        </TableRow>
-    </TableRow>
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-
-        <TableRow
-            android:id="@+id/LN3"
+        <Button
+            android:id="@+id/btn_14"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_weight=".9">
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/buttonshape_square"
+            android:shadowRadius="30"
+            android:text="BTN14"
+            android:textSize="15sp"
+            android:visibility="visible"
 
-            <Button
-                android:id="@+id/btn_21"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/buttonshape_square"
-                android:shadowRadius="30"
-                android:text="BTN21"
-                android:textSize="20sp"
-                android:visibility="visible"
-                app:autoSizeMaxTextSize="20sp"
-                app:autoSizeMinTextSize="12sp"
-                app:autoSizeStepGranularity="6sp"
-                app:autoSizeTextType="uniform" />
+            app:autoSizeMaxTextSize="20sp"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeStepGranularity="6sp"
+            app:autoSizeTextType="uniform"
 
-            <Button
-                android:id="@+id/btn_22"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/buttonshape_square"
-                android:shadowRadius="30"
-                android:text="BTN22"
-                android:textSize="20sp"
-                android:visibility="visible"
-                app:autoSizeMaxTextSize="20sp"
-                app:autoSizeMinTextSize="12sp"
-                app:autoSizeStepGranularity="6sp"
-                app:autoSizeTextType="uniform" />
+            />
 
-            <Button
-                android:id="@+id/btn_23"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/buttonshape_square"
-                android:shadowRadius="30"
-                android:text="BTN23"
-                android:textSize="20sp"
-                android:visibility="visible"
-                app:autoSizeMaxTextSize="20sp"
-                app:autoSizeMinTextSize="12sp"
-                app:autoSizeStepGranularity="6sp"
-                app:autoSizeTextType="uniform" />
+        <Button
+            android:id="@+id/btn_13"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/buttonshape_square"
+            android:shadowRadius="30"
+            android:text="BTN13"
+            android:textSize="15sp"
+            android:visibility="visible"
 
-            <Button
-                android:id="@+id/btn_24"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/buttonshape_square"
-                android:text="BTN24"
-                android:textSize="20sp"
-                android:visibility="visible"
-                app:autoSizeMaxTextSize="20sp"
-                app:autoSizeMinTextSize="12sp"
-                app:autoSizeStepGranularity="6sp"
-                app:autoSizeTextType="uniform" />
+            app:autoSizeMaxTextSize="20sp"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeStepGranularity="6sp"
+            app:autoSizeTextType="uniform"
 
-            <Button
-                android:id="@+id/btn_25"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/buttonshape_square"
-                android:shadowRadius="30"
-                android:text="BTN25"
-                android:textSize="20sp"
-                android:visibility="visible"
-                app:autoSizeMaxTextSize="20sp"
-                app:autoSizeMinTextSize="12sp"
-                app:autoSizeStepGranularity="6sp"
-                app:autoSizeTextType="uniform" />
+            />
 
-            <Button
-                android:id="@+id/btn_26"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/buttonshape_square"
-                android:shadowRadius="30"
-                android:text="BTN26"
-                android:textSize="20sp"
-                android:visibility="visible"
-                app:autoSizeMaxTextSize="20sp"
-                app:autoSizeMinTextSize="12sp"
-                app:autoSizeStepGranularity="6sp"
-                app:autoSizeTextType="uniform" />
-        </TableRow>
-    </TableRow>
+        <Button
+            android:id="@+id/btn_11"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/buttonshape_square"
+            android:drawableBottom="#00E676"
+            android:shadowRadius="30"
+            android:text="BTN11"
+            android:textSize="20sp"
+            android:visibility="visible"
 
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+            app:autoSizeMaxTextSize="20sp"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeStepGranularity="6sp"
+            app:autoSizeTextType="uniform"
 
-    <TableRow
+            />
+
+        <Button
+            android:id="@+id/btn_15"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/buttonshape_square"
+            android:shadowRadius="30"
+            android:text="BTN15"
+            android:textSize="15sp"
+
+            android:visibility="visible"
+            app:autoSizeMaxTextSize="20sp"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeStepGranularity="6sp"
+
+            app:autoSizeTextType="uniform" />
+
+        <Button
+            android:id="@+id/btn_16"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/buttonshape_square"
+            android:shadowRadius="30"
+            android:text="BTN16"
+
+            android:textSize="15sp"
+            android:visibility="visible"
+            app:autoSizeMaxTextSize="20sp"
+            app:autoSizeMinTextSize="12sp"
+
+            app:autoSizeStepGranularity="6sp"
+            app:autoSizeTextType="uniform" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight=".9">
+        android:layout_weight=".2"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_25"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/buttonshape_square"
+            android:shadowRadius="30"
+            android:text="BTN25"
+            android:textSize="20sp"
+            android:visibility="visible"
+            app:autoSizeMaxTextSize="20sp"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeStepGranularity="6sp"
+            app:autoSizeTextType="uniform" />
+
+        <Button
+            android:id="@+id/btn_23"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/buttonshape_square"
+            android:shadowRadius="30"
+            android:text="BTN23"
+            android:textSize="20sp"
+            android:visibility="visible"
+            app:autoSizeMaxTextSize="20sp"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeStepGranularity="6sp"
+            app:autoSizeTextType="uniform" />
+
+        <Button
+            android:id="@+id/btn_21"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/buttonshape_square"
+            android:shadowRadius="30"
+            android:text="BTN21"
+            android:textSize="20sp"
+            android:visibility="visible"
+            app:autoSizeMaxTextSize="20sp"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeStepGranularity="6sp"
+            app:autoSizeTextType="uniform" />
+
+        <Button
+            android:id="@+id/btn_22"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/buttonshape_square"
+            android:shadowRadius="30"
+            android:text="BTN22"
+            android:textSize="20sp"
+            android:visibility="visible"
+            app:autoSizeMaxTextSize="20sp"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeStepGranularity="6sp"
+            app:autoSizeTextType="uniform" />
+
+        <Button
+            android:id="@+id/btn_24"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/buttonshape_square"
+            android:text="BTN24"
+            android:textSize="20sp"
+            android:visibility="visible"
+            app:autoSizeMaxTextSize="20sp"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeStepGranularity="6sp"
+            app:autoSizeTextType="uniform" />
+
+        <Button
+            android:id="@+id/btn_26"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/buttonshape_square"
+            android:shadowRadius="30"
+            android:text="BTN26"
+            android:textSize="20sp"
+            android:visibility="visible"
+            app:autoSizeMaxTextSize="20sp"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeStepGranularity="6sp"
+            app:autoSizeTextType="uniform" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="9"
+        android:orientation="horizontal">
+
+        <ListView
+            android:id="@+id/lv_group"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
 
         <ListView
             android:id="@+id/LV_fct_sel"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight=".5" />
+    </LinearLayout>
 
-    </TableRow>
-
-    <TableRow
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:layout_weight=".05"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/save_settings"
@@ -303,8 +288,9 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="15dp"
             android:layout_marginRight="15dp"
-            android:layout_weight="1"
+            android:layout_weight=".1"
             android:text="SAVE SETTINGS"
             android:textSize="30sp" />
-    </TableRow>
-</TableLayout>
+    </LinearLayout>
+
+</LinearLayout>

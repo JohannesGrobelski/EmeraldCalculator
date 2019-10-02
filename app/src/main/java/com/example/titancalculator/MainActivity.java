@@ -34,6 +34,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -46,18 +47,18 @@ import androidx.core.app.ActivityCompat;
 import androidx.preference.PreferenceManager;
 
 import com.example.titancalculator.helper.MainDisplay.DisplaySetupHelper;
+import com.example.titancalculator.helper.MainDisplay.SettingsApplier;
 import com.example.titancalculator.helper.Math_String.NavigatableString;
 import com.example.titancalculator.helper.Math_String.NumberString;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
 public class MainActivity extends AppCompatActivity {
-    public static int color_act,color_fkt,color_fops,color_numbers,color_saves,color_specials,color_displaytext,color_display,color_background;
-
     static final int REQUEST_CODE_CONST = 1;  // The request code
     static final int REQUEST_CODE_CONV = 1;  // The request code
     static final int REQUEST_CODE_Verlauf = 1;  // The request code
@@ -67,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
     String buttonfüllung="voll";
     DisplayMetrics screen_density;
 
-    String current_font_family, current_fontsize, current_fontstlye;
+    Set<String> UserFctGroups = new HashSet<>();
 
     String current_Callback="";
     String answer="";
@@ -192,10 +193,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         setTitle("Rechner");
-        updateColors();
+        SettingsApplier.setColors(MainActivity.this);
         applySettings();
         setBackgrounds();
-        setFonts(BTN_ALL);
+        ArrayList<View> list = new ArrayList<View>() {{addAll(BTN_ALL);add(tV_eingabe);add(tV_ausgabe);}};
+        SettingsApplier.setFonts(MainActivity.this,list);
 
 
         tV_ausgabe.setOnFocusChangeListener(focusListener);
@@ -211,13 +213,13 @@ public class MainActivity extends AppCompatActivity {
                 {
 
                     float factor_font = 0.5f;
-                    int darker = ButtonSettingsActivity.manipulateColor(color_fops,factor_font);
+                    int darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.color_fops,factor_font);
 
                     public View getView(int position, View convertView, ViewGroup parent) {
                         View v = super.getView(position, convertView, parent);
 
                         ((TextView) v).setTextSize(16);
-                        ((TextView) v).setTypeface(FontSettingsActivity.getTypeFace(current_font_family,current_fontstlye));
+                        ((TextView) v).setTypeface(FontSettingsActivity.getTypeFace(SettingsApplier.current_font_family,SettingsApplier.current_fontstlye));
                         ((TextView) v).setTextColor(darker);
 
                         return v;
@@ -229,7 +231,7 @@ public class MainActivity extends AppCompatActivity {
 
                         ((TextView) v).setTextColor(darker);
 
-                        ((TextView) v).setTypeface(FontSettingsActivity.getTypeFace(current_font_family,current_fontstlye));
+                        ((TextView) v).setTypeface(FontSettingsActivity.getTypeFace(SettingsApplier.current_font_family,SettingsApplier.current_fontstlye));
                         ((TextView) v).setGravity(Gravity.CENTER);
 
                         return v;
@@ -382,9 +384,11 @@ public class MainActivity extends AppCompatActivity {
         BTN_ALL.addAll(BTN_SPECIALS);
 
         applySettings();
-        updateColors();
+        SettingsApplier.setColors(MainActivity.this);
         setBackgrounds();
-        setFonts(BTN_ALL);
+        ArrayList<View> list = new ArrayList<View>() {{addAll(BTN_ALL);add(tV_eingabe);add(tV_ausgabe);}};
+        SettingsApplier.setFonts(MainActivity.this,list);
+
         try {
             setBackgroundImage();
         } catch (Exception e) {
@@ -400,7 +404,7 @@ public class MainActivity extends AppCompatActivity {
             public View getDropDownView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
                 TextView text = (TextView) view.findViewById(android.R.id.text1);
-                text.setTextColor(color_fkt);
+                text.setTextColor(SettingsApplier.color_fkt);
                 return view;
             }
 
@@ -408,7 +412,7 @@ public class MainActivity extends AppCompatActivity {
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
                 TextView text = (TextView) view.findViewById(android.R.id.text1);
-                text.setTextColor(color_fkt);
+                text.setTextColor(SettingsApplier.color_fkt);
                 return view;
             }
         };
@@ -417,12 +421,12 @@ public class MainActivity extends AppCompatActivity {
         spinner_shift.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                ((TextView) parent.getChildAt(0)).setTextColor(color_fkt);
+                ((TextView) parent.getChildAt(0)).setTextColor(SettingsApplier.color_fkt);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                ((TextView) parent.getChildAt(0)).setTextColor(color_fkt);
+                ((TextView) parent.getChildAt(0)).setTextColor(SettingsApplier.color_fkt);
             }
         });
 
@@ -561,6 +565,8 @@ public class MainActivity extends AppCompatActivity {
                     eingabeAddText("SINH");
                 } else if (mode.equals("LOGIC") || mode.equals("LOGISCH")) {
                     eingabeAddText("AND(;)");
+                } else if (UserFctGroups.contains(mode)) {
+                    transBtnFct(btn_11.getText().toString());
                 } else {
                     String display = "Unknown Mode: " + mode;
                     Toast unknownMode = Toast.makeText(MainActivity.this, display, Toast.LENGTH_LONG);
@@ -588,7 +594,9 @@ public class MainActivity extends AppCompatActivity {
                     eingabeAddText("COSH");
                 } else if (mode.equals("LOGIC") || mode.equals("LOGISCH")) {
                     eingabeAddText("OR(;)");
-                } else {
+                } else if (UserFctGroups.contains(mode)) {
+                    transBtnFct(btn_12.getText().toString());
+                }else {
                     String display = "Unknown Mode: " + mode;
                     Toast unknownMode = Toast.makeText(MainActivity.this, display, Toast.LENGTH_LONG);
                     unknownMode.show();
@@ -615,7 +623,9 @@ public class MainActivity extends AppCompatActivity {
                     eingabeAddText("TANH");
                 } else if (mode.equals("LOGIC") || mode.equals("LOGISCH")) {
                     eingabeAddText("XOR(;)");
-                } else {
+                } else if (UserFctGroups.contains(mode)) {
+                    transBtnFct(btn_13.getText().toString());
+                }else {
                     String display = "Unknown Mode: " + mode;
                     Toast unknownMode = Toast.makeText(MainActivity.this, display, Toast.LENGTH_LONG);
                     unknownMode.show();
@@ -642,7 +652,9 @@ public class MainActivity extends AppCompatActivity {
                     eingabeAddText("ASINH");
                 } else if (mode.equals("LOGIC") || mode.equals("LOGISCH")) {
                     eingabeAddText("NOT()");
-                } else {
+                } else if (UserFctGroups.contains(mode)) {
+                    transBtnFct(btn_14.getText().toString());
+                }else {
                     String display = "Unknown Mode: " + mode;
                     Toast unknownMode = Toast.makeText(MainActivity.this, display, Toast.LENGTH_LONG);
                     unknownMode.show();
@@ -668,7 +680,9 @@ public class MainActivity extends AppCompatActivity {
                     eingabeAddText("ACOSH(");
                 } else if (mode.equals("LOGIC") || mode.equals("LOGISCH")) {
                     ausgabe_setText(I.getBIN());
-                } else {
+                } else if (UserFctGroups.contains(mode)) {
+                    transBtnFct(btn_15.getText().toString());
+                }else {
                     String display = "Unknown Mode: " + mode;
                     Toast unknownMode = Toast.makeText(MainActivity.this, display, Toast.LENGTH_LONG);
                     unknownMode.show();
@@ -694,7 +708,9 @@ public class MainActivity extends AppCompatActivity {
                     eingabeAddText("ATANH");
                 } else if (mode.equals("LOGIC") || mode.equals("LOGISCH")) {
                     ausgabe_setText(I.getOCT());
-                } else {
+                } else if (UserFctGroups.contains(mode)) {
+                    transBtnFct(btn_16.getText().toString());
+                }else {
                     String display = "Unknown Mode: " + mode;
                     Toast unknownMode = Toast.makeText(MainActivity.this, display, Toast.LENGTH_LONG);
                     unknownMode.show();
@@ -725,7 +741,9 @@ public class MainActivity extends AppCompatActivity {
                 } else if (mode.equals("HYPER")) {
                 } else if (mode.equals("LOGIC") || mode.equals("LOGISCH")) {
                     ausgabe_setText(I.getDEC());
-                } else {
+                } else if (UserFctGroups.contains(mode)) {
+                    transBtnFct(btn_21.getText().toString());
+                }else {
                     String display = "Unknown Mode: " + mode;
                     Toast unknownMode = Toast.makeText(MainActivity.this, display, Toast.LENGTH_LONG);
                     unknownMode.show();
@@ -751,7 +769,9 @@ public class MainActivity extends AppCompatActivity {
                 } else if (mode.equals("HYPER")) {
                 } else if (mode.equals("LOGIC") || mode.equals("LOGISCH")) {
                     ausgabe_setText(I.getHEX());
-                } else {
+                } else if (UserFctGroups.contains(mode)) {
+                    transBtnFct(btn_22.getText().toString());
+                }else {
                     String display = "Unknown Mode: " + mode;
                     Toast unknownMode = Toast.makeText(MainActivity.this, display, Toast.LENGTH_LONG);
                     unknownMode.show();
@@ -777,7 +797,9 @@ public class MainActivity extends AppCompatActivity {
 
                 } else if (mode.equals("HYPER")) {
                 } else if (mode.equals("LOGIC") || mode.equals("LOGISCH")) {
-                } else {
+                } else if (UserFctGroups.contains(mode)) {
+                    transBtnFct(btn_23.getText().toString());
+                }else {
                     String display = "Unknown Mode: " + mode;
                     Toast unknownMode = Toast.makeText(MainActivity.this, display, Toast.LENGTH_LONG);
                     unknownMode.show();
@@ -802,7 +824,9 @@ public class MainActivity extends AppCompatActivity {
 
                 } else if (mode.equals("HYPER")) {
                 } else if (mode.equals("LOGIC") || mode.equals("LOGISCH")) {
-                } else {
+                } else if (UserFctGroups.contains(mode)) {
+                    transBtnFct(btn_24.getText().toString());
+                }else {
                     String display = "Unknown Mode: " + mode;
                     Toast unknownMode = Toast.makeText(MainActivity.this, display, Toast.LENGTH_LONG);
                     unknownMode.show();
@@ -827,7 +851,9 @@ public class MainActivity extends AppCompatActivity {
 
                 } else if (mode.equals("HYPER")) {
                 } else if (mode.equals("LOGIC") || mode.equals("LOGISCH")) {
-                } else {
+                } else if (UserFctGroups.contains(mode)) {
+                    transBtnFct(btn_25.getText().toString());
+                }else {
                     String display = "Unknown Mode: " + mode;
                     Toast unknownMode = Toast.makeText(MainActivity.this, display, Toast.LENGTH_LONG);
                     unknownMode.show();
@@ -852,8 +878,8 @@ public class MainActivity extends AppCompatActivity {
 
                 } else if (mode.equals("HYPER")) {
 
-                } else if (mode.equals("LOGIC") || mode.equals("LOGISCH")) {
-
+                } else if (UserFctGroups.contains(mode)) {
+                    transBtnFct(btn_26.getText().toString());
                 } else {
                     String display = "Unknown Mode: " + mode;
                     Toast unknownMode = Toast.makeText(MainActivity.this, display, Toast.LENGTH_LONG);
@@ -1096,6 +1122,27 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    public void setUpButtons(String group){
+        //L1
+        setUpButton(btn_11,group+"_btn11");
+        setUpButton(btn_12,group+"_btn12");
+        setUpButton(btn_13,group+"_btn13");
+        setUpButton(btn_14,group+"_btn14");
+        setUpButton(btn_15,group+"_btn15");
+        setUpButton(btn_16,group+"_btn16");
+
+        //L2
+        setUpButton(btn_21,group+"_btn21");
+        setUpButton(btn_22,group+"_btn22");
+        setUpButton(btn_23,group+"_btn23");
+        setUpButton(btn_24,group+"_btn24");
+        setUpButton(btn_25,group+"_btn25");
+        setUpButton(btn_26,group+"_btn26");
+    }
+
+    public void setUpButton(Button x, String name){
+        x.setText(PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getString(name, name));
+    }
 
     void assignModeFct(){
         if(mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))){
@@ -1164,23 +1211,6 @@ public class MainActivity extends AppCompatActivity {
             btn_25.setText("");
             btn_26.setText("");
         }
-        else if(mode.equals(getResources().getString(R.string.USER_EN)) || mode.equals(getResources().getString(R.string.USER_DE))){
-            //L1 normal: PI,E,->DEC,->BIN,->OCT
-            btn_11.setText(PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getString("btn_11", "btn_11"));
-            btn_12.setText(PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getString("btn_12", "btn_12"));
-            btn_13.setText(PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getString("btn_13", "btn_13"));
-            btn_14.setText(PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getString("btn_14", "btn_14"));
-            btn_15.setText(PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getString("btn_15", "btn_15"));
-            btn_16.setText(PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getString("btn_16", "btn_16"));
-
-            //L2
-            btn_21.setText(PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getString("btn_21", "btn_21"));
-            btn_22.setText(PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getString("btn_22", "btn_22"));
-            btn_23.setText(PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getString("btn_23", "btn_23"));
-            btn_24.setText(PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getString("btn_24", "btn_24"));
-            btn_25.setText(PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getString("btn_25", "btn_25"));
-            btn_26.setText(PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getString("btn_26", "btn_26"));
-        }
         else if(mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))){
             //L1 normal: PI,E,->DEC,->BIN,->OCT
             btn_11.setText(R.string.PI);
@@ -1214,71 +1244,42 @@ public class MainActivity extends AppCompatActivity {
             btn_24.setText("");
             btn_25.setText("");
             btn_26.setText("");
+        } else {
+            if(UserFctGroups.contains(mode)){
+            //NutzerFct
+                setUpButtons(mode);
+            }
+
         }
     }
 
-    void updateColors(){
-        color_act = PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getInt("ActColor", 0xffff0000);
-        color_fkt = PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getInt("FktColor", 0xffff0000);
-        color_fops = PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getInt("FopsColor", 0xffff0000);
-        color_numbers = PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getInt("NumbersColor", 0xffff0000);
-        color_saves = PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getInt("SaveColor", 0xffff0000);
-        color_specials = PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getInt("SpecialColor", 0xffff0000);
-        color_display = PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getInt("DisplayColor", 0xffff0000);
-        color_displaytext = PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getInt("DisplayTextColor", 0x000000);
-        color_background = PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getInt("BackgroundColor", 0xffff0000);
-    }
+
 
     public static void setDefaultColors(){
-        color_fops = 0x3498db; //blau
-        color_act =  0x9b59b6; //lila
-        color_fkt = 0x2ecc71; //grün
-        color_specials = 0xe67e22; //orange
-        color_numbers = 0xecf0f1; //hellgrau
-        color_saves = 0xAFAFAF; //dunkelgrau
-        color_display = 0xecf0f1; //hellgrau
-        color_displaytext = 0x000000; //schwarz
-        color_background = 0xFFFFFF; //weiß
+        SettingsApplier.color_fops = 0x3498db; //blau
+        SettingsApplier.color_act =  0x9b59b6; //lila
+        SettingsApplier.color_fkt = 0x2ecc71; //grün
+        SettingsApplier.color_specials = 0xe67e22; //orange
+        SettingsApplier.color_numbers = 0xecf0f1; //hellgrau
+        SettingsApplier.color_saves = 0xAFAFAF; //dunkelgrau
+        SettingsApplier.color_display = 0xecf0f1; //hellgrau
+        SettingsApplier.color_displaytext = 0x000000; //schwarz
+        SettingsApplier.color_background = 0xFFFFFF; //weiß
     }
 
-    public void setFonts(ArrayList<Button> BTN_ALL){
-        current_font_family = PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getString("fontfamily", "monospace");
-        current_fontsize = PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getString("fontsize", "20");
-        current_fontstlye = PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getString("fontstyle", "normal");
 
-        if(current_fontstlye == null || current_fontstlye.equals("") || current_font_family == null || current_font_family.equals("") || current_fontsize == null || current_fontsize.equals(""))return;
-
-        for(Button b: BTN_ALL){
-            b.setTextSize(TypedValue.COMPLEX_UNIT_SP, DisplaySetupHelper.getDefaultTextSize(MainActivity.this));
-            b.setTypeface(FontSettingsActivity.getTypeFace(current_font_family,current_fontstlye));
-            Float f = 10f;
-            if(!current_fontsize.isEmpty() && !current_fontsize.equals("automatic"))f = Float.valueOf(current_fontsize);
-            if(current_fontsize.equals("automatic")){
-                f = DisplaySetupHelper.getDefaultTextSize(this);
-            }
-            if(!current_fontsize.equals("automatic"))b.setTextSize(f);
-        }
-
-        tV_eingabe.setTextSize(TypedValue.COMPLEX_UNIT_SP, DisplaySetupHelper.getDefaultTextSize(MainActivity.this));
-        tV_eingabe.setTypeface(FontSettingsActivity.getTypeFace(current_font_family,current_fontstlye));
-        if(!current_fontsize.equals("automatic"))tV_eingabe.setTextSize(TypedValue.COMPLEX_UNIT_SP,Float.valueOf(current_fontsize)*2);
-
-        tV_ausgabe.setTextSize(TypedValue.COMPLEX_UNIT_SP, DisplaySetupHelper.getDefaultTextSize(MainActivity.this));
-        tV_ausgabe.setTypeface(FontSettingsActivity.getTypeFace(current_font_family,current_fontstlye));
-        if(!current_fontsize.equals("automatic"))tV_ausgabe.setTextSize(TypedValue.COMPLEX_UNIT_SP,Float.valueOf(current_fontsize)*2);
-    }
     
     void setBackground(View x){
         if(buttonshapeID==0)applySettings();
         Drawable background;
-        updateColors();
+        SettingsApplier.setColors(MainActivity.this);
         float factor_font = 0.5f;
         boolean stroke = true;
 
         //Default Case
             background = getResources().getDrawable(buttonshapeID);
-            setColor(background, color_specials,buttonfüllung,stroke);
-            int darker = ButtonSettingsActivity.manipulateColor(color_specials,factor_font);
+            setColor(background, SettingsApplier.color_specials,buttonfüllung,stroke);
+            int darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.color_specials,factor_font);
             if(x instanceof Button) ((Button) x).setTextColor(darker);
 
         if(x instanceof Button){
@@ -1290,50 +1291,50 @@ public class MainActivity extends AppCompatActivity {
 
         if(x.equals(spinner_shift) || x instanceof Spinner){
             background = getResources().getDrawable(buttonshapeID);
-            setColor(background, color_fops,buttonfüllung,stroke);
+            setColor(background, SettingsApplier.color_fops,buttonfüllung,stroke);
             x.setBackground(background);
 
             ///((Spinner) x).setPopupBackgroundDrawable(background);
-            x.setBackgroundColor(color_fops);
+            x.setBackgroundColor(SettingsApplier.color_fops);
             x.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
             //((Spinner) x).setGravity(Gravity.CENTER_HORIZONTAL);
         }
         if(x.equals(display)){
             background = getResources().getDrawable(buttonshapeID);
-            setColor(background, color_display,buttonfüllung,stroke);
-            tV_ausgabe.setTextColor(color_displaytext);
-            tV_eingabe.setTextColor(color_displaytext);
+            setColor(background, SettingsApplier.color_display,buttonfüllung,stroke);
+            tV_ausgabe.setTextColor(SettingsApplier.color_displaytext);
+            tV_eingabe.setTextColor(SettingsApplier.color_displaytext);
             x.setBackground(background);
         }
 
         if(BTN_ACT.contains(x)){
             background = getResources().getDrawable(buttonshapeID);
-            setColor(background, color_act,buttonfüllung,stroke);
-            darker = ButtonSettingsActivity.manipulateColor(color_act,factor_font);
+            setColor(background, SettingsApplier.color_act,buttonfüllung,stroke);
+            darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.color_act,factor_font);
             if(x instanceof Button) ((Button) x).setTextColor(darker);
         }
         else if(BTN_FKT.contains(x)){
             background = getResources().getDrawable(buttonshapeID);
-            setColor(background, color_fkt,buttonfüllung,stroke);
-            darker = ButtonSettingsActivity.manipulateColor(color_fkt,factor_font);
+            setColor(background, SettingsApplier.color_fkt,buttonfüllung,stroke);
+            darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.color_fkt,factor_font);
             if(x instanceof Button) ((Button) x).setTextColor(darker);
         }
         else if(BTN_FOPS.contains(x)){
             background = getResources().getDrawable(buttonshapeID);
-            setColor(background, color_fops,buttonfüllung,stroke);
-            darker = ButtonSettingsActivity.manipulateColor(color_fops,factor_font);
+            setColor(background, SettingsApplier.color_fops,buttonfüllung,stroke);
+            darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.color_fops,factor_font);
             if(x instanceof Button) ((Button) x).setTextColor(darker);
         }
         else if(BTN_NUMBERS.contains(x)){
             background = getResources().getDrawable(buttonshapeID);
-            setColor(background, color_numbers,buttonfüllung,stroke);
-            darker = ButtonSettingsActivity.manipulateColor(color_numbers,factor_font);
+            setColor(background, SettingsApplier.color_numbers,buttonfüllung,stroke);
+            darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.color_numbers,factor_font);
             if(x instanceof Button) ((Button) x).setTextColor(darker);
         }
         else if(BTN_SAVES.contains(x)){
             background = getResources().getDrawable(buttonshapeID);
-            setColor(background, color_saves,buttonfüllung,stroke);
-            darker = ButtonSettingsActivity.manipulateColor(color_saves,factor_font);
+            setColor(background, SettingsApplier.color_saves,buttonfüllung,stroke);
+            darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.color_saves,factor_font);
             if(x instanceof Button) ((Button) x).setTextColor(darker);
         }
 
@@ -1363,8 +1364,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     void setBackgrounds(){
-        display.setBackgroundColor(color_display);
-        background.setBackgroundColor(color_background);
+        display.setBackgroundColor(SettingsApplier.color_display);
+        background.setBackgroundColor(SettingsApplier.color_background);
 
         //setBackground(spinner_shift);
 
@@ -1389,7 +1390,7 @@ public class MainActivity extends AppCompatActivity {
             GradientDrawable gradientDrawable = (GradientDrawable) background;
             gradientDrawable.setColor(c);
             int rahmen_farbe = ButtonSettingsActivity.manipulateColor(c,0.7f);
-            if(füllung.equals("leer"))gradientDrawable.setColor(color_background);
+            if(füllung.equals("leer"))gradientDrawable.setColor(SettingsApplier.color_background);
             if(stroke)gradientDrawable.setStroke(7, rahmen_farbe);
         } else if (background instanceof ColorDrawable) {
             // alpha value may need to be set again after this call
@@ -1431,8 +1432,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    void transBtnFct(String buttonshapeID){
-        String fct = PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getString(buttonshapeID, "");
+    void transBtnFct(String fct){
+        if(fct.startsWith("btn"))return;
 
         //"PI","E","NCR","NPR","%","!N","^","A/B","x\u207B\u00B9","+/-","√","\u00B3√","LOG","LN","LB","SIN","COS","TAN","ASIN","ATAN","ASINH","ACOSH","ATANH","SINH","COSH","TANH"};
         if(fct.equals("%")){
@@ -1523,6 +1524,10 @@ public class MainActivity extends AppCompatActivity {
             mode_options = FunctionGroupSettingsActivity.translateGroup(FunctionGroupSettingsActivity.getGroups(MainActivity.this),"german");
         }
 
+        //UserFctGroups.addAll(mode_options); UserFctGroups
+        //Toast.makeText(MainActivity.this,"Modes: "+Arrays.toString(mode_options),Toast.LENGTH_SHORT).show();
+        UserFctGroups = new HashSet<>(Arrays.asList(FunctionGroupSettingsActivity.getUserGroups(MainActivity.this)));
+
         //numbers
         if (PreferenceManager.getDefaultSharedPreferences(MainActivity.this).contains("pref_precision")) {
             String prec = PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getString("pref_precision","10");
@@ -1557,7 +1562,6 @@ public class MainActivity extends AppCompatActivity {
         Typeface monospace = Typeface.create("MONOSPACE",Typeface.NORMAL);
         Typeface sansSerif = Typeface.create("SANS_SERIF",Typeface.NORMAL);
         Typeface serif = Typeface.create("SERIF",Typeface.NORMAL);
-
     }
 
     public boolean checkPermissionForReadExtertalStorage(Context context) {
@@ -1591,6 +1595,8 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     };
+
+
 
 
 

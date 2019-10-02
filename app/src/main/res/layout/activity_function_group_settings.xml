@@ -36,7 +36,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:hint="name of group" />
+                android:hint="name of group"
+                android:inputType="textPersonName"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -47,13 +48,15 @@
                 <Button
                     android:id="@+id/btn_moveUp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:text="move up" />
 
                 <Button
                     android:id="@+id/btn_moveDown"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:text="move down" />
             </LinearLayout>
         </LinearLayout>
