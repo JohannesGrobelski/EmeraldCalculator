@@ -5,7 +5,6 @@ import androidx.preference.PreferenceManager;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
@@ -17,14 +16,11 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.titancalculator.helper.MainDisplay.SettingsApplier;
-import com.example.titancalculator.helper.Math_String.NumberString;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 public class FunctionGroupSettingsActivity extends AppCompatActivity {
     //Settings
@@ -360,7 +356,7 @@ public class FunctionGroupSettingsActivity extends AppCompatActivity {
 
     public void setBackground(View v, int color){
         Drawable background = getResources().getDrawable(buttonshapeID);
-        CalcActivity_normal.setColor(background, color,buttonfüllung,true);
+        CalcActivity_science.setColor(background, color,buttonfüllung,true);
         int darker = ButtonSettingsActivity.manipulateColor(color,0.6f);
         if(v instanceof Button) ((Button) v).setTextColor(darker);
     }

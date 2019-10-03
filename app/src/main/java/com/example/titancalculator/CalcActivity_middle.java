@@ -56,6 +56,7 @@ import com.example.titancalculator.helper.StringUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -67,7 +68,7 @@ public class CalcActivity_middle extends AppCompatActivity {
     static final int REQUEST_CODE_CONV = 1;  // The request code
     static final int REQUEST_CODE_Verlauf = 1;  // The request code
 
-    ArrayList<String> verlauf = new ArrayList<>();
+    LinkedList<String> verlauf = new LinkedList<>();
     int buttonshapeID = R.drawable.buttonshape_square;
     String buttonfüllung="voll";
     DisplayMetrics screen_density;
@@ -240,31 +241,6 @@ public class CalcActivity_middle extends AppCompatActivity {
 
         m_background = findViewById(R.id.m_background);
 
-        m_background.setOnTouchListener(new OnSwipeTouchListener(CalcActivity_middle.this) {
-            public void onSwipeTop() {
-                Toast.makeText(CalcActivity_middle.this, "top", Toast.LENGTH_SHORT).show();
-            }
-            public void onSwipeRight() {
-                Toast.makeText(CalcActivity_middle.this, "left", Toast.LENGTH_SHORT).show();
-                Intent conversionIntent = new Intent(CalcActivity_middle.this, MainActivity.class);
-                conversionIntent.putExtra("swipeDir","right");
-                conversionIntent.putExtra("layout","middle");
-                startActivity(conversionIntent);
-                finish();
-            }
-            public void onSwipeLeft() {
-                Toast.makeText(CalcActivity_middle.this, "left", Toast.LENGTH_SHORT).show();
-                Intent conversionIntent = new Intent(CalcActivity_middle.this, MainActivity.class);
-                conversionIntent.putExtra("swipeDir","left");
-                conversionIntent.putExtra("layout","middle");
-                startActivity(conversionIntent);
-                finish();
-            }
-            public void onSwipeBottom() {
-                Toast.makeText(CalcActivity_middle.this, "bottom", Toast.LENGTH_SHORT).show();
-            }
-        });
-
         tV_eingabe = findViewById(R.id.m_tV_Eingabe);
         tV_ausgabe = findViewById(R.id.m_tV_Ausgabe);
 
@@ -290,6 +266,37 @@ public class CalcActivity_middle extends AppCompatActivity {
                 hideKeyboard(CalcActivity_middle.this);
                 //v.performClick();
                 return false;
+            }
+        });
+
+        m_background.setOnTouchListener(new OnSwipeTouchListener(CalcActivity_middle.this) {
+            public void onSwipeTop() {
+                Toast.makeText(CalcActivity_middle.this, "top", Toast.LENGTH_SHORT).show();
+            }
+            public void onSwipeRight() {
+                Toast.makeText(CalcActivity_middle.this, "left", Toast.LENGTH_SHORT).show();
+                Intent conversionIntent = new Intent(CalcActivity_middle.this, MainActivity.class);
+                conversionIntent.putExtra("verlauf",verlaufToString(verlauf));
+                conversionIntent.putExtra("input",tV_eingabe.getText().toString());
+                conversionIntent.putExtra("output",tV_ausgabe.getText().toString());
+                conversionIntent.putExtra("swipeDir","right");
+                conversionIntent.putExtra("layout","middle");
+                startActivity(conversionIntent);
+                finish();
+            }
+            public void onSwipeLeft() {
+                Toast.makeText(CalcActivity_middle.this, "left", Toast.LENGTH_SHORT).show();
+                Intent conversionIntent = new Intent(CalcActivity_middle.this, MainActivity.class);
+                conversionIntent.putExtra("verlauf",verlaufToString(verlauf));
+                conversionIntent.putExtra("input",tV_eingabe.getText().toString());
+                conversionIntent.putExtra("output",tV_ausgabe.getText().toString());
+                conversionIntent.putExtra("swipeDir","left");
+                conversionIntent.putExtra("layout","middle");
+                startActivity(conversionIntent);
+                finish();
+            }
+            public void onSwipeBottom() {
+                Toast.makeText(CalcActivity_middle.this, "bottom", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -988,7 +995,7 @@ public class CalcActivity_middle extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 view.startAnimation(buttonClick);
-                if (verlauf == null) verlauf = new ArrayList<>();
+                if (verlauf == null) verlauf = new LinkedList<>();
                 verlauf.add(I.getDisplayableString());
 
                 answer = I.getResult();
@@ -1000,6 +1007,10 @@ public class CalcActivity_middle extends AppCompatActivity {
         setBackground(btn_clear);
         setBackground(btn_clearall);
 
+        Intent v = getIntent();
+        tV_eingabe.setText( v.getStringExtra("input"));
+        tV_ausgabe.setText( v.getStringExtra("output"));
+        stringToVerlauf(v.getStringExtra("verlauf"));
     }
 
 
@@ -1504,10 +1515,17 @@ public class CalcActivity_middle extends AppCompatActivity {
         }
     };
 
+    public String verlaufToString(List<String> verlauf){
+        String output="";
+        for(int i=0; i<verlauf.size()-1; i++)output+=verlauf.get(i)+"_";
+        output+=verlauf.get(verlauf.size()-1);
+        return output;
+    }
 
-
-
-
-
+    private void stringToVerlauf(String verlauf_string){
+        if(verlauf_string==null)return;
+        verlauf = new LinkedList<>();
+        verlauf.addAll(new LinkedList<String>(Arrays.asList(verlauf_string.split("_"))));
+    }
 }
 

@@ -89,7 +89,7 @@ public class ButtonshapeActivity extends AppCompatActivity {
             d = getDrawable(R.drawable.buttonshape_square);
         }
 
-        CalcActivity_normal.setColor(d,0xffc60aff,füllung,true);
+        CalcActivity_science.setColor(d,0xffc60aff,füllung,true);
 
         return d;
 

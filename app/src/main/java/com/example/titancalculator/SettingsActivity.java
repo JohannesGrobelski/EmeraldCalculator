@@ -39,7 +39,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.ActionBar;
 import androidx.core.app.NavUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -384,7 +383,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                             }
 
                             PreferenceManager.setDefaultValues(getActivity(), R.xml.pref_buttoncolors_en, true);
-                            CalcActivity_normal.setDefaultColors();
+                            CalcActivity_science.setDefaultColors();
                         }
 
 
