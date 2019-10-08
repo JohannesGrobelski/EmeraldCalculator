@@ -13,11 +13,6 @@
         android:fragment="com.example.titancalculator.SettingsActivity$MathSettingsFragment" />
 
     <header
-        android:icon="@drawable/ic_colorpicker"
-        android:title="Farben"
-        android:fragment="com.example.titancalculator.SettingsActivity$ButtoncolorSettingsFragment" />
-
-    <header
         android:icon="@drawable/ic_font_download_black_24dp"
         android:title="Schriftart">
         <intent
@@ -26,12 +21,9 @@
     </header>
 
     <header
-        android:icon="@drawable/ic_image_black_24dp"
-        android:title="Hintergrundbild">
-        <intent
-            android:targetPackage="com.example.titancalculator"
-            android:targetClass="com.example.titancalculator.SettingBackgroundimageActivity" />
-    </header>
+        android:icon="@drawable/ic_colorpicker"
+        android:title="Farben"
+        android:fragment="com.example.titancalculator.SettingsActivity$ButtoncolorSettingsFragment" />
 
     <header
         android:icon="@drawable/ic_formen"

@@ -1,21 +1,35 @@
 package com.example.titancalculator;
 
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.ShapeDrawable;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
+import com.example.titancalculator.helper.MainDisplay.SettingsApplier;
 import com.example.titancalculator.helper.Umrechnung.DatenspeicherUmrechnung;
 import com.example.titancalculator.helper.Umrechnung.DatentransferUmrechnung;
 import com.example.titancalculator.helper.Umrechnung.FlächenUmrechnung;
@@ -30,8 +44,11 @@ import com.example.titancalculator.helper.Umrechnung.VolumenUmrechnung;
 import com.example.titancalculator.helper.Umrechnung.ZeitUmrechnung;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.Set;
 
 public class ConversionActivity extends AppCompatActivity {
     String[] measAr = {"laenge","Zeit","Geschwindigkeit","Masse","Volumen","Fläche","Temperatur","Kraft","Leistung","Stromstärke","Datenspeicher","Datentransfer"};
@@ -64,6 +81,7 @@ public class ConversionActivity extends AppCompatActivity {
 
     String currentConv="";
 
+    View conv_background;
     ListView LV_Auswahl;
     Button btn_back;
 
@@ -73,6 +91,10 @@ public class ConversionActivity extends AppCompatActivity {
 
     Button selected;
     Button btn_save;
+
+    private int buttonshapeID;
+    private String buttonfüllung;
+    Set<View> VIEW_CONV;
 
 
     @Override
@@ -128,39 +150,100 @@ public class ConversionActivity extends AppCompatActivity {
         }
 
         String[] a = (String[]) currentSet.toArray(new String[currentSet.size()]);
-        ArrayAdapter adapter_uni = new ArrayAdapter<String>(this, R.layout.lvitem_layout, a);
-        LV_Auswahl.setAdapter(adapter_uni);
+        //ArrayAdapter adapter_cat = new ArrayAdapter<String>(this, R.layout.lvitem_layout, a);
+        ArrayAdapter<String> adapter_cat = new ArrayAdapter<String>(this, R.layout.spinner_shift_style, a){
+            float factor_font = 0.5f;
+            int color_font = ButtonSettingsActivity.manipulateColor(SettingsApplier.color_act,factor_font);
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View v = super.getView(position, convertView, parent);
+                ((TextView) v).setTextSize(16);
+                ((TextView) v).setBackgroundColor(SettingsApplier.color_background);
+                ((TextView) v).setTypeface(FontSettingsActivity.getTypeFace(SettingsApplier.current_font_family,SettingsApplier.current_fontstlye));
+                ((TextView) v).setTextColor(color_font);
+                return v;
+            }
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                View v = super.getDropDownView(position, convertView, parent);
+                v.setBackgroundResource(buttonshapeID);
+                ((TextView) v).setTextColor(SettingsApplier.color_act);
+                ((TextView) v).setBackgroundColor(SettingsApplier.color_background);
+                ((TextView) v).setTypeface(FontSettingsActivity.getTypeFace(SettingsApplier.current_font_family,SettingsApplier.current_fontstlye));
+                ((TextView) v).setGravity(Gravity.CENTER);
+                return v;
+            }
+        };
+        LV_Auswahl.setBackgroundColor(SettingsApplier.color_background);
+        LV_Auswahl.setAdapter(adapter_cat);
     }
 
     void select(Button x){
         if(x.equals(selected)){
             Toast t =  Toast.makeText(ConversionActivity.this,"unclicked: "+x.getText().toString(),Toast.LENGTH_SHORT);
             t.show();
-            brighter(x);
+            visual_select(x);
             selected = new Button(this);
         } else if(!x.equals(selected)) {
             Toast t =  Toast.makeText(ConversionActivity.this,"clicked: "+x.getText().toString(),Toast.LENGTH_SHORT);
             t.show();
-            brighter(selected);
+            visual_select(selected);
 
             selected = x;
-            darker(x);
+            visual_unselect(x);
         }
     }
 
-    void brighter(Button x){
+    void visual_select(Button x){
         if(x==null)return;
-        Drawable background_fkt = getResources().getDrawable(R.drawable.buttonshape_square);
-        int color_act = PreferenceManager.getDefaultSharedPreferences(ConversionActivity.this).getInt("actColor", 0xffff0000);
-        ButtonSettingsActivity.setColor(background_fkt, color_act);
+        Drawable background_fkt = getResources().getDrawable(buttonshapeID);
+        setBackground(x);
+        setColor(background_fkt,SettingsApplier.color_act,buttonfüllung,7);
+
         x.setBackground(background_fkt);
     }
 
-    void darker(Button x){
-        Drawable background_fkt = getResources().getDrawable(R.drawable.buttonshape_square);
-        int color_act = PreferenceManager.getDefaultSharedPreferences(ConversionActivity.this).getInt("actColor", 0xffff0000);
-        ButtonSettingsActivity.setColor(background_fkt,  ButtonSettingsActivity.manipulateColor(color_act,0.8f));
+    void visual_unselect(Button x){
+        if(x==null)return;
+        Drawable background_fkt = getResources().getDrawable(buttonshapeID);
+        setBackground(x);
+        setColor(background_fkt,SettingsApplier.color_act,buttonfüllung,12);
+
         x.setBackground(background_fkt);
+    }
+
+    void setBackground(View x){
+        if(buttonshapeID==0)applySettings();
+        Drawable background;
+        SettingsApplier.setColors(ConversionActivity.this);
+        float factor_font = 0.5f;
+        boolean stroke = true;
+
+        //Default Case
+        background = getResources().getDrawable(buttonshapeID);
+        CalcActivity_science.setColor(background, SettingsApplier.color_specials,buttonfüllung,stroke);
+        int visual_unselect = ButtonSettingsActivity.manipulateColor(SettingsApplier.color_specials,factor_font);
+        if(x instanceof Button) ((Button) x).setTextColor(visual_unselect);
+
+        if(x instanceof EditText){
+            ((EditText) x).setTextColor( SettingsApplier.color_act);
+        }
+
+        if(VIEW_CONV.contains(x)){
+            background = getResources().getDrawable(buttonshapeID);
+            CalcActivity_science.setColor(background, SettingsApplier.color_act,buttonfüllung,stroke);
+            visual_unselect = ButtonSettingsActivity.manipulateColor(SettingsApplier.color_act,factor_font);
+            if(x instanceof Button) ((Button) x).setTextColor(visual_unselect);
+        }
+
+
+        x.setBackground(background);
+
+    }
+
+    void setBackgrounds(){
+        conv_background.setBackgroundColor(SettingsApplier.color_background);
+        for(View v: VIEW_CONV){
+            setBackground(v);
+        }
     }
 
     @Override
@@ -176,8 +259,11 @@ public class ConversionActivity extends AppCompatActivity {
 
         initMaps();
 
+        conv_background = findViewById(R.id.conv_background);
         LV_Auswahl = findViewById(R.id.LV_Auswahl);
         btn_back = findViewById(R.id.btn_back);
+        btn_save = findViewById(R.id.btn_save);
+
 
         eT_cur_const_val1 = findViewById(R.id.eT_cur_const_val1);
         eT_cur_const_val2 = findViewById(R.id.eT_cur_const_val2);
@@ -186,10 +272,27 @@ public class ConversionActivity extends AppCompatActivity {
         btn_maßeinheit2 = findViewById(R.id.btn_maßeinheit2);
         btn_me2_me1 = findViewById(R.id.btn_me2_me1);
 
-        ArrayAdapter adapter_Meas = new ArrayAdapter<String>(this,R.layout.lvitem_layout, measAr);
+        VIEW_CONV = new HashSet<View>(Arrays.asList(btn_back,eT_cur_const_val1,eT_cur_const_val2,btn_maßeinheit1,btn_maßeinheit2,btn_me1_me2,btn_me2_me1,btn_save));
+        ArrayList<View> list = new ArrayList<View>() {{addAll(VIEW_CONV);}};
+        SettingsApplier.setFonts(ConversionActivity.this,list);
+
+        //ArrayAdapter adapter_Meas = new ArrayAdapter<String>(this,R.layout.lvitem_layout, measAr);
+        ArrayAdapter<String> adapter_Meas = new ArrayAdapter<String>(this, R.layout.spinner_shift_style, measAr){
+            float factor_font = 0.5f;
+            int fontcolor = ButtonSettingsActivity.manipulateColor(SettingsApplier.color_act,factor_font);
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View v = super.getView(position, convertView, parent);
+                ((TextView) v).setTextSize(16);
+                ((TextView) v).setBackgroundColor(SettingsApplier.color_background);
+                ((TextView) v).setTypeface(FontSettingsActivity.getTypeFace(SettingsApplier.current_font_family,SettingsApplier.current_fontstlye));
+                ((TextView) v).setTextColor(fontcolor);
+                return v;
+            }
+
+        };
+        LV_Auswahl.setBackgroundColor(SettingsApplier.color_background);
         LV_Auswahl.setAdapter(adapter_Meas);
 
-        btn_save= findViewById(R.id.btn_save);
         applySettings();
 
         btn_maßeinheit1.setOnClickListener(new View.OnClickListener() {
@@ -232,7 +335,20 @@ public class ConversionActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(zustand.equals("kategorie")){
                 } else if(zustand.equals("konstante")){
-                    ArrayAdapter adapter_uni = new ArrayAdapter<String>(ConversionActivity.this, R.layout.lvitem_layout, measAr);
+                    //ArrayAdapter adapter_uni = new ArrayAdapter<String>(ConversionActivity.this, R.layout.lvitem_layout, measAr);
+                    ArrayAdapter<String> adapter_uni = new ArrayAdapter<String>(ConversionActivity.this, R.layout.spinner_shift_style, measAr){
+                        float factor_font = 0.5f;
+                        int color_font = ButtonSettingsActivity.manipulateColor(SettingsApplier.color_act,factor_font);
+                        public View getView(int position, View convertView, ViewGroup parent) {
+                            View v = super.getView(position, convertView, parent);
+                            ((TextView) v).setTextSize(16);
+                            ((TextView) v).setBackgroundColor(SettingsApplier.color_background);
+                            ((TextView) v).setTypeface(FontSettingsActivity.getTypeFace(SettingsApplier.current_font_family,SettingsApplier.current_fontstlye));
+                            ((TextView) v).setTextColor(color_font);
+                            return v;
+                        }
+
+                    };
                     LV_Auswahl.setAdapter(adapter_uni);
 
                     zustand = "kategorie";
@@ -428,10 +544,56 @@ public class ConversionActivity extends AppCompatActivity {
             btn_maßeinheit2.setText("Maß2");
         }
 
+        //buttonshape
+        if (PreferenceManager.getDefaultSharedPreferences(ConversionActivity.this).contains("buttonshape")) {
+            String form = PreferenceManager.getDefaultSharedPreferences(ConversionActivity.this).getString("buttonshape","round");
+            if(form != null){
+                switch(form){
+                    case "Round": {
+                        buttonshapeID = R.drawable.buttonshape_round;
+                        break;
+                    }
+                    case "Square": {
+                        buttonshapeID = R.drawable.buttonshape_square;
+                        break;
+                    }
+                }
+            }
+            else Toast.makeText(ConversionActivity.this,"no buttonshape settings",Toast.LENGTH_SHORT).show();
+        }
+
+        //buttonfüllung
+        if (PreferenceManager.getDefaultSharedPreferences(ConversionActivity.this).contains("buttonfüllung")) {
+            buttonfüllung = PreferenceManager.getDefaultSharedPreferences(ConversionActivity.this).getString("buttonfüllung","voll");
+        }
+
         if (PreferenceManager.getDefaultSharedPreferences(ConversionActivity.this).contains("pref_precision")) {
             String prec = PreferenceManager.getDefaultSharedPreferences(ConversionActivity.this).getString("pref_precision","10");
             if(prec != null)precision =  Integer.valueOf(prec) + 1;
         }
+
+        setBackgrounds();
+
+    }
+
+    static void setColor(Drawable background, int c, String füllung, int stroke){
+        if (background instanceof ShapeDrawable) {
+            // cast to 'ShapeDrawable'
+            ShapeDrawable shapeDrawable = (ShapeDrawable) background;
+            shapeDrawable.getPaint().setColor(c);
+        } else if (background instanceof GradientDrawable) {
+            // cast to 'GradientDrawable'
+            GradientDrawable gradientDrawable = (GradientDrawable) background;
+            gradientDrawable.setColor(c);
+            int rahmen_farbe = ButtonSettingsActivity.manipulateColor(c,0.7f);
+            if(füllung.equals("leer"))gradientDrawable.setColor(SettingsApplier.color_background);
+            if(stroke!=0)gradientDrawable.setStroke(stroke, rahmen_farbe);
+        } else if (background instanceof ColorDrawable) {
+            // alpha value may need to be set again after this call
+            ColorDrawable colorDrawable = (ColorDrawable) background;
+            colorDrawable.setColor(c);
+        }
+        else Log.e("setColor Error","");
 
     }
 
@@ -448,6 +610,6 @@ public class ConversionActivity extends AppCompatActivity {
         //System.out.println(InitConvMap.getZeit().get("Minute"));
 
 
-        System.out.println(convert(new BigDecimal("300"),"Sekunde","Minute")); }
-
+        System.out.println(convert(new BigDecimal("300"),"Sekunde","Minute"));
+    }
 }

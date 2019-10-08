@@ -455,7 +455,7 @@ public class CalcActivity_small extends AppCompatActivity {
             public void onClick(View view) {
                 view.startAnimation(buttonClick);
 
-                eingabeAddText(",");
+                eingabeAddText(".");
                 setBackground(btn_com);
 
             }

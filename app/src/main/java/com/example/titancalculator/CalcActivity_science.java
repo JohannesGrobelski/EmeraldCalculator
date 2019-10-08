@@ -66,7 +66,6 @@ public class CalcActivity_science extends AppCompatActivity {
     LinkedList<String> verlauf = new LinkedList<>();
     int buttonshapeID = R.drawable.buttonshape_square;
     String buttonfüllung="voll";
-    DisplayMetrics screen_density;
 
     Set<String> UserFctGroups = new HashSet<>();
 
@@ -155,13 +154,13 @@ public class CalcActivity_science extends AppCompatActivity {
     TableRow LN4;
 
 
-    private Set<Button> BTN_ACT;
-    private Set<Button> BTN_FKT;
-    private Set<Button> BTN_FOPS;
-    private Set<Button> BTN_NUMBERS;
-    private Set<Button> BTN_SAVES;
-    private Set<Button> BTN_SPECIALS;
-    private ArrayList<Button> BTN_ALL;
+    private Set<Button> VIEW_ACT;
+    private Set<Button> VIEW_FKT;
+    private Set<Button> VIEW_FOPS;
+    private Set<Button> VIEW_NUMBERS;
+    private Set<Button> VIEW_SAVES;
+    private Set<Button> VIEW_SPECIALS;
+    private ArrayList<Button> VIEW_ALL;
 
     String mode = "BASIC";
 
@@ -195,7 +194,7 @@ public class CalcActivity_science extends AppCompatActivity {
         SettingsApplier.setColors(CalcActivity_science.this);
         applySettings();
         setBackgrounds();
-        ArrayList<View> list = new ArrayList<View>() {{addAll(BTN_ALL);add(tV_eingabe);add(tV_ausgabe);}};
+        ArrayList<View> list = new ArrayList<View>() {{addAll(VIEW_ALL);add(tV_eingabe);add(tV_ausgabe);}};
         SettingsApplier.setFonts(CalcActivity_science.this,list);
 
 
@@ -235,7 +234,7 @@ public class CalcActivity_science extends AppCompatActivity {
 
                         return v;
                     }
-                };
+        };
 
         spinner_shift.setAdapter(adapter);
 
@@ -401,24 +400,24 @@ public class CalcActivity_science extends AppCompatActivity {
         LN3 = findViewById(R.id.LN3);
         LN4 = findViewById(R.id.LN4);
 
-        BTN_ACT = new HashSet<>(Arrays.asList(new Button[]{btn_CONST, btn_CONV, btn_verlauf, btn_menu}));
-        BTN_FKT = new HashSet<>(Arrays.asList(new Button[]{btn_clear, btn_clearall, btn_LINKS, btn_RECHTS}));
-        BTN_FOPS = new HashSet<>(Arrays.asList(new Button[]{btn_11, btn_12, btn_13, btn_14, btn_15, btn_16, btn_21, btn_22, btn_23, btn_24, btn_25, btn_26}));
-        BTN_NUMBERS = new HashSet<>(Arrays.asList(new Button[]{btn_com, btn_ans, btn_0, btn_1, btn_2, btn_3, btn_4, btn_5, btn_6, btn_7, btn_8, btn_9}));
-        BTN_SAVES = new HashSet<>(Arrays.asList(new Button[]{btn_eq}));
-        BTN_SPECIALS = new HashSet<>(Arrays.asList(new Button[]{btn_open_bracket, btn_close_bracket, btn_mul, btn_div, btn_sub, btn_add}));
-        BTN_ALL = new ArrayList<>();
-        BTN_ALL.addAll(BTN_ACT);
-        BTN_ALL.addAll(BTN_FKT);
-        BTN_ALL.addAll(BTN_FOPS);
-        BTN_ALL.addAll(BTN_NUMBERS);
-        BTN_ALL.addAll(BTN_SAVES);
-        BTN_ALL.addAll(BTN_SPECIALS);
+        VIEW_ACT = new HashSet<>(Arrays.asList(new Button[]{btn_CONST, btn_CONV, btn_verlauf, btn_menu}));
+        VIEW_FKT = new HashSet<>(Arrays.asList(new Button[]{btn_clear, btn_clearall, btn_LINKS, btn_RECHTS}));
+        VIEW_FOPS = new HashSet<>(Arrays.asList(new Button[]{btn_11, btn_12, btn_13, btn_14, btn_15, btn_16, btn_21, btn_22, btn_23, btn_24, btn_25, btn_26}));
+        VIEW_NUMBERS = new HashSet<>(Arrays.asList(new Button[]{btn_com, btn_ans, btn_0, btn_1, btn_2, btn_3, btn_4, btn_5, btn_6, btn_7, btn_8, btn_9}));
+        VIEW_SAVES = new HashSet<>(Arrays.asList(new Button[]{btn_eq}));
+        VIEW_SPECIALS = new HashSet<>(Arrays.asList(new Button[]{btn_open_bracket, btn_close_bracket, btn_mul, btn_div, btn_sub, btn_add}));
+        VIEW_ALL = new ArrayList<>();
+        VIEW_ALL.addAll(VIEW_ACT);
+        VIEW_ALL.addAll(VIEW_FKT);
+        VIEW_ALL.addAll(VIEW_FOPS);
+        VIEW_ALL.addAll(VIEW_NUMBERS);
+        VIEW_ALL.addAll(VIEW_SAVES);
+        VIEW_ALL.addAll(VIEW_SPECIALS);
 
         applySettings();
         SettingsApplier.setColors(CalcActivity_science.this);
         setBackgrounds();
-        ArrayList<View> list = new ArrayList<View>() {{addAll(BTN_ALL);add(tV_eingabe);add(tV_ausgabe);}};
+        ArrayList<View> list = new ArrayList<View>() {{addAll(VIEW_ALL);add(tV_eingabe);add(tV_ausgabe);}};
         SettingsApplier.setFonts(CalcActivity_science.this,list);
 
         try {
@@ -1051,7 +1050,7 @@ public class CalcActivity_science extends AppCompatActivity {
             public void onClick(View view) {
                 view.startAnimation(buttonClick);
 
-                eingabeAddText(",");
+                eingabeAddText(".");
                 setBackground(btn_com);
 
             }
@@ -1343,31 +1342,31 @@ public class CalcActivity_science extends AppCompatActivity {
             x.setBackground(background);
         }
 
-        if(BTN_ACT.contains(x)){
+        if(VIEW_ACT.contains(x)){
             background = getResources().getDrawable(buttonshapeID);
             setColor(background, SettingsApplier.color_act,buttonfüllung,stroke);
             darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.color_act,factor_font);
             if(x instanceof Button) ((Button) x).setTextColor(darker);
         }
-        else if(BTN_FKT.contains(x)){
+        else if(VIEW_FKT.contains(x)){
             background = getResources().getDrawable(buttonshapeID);
             setColor(background, SettingsApplier.color_fkt,buttonfüllung,stroke);
             darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.color_fkt,factor_font);
             if(x instanceof Button) ((Button) x).setTextColor(darker);
         }
-        else if(BTN_FOPS.contains(x)){
+        else if(VIEW_FOPS.contains(x)){
             background = getResources().getDrawable(buttonshapeID);
             setColor(background, SettingsApplier.color_fops,buttonfüllung,stroke);
             darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.color_fops,factor_font);
             if(x instanceof Button) ((Button) x).setTextColor(darker);
         }
-        else if(BTN_NUMBERS.contains(x)){
+        else if(VIEW_NUMBERS.contains(x)){
             background = getResources().getDrawable(buttonshapeID);
             setColor(background, SettingsApplier.color_numbers,buttonfüllung,stroke);
             darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.color_numbers,factor_font);
             if(x instanceof Button) ((Button) x).setTextColor(darker);
         }
-        else if(BTN_SAVES.contains(x)){
+        else if(VIEW_SAVES.contains(x)){
             background = getResources().getDrawable(buttonshapeID);
             setColor(background, SettingsApplier.color_saves,buttonfüllung,stroke);
             darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.color_saves,factor_font);
@@ -1406,7 +1405,7 @@ public class CalcActivity_science extends AppCompatActivity {
         //setBackground(spinner_shift);
 
 
-        for(Button b: BTN_ALL){
+        for(Button b: VIEW_ALL){
             setBackground(b);
         }
 

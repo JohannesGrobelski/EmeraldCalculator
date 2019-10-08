@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.Typeface;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -33,7 +34,11 @@ import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
 import android.preference.SwitchPreference;
 import android.text.TextUtils;
+import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
@@ -52,6 +57,8 @@ import java.util.List;
 public class SettingsActivity extends AppCompatPreferenceActivity {
 
     static String language = "english";
+    static Typeface current_typeface;
+    static String current_fontsize;
 
     /**
      * A preference value change listener that updates the preference's summary
@@ -148,8 +155,9 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setLanguage();
+        applySettings();
         setupActionBar();
+
         //Toast.makeText(SettingsActivity.this, "lang: "+language, Toast.LENGTH_SHORT).show();
     }
 
@@ -157,7 +165,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     protected void onResume() {
         super.onResume();
         String lang = language;
-        setLanguage();
+        applySettings();
         setupActionBar();
 
         //TODO: besser: header neu laden, aber wie?
@@ -205,7 +213,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     @Override
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public void onBuildHeaders(List<Header> target) {
-        setLanguage();
+        applySettings();
         if(language.equals("english") || language.equals("englisch"))loadHeadersFromResource(R.xml.pref_headers_en, target);
         else if(language.equals("deutsch") || language.equals("german"))loadHeadersFromResource(R.xml.pref_headers_de, target);
     }
@@ -227,12 +235,15 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
     }
 
-    private void setLanguage(){
+    private void applySettings(){
         //language
         language = androidx.preference.PreferenceManager.getDefaultSharedPreferences(SettingsActivity.this).getString("pref_lang","english");
+
+        current_fontsize = androidx.preference.PreferenceManager.getDefaultSharedPreferences(SettingsActivity.this).getString("fontsize", "20");
+        String current_font_family = androidx.preference.PreferenceManager.getDefaultSharedPreferences(SettingsActivity.this).getString("fontfamily", "monospace");
+        String current_fontstlye = androidx.preference.PreferenceManager.getDefaultSharedPreferences(SettingsActivity.this).getString("fontstyle", "normal");
+        current_typeface = FontSettingsActivity.getTypeFace(current_font_family,current_fontstlye);
     }
-
-
 
 
     /**

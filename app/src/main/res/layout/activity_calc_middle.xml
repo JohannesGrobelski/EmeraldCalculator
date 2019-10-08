@@ -573,6 +573,7 @@
 
             app:autoSizeStepGranularity="1sp"
             app:autoSizeTextType="uniform" />
+
             <Button
                 android:id="@+id/m_btn_25"
                 android:layout_width="match_parent"
@@ -584,7 +585,7 @@
                 android:background="@drawable/buttonshape_square"
                 android:maxLines="1"
                 android:shadowRadius="30"
-                android:text=","
+                android:text="."
                 android:visibility="visible"
 
 

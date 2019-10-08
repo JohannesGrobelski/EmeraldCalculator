@@ -852,7 +852,7 @@ public class CalcActivity_middle extends AppCompatActivity {
                 view.startAnimation(buttonClick);
 
                 if (mode.equals("NUMBER") || mode.equals("ZAHLEN")) {
-                    eingabeAddText(",");
+                    eingabeAddText(".");
                 } else if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
                     ausgabe_setText(I.getReciproke());
                 } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
