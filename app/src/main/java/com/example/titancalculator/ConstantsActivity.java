@@ -2,6 +2,7 @@ package com.example.titancalculator;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
@@ -57,6 +58,7 @@ public class ConstantsActivity extends AppCompatActivity {
     int currentAuswahlKonstante = 0;
     int currentNachkommastellen = 5;
 
+    View const_background;
     TextView tV_Pfad;
     ListView LV_Auswahl;
     Button btn_back;
@@ -66,14 +68,15 @@ public class ConstantsActivity extends AppCompatActivity {
     Button save_fav;
     Button del_fav;
 
-    Set<Button> BTN_ALL;
+    Set<View> VIEW_CONST;
 
     String zustand = "kategorie";
     private int precision = 10;
 
     //Display
-    int buttonshapeID=0;//TODO
+    int buttonshapeID=0;
     String buttonfüllung="";
+    private Float fontsize;
 
     @Override
     protected void onResume() {
@@ -88,6 +91,7 @@ public class ConstantsActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_constants);
 
+        const_background = findViewById(R.id.const_background);
         LV_Auswahl = (ListView) findViewById(R.id.LV_Auswahl);
         btn_back = (Button) findViewById(R.id.btn_back);
 
@@ -101,10 +105,11 @@ public class ConstantsActivity extends AppCompatActivity {
         save_fav = findViewById(R.id.btn_mark_fav);
         del_fav = findViewById(R.id.btn_del_fav);
 
-        BTN_ALL = new HashSet<>(Arrays.asList(btn_back,copy,save_fav,del_fav));
-        ArrayList<View> list = new ArrayList<View>() {{addAll(BTN_ALL);add(tV_Pfad);add(tV_cur_const);add(tV_cur_const_val);add(LV_Auswahl);}};
+        VIEW_CONST = new HashSet<View>(Arrays.asList(tV_Pfad,tV_cur_const,tV_cur_const_val,btn_back,copy,save_fav,del_fav));
+        ArrayList<View> list = new ArrayList<View>() {{addAll(VIEW_CONST);add(tV_Pfad);add(tV_cur_const);add(tV_cur_const_val);add(LV_Auswahl);}};
         SettingsApplier.setFonts(ConstantsActivity.this,list);
 
+        LV_Auswahl.setBackgroundColor(SettingsApplier.color_background);
         applySettings();
         initMaps();
 
@@ -117,19 +122,13 @@ public class ConstantsActivity extends AppCompatActivity {
             int darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.color_fops,factor_font);
             public View getView(int position, View convertView, ViewGroup parent) {
                 View v = super.getView(position, convertView, parent);
-                ((TextView) v).setTextSize(16);
+                ((TextView) v).setTextSize(fontsize);
+                ((TextView) v).setBackgroundColor(SettingsApplier.color_background);
                 ((TextView) v).setTypeface(FontSettingsActivity.getTypeFace(SettingsApplier.current_font_family,SettingsApplier.current_fontstlye));
                 ((TextView) v).setTextColor(darker);
                 return v;
             }
-            public View getDropDownView(int position, View convertView, ViewGroup parent) {
-                View v = super.getDropDownView(position, convertView, parent);
-                v.setBackgroundResource(R.drawable.buttonshape_square);
-                ((TextView) v).setTextColor(darker);
-                ((TextView) v).setTypeface(FontSettingsActivity.getTypeFace(SettingsApplier.current_font_family,SettingsApplier.current_fontstlye));
-                ((TextView) v).setGravity(Gravity.CENTER);
-                return v;
-            }
+
         };
         LV_Auswahl.setAdapter(adapter_fct);
 
@@ -183,19 +182,13 @@ public class ConstantsActivity extends AppCompatActivity {
                         int darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.color_fops,factor_font);
                         public View getView(int position, View convertView, ViewGroup parent) {
                             View v = super.getView(position, convertView, parent);
-                            ((TextView) v).setTextSize(16);
+                            ((TextView) v).setTextSize(fontsize);
+                            ((TextView) v).setBackgroundColor(SettingsApplier.color_background);
                             ((TextView) v).setTypeface(FontSettingsActivity.getTypeFace(SettingsApplier.current_font_family,SettingsApplier.current_fontstlye));
                             ((TextView) v).setTextColor(darker);
                             return v;
                         }
-                        public View getDropDownView(int position, View convertView, ViewGroup parent) {
-                            View v = super.getDropDownView(position, convertView, parent);
-                            v.setBackgroundResource(R.drawable.buttonshape_square);
-                            ((TextView) v).setTextColor(darker);
-                            ((TextView) v).setTypeface(FontSettingsActivity.getTypeFace(SettingsApplier.current_font_family,SettingsApplier.current_fontstlye));
-                            ((TextView) v).setGravity(Gravity.CENTER);
-                            return v;
-                        }
+
                     };
                     LV_Auswahl.setAdapter(adapter_fct);
 
@@ -217,19 +210,13 @@ public class ConstantsActivity extends AppCompatActivity {
                         int darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.color_fops,factor_font);
                         public View getView(int position, View convertView, ViewGroup parent) {
                             View v = super.getView(position, convertView, parent);
-                            ((TextView) v).setTextSize(16);
+                            ((TextView) v).setTextSize(fontsize);
+                            ((TextView) v).setBackgroundColor(SettingsApplier.color_background);
                             ((TextView) v).setTypeface(FontSettingsActivity.getTypeFace(SettingsApplier.current_font_family,SettingsApplier.current_fontstlye));
                             ((TextView) v).setTextColor(darker);
                             return v;
                         }
-                        public View getDropDownView(int position, View convertView, ViewGroup parent) {
-                            View v = super.getDropDownView(position, convertView, parent);
-                            v.setBackgroundResource(R.drawable.buttonshape_square);
-                            ((TextView) v).setTextColor(darker);
-                            ((TextView) v).setTypeface(FontSettingsActivity.getTypeFace(SettingsApplier.current_font_family,SettingsApplier.current_fontstlye));
-                            ((TextView) v).setGravity(Gravity.CENTER);
-                            return v;
-                        }
+
                     };
                     LV_Auswahl.setAdapter(adapter_cM);
                     tV_Pfad.setText(QConst);
@@ -319,19 +306,13 @@ public class ConstantsActivity extends AppCompatActivity {
             int darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.color_fops,factor_font);
             public View getView(int position, View convertView, ViewGroup parent) {
                 View v = super.getView(position, convertView, parent);
-                ((TextView) v).setTextSize(16);
+                ((TextView) v).setTextSize(fontsize);
+                ((TextView) v).setBackgroundColor(SettingsApplier.color_background);
                 ((TextView) v).setTypeface(FontSettingsActivity.getTypeFace(SettingsApplier.current_font_family,SettingsApplier.current_fontstlye));
                 ((TextView) v).setTextColor(darker);
                 return v;
             }
-            public View getDropDownView(int position, View convertView, ViewGroup parent) {
-                View v = super.getDropDownView(position, convertView, parent);
-                v.setBackgroundResource(R.drawable.buttonshape_square);
-                ((TextView) v).setTextColor(darker);
-                ((TextView) v).setTypeface(FontSettingsActivity.getTypeFace(SettingsApplier.current_font_family,SettingsApplier.current_fontstlye));
-                ((TextView) v).setGravity(Gravity.CENTER);
-                return v;
-            }
+
         };
         LV_Auswahl.setAdapter(adapter_cM);
     }
@@ -432,19 +413,13 @@ public class ConstantsActivity extends AppCompatActivity {
             int darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.color_fops,factor_font);
             public View getView(int position, View convertView, ViewGroup parent) {
                 View v = super.getView(position, convertView, parent);
-                ((TextView) v).setTextSize(16);
+                ((TextView) v).setTextSize(fontsize);
+                ((TextView) v).setBackgroundColor(SettingsApplier.color_background);
                 ((TextView) v).setTypeface(FontSettingsActivity.getTypeFace(SettingsApplier.current_font_family,SettingsApplier.current_fontstlye));
                 ((TextView) v).setTextColor(darker);
                 return v;
             }
-            public View getDropDownView(int position, View convertView, ViewGroup parent) {
-                View v = super.getDropDownView(position, convertView, parent);
-                v.setBackgroundResource(R.drawable.buttonshape_square);
-                ((TextView) v).setTextColor(darker);
-                ((TextView) v).setTypeface(FontSettingsActivity.getTypeFace(SettingsApplier.current_font_family,SettingsApplier.current_fontstlye));
-                ((TextView) v).setGravity(Gravity.CENTER);
-                return v;
-            }
+
         };
         LV_Auswahl.setAdapter(adapter_nK);
     }
@@ -548,9 +523,48 @@ public class ConstantsActivity extends AppCompatActivity {
             buttonfüllung = PreferenceManager.getDefaultSharedPreferences(ConstantsActivity.this).getString("buttonfüllung","voll");
         }
 
+        fontsize = SettingsApplier.getCurrentFontsize(this);
+
+        setBackgrounds();
+    }
+
+
+
+    void setBackground(View x){
+        if(buttonshapeID==0)applySettings();
+        Drawable background;
+        SettingsApplier.setColors(ConstantsActivity.this);
+        float factor_font = 0.5f;
+        boolean stroke = true;
+
+        //Default Case
+        background = getResources().getDrawable(buttonshapeID);
+        CalcActivity_science.setColor(background, SettingsApplier.color_specials,buttonfüllung,stroke);
+        int visual_unselect = ButtonSettingsActivity.manipulateColor(SettingsApplier.color_specials,factor_font);
+        if(x instanceof Button) ((Button) x).setTextColor(visual_unselect);
+
+        if(x instanceof EditText){
+            ((EditText) x).setTextColor( SettingsApplier.color_fops);
+        }
+
+        if(VIEW_CONST.contains(x)){
+            background = getResources().getDrawable(buttonshapeID);
+            CalcActivity_science.setColor(background, SettingsApplier.color_fops,buttonfüllung,stroke);
+            visual_unselect = ButtonSettingsActivity.manipulateColor(SettingsApplier.color_fops,factor_font);
+            if(x instanceof Button) ((Button) x).setTextColor(visual_unselect);
+        }
+
+        x.setBackground(background);
 
     }
 
+    void setBackgrounds(){
+        tV_Pfad.setTextColor(SettingsApplier.color_fops);
+        const_background.setBackgroundColor(SettingsApplier.color_background);
+        for(View v: VIEW_CONST){
+            setBackground(v);
+        }
+    }
 
 
 }

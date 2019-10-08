@@ -8,7 +8,6 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
@@ -19,10 +18,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +31,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -44,9 +40,9 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.preference.Preference;
 import androidx.preference.PreferenceManager;
 
-import com.example.titancalculator.helper.MainDisplay.DisplaySetupHelper;
 import com.example.titancalculator.helper.MainDisplay.OnSwipeTouchListener;
 import com.example.titancalculator.helper.MainDisplay.SettingsApplier;
 import com.example.titancalculator.helper.Math_String.NavigatableString;
@@ -61,8 +57,8 @@ import java.util.List;
 import java.util.Set;
 
 
-public class CalcActivity_middle extends AppCompatActivity {
-    TableLayout m_background;
+public class CalcActivity_normal extends AppCompatActivity {
+    TableLayout normal_background;
 
     static final int REQUEST_CODE_CONST = 1;  // The request code
     static final int REQUEST_CODE_CONV = 1;  // The request code
@@ -170,12 +166,33 @@ public class CalcActivity_middle extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        String mode = PreferenceManager.getDefaultSharedPreferences(this).getString("layout","");
+        if(!mode.equals("normal")){
+            Intent conversionIntent=null;
+            if(mode.equals("small")){
+                conversionIntent = new Intent(CalcActivity_normal.this, CalcActivity_small.class);
+            }
+            else {
+                conversionIntent = new Intent(CalcActivity_normal.this, CalcActivity_science.class);
+            }
+            conversionIntent.putExtra("verlauf",verlaufToString(verlauf));
+            conversionIntent.putExtra("input",tV_eingabe.getText().toString());
+            conversionIntent.putExtra("output",tV_ausgabe.getText().toString());
+            conversionIntent.putExtra("swipeDir","");
+            conversionIntent.putExtra("layout",mode);
+            startActivity(conversionIntent);
+            finish();
+        }
+
+
         setTitle("Rechner");
-        SettingsApplier.setColors(CalcActivity_middle.this);
+        SettingsApplier.setColors(CalcActivity_normal.this);
         applySettings();
         setBackgrounds();
         ArrayList<View> list = new ArrayList<View>() {{addAll(BTN_ALL);add(tV_eingabe);add(tV_ausgabe);}};
-        SettingsApplier.setFonts(CalcActivity_middle.this,list);
+        SettingsApplier.setFonts(CalcActivity_normal.this,list);
+
 
 
         tV_ausgabe.setOnFocusChangeListener(focusListener);
@@ -187,7 +204,7 @@ public class CalcActivity_middle extends AppCompatActivity {
 
         //ArrayAdapter adpt_modeoptions = new ArrayAdapter<String>(this, R.layout.lvitem_layout, mode_options);
         ArrayAdapter<String> adapter =
-                new ArrayAdapter<String>(CalcActivity_middle.this, R.layout.spinner_shift_style, mode_options)
+                new ArrayAdapter<String>(CalcActivity_normal.this, R.layout.spinner_shift_style, mode_options)
                 {
 
                     float factor_font = 0.5f;
@@ -234,12 +251,11 @@ public class CalcActivity_middle extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_calc_middle);
+        setContentView(R.layout.activity_calc_normal);
 
         setTitle("Rechner");
-        Toast.makeText(CalcActivity_middle.this,"UI MODE MIDDLE",Toast.LENGTH_LONG).show();
 
-        m_background = findViewById(R.id.m_background);
+        normal_background = findViewById(R.id.normal_background);
 
         tV_eingabe = findViewById(R.id.m_tV_Eingabe);
         tV_ausgabe = findViewById(R.id.m_tV_Ausgabe);
@@ -253,7 +269,7 @@ public class CalcActivity_middle extends AppCompatActivity {
         tV_eingabe.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                hideKeyboard(CalcActivity_middle.this);
+                hideKeyboard(CalcActivity_normal.this);
                 //v.performClick();
                 return false;
             }
@@ -263,40 +279,40 @@ public class CalcActivity_middle extends AppCompatActivity {
         tV_ausgabe.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                hideKeyboard(CalcActivity_middle.this);
+                hideKeyboard(CalcActivity_normal.this);
                 //v.performClick();
                 return false;
             }
         });
 
-        m_background.setOnTouchListener(new OnSwipeTouchListener(CalcActivity_middle.this) {
+        normal_background.setOnTouchListener(new OnSwipeTouchListener(CalcActivity_normal.this) {
             public void onSwipeTop() {
-                Toast.makeText(CalcActivity_middle.this, "top", Toast.LENGTH_SHORT).show();
+                Toast.makeText(CalcActivity_normal.this, "top", Toast.LENGTH_SHORT).show();
             }
             public void onSwipeRight() {
-                Toast.makeText(CalcActivity_middle.this, "left", Toast.LENGTH_SHORT).show();
-                Intent conversionIntent = new Intent(CalcActivity_middle.this, MainActivity.class);
+                Toast.makeText(CalcActivity_normal.this, "right", Toast.LENGTH_SHORT).show();
+                Intent conversionIntent = new Intent(CalcActivity_normal.this, MainActivity.class);
                 conversionIntent.putExtra("verlauf",verlaufToString(verlauf));
                 conversionIntent.putExtra("input",tV_eingabe.getText().toString());
                 conversionIntent.putExtra("output",tV_ausgabe.getText().toString());
                 conversionIntent.putExtra("swipeDir","right");
-                conversionIntent.putExtra("layout","middle");
+                conversionIntent.putExtra("layout","normal");
                 startActivity(conversionIntent);
                 finish();
             }
             public void onSwipeLeft() {
-                Toast.makeText(CalcActivity_middle.this, "left", Toast.LENGTH_SHORT).show();
-                Intent conversionIntent = new Intent(CalcActivity_middle.this, MainActivity.class);
+                Toast.makeText(CalcActivity_normal.this, "left", Toast.LENGTH_SHORT).show();
+                Intent conversionIntent = new Intent(CalcActivity_normal.this, MainActivity.class);
                 conversionIntent.putExtra("verlauf",verlaufToString(verlauf));
                 conversionIntent.putExtra("input",tV_eingabe.getText().toString());
                 conversionIntent.putExtra("output",tV_ausgabe.getText().toString());
                 conversionIntent.putExtra("swipeDir","left");
-                conversionIntent.putExtra("layout","middle");
+                conversionIntent.putExtra("layout","normal");
                 startActivity(conversionIntent);
                 finish();
             }
             public void onSwipeBottom() {
-                Toast.makeText(CalcActivity_middle.this, "bottom", Toast.LENGTH_SHORT).show();
+                Toast.makeText(CalcActivity_normal.this, "bottom", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -310,7 +326,7 @@ public class CalcActivity_middle extends AppCompatActivity {
 
         //find
         display = findViewById(R.id.m_display);
-        background = findViewById(R.id.m_background);
+        background = findViewById(R.id.normal_background);
         //L1
         spinner_shift = findViewById(R.id.m_spinner_SHIFT);
         btn_CONV = findViewById(R.id.m_btn_CONV);
@@ -376,10 +392,10 @@ public class CalcActivity_middle extends AppCompatActivity {
         BTN_ALL.addAll(BTN_SPECIALS);
 
         applySettings();
-        SettingsApplier.setColors(CalcActivity_middle.this);
+        SettingsApplier.setColors(CalcActivity_normal.this);
         setBackgrounds();
         ArrayList<View> list = new ArrayList<View>() {{addAll(BTN_ALL);add(tV_eingabe);add(tV_ausgabe);}};
-        SettingsApplier.setFonts(CalcActivity_middle.this,list);
+        SettingsApplier.setFonts(CalcActivity_normal.this,list);
 
         try {
             setBackgroundImage();
@@ -428,7 +444,7 @@ public class CalcActivity_middle extends AppCompatActivity {
                 view.startAnimation(buttonClick);
 
                 current_Callback = "";
-                Intent conversionIntent = new Intent(CalcActivity_middle.this, SettingsActivity.class);
+                Intent conversionIntent = new Intent(CalcActivity_normal.this, SettingsActivity.class);
                 startActivity(conversionIntent);
             }
         });
@@ -459,7 +475,7 @@ public class CalcActivity_middle extends AppCompatActivity {
                 view.startAnimation(buttonClick);
 
                 current_Callback = "";
-                Intent conversionIntent = new Intent(CalcActivity_middle.this,SettingsActivity.class);
+                Intent conversionIntent = new Intent(CalcActivity_normal.this,SettingsActivity.class);
                 startActivity(conversionIntent);
 
 
@@ -475,7 +491,7 @@ public class CalcActivity_middle extends AppCompatActivity {
                 view.startAnimation(buttonClick);
 
                 current_Callback = "";
-                Intent conversionIntent = new Intent(CalcActivity_middle.this, ConversionActivity.class);
+                Intent conversionIntent = new Intent(CalcActivity_normal.this, ConversionActivity.class);
                 startActivityForResult(conversionIntent, REQUEST_CODE_CONV);
 
 
@@ -489,7 +505,7 @@ public class CalcActivity_middle extends AppCompatActivity {
                 view.startAnimation(buttonClick);
 
                 current_Callback = "";
-                Intent constIntent = new Intent(CalcActivity_middle.this, ConstantsActivity.class);
+                Intent constIntent = new Intent(CalcActivity_normal.this, ConstantsActivity.class);
                 startActivityForResult(constIntent, REQUEST_CODE_CONST);
 
                 setBackground(btn_CONST);
@@ -501,11 +517,11 @@ public class CalcActivity_middle extends AppCompatActivity {
                 view.startAnimation(buttonClick);
 
                 current_Callback = "";
-                Intent verlaufIntent = new Intent(CalcActivity_middle.this, HistoryActivity.class);
+                Intent verlaufIntent = new Intent(CalcActivity_normal.this, HistoryActivity.class);
                 String[] verlaufarray = verlauf.toArray(new String[verlauf.size()]);
                 verlaufIntent.putExtra("verlauf", verlaufarray);
                 String[] arrayVerlauf = verlaufIntent.getStringArrayExtra("verlauf");
-                //Toast.makeText(CalcActivity_middle.this,Arrays.toString(arrayVerlauf),Toast.LENGTH_LONG).show();
+                //Toast.makeText(CalcActivity_normal.this,Arrays.toString(arrayVerlauf),Toast.LENGTH_LONG).show();
 
                 startActivityForResult(verlaufIntent, REQUEST_CODE_Verlauf);
                 setBackground(btn_CONST);
@@ -563,7 +579,7 @@ public class CalcActivity_middle extends AppCompatActivity {
                     transBtnFct(btn_11.getText().toString());
                 } else {
                     String display = "Unknown Mode: " + mode;
-                    Toast unknownMode = Toast.makeText(CalcActivity_middle.this, display, Toast.LENGTH_LONG);
+                    Toast unknownMode = Toast.makeText(CalcActivity_normal.this, display, Toast.LENGTH_LONG);
                     unknownMode.show();
                 }
                 setBackground(btn_11);
@@ -594,7 +610,7 @@ public class CalcActivity_middle extends AppCompatActivity {
                     transBtnFct(btn_12.getText().toString());
                 }else {
                     String display = "Unknown Mode: " + mode;
-                    Toast unknownMode = Toast.makeText(CalcActivity_middle.this, display, Toast.LENGTH_LONG);
+                    Toast unknownMode = Toast.makeText(CalcActivity_normal.this, display, Toast.LENGTH_LONG);
                     unknownMode.show();
                 }
                 setBackground(btn_12);
@@ -625,7 +641,7 @@ public class CalcActivity_middle extends AppCompatActivity {
                     transBtnFct(btn_13.getText().toString());
                 }else {
                     String display = "Unknown Mode: " + mode;
-                    Toast unknownMode = Toast.makeText(CalcActivity_middle.this, display, Toast.LENGTH_LONG);
+                    Toast unknownMode = Toast.makeText(CalcActivity_normal.this, display, Toast.LENGTH_LONG);
                     unknownMode.show();
                 }
                 setBackground(btn_13);
@@ -656,7 +672,7 @@ public class CalcActivity_middle extends AppCompatActivity {
                     transBtnFct(btn_14.getText().toString());
                 }else {
                     String display = "Unknown Mode: " + mode;
-                    Toast unknownMode = Toast.makeText(CalcActivity_middle.this, display, Toast.LENGTH_LONG);
+                    Toast unknownMode = Toast.makeText(CalcActivity_normal.this, display, Toast.LENGTH_LONG);
                     unknownMode.show();
                 }
                 setBackground(btn_14);
@@ -686,7 +702,7 @@ public class CalcActivity_middle extends AppCompatActivity {
                     transBtnFct(btn_15.getText().toString());
                 }else {
                     String display = "Unknown Mode: " + mode;
-                    Toast unknownMode = Toast.makeText(CalcActivity_middle.this, display, Toast.LENGTH_LONG);
+                    Toast unknownMode = Toast.makeText(CalcActivity_normal.this, display, Toast.LENGTH_LONG);
                     unknownMode.show();
                 }
                 setBackground(btn_15);
@@ -716,7 +732,7 @@ public class CalcActivity_middle extends AppCompatActivity {
                     transBtnFct(btn_16.getText().toString());
                 }else {
                     String display = "Unknown Mode: " + mode;
-                    Toast unknownMode = Toast.makeText(CalcActivity_middle.this, display, Toast.LENGTH_LONG);
+                    Toast unknownMode = Toast.makeText(CalcActivity_normal.this, display, Toast.LENGTH_LONG);
                     unknownMode.show();
                 }
                 setBackground(btn_16);
@@ -751,7 +767,7 @@ public class CalcActivity_middle extends AppCompatActivity {
                     transBtnFct(btn_21.getText().toString());
                 }else {
                     String display = "Unknown Mode: " + mode;
-                    Toast unknownMode = Toast.makeText(CalcActivity_middle.this, display, Toast.LENGTH_LONG);
+                    Toast unknownMode = Toast.makeText(CalcActivity_normal.this, display, Toast.LENGTH_LONG);
                     unknownMode.show();
                 }
                 setBackground(btn_21);
@@ -781,7 +797,7 @@ public class CalcActivity_middle extends AppCompatActivity {
                     transBtnFct(btn_22.getText().toString());
                 }else {
                     String display = "Unknown Mode: " + mode;
-                    Toast unknownMode = Toast.makeText(CalcActivity_middle.this, display, Toast.LENGTH_LONG);
+                    Toast unknownMode = Toast.makeText(CalcActivity_normal.this, display, Toast.LENGTH_LONG);
                     unknownMode.show();
                 }
                 setBackground(btn_22);
@@ -811,7 +827,7 @@ public class CalcActivity_middle extends AppCompatActivity {
                     transBtnFct(btn_23.getText().toString());
                 }else {
                     String display = "Unknown Mode: " + mode;
-                    Toast unknownMode = Toast.makeText(CalcActivity_middle.this, display, Toast.LENGTH_LONG);
+                    Toast unknownMode = Toast.makeText(CalcActivity_normal.this, display, Toast.LENGTH_LONG);
                     unknownMode.show();
                 }
                 setBackground(btn_23);
@@ -840,7 +856,7 @@ public class CalcActivity_middle extends AppCompatActivity {
                     transBtnFct(btn_24.getText().toString());
                 }else {
                     String display = "Unknown Mode: " + mode;
-                    Toast unknownMode = Toast.makeText(CalcActivity_middle.this, display, Toast.LENGTH_LONG);
+                    Toast unknownMode = Toast.makeText(CalcActivity_normal.this, display, Toast.LENGTH_LONG);
                     unknownMode.show();
                 }
                 setBackground(btn_24);
@@ -869,7 +885,7 @@ public class CalcActivity_middle extends AppCompatActivity {
                     transBtnFct(btn_25.getText().toString());
                 }else {
                     String display = "Unknown Mode: " + mode;
-                    Toast unknownMode = Toast.makeText(CalcActivity_middle.this, display, Toast.LENGTH_LONG);
+                    Toast unknownMode = Toast.makeText(CalcActivity_normal.this, display, Toast.LENGTH_LONG);
                     unknownMode.show();
                 }
                 setBackground(btn_25);
@@ -898,7 +914,7 @@ public class CalcActivity_middle extends AppCompatActivity {
                     transBtnFct(btn_26.getText().toString());
                 } else {
                     String display = "Unknown Mode: " + mode;
-                    Toast unknownMode = Toast.makeText(CalcActivity_middle.this, display, Toast.LENGTH_LONG);
+                    Toast unknownMode = Toast.makeText(CalcActivity_normal.this, display, Toast.LENGTH_LONG);
                     unknownMode.show();
                 }
                 setBackground(btn_26);
@@ -1016,7 +1032,7 @@ public class CalcActivity_middle extends AppCompatActivity {
 
 
     private void ausgabe_setText(String res) {
-        //Toast.makeText(CalcActivity_middle.this,"Ausgabe: "+res,Toast.LENGTH_SHORT).show();
+        //Toast.makeText(CalcActivity_normal.this,"Ausgabe: "+res,Toast.LENGTH_SHORT).show();
         tV_ausgabe.setText(res);
     }
 
@@ -1040,7 +1056,7 @@ public class CalcActivity_middle extends AppCompatActivity {
     }
 
     public void setUpButton(Button x, String name){
-        x.setText(PreferenceManager.getDefaultSharedPreferences(CalcActivity_middle.this).getString(name, name));
+        x.setText(PreferenceManager.getDefaultSharedPreferences(CalcActivity_normal.this).getString(name, name));
     }
 
     void assignModeFct(){
@@ -1187,7 +1203,7 @@ public class CalcActivity_middle extends AppCompatActivity {
     void setBackground(View x){
         if(buttonshapeID==0)applySettings();
         Drawable background;
-        SettingsApplier.setColors(CalcActivity_middle.this);
+        SettingsApplier.setColors(CalcActivity_normal.this);
         float factor_font = 0.5f;
         boolean stroke = true;
 
@@ -1252,7 +1268,7 @@ public class CalcActivity_middle extends AppCompatActivity {
     }
 
     void setBackgroundImage() throws Exception {
-        String path = PreferenceManager.getDefaultSharedPreferences(CalcActivity_middle.this).getString("backgroundimage", "");
+        String path = PreferenceManager.getDefaultSharedPreferences(CalcActivity_normal.this).getString("backgroundimage", "");
         if(path.equals(""))return;
 
         if(!checkPermissionForReadExtertalStorage(this))requestPermissionForReadExtertalStorage(this);
@@ -1264,7 +1280,7 @@ public class CalcActivity_middle extends AppCompatActivity {
             View view = (ImageView) findViewById(R.id.container);
             view.setBackground(bd);
         } catch (Exception e){
-            Toast t =  Toast.makeText(CalcActivity_middle.this,"Could not draw Backgroundimage:"+e.getMessage(),Toast.LENGTH_LONG);
+            Toast t =  Toast.makeText(CalcActivity_normal.this,"Could not draw Backgroundimage:"+e.getMessage(),Toast.LENGTH_LONG);
             t.show();
             Log.e("IMAGEERROR",path);
         }
@@ -1332,7 +1348,7 @@ public class CalcActivity_middle extends AppCompatActivity {
                 current_Callback = data.getStringExtra("RESULT_STRING");
                 if(!current_Callback.isEmpty()){
                     //eingabeSetText(current_Callback);
-                    //Toast.makeText(CalcActivity_middle.this, "SET: "+current_Callback, Toast.LENGTH_LONG).show();
+                    //Toast.makeText(CalcActivity_normal.this, "SET: "+current_Callback, Toast.LENGTH_LONG).show();
 
                     //ausgabe_setText("");
                 }
@@ -1415,14 +1431,14 @@ public class CalcActivity_middle extends AppCompatActivity {
 
     private void applySettings(){
         //language
-        language = PreferenceManager.getDefaultSharedPreferences(CalcActivity_middle.this).getString("pref_lang","english");
+        language = PreferenceManager.getDefaultSharedPreferences(CalcActivity_normal.this).getString("pref_lang","english");
         if(language.equals("english") || language.equals("englisch")){
             btn_CONV.setText(R.string.CONVEN);
             btn_CONST.setText(R.string.CONSTEN);
             btn_menu.setText(R.string.MENU_EN);
             btn_verlauf.setText(R.string.VERLAUFEN);
             act_options = getResources().getStringArray(R.array.act_EN);
-            mode_options = FunctionGroupSettingsActivity.getGroups(CalcActivity_middle.this);
+            mode_options = FunctionGroupSettingsActivity.getGroups(CalcActivity_normal.this);
             if(language.equals("german") || language.equals("deutsch")){
                 mode_options = StringUtils.concatenate(new String[]{"ZAHLEN"},mode_options);
             }else {
@@ -1435,7 +1451,7 @@ public class CalcActivity_middle extends AppCompatActivity {
             btn_menu.setText(R.string.MENU_DE);
             btn_verlauf.setText(R.string.VERLAUFDE);
             act_options = getResources().getStringArray(R.array.act_DE);
-            mode_options = FunctionGroupSettingsActivity.translateGroup(FunctionGroupSettingsActivity.getGroups(CalcActivity_middle.this),"german");
+            mode_options = FunctionGroupSettingsActivity.translateGroup(FunctionGroupSettingsActivity.getGroups(CalcActivity_normal.this),"german");
             if(language.equals("german") || language.equals("deutsch")){
                 mode_options = StringUtils.concatenate(new String[]{"ZAHLEN"},mode_options);
             }else {
@@ -1444,18 +1460,18 @@ public class CalcActivity_middle extends AppCompatActivity {
         }
 
         //UserFctGroups.addAll(mode_options); UserFctGroups
-        //Toast.makeText(CalcActivity_middle.this,"Modes: "+Arrays.toString(mode_options),Toast.LENGTH_SHORT).show();
-        UserFctGroups = new HashSet<>(Arrays.asList(FunctionGroupSettingsActivity.getUserGroups(CalcActivity_middle.this)));
+        //Toast.makeText(CalcActivity_normal.this,"Modes: "+Arrays.toString(mode_options),Toast.LENGTH_SHORT).show();
+        UserFctGroups = new HashSet<>(Arrays.asList(FunctionGroupSettingsActivity.getUserGroups(CalcActivity_normal.this)));
 
         //numbers
-        if (PreferenceManager.getDefaultSharedPreferences(CalcActivity_middle.this).contains("pref_precision")) {
-            String prec = PreferenceManager.getDefaultSharedPreferences(CalcActivity_middle.this).getString("pref_precision","10");
+        if (PreferenceManager.getDefaultSharedPreferences(CalcActivity_normal.this).contains("pref_precision")) {
+            String prec = PreferenceManager.getDefaultSharedPreferences(CalcActivity_normal.this).getString("pref_precision","10");
             if(prec != null)NumberString.precision =  Integer.valueOf(prec) + 1;
         }
 
         //buttonshape
-        if (PreferenceManager.getDefaultSharedPreferences(CalcActivity_middle.this).contains("buttonshape")) {
-            String form = PreferenceManager.getDefaultSharedPreferences(CalcActivity_middle.this).getString("buttonshape","round");
+        if (PreferenceManager.getDefaultSharedPreferences(CalcActivity_normal.this).contains("buttonshape")) {
+            String form = PreferenceManager.getDefaultSharedPreferences(CalcActivity_normal.this).getString("buttonshape","round");
             if(form != null){
                 switch(form){
                     case "Round": {
@@ -1468,12 +1484,12 @@ public class CalcActivity_middle extends AppCompatActivity {
                     }
                 }
             }
-            else Toast.makeText(CalcActivity_middle.this,"no buttonshape settings",Toast.LENGTH_SHORT).show();
+            else Toast.makeText(CalcActivity_normal.this,"no buttonshape settings",Toast.LENGTH_SHORT).show();
         }
 
         //buttonfüllung
-        if (PreferenceManager.getDefaultSharedPreferences(CalcActivity_middle.this).contains("buttonfüllung")) {
-            buttonfüllung = PreferenceManager.getDefaultSharedPreferences(CalcActivity_middle.this).getString("buttonfüllung","voll");
+        if (PreferenceManager.getDefaultSharedPreferences(CalcActivity_normal.this).contains("buttonfüllung")) {
+            buttonfüllung = PreferenceManager.getDefaultSharedPreferences(CalcActivity_normal.this).getString("buttonfüllung","voll");
         }
 
         //Fonts
@@ -1516,6 +1532,7 @@ public class CalcActivity_middle extends AppCompatActivity {
     };
 
     public String verlaufToString(List<String> verlauf){
+        if(verlauf.isEmpty())return"";
         String output="";
         for(int i=0; i<verlauf.size()-1; i++)output+=verlauf.get(i)+"_";
         output+=verlauf.get(verlauf.size()-1);

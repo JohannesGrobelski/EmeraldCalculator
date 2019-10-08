@@ -226,13 +226,14 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         return PreferenceFragment.class.getName().equals(fragmentName)
                 || GeneralPreferenceFragment
                 .class.getName().equals(fragmentName)
+                || LayoutPreferenceFragment
+                .class.getName().equals(fragmentName)
                 || ButtoncolorSettingsFragment
                 .class.getName().equals(fragmentName)
                 || LanguagePreferenceFragment
                 .class.getName().equals(fragmentName)
                 || MathSettingsFragment
                 .class.getName().equals(fragmentName);
-
     }
 
     private void applySettings(){
@@ -243,6 +244,37 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         String current_font_family = androidx.preference.PreferenceManager.getDefaultSharedPreferences(SettingsActivity.this).getString("fontfamily", "monospace");
         String current_fontstlye = androidx.preference.PreferenceManager.getDefaultSharedPreferences(SettingsActivity.this).getString("fontstyle", "normal");
         current_typeface = FontSettingsActivity.getTypeFace(current_font_family,current_fontstlye);
+    }
+
+
+    /**
+     * Dieses Fragment lässt den Nutzer Farbeinstellungen verändern.
+     */
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    public static class LayoutPreferenceFragment
+            extends PreferenceFragment {
+
+        SharedPreferences mPrefs;
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            if(language.equals("english") || language.equals("englisch"))addPreferencesFromResource(R.xml.pref_layout_en);
+            else if(language.equals("deutsch") || language.equals("german"))addPreferencesFromResource(R.xml.pref_layout_de);
+            setHasOptionsMenu(true);
+
+        }
+
+
+        @Override
+        public boolean onOptionsItemSelected(MenuItem item) {
+            int id = item.getItemId();
+            if (id == android.R.id.home) {
+                startActivity(
+                        new Intent(getActivity(), SettingsActivity.class));
+                return true;
+            }
+            return super.onOptionsItemSelected(item);
+        }
     }
 
 

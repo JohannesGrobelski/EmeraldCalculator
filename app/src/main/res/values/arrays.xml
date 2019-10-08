@@ -49,6 +49,17 @@
 
     </string-array>
 
+    <string-array name="LayoutModesEN">
+        <item>science</item>
+        <item>normal</item>
+        <item>small</item>
+    </string-array>
+
+    <string-array name="LayoutModesDE">
+        <item>wissenschaftlich</item>
+        <item>normal</item>
+        <item>klein</item>
+    </string-array>
 
 
 </resources>

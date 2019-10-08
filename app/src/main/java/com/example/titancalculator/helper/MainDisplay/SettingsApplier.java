@@ -139,6 +139,13 @@ public class SettingsApplier {
 
     }
 
+    public static Float getCurrentFontsize(Context c){
+        String  current_fontstlye = PreferenceManager.getDefaultSharedPreferences(c).getString("fontstyle", "normal");
+        Float f = 20f;
+        if(!current_fontsize.isEmpty() && !current_fontsize.equals("automatic"))f = Float.valueOf(current_fontsize);
+        return f;
+    }
+
     public static void setFonts(Context c, ArrayList<View> BTN_ALL){
         current_font_family = PreferenceManager.getDefaultSharedPreferences(c).getString("fontfamily", "monospace");
         current_fontsize = PreferenceManager.getDefaultSharedPreferences(c).getString("fontsize", "20");

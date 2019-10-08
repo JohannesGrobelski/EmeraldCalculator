@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/const_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -87,9 +88,9 @@
                 android:layout_marginBottom="5dp"
                 android:layout_weight=".5"
                 android:background="@drawable/buttonshape_round"
+                android:inputType="numberDecimal"
                 android:text="Konstantenname"
-                android:textSize="30sp"
-                android:inputType="numberDecimal"/>
+                android:textSize="30sp" />
 
             <EditText
                 android:id="@+id/eT_cur_const_val2"
@@ -99,9 +100,9 @@
                 android:layout_marginBottom="10dp"
                 android:layout_weight=".4"
                 android:background="@drawable/buttonshape_square"
+                android:inputType="numberDecimal"
                 android:text="Konstantenwert"
-                android:textSize="30sp"
-                android:inputType="numberDecimal"/>
+                android:textSize="30sp" />
 
         </LinearLayout>
 

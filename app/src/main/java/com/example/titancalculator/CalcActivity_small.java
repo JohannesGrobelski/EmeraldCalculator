@@ -19,22 +19,16 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
@@ -56,7 +50,7 @@ import java.util.Set;
 
 
 public class CalcActivity_small extends AppCompatActivity {
-    TableLayout background;
+    TableLayout small_background;
 
     static final int REQUEST_CODE_CONST = 1;  // The request code
     static final int REQUEST_CODE_CONV = 1;  // The request code
@@ -118,10 +112,7 @@ public class CalcActivity_small extends AppCompatActivity {
     String Y = "";
 
 
-    private Set<Button> BTN_FKT;
-    private Set<Button> BTN_NUMBERS;
-    private Set<Button> BTN_SAVES;
-    private Set<Button> BTN_SPECIALS;
+    private Set<Button> BTN_ACT,BTN_FKT,BTN_NUMBERS,BTN_SAVES,BTN_SPECIALS;
     private ArrayList<Button> BTN_ALL;
 
     String mode = "BASIC";
@@ -138,11 +129,30 @@ public class CalcActivity_small extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        String mode = PreferenceManager.getDefaultSharedPreferences(this).getString("layout","");
+        if(!mode.equals("small")){
+            Intent conversionIntent=null;
+            if(mode.equals("normal")){
+                conversionIntent = new Intent(CalcActivity_small.this, CalcActivity_normal.class);
+            }
+            else {
+                conversionIntent = new Intent(CalcActivity_small.this, CalcActivity_science.class);
+            }
+            conversionIntent.putExtra("verlauf",verlaufToString(verlauf));
+            conversionIntent.putExtra("input",tV_eingabe.getText().toString());
+            conversionIntent.putExtra("output",tV_ausgabe.getText().toString());
+            conversionIntent.putExtra("swipeDir","");
+            conversionIntent.putExtra("layout",mode);
+            startActivity(conversionIntent);
+            finish();
+        }
+
         setTitle("Rechner");
         SettingsApplier.setColors(CalcActivity_small.this);
         applySettings();
         setBackgrounds();
-        ArrayList<View> list = new ArrayList<View>() {{addAll(BTN_ALL);add(tV_eingabe);add(tV_ausgabe);}};
+        ArrayList<View> list = new ArrayList<View>() {{addAll(BTN_ACT);addAll(BTN_ALL);add(tV_eingabe);add(tV_ausgabe);}};
         SettingsApplier.setFonts(CalcActivity_small.this,list);
 
 
@@ -171,7 +181,7 @@ public class CalcActivity_small extends AppCompatActivity {
 
         setTitle("Rechner");
 
-        background = findViewById(R.id.s_background);
+        small_background = findViewById(R.id.small_background);
 
 
 
@@ -205,7 +215,7 @@ public class CalcActivity_small extends AppCompatActivity {
         });
 
 
-        background.setOnTouchListener(new OnSwipeTouchListener(CalcActivity_small.this) {
+        small_background.setOnTouchListener(new OnSwipeTouchListener(CalcActivity_small.this) {
             public void onSwipeTop() {
                 Toast.makeText(CalcActivity_small.this, "top", Toast.LENGTH_SHORT).show();
             }
@@ -273,11 +283,13 @@ public class CalcActivity_small extends AppCompatActivity {
         btn_div = findViewById(R.id.s_btn_div);
         btn_eq = findViewById(R.id.s_btn_eq);
 
+        BTN_ACT = new HashSet<>(Arrays.asList(new Button[]{btn_menu, btn_verlauf}));
         BTN_FKT = new HashSet<>(Arrays.asList(new Button[]{btn_clear, btn_clearall}));
         BTN_NUMBERS = new HashSet<>(Arrays.asList(new Button[]{btn_com, btn_0, btn_1, btn_2, btn_3, btn_4, btn_5, btn_6, btn_7, btn_8, btn_9}));
         BTN_SAVES = new HashSet<>(Arrays.asList(new Button[]{btn_eq}));
         BTN_SPECIALS = new HashSet<>(Arrays.asList(new Button[]{btn_mul, btn_div, btn_sub, btn_add}));
         BTN_ALL = new ArrayList<>();
+        BTN_ALL.addAll(BTN_ACT);
         BTN_ALL.addAll(BTN_FKT);
         BTN_ALL.addAll(BTN_NUMBERS);
         BTN_ALL.addAll(BTN_SAVES);
@@ -573,6 +585,12 @@ public class CalcActivity_small extends AppCompatActivity {
             x.setBackground(background);
         }
 
+        else if(BTN_ACT.contains(x)){
+            background = getResources().getDrawable(buttonshapeID);
+            setColor(background, SettingsApplier.color_act,buttonfüllung,stroke);
+            darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.color_act,factor_font);
+            if(x instanceof Button) ((Button) x).setTextColor(darker);
+        }
         else if(BTN_FKT.contains(x)){
             background = getResources().getDrawable(buttonshapeID);
             setColor(background, SettingsApplier.color_fkt,buttonfüllung,stroke);
@@ -619,7 +637,7 @@ public class CalcActivity_small extends AppCompatActivity {
 
     void setBackgrounds(){
         display.setBackgroundColor(SettingsApplier.color_display);
-        background.setBackgroundColor(SettingsApplier.color_background);
+        small_background.setBackgroundColor(SettingsApplier.color_background);
 
         //setBackground(spinner_shift);
 
@@ -846,6 +864,7 @@ public class CalcActivity_small extends AppCompatActivity {
     };
 
     public String verlaufToString(List<String> verlauf){
+        if(verlauf.isEmpty())return"";
         String output="";
         for(int i=0; i<verlauf.size()-1; i++)output+=verlauf.get(i)+"_";
         output+=verlauf.get(verlauf.size()-1);

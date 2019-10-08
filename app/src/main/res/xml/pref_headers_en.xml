@@ -13,6 +13,11 @@
         android:fragment="com.example.titancalculator.SettingsActivity$MathSettingsFragment" />
 
     <header
+        android:icon="@drawable/ic_layout_24dp"
+        android:title="Layout"
+        android:fragment="com.example.titancalculator.SettingsActivity$LayoutPreferenceFragment" />
+
+    <header
         android:icon="@drawable/ic_colorpicker"
         android:title="Colors"
         android:fragment="com.example.titancalculator.SettingsActivity$ButtoncolorSettingsFragment" />

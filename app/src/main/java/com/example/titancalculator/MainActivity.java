@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
@@ -13,7 +14,7 @@ import androidx.preference.PreferenceManager;
 
 public class MainActivity extends AppCompatActivity {
 
-    static String modes[] = {"normal","middle","small"};
+    static String modes[] = {"science","normal","small"};
     String current_input="";
     String current_output="";
     String current_verlauf="";
@@ -23,7 +24,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        startMode(getMode());
+        String mode = getMode();
+        Log.e("mode",mode);
+        Toast.makeText(this,"MODE: "+mode,Toast.LENGTH_LONG).show();
+        startMode(mode);
         finish();
     }
 
@@ -39,8 +43,9 @@ public class MainActivity extends AppCompatActivity {
         } else {
             int i = posMode(layout);
             if(swipeDir.equals("left"))return modes[turnMod((i-1),modes.length)];
-            if(swipeDir.equals("right"))return modes[turnMod((i+1),modes.length)];
-        } return "middle";
+            else if(swipeDir.equals("right"))return modes[turnMod((i+1),modes.length)];
+            else return modes[turnMod((i),modes.length)];
+        }
     }
 
     private int posMode(String m){
@@ -49,6 +54,12 @@ public class MainActivity extends AppCompatActivity {
                 return i;
             }
         }
+        //exit
+        Log.e("wrong mode",m);
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
         return -1;
     }
 
@@ -57,10 +68,8 @@ public class MainActivity extends AppCompatActivity {
         Intent conversionIntent;
         if(mode.equals("small")){
             conversionIntent = new Intent(MainActivity.this, CalcActivity_small.class);
-
-        } else if(mode.equals("middle")){
-            conversionIntent = new Intent(MainActivity.this, CalcActivity_middle.class);
-
+        } else if(mode.equals("normal")){
+            conversionIntent = new Intent(MainActivity.this, CalcActivity_normal.class);
         } else {
             conversionIntent = new Intent(MainActivity.this, CalcActivity_science.class);
         }
@@ -91,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private String loadLayout(){
-        String l = PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getString("last_layout", "middle");
+        String l = PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getString("last_layout", "normal");
         return l;
     }
 

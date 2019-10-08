@@ -16,7 +16,6 @@ import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -57,7 +56,7 @@ import java.util.Set;
 
 
 public class CalcActivity_science extends AppCompatActivity {
-    TableLayout background;
+    TableLayout science_background;
 
     static final int REQUEST_CODE_CONST = 1;  // The request code
     static final int REQUEST_CODE_CONV = 1;  // The request code
@@ -190,6 +189,26 @@ public class CalcActivity_science extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        String mode = PreferenceManager.getDefaultSharedPreferences(this).getString("layout","");
+        if(!mode.equals("science")){
+            Intent conversionIntent=null;
+            if(mode.equals("normal")){
+                conversionIntent = new Intent(CalcActivity_science.this, CalcActivity_normal.class);
+            }
+            else {
+                conversionIntent = new Intent(CalcActivity_science.this, CalcActivity_small.class);
+            }
+            conversionIntent.putExtra("verlauf",verlaufToString(verlauf));
+            conversionIntent.putExtra("input",tV_eingabe.getText().toString());
+            conversionIntent.putExtra("output",tV_ausgabe.getText().toString());
+            conversionIntent.putExtra("swipeDir","");
+            conversionIntent.putExtra("layout",mode);
+            startActivity(conversionIntent);
+            finish();
+        }
+
+
         setTitle("Rechner");
         SettingsApplier.setColors(CalcActivity_science.this);
         applySettings();
@@ -254,11 +273,11 @@ public class CalcActivity_science extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_calc_normal);
+        setContentView(R.layout.activity_calc_science);
 
         setTitle("Rechner");
 
-        background = findViewById(R.id.background);
+        science_background = findViewById(R.id.science_background);
 
 
 
@@ -291,7 +310,7 @@ public class CalcActivity_science extends AppCompatActivity {
             }
         });
 
-        background.setOnTouchListener(new OnSwipeTouchListener(CalcActivity_science.this) {
+        science_background.setOnTouchListener(new OnSwipeTouchListener(CalcActivity_science.this) {
             public void onSwipeTop() {
                 Toast.makeText(CalcActivity_science.this, "top", Toast.LENGTH_SHORT).show();
             }
@@ -302,7 +321,7 @@ public class CalcActivity_science extends AppCompatActivity {
                 conversionIntent.putExtra("input",tV_eingabe.getText().toString());
                 conversionIntent.putExtra("output",tV_ausgabe.getText().toString());
                 conversionIntent.putExtra("swipeDir","right");
-                conversionIntent.putExtra("layout","normal");
+                conversionIntent.putExtra("layout","science");
                 startActivity(conversionIntent);
                 finish();
             }
@@ -313,7 +332,7 @@ public class CalcActivity_science extends AppCompatActivity {
                 conversionIntent.putExtra("input",tV_eingabe.getText().toString());
                 conversionIntent.putExtra("output",tV_ausgabe.getText().toString());
                 conversionIntent.putExtra("swipeDir","left");
-                conversionIntent.putExtra("layout","normal");
+                conversionIntent.putExtra("layout","science");
                 startActivity(conversionIntent);
                 finish();
             }
@@ -332,7 +351,7 @@ public class CalcActivity_science extends AppCompatActivity {
 
         //find
         display = findViewById(R.id.display);
-        background = findViewById(R.id.background);
+        science_background = findViewById(R.id.science_background);
         //L1
         spinner_shift = findViewById(R.id.spinner_SHIFT);
         btn_CONV = findViewById(R.id.btn_CONV);
@@ -1400,7 +1419,7 @@ public class CalcActivity_science extends AppCompatActivity {
 
     void setBackgrounds(){
         display.setBackgroundColor(SettingsApplier.color_display);
-        background.setBackgroundColor(SettingsApplier.color_background);
+        science_background.setBackgroundColor(SettingsApplier.color_background);
 
         //setBackground(spinner_shift);
 
@@ -1633,6 +1652,7 @@ public class CalcActivity_science extends AppCompatActivity {
 
 
     public String verlaufToString(List<String> verlauf){
+        if(verlauf.isEmpty())return"";
         String output="";
         for(int i=0; i<verlauf.size()-1; i++)output+=verlauf.get(i)+"_";
         output+=verlauf.get(verlauf.size()-1);

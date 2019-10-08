@@ -54,6 +54,7 @@ public class ConversionActivity extends AppCompatActivity {
     String[] measAr = {"laenge","Zeit","Geschwindigkeit","Masse","Volumen","Fläche","Temperatur","Kraft","Leistung","Stromstärke","Datenspeicher","Datentransfer"};
     String language="";
     int precision=10;
+    Float fontsize;
 
     private static LinkedHashSet<String> laenge = new LinkedHashSet<>();
     private static LinkedHashSet<String> zeit = new LinkedHashSet<>();
@@ -156,7 +157,7 @@ public class ConversionActivity extends AppCompatActivity {
             int color_font = ButtonSettingsActivity.manipulateColor(SettingsApplier.color_act,factor_font);
             public View getView(int position, View convertView, ViewGroup parent) {
                 View v = super.getView(position, convertView, parent);
-                ((TextView) v).setTextSize(16);
+                ((TextView) v).setTextSize(fontsize);
                 ((TextView) v).setBackgroundColor(SettingsApplier.color_background);
                 ((TextView) v).setTypeface(FontSettingsActivity.getTypeFace(SettingsApplier.current_font_family,SettingsApplier.current_fontstlye));
                 ((TextView) v).setTextColor(color_font);
@@ -236,7 +237,6 @@ public class ConversionActivity extends AppCompatActivity {
 
 
         x.setBackground(background);
-
     }
 
     void setBackgrounds(){
@@ -282,7 +282,7 @@ public class ConversionActivity extends AppCompatActivity {
             int fontcolor = ButtonSettingsActivity.manipulateColor(SettingsApplier.color_act,factor_font);
             public View getView(int position, View convertView, ViewGroup parent) {
                 View v = super.getView(position, convertView, parent);
-                ((TextView) v).setTextSize(16);
+                ((TextView) v).setTextSize(fontsize);
                 ((TextView) v).setBackgroundColor(SettingsApplier.color_background);
                 ((TextView) v).setTypeface(FontSettingsActivity.getTypeFace(SettingsApplier.current_font_family,SettingsApplier.current_fontstlye));
                 ((TextView) v).setTextColor(fontcolor);
@@ -341,7 +341,7 @@ public class ConversionActivity extends AppCompatActivity {
                         int color_font = ButtonSettingsActivity.manipulateColor(SettingsApplier.color_act,factor_font);
                         public View getView(int position, View convertView, ViewGroup parent) {
                             View v = super.getView(position, convertView, parent);
-                            ((TextView) v).setTextSize(16);
+                            ((TextView) v).setTextSize(fontsize);
                             ((TextView) v).setBackgroundColor(SettingsApplier.color_background);
                             ((TextView) v).setTypeface(FontSettingsActivity.getTypeFace(SettingsApplier.current_font_family,SettingsApplier.current_fontstlye));
                             ((TextView) v).setTextColor(color_font);
@@ -572,8 +572,10 @@ public class ConversionActivity extends AppCompatActivity {
             if(prec != null)precision =  Integer.valueOf(prec) + 1;
         }
 
-        setBackgrounds();
 
+
+        setBackgrounds();
+        fontsize = SettingsApplier.getCurrentFontsize(this);
     }
 
     static void setColor(Drawable background, int c, String füllung, int stroke){
