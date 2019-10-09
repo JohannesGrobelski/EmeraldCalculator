@@ -153,8 +153,7 @@ public class ConversionActivity extends AppCompatActivity {
         String[] a = (String[]) currentSet.toArray(new String[currentSet.size()]);
         //ArrayAdapter adapter_cat = new ArrayAdapter<String>(this, R.layout.lvitem_layout, a);
         ArrayAdapter<String> adapter_cat = new ArrayAdapter<String>(this, R.layout.spinner_shift_style, a){
-            float factor_font = 0.5f;
-            int color_font = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_conv(ConversionActivity.this),factor_font);
+            int color_font = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_conv(ConversionActivity.this),SettingsApplier.darker_factor_font);
             public View getView(int position, View convertView, ViewGroup parent) {
                 View v = super.getView(position, convertView, parent);
                 ((TextView) v).setTextSize(fontsize);
@@ -166,7 +165,8 @@ public class ConversionActivity extends AppCompatActivity {
             public View getDropDownView(int position, View convertView, ViewGroup parent) {
                 View v = super.getDropDownView(position, convertView, parent);
                 v.setBackgroundResource(buttonshapeID);
-                ((TextView) v).setTextColor(SettingsApplier.getColor_conv(ConversionActivity.this));
+                int darker = Math.round(SettingsApplier.getColor_conv(ConversionActivity.this) * SettingsApplier.darker_factor_font);
+                SettingsApplier.setTextColor(v,darker);
                 ((TextView) v).setBackgroundColor(SettingsApplier.getColor_background(ConversionActivity.this));
                 ((TextView) v).setTypeface(FontSettingsActivity.getTypeFace(SettingsApplier.current_font_family,SettingsApplier.current_fontstlye));
                 ((TextView) v).setGravity(Gravity.CENTER);
@@ -215,7 +215,7 @@ public class ConversionActivity extends AppCompatActivity {
 
         Drawable background;
         SettingsApplier.setColors(ConversionActivity.this);
-        float factor_font = 0.5f;
+        float factor_font = SettingsApplier.darker_factor_font;
         boolean stroke = true;
 
         //Default Case
@@ -225,7 +225,8 @@ public class ConversionActivity extends AppCompatActivity {
         if(x instanceof Button) ((Button) x).setTextColor(visual_unselect);
 
         if(x instanceof EditText){
-            ((EditText) x).setTextColor( SettingsApplier.getColor_conv(ConversionActivity.this));
+            int fontcolor = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_conv(ConversionActivity.this),factor_font);
+            SettingsApplier.setTextColor(x,fontcolor);
         }
 
         if(VIEW_CONV.contains(x)){
@@ -275,6 +276,8 @@ public class ConversionActivity extends AppCompatActivity {
         VIEW_CONV = new HashSet<View>(Arrays.asList(btn_back,eT_cur_const_val1,eT_cur_const_val2,btn_maßeinheit1,btn_maßeinheit2,btn_me1_me2,btn_me2_me1,btn_save));
         ArrayList<View> list = new ArrayList<View>() {{addAll(VIEW_CONV);}};
         SettingsApplier.setFonts(ConversionActivity.this,list);
+
+
 
         //ArrayAdapter adapter_Meas = new ArrayAdapter<String>(this,R.layout.lvitem_layout, measAr);
         ArrayAdapter<String> adapter_Meas = new ArrayAdapter<String>(this, R.layout.spinner_shift_style, measAr){

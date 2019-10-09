@@ -531,7 +531,8 @@ public class ConstantsActivity extends AppCompatActivity {
         if(x instanceof Button) ((Button) x).setTextColor(visual_unselect);
 
         if(x instanceof EditText){
-            ((EditText) x).setTextColor( SettingsApplier.getColor_const(ConstantsActivity.this));
+            int fontcolor = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_const(ConstantsActivity.this),factor_font);
+            SettingsApplier.setTextColor(x,fontcolor);
         }
 
         if(VIEW_CONST.contains(x)){

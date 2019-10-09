@@ -248,6 +248,7 @@ public class CalcActivity_normal extends AppCompatActivity {
 
                         ((TextView) v).setTextSize(16);
                         ((TextView) v).setTypeface(FontSettingsActivity.getTypeFace(SettingsApplier.current_font_family,SettingsApplier.current_fontstlye));
+                        ((TextView) v).setTextColor(darker);
                         SettingsApplier.setTextColor(v,darker);
 
                         return v;
@@ -258,6 +259,7 @@ public class CalcActivity_normal extends AppCompatActivity {
                         v.setBackgroundResource(R.drawable.buttonshape_square);
 
                         SettingsApplier.setTextColor(v,darker);
+                        ((TextView) v).setBackgroundColor(SettingsApplier.getColor_background(CalcActivity_normal.this));
 
                         ((TextView) v).setTypeface(FontSettingsActivity.getTypeFace(SettingsApplier.current_font_family,SettingsApplier.current_fontstlye));
                         ((TextView) v).setGravity(Gravity.CENTER);
@@ -1112,7 +1114,7 @@ public class CalcActivity_normal extends AppCompatActivity {
             btn_22.setText("2");
             btn_23.setText("3");
             btn_24.setText("0");
-            btn_25.setText(",");
+            btn_25.setText(".");
             btn_26.setText("ANS");
         } else if(mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))){
             //L1 normal: SIN,COS,TAN,ASIN,ACOS,ATAN
@@ -1234,7 +1236,7 @@ public class CalcActivity_normal extends AppCompatActivity {
         if(buttonshapeID==0)applySettings();
         Drawable background;
         SettingsApplier.setColors(CalcActivity_normal.this);
-        float factor_font = 0.5f;
+        float factor_font = SettingsApplier.darker_factor_font;
         boolean stroke = true;
 
         //Default Case

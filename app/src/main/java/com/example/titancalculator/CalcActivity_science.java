@@ -274,6 +274,7 @@ public class CalcActivity_science extends AppCompatActivity {
                         v.setBackgroundResource(R.drawable.buttonshape_square);
 
                         SettingsApplier.setTextColor(v,darker);
+                        ((TextView) v).setBackgroundColor(SettingsApplier.getColor_background(CalcActivity_science.this));
 
                         ((TextView) v).setTypeface(FontSettingsActivity.getTypeFace(SettingsApplier.current_font_family,SettingsApplier.current_fontstlye));
                         ((TextView) v).setGravity(Gravity.CENTER);
