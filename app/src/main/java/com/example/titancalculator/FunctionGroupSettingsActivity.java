@@ -340,12 +340,12 @@ public class FunctionGroupSettingsActivity extends AppCompatActivity {
 
         lv_group = findViewById(R.id.lv_group);
         tv_selected_group  = findViewById(R.id.tv_selected_group);
-        setBackground(btn_new,SettingsApplier.color_act);
-        setBackground(btn_delete,SettingsApplier.color_act);
-        setBackground(btn_rename,SettingsApplier.color_act);
-        setBackground(btn_default,SettingsApplier.color_act);
-        setBackground(btn_moveUp,SettingsApplier.color_fkt);
-        setBackground(btn_moveDown,SettingsApplier.color_fkt);
+        setBackground(btn_new,SettingsApplier.getColor_act(FunctionGroupSettingsActivity.this));
+        setBackground(btn_delete,SettingsApplier.getColor_act(FunctionGroupSettingsActivity.this));
+        setBackground(btn_rename,SettingsApplier.getColor_act(FunctionGroupSettingsActivity.this));
+        setBackground(btn_default,SettingsApplier.getColor_act(FunctionGroupSettingsActivity.this));
+        setBackground(btn_moveUp,SettingsApplier.getColor_fkt(FunctionGroupSettingsActivity.this));
+        setBackground(btn_moveDown,SettingsApplier.getColor_fkt(FunctionGroupSettingsActivity.this));
 
         //Fonts
         //Typeface font = Typeface.createFromAsset(getAssets(), "Crashed Scoreboard.ttf");
@@ -356,7 +356,7 @@ public class FunctionGroupSettingsActivity extends AppCompatActivity {
 
     public void setBackground(View v, int color){
         Drawable background = getResources().getDrawable(buttonshapeID);
-        CalcActivity_science.setColor(background, color,buttonfüllung,true);
+        CalcActivity_science.setColor((FunctionGroupSettingsActivity.this),background, color,buttonfüllung,true);
         int darker = ButtonSettingsActivity.manipulateColor(color,0.6f);
         if(v instanceof Button) ((Button) v).setTextColor(darker);
     }

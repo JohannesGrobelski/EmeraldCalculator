@@ -11,10 +11,15 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 
 public class MainActivity extends AppCompatActivity {
 
-    static String modes[] = {"science","normal","small"};
+    static ArrayList<String> modes = new ArrayList<>(Arrays.asList("science","normal","small"));
     String current_input="";
     String current_output="";
     String current_verlauf="";
@@ -25,7 +30,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         String mode = getMode();
-        Log.e("mode",mode);
+        Log.v("Act ","main");
+
         Toast.makeText(this,"MODE: "+mode,Toast.LENGTH_LONG).show();
         startMode(mode);
         finish();
@@ -42,15 +48,15 @@ public class MainActivity extends AppCompatActivity {
             return loadLayout();
         } else {
             int i = posMode(layout);
-            if(swipeDir.equals("left"))return modes[turnMod((i-1),modes.length)];
-            else if(swipeDir.equals("right"))return modes[turnMod((i+1),modes.length)];
-            else return modes[turnMod((i),modes.length)];
+            if(swipeDir.equals("left"))return modes.get(turnMod((i-1),modes.size()));
+            else if(swipeDir.equals("right"))return modes.get(turnMod((i+1),modes.size()));
+            else return modes.get(turnMod((i),modes.size()));
         }
     }
 
     private int posMode(String m){
-        for(int i=0; i<modes.length; i++){
-            if(modes[i].equals(m)){
+        for(int i=0; i<modes.size(); i++){
+            if(modes.get(i).equals(m)){
                 return i;
             }
         }

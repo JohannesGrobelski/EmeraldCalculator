@@ -131,12 +131,13 @@ public class CalcActivity_small extends AppCompatActivity {
         super.onResume();
 
         String mode = PreferenceManager.getDefaultSharedPreferences(this).getString("layout","");
-        if(!mode.equals("small")){
+        if(!mode.isEmpty()  && MainActivity.modes.contains(mode) && !mode.equals("small")){
             Intent conversionIntent=null;
             if(mode.equals("normal")){
                 conversionIntent = new Intent(CalcActivity_small.this, CalcActivity_normal.class);
             }
-            else {
+            else if(mode.equals("science")){
+                Log.e("transfer ","science");
                 conversionIntent = new Intent(CalcActivity_small.this, CalcActivity_science.class);
             }
             conversionIntent.putExtra("verlauf",verlaufToString(verlauf));
@@ -544,15 +545,7 @@ public class CalcActivity_small extends AppCompatActivity {
     }
 
     public static void setDefaultColors(){
-        SettingsApplier.color_fops = 0x3498db; //blau
-        SettingsApplier.color_act =  0x9b59b6; //lila
-        SettingsApplier.color_fkt = 0x2ecc71; //grün
-        SettingsApplier.color_specials = 0xe67e22; //orange
-        SettingsApplier.color_numbers = 0xecf0f1; //hellgrau
-        SettingsApplier.color_saves = 0xAFAFAF; //dunkelgrau
-        SettingsApplier.color_display = 0xecf0f1; //hellgrau
-        SettingsApplier.color_displaytext = 0x000000; //schwarz
-        SettingsApplier.color_background = 0xFFFFFF; //weiß
+        SettingsApplier.setDefaultColors();
     }
 
 
@@ -566,8 +559,8 @@ public class CalcActivity_small extends AppCompatActivity {
 
         //Default Case
         background = getResources().getDrawable(buttonshapeID);
-        setColor(background, SettingsApplier.color_specials,buttonfüllung,stroke);
-        int darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.color_specials,factor_font);
+        setColor(background, SettingsApplier.getColor_specials(CalcActivity_small.this),buttonfüllung,stroke);
+        int darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_specials(CalcActivity_small.this),factor_font);
         if(x instanceof Button) ((Button) x).setTextColor(darker);
 
         if(x instanceof Button){
@@ -579,34 +572,34 @@ public class CalcActivity_small extends AppCompatActivity {
 
         if(x.equals(display)){
             background = getResources().getDrawable(buttonshapeID);
-            setColor(background, SettingsApplier.color_display,buttonfüllung,stroke);
-            tV_ausgabe.setTextColor(SettingsApplier.color_displaytext);
-            tV_eingabe.setTextColor(SettingsApplier.color_displaytext);
+            setColor(background, SettingsApplier.getColor_display(CalcActivity_small.this),buttonfüllung,stroke);
+            tV_ausgabe.setTextColor(SettingsApplier.getColor_displaytext(CalcActivity_small.this));
+            tV_eingabe.setTextColor(SettingsApplier.getColor_displaytext(CalcActivity_small.this));
             x.setBackground(background);
         }
 
         else if(BTN_ACT.contains(x)){
             background = getResources().getDrawable(buttonshapeID);
-            setColor(background, SettingsApplier.color_act,buttonfüllung,stroke);
-            darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.color_act,factor_font);
+            setColor(background, SettingsApplier.getColor_act(CalcActivity_small.this),buttonfüllung,stroke);
+            darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_act(CalcActivity_small.this),factor_font);
             if(x instanceof Button) ((Button) x).setTextColor(darker);
         }
         else if(BTN_FKT.contains(x)){
             background = getResources().getDrawable(buttonshapeID);
-            setColor(background, SettingsApplier.color_fkt,buttonfüllung,stroke);
-            darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.color_fkt,factor_font);
+            setColor(background, SettingsApplier.getColor_fkt(CalcActivity_small.this),buttonfüllung,stroke);
+            darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_fkt(CalcActivity_small.this),factor_font);
             if(x instanceof Button) ((Button) x).setTextColor(darker);
         }
         else if(BTN_NUMBERS.contains(x)){
             background = getResources().getDrawable(buttonshapeID);
-            setColor(background, SettingsApplier.color_numbers,buttonfüllung,stroke);
-            darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.color_numbers,factor_font);
+            setColor(background, SettingsApplier.getColor_numbers(CalcActivity_small.this),buttonfüllung,stroke);
+            darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_numbers(CalcActivity_small.this),factor_font);
             if(x instanceof Button) ((Button) x).setTextColor(darker);
         }
         else if(BTN_SAVES.contains(x)){
             background = getResources().getDrawable(buttonshapeID);
-            setColor(background, SettingsApplier.color_saves,buttonfüllung,stroke);
-            darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.color_saves,factor_font);
+            setColor(background, SettingsApplier.getColor_saves(CalcActivity_small.this),buttonfüllung,stroke);
+            darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_saves(CalcActivity_small.this),factor_font);
             if(x instanceof Button) ((Button) x).setTextColor(darker);
         }
 
@@ -636,8 +629,8 @@ public class CalcActivity_small extends AppCompatActivity {
 
 
     void setBackgrounds(){
-        display.setBackgroundColor(SettingsApplier.color_display);
-        small_background.setBackgroundColor(SettingsApplier.color_background);
+        display.setBackgroundColor(SettingsApplier.getColor_display(CalcActivity_small.this));
+        small_background.setBackgroundColor(SettingsApplier.getColor_background(CalcActivity_small.this));
 
         //setBackground(spinner_shift);
 
@@ -651,7 +644,7 @@ public class CalcActivity_small extends AppCompatActivity {
 
 
 
-    static void setColor(Drawable background, int c, String füllung, boolean stroke){
+    void setColor(Drawable background, int c, String füllung, boolean stroke){
         if (background instanceof ShapeDrawable) {
             // cast to 'ShapeDrawable'
             ShapeDrawable shapeDrawable = (ShapeDrawable) background;
@@ -661,7 +654,7 @@ public class CalcActivity_small extends AppCompatActivity {
             GradientDrawable gradientDrawable = (GradientDrawable) background;
             gradientDrawable.setColor(c);
             int rahmen_farbe = ButtonSettingsActivity.manipulateColor(c,0.7f);
-            if(füllung.equals("leer"))gradientDrawable.setColor(SettingsApplier.color_background);
+            if(füllung.equals("leer"))gradientDrawable.setColor(SettingsApplier.getColor_background(CalcActivity_small.this));
             if(stroke)gradientDrawable.setStroke(7, rahmen_farbe);
         } else if (background instanceof ColorDrawable) {
             // alpha value may need to be set again after this call

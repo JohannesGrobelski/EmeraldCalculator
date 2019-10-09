@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -38,11 +39,15 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.core.app.NavUtils;
+
+import com.example.titancalculator.helper.MainDisplay.SettingsApplier;
 
 import java.util.List;
 
@@ -216,6 +221,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         applySettings();
         if(language.equals("english") || language.equals("englisch"))loadHeadersFromResource(R.xml.pref_headers_en, target);
         else if(language.equals("deutsch") || language.equals("german"))loadHeadersFromResource(R.xml.pref_headers_de, target);
+        //setBackground();
     }
 
     /**
@@ -225,6 +231,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     protected boolean isValidFragment(String fragmentName) {
         return PreferenceFragment.class.getName().equals(fragmentName)
                 || GeneralPreferenceFragment
+                .class.getName().equals(fragmentName)
+                || ColorActFragment
                 .class.getName().equals(fragmentName)
                 || LayoutPreferenceFragment
                 .class.getName().equals(fragmentName)
@@ -246,6 +254,92 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         current_typeface = FontSettingsActivity.getTypeFace(current_font_family,current_fontstlye);
     }
 
+    private void setBackground(){
+        getListView().setBackgroundColor(Color.RED);
+
+        ArrayAdapter adpt_header = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, new String[]{}) {
+
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                TextView text = (TextView) view.findViewById(android.R.id.text1);
+                text.setTextColor(SettingsApplier.getColor_fkt(getContext()));
+                return view;
+            }
+
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                TextView text = (TextView) view.findViewById(android.R.id.text1);
+                text.setTextColor(SettingsApplier.getColor_fkt(getContext()));
+                return view;
+            }
+        };
+
+        getListView().setAdapter(adpt_header);
+    }
+
+
+    /**
+     * Dieses Fragment lässt den Nutzer Farbeinstellungen verändern.
+     */
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    public static class ColorActFragment
+            extends PreferenceFragment {
+
+        SharedPreferences mPrefs;
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            if(language.equals("english") || language.equals("englisch"))addPreferencesFromResource(R.xml.pref_act_colors_en);
+            else if(language.equals("deutsch") || language.equals("german"))addPreferencesFromResource(R.xml.pref_act_colors_de);
+            setHasOptionsMenu(true);
+            getActivity().setTitle("Color Settings");
+
+
+            // Bind the summaries of EditText/List/Dialog/Ringtone preferences
+            // to their values. When their values change, their summaries are
+            // updated to reflect the new value, per the Android Design
+            // guidelines.
+            final SwitchPreference defaultColors = (SwitchPreference) findPreference("actcolor_default_switch");
+
+            if (defaultColors != null){
+                defaultColors.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+
+                    @Override
+                    public boolean onPreferenceChange(Preference arg0, Object areDefaultColorsEnabled) {
+
+                        boolean isDefaultColorsOn = ((Boolean) areDefaultColorsEnabled).booleanValue();
+
+                        if(isDefaultColorsOn){
+                            Toast.makeText(getActivity(), "Colors changed to default!", Toast.LENGTH_SHORT).show();
+                            SharedPreferences S = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                            for(String key: S.getAll().keySet()){
+                                S.edit().remove(key).commit();
+                            }
+
+                            PreferenceManager.setDefaultValues(getActivity(), R.xml.pref_act_colors_en, true);
+                            SettingsApplier.setDefaultColors();
+                        }
+
+                        return true;
+                    }
+                });
+            }
+        }
+
+
+        @Override
+        public boolean onOptionsItemSelected(MenuItem item) {
+            int id = item.getItemId();
+            if (id == android.R.id.home) {
+                startActivity(
+                        new Intent(getActivity(), SettingsActivity.class));
+                return true;
+            }
+            return super.onOptionsItemSelected(item);
+        }
+    }
 
     /**
      * Dieses Fragment lässt den Nutzer Farbeinstellungen verändern.
@@ -426,7 +520,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                             }
 
                             PreferenceManager.setDefaultValues(getActivity(), R.xml.pref_buttoncolors_en, true);
-                            CalcActivity_science.setDefaultColors();
+                            SettingsApplier.setDefaultColors();
                         }
 
 

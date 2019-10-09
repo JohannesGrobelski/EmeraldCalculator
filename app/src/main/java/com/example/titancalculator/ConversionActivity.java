@@ -93,8 +93,8 @@ public class ConversionActivity extends AppCompatActivity {
     Button selected;
     Button btn_save;
 
-    private int buttonshapeID;
-    private String buttonfüllung;
+    private int buttonshapeID = R.drawable.buttonshape_square;
+    private String buttonfüllung = "voll";
     Set<View> VIEW_CONV;
 
 
@@ -154,11 +154,11 @@ public class ConversionActivity extends AppCompatActivity {
         //ArrayAdapter adapter_cat = new ArrayAdapter<String>(this, R.layout.lvitem_layout, a);
         ArrayAdapter<String> adapter_cat = new ArrayAdapter<String>(this, R.layout.spinner_shift_style, a){
             float factor_font = 0.5f;
-            int color_font = ButtonSettingsActivity.manipulateColor(SettingsApplier.color_act,factor_font);
+            int color_font = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_conv(ConversionActivity.this),factor_font);
             public View getView(int position, View convertView, ViewGroup parent) {
                 View v = super.getView(position, convertView, parent);
                 ((TextView) v).setTextSize(fontsize);
-                ((TextView) v).setBackgroundColor(SettingsApplier.color_background);
+                ((TextView) v).setBackgroundColor(SettingsApplier.getColor_background(ConversionActivity.this));
                 ((TextView) v).setTypeface(FontSettingsActivity.getTypeFace(SettingsApplier.current_font_family,SettingsApplier.current_fontstlye));
                 ((TextView) v).setTextColor(color_font);
                 return v;
@@ -166,14 +166,14 @@ public class ConversionActivity extends AppCompatActivity {
             public View getDropDownView(int position, View convertView, ViewGroup parent) {
                 View v = super.getDropDownView(position, convertView, parent);
                 v.setBackgroundResource(buttonshapeID);
-                ((TextView) v).setTextColor(SettingsApplier.color_act);
-                ((TextView) v).setBackgroundColor(SettingsApplier.color_background);
+                ((TextView) v).setTextColor(SettingsApplier.getColor_conv(ConversionActivity.this));
+                ((TextView) v).setBackgroundColor(SettingsApplier.getColor_background(ConversionActivity.this));
                 ((TextView) v).setTypeface(FontSettingsActivity.getTypeFace(SettingsApplier.current_font_family,SettingsApplier.current_fontstlye));
                 ((TextView) v).setGravity(Gravity.CENTER);
                 return v;
             }
         };
-        LV_Auswahl.setBackgroundColor(SettingsApplier.color_background);
+        LV_Auswahl.setBackgroundColor(SettingsApplier.getColor_background(ConversionActivity.this));
         LV_Auswahl.setAdapter(adapter_cat);
     }
 
@@ -197,7 +197,7 @@ public class ConversionActivity extends AppCompatActivity {
         if(x==null)return;
         Drawable background_fkt = getResources().getDrawable(buttonshapeID);
         setBackground(x);
-        setColor(background_fkt,SettingsApplier.color_act,buttonfüllung,7);
+        setColor(background_fkt,SettingsApplier.getColor_conv(ConversionActivity.this),buttonfüllung,7);
 
         x.setBackground(background_fkt);
     }
@@ -206,13 +206,13 @@ public class ConversionActivity extends AppCompatActivity {
         if(x==null)return;
         Drawable background_fkt = getResources().getDrawable(buttonshapeID);
         setBackground(x);
-        setColor(background_fkt,SettingsApplier.color_act,buttonfüllung,12);
+        setColor(background_fkt,SettingsApplier.getColor_conv(ConversionActivity.this),buttonfüllung,12);
 
         x.setBackground(background_fkt);
     }
 
     void setBackground(View x){
-        if(buttonshapeID==0)applySettings();
+
         Drawable background;
         SettingsApplier.setColors(ConversionActivity.this);
         float factor_font = 0.5f;
@@ -220,18 +220,18 @@ public class ConversionActivity extends AppCompatActivity {
 
         //Default Case
         background = getResources().getDrawable(buttonshapeID);
-        CalcActivity_science.setColor(background, SettingsApplier.color_specials,buttonfüllung,stroke);
-        int visual_unselect = ButtonSettingsActivity.manipulateColor(SettingsApplier.color_specials,factor_font);
+        CalcActivity_science.setColor(ConversionActivity.this,background, SettingsApplier.getColor_specials(ConversionActivity.this),buttonfüllung,stroke);
+        int visual_unselect = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_specials(ConversionActivity.this),factor_font);
         if(x instanceof Button) ((Button) x).setTextColor(visual_unselect);
 
         if(x instanceof EditText){
-            ((EditText) x).setTextColor( SettingsApplier.color_act);
+            ((EditText) x).setTextColor( SettingsApplier.getColor_conv(ConversionActivity.this));
         }
 
         if(VIEW_CONV.contains(x)){
             background = getResources().getDrawable(buttonshapeID);
-            CalcActivity_science.setColor(background, SettingsApplier.color_act,buttonfüllung,stroke);
-            visual_unselect = ButtonSettingsActivity.manipulateColor(SettingsApplier.color_act,factor_font);
+            CalcActivity_science.setColor(ConversionActivity.this,background, SettingsApplier.getColor_conv(ConversionActivity.this),buttonfüllung,stroke);
+            visual_unselect = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_conv(ConversionActivity.this),factor_font);
             if(x instanceof Button) ((Button) x).setTextColor(visual_unselect);
         }
 
@@ -240,7 +240,7 @@ public class ConversionActivity extends AppCompatActivity {
     }
 
     void setBackgrounds(){
-        conv_background.setBackgroundColor(SettingsApplier.color_background);
+        conv_background.setBackgroundColor(SettingsApplier.getColor_background(ConversionActivity.this));
         for(View v: VIEW_CONV){
             setBackground(v);
         }
@@ -279,18 +279,18 @@ public class ConversionActivity extends AppCompatActivity {
         //ArrayAdapter adapter_Meas = new ArrayAdapter<String>(this,R.layout.lvitem_layout, measAr);
         ArrayAdapter<String> adapter_Meas = new ArrayAdapter<String>(this, R.layout.spinner_shift_style, measAr){
             float factor_font = 0.5f;
-            int fontcolor = ButtonSettingsActivity.manipulateColor(SettingsApplier.color_act,factor_font);
+            int fontcolor = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_conv(ConversionActivity.this),factor_font);
             public View getView(int position, View convertView, ViewGroup parent) {
                 View v = super.getView(position, convertView, parent);
                 ((TextView) v).setTextSize(fontsize);
-                ((TextView) v).setBackgroundColor(SettingsApplier.color_background);
+                ((TextView) v).setBackgroundColor(SettingsApplier.getColor_background(ConversionActivity.this));
                 ((TextView) v).setTypeface(FontSettingsActivity.getTypeFace(SettingsApplier.current_font_family,SettingsApplier.current_fontstlye));
                 ((TextView) v).setTextColor(fontcolor);
                 return v;
             }
 
         };
-        LV_Auswahl.setBackgroundColor(SettingsApplier.color_background);
+        LV_Auswahl.setBackgroundColor(SettingsApplier.getColor_background(ConversionActivity.this));
         LV_Auswahl.setAdapter(adapter_Meas);
 
         applySettings();
@@ -338,11 +338,11 @@ public class ConversionActivity extends AppCompatActivity {
                     //ArrayAdapter adapter_uni = new ArrayAdapter<String>(ConversionActivity.this, R.layout.lvitem_layout, measAr);
                     ArrayAdapter<String> adapter_uni = new ArrayAdapter<String>(ConversionActivity.this, R.layout.spinner_shift_style, measAr){
                         float factor_font = 0.5f;
-                        int color_font = ButtonSettingsActivity.manipulateColor(SettingsApplier.color_act,factor_font);
+                        int color_font = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_conv(ConversionActivity.this),factor_font);
                         public View getView(int position, View convertView, ViewGroup parent) {
                             View v = super.getView(position, convertView, parent);
                             ((TextView) v).setTextSize(fontsize);
-                            ((TextView) v).setBackgroundColor(SettingsApplier.color_background);
+                            ((TextView) v).setBackgroundColor(SettingsApplier.getColor_background(ConversionActivity.this));
                             ((TextView) v).setTypeface(FontSettingsActivity.getTypeFace(SettingsApplier.current_font_family,SettingsApplier.current_fontstlye));
                             ((TextView) v).setTextColor(color_font);
                             return v;
@@ -578,7 +578,7 @@ public class ConversionActivity extends AppCompatActivity {
         fontsize = SettingsApplier.getCurrentFontsize(this);
     }
 
-    static void setColor(Drawable background, int c, String füllung, int stroke){
+    void setColor(Drawable background, int c, String füllung, int stroke){
         if (background instanceof ShapeDrawable) {
             // cast to 'ShapeDrawable'
             ShapeDrawable shapeDrawable = (ShapeDrawable) background;
@@ -588,7 +588,7 @@ public class ConversionActivity extends AppCompatActivity {
             GradientDrawable gradientDrawable = (GradientDrawable) background;
             gradientDrawable.setColor(c);
             int rahmen_farbe = ButtonSettingsActivity.manipulateColor(c,0.7f);
-            if(füllung.equals("leer"))gradientDrawable.setColor(SettingsApplier.color_background);
+            if(füllung.equals("leer"))gradientDrawable.setColor(SettingsApplier.getColor_background((ConversionActivity.this)));
             if(stroke!=0)gradientDrawable.setStroke(stroke, rahmen_farbe);
         } else if (background instanceof ColorDrawable) {
             // alpha value may need to be set again after this call

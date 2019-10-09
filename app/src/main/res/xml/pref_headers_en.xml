@@ -13,9 +13,23 @@
         android:fragment="com.example.titancalculator.SettingsActivity$MathSettingsFragment" />
 
     <header
+        android:icon="@drawable/ic_design"
+        android:title="Design">
+        <intent
+            android:targetPackage="com.example.titancalculator"
+            android:targetClass="com.example.titancalculator.DesignSettingsActivity" />
+    </header>
+
+    <header
         android:icon="@drawable/ic_layout_24dp"
         android:title="Layout"
         android:fragment="com.example.titancalculator.SettingsActivity$LayoutPreferenceFragment" />
+
+    <header
+        android:icon="@drawable/ic_colorpicker"
+        android:title="Activity Colors"
+        android:fragment="com.example.titancalculator.SettingsActivity$ColorActFragment" />
+
 
     <header
         android:icon="@drawable/ic_colorpicker"
@@ -23,20 +37,13 @@
         android:fragment="com.example.titancalculator.SettingsActivity$ButtoncolorSettingsFragment" />
 
     <header
-        android:icon="@drawable/ic_font_download_black_24dp"
+        android:icon="@drawable/ic_schriftart"
         android:title="Font">
         <intent
             android:targetPackage="com.example.titancalculator"
             android:targetClass="com.example.titancalculator.FontSettingsActivity" />
     </header>
 
-    <header
-        android:icon="@drawable/ic_image_black_24dp"
-        android:title="Backgroundimage">
-        <intent
-            android:targetPackage="com.example.titancalculator"
-            android:targetClass="com.example.titancalculator.SettingBackgroundimageActivity" />
-    </header>
 
     <header
         android:icon="@drawable/ic_formen"
@@ -53,7 +60,7 @@
 
     <header
         android:icon="@drawable/ic_button_fct"
-        android:title="Funktionsgruppen">
+        android:title="create Function groups">
         <intent
             android:targetPackage="com.example.titancalculator"
             android:targetClass="com.example.titancalculator.FunctionGroupSettingsActivity" />
@@ -61,7 +68,7 @@
 
     <header
         android:icon="@drawable/ic_button_fct"
-        android:title="User tab">
+        android:title="set Function groups">
         <intent
             android:targetPackage="com.example.titancalculator"
             android:targetClass="com.example.titancalculator.ButtonSettingsActivity" />

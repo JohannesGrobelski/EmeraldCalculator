@@ -36,8 +36,8 @@ public class HistoryActivity extends AppCompatActivity {
     private String language;
 
     //Display
-    int buttonshapeID=0;
-    String buttonfüllung = "";
+    int buttonshapeID = R.drawable.buttonshape_square;
+    private String buttonfüllung = "voll";
     private Float fontsize;
 
     @Override
@@ -61,11 +61,11 @@ public class HistoryActivity extends AppCompatActivity {
 
         ArrayAdapter<String> adapter_verlauf = new ArrayAdapter<String>(HistoryActivity.this, R.layout.spinner_shift_style, arrayVerlauf){
             float factor_font = 0.5f;
-            int darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.color_numbers,factor_font);
+            int darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_hist(HistoryActivity.this),factor_font);
             public View getView(int position, View convertView, ViewGroup parent) {
                 View v = super.getView(position, convertView, parent);
                 ((TextView) v).setTextSize(fontsize);
-                ((TextView) v).setBackgroundColor(SettingsApplier.color_background);
+                ((TextView) v).setBackgroundColor(SettingsApplier.getColor_background(HistoryActivity.this));
                 ((TextView) v).setTypeface(FontSettingsActivity.getTypeFace(SettingsApplier.current_font_family,SettingsApplier.current_fontstlye));
                 ((TextView) v).setTextColor(darker);
                 return v;
@@ -135,19 +135,20 @@ public class HistoryActivity extends AppCompatActivity {
 
 
     void setBackgrounds(){
-        hist_background.setBackgroundColor(SettingsApplier.color_background);
+
+        hist_background.setBackgroundColor(SettingsApplier.getColor_background(HistoryActivity.this));
 
         Drawable background;
         SettingsApplier.setColors(HistoryActivity.this);
         float factor_font = 0.5f;
         boolean stroke = true;
 
-        int visual_unselect = ButtonSettingsActivity.manipulateColor(SettingsApplier.color_specials,factor_font);
+        int visual_unselect = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_specials(HistoryActivity.this),factor_font);
 
 
         background = getResources().getDrawable(buttonshapeID);
-        CalcActivity_science.setColor(background, SettingsApplier.color_numbers,buttonfüllung,stroke);
-        visual_unselect = ButtonSettingsActivity.manipulateColor(SettingsApplier.color_numbers,factor_font);
+        CalcActivity_science.setColor((HistoryActivity.this),background, SettingsApplier.getColor_hist(HistoryActivity.this),buttonfüllung,stroke);
+        visual_unselect = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_hist(HistoryActivity.this),factor_font);
         if(btn_save instanceof Button) ((Button) btn_save).setTextColor(visual_unselect);
 
 

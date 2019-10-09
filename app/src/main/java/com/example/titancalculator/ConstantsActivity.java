@@ -74,8 +74,8 @@ public class ConstantsActivity extends AppCompatActivity {
     private int precision = 10;
 
     //Display
-    int buttonshapeID=0;
-    String buttonfüllung="";
+    int buttonshapeID = R.drawable.buttonshape_square;
+    private String buttonfüllung = "voll";
     private Float fontsize;
 
     @Override
@@ -109,7 +109,7 @@ public class ConstantsActivity extends AppCompatActivity {
         ArrayList<View> list = new ArrayList<View>() {{addAll(VIEW_CONST);add(tV_Pfad);add(tV_cur_const);add(tV_cur_const_val);add(LV_Auswahl);}};
         SettingsApplier.setFonts(ConstantsActivity.this,list);
 
-        LV_Auswahl.setBackgroundColor(SettingsApplier.color_background);
+        LV_Auswahl.setBackgroundColor(SettingsApplier.getColor_background(ConstantsActivity.this));
         applySettings();
         initMaps();
 
@@ -119,11 +119,11 @@ public class ConstantsActivity extends AppCompatActivity {
         //ArrayAdapter adpt_modeoptions = new ArrayAdapter<String>(this, R.layout.lvitem_layout, mode_options);
         ArrayAdapter<String> adapter_fct = new ArrayAdapter<String>(ConstantsActivity.this, R.layout.spinner_shift_style, catAr){
             float factor_font = 0.5f;
-            int darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.color_fops,factor_font);
+            int darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_const(ConstantsActivity.this),factor_font);
             public View getView(int position, View convertView, ViewGroup parent) {
                 View v = super.getView(position, convertView, parent);
                 ((TextView) v).setTextSize(fontsize);
-                ((TextView) v).setBackgroundColor(SettingsApplier.color_background);
+                ((TextView) v).setBackgroundColor(SettingsApplier.getColor_background(ConstantsActivity.this));
                 ((TextView) v).setTypeface(FontSettingsActivity.getTypeFace(SettingsApplier.current_font_family,SettingsApplier.current_fontstlye));
                 ((TextView) v).setTextColor(darker);
                 return v;
@@ -179,11 +179,11 @@ public class ConstantsActivity extends AppCompatActivity {
                 } else if(zustand.equals("konstante")){
                     ArrayAdapter<String> adapter_fct = new ArrayAdapter<String>(ConstantsActivity.this, R.layout.spinner_shift_style, catAr){
                         float factor_font = 0.5f;
-                        int darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.color_fops,factor_font);
+                        int darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_const(ConstantsActivity.this),factor_font);
                         public View getView(int position, View convertView, ViewGroup parent) {
                             View v = super.getView(position, convertView, parent);
                             ((TextView) v).setTextSize(fontsize);
-                            ((TextView) v).setBackgroundColor(SettingsApplier.color_background);
+                            ((TextView) v).setBackgroundColor(SettingsApplier.getColor_background(ConstantsActivity.this));
                             ((TextView) v).setTypeface(FontSettingsActivity.getTypeFace(SettingsApplier.current_font_family,SettingsApplier.current_fontstlye));
                             ((TextView) v).setTextColor(darker);
                             return v;
@@ -207,11 +207,11 @@ public class ConstantsActivity extends AppCompatActivity {
                     String[] currentMapAr = currentMap.keySet().toArray(new String[currentMap.keySet().size()]);
                     ArrayAdapter<String> adapter_cM = new ArrayAdapter<String>(ConstantsActivity.this, R.layout.spinner_shift_style, currentMapAr){
                         float factor_font = 0.5f;
-                        int darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.color_fops,factor_font);
+                        int darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_const(ConstantsActivity.this),factor_font);
                         public View getView(int position, View convertView, ViewGroup parent) {
                             View v = super.getView(position, convertView, parent);
                             ((TextView) v).setTextSize(fontsize);
-                            ((TextView) v).setBackgroundColor(SettingsApplier.color_background);
+                            ((TextView) v).setBackgroundColor(SettingsApplier.getColor_background(ConstantsActivity.this));
                             ((TextView) v).setTypeface(FontSettingsActivity.getTypeFace(SettingsApplier.current_font_family,SettingsApplier.current_fontstlye));
                             ((TextView) v).setTextColor(darker);
                             return v;
@@ -303,11 +303,11 @@ public class ConstantsActivity extends AppCompatActivity {
         String[] currentMapAr = currentMap.keySet().toArray(new String[currentMap.keySet().size()]);
         ArrayAdapter<String> adapter_cM = new ArrayAdapter<String>(ConstantsActivity.this, R.layout.spinner_shift_style, currentMapAr){
             float factor_font = 0.5f;
-            int darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.color_fops,factor_font);
+            int darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_const(ConstantsActivity.this),factor_font);
             public View getView(int position, View convertView, ViewGroup parent) {
                 View v = super.getView(position, convertView, parent);
                 ((TextView) v).setTextSize(fontsize);
-                ((TextView) v).setBackgroundColor(SettingsApplier.color_background);
+                ((TextView) v).setBackgroundColor(SettingsApplier.getColor_background(ConstantsActivity.this));
                 ((TextView) v).setTypeface(FontSettingsActivity.getTypeFace(SettingsApplier.current_font_family,SettingsApplier.current_fontstlye));
                 ((TextView) v).setTextColor(darker);
                 return v;
@@ -410,11 +410,11 @@ public class ConstantsActivity extends AppCompatActivity {
         }
         ArrayAdapter<String> adapter_nK = new ArrayAdapter<String>(ConstantsActivity.this, R.layout.spinner_shift_style, nachkommastellenAr){
             float factor_font = 0.5f;
-            int darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.color_fops,factor_font);
+            int darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_const(ConstantsActivity.this),factor_font);
             public View getView(int position, View convertView, ViewGroup parent) {
                 View v = super.getView(position, convertView, parent);
                 ((TextView) v).setTextSize(fontsize);
-                ((TextView) v).setBackgroundColor(SettingsApplier.color_background);
+                ((TextView) v).setBackgroundColor(SettingsApplier.getColor_background(ConstantsActivity.this));
                 ((TextView) v).setTypeface(FontSettingsActivity.getTypeFace(SettingsApplier.current_font_family,SettingsApplier.current_fontstlye));
                 ((TextView) v).setTextColor(darker);
                 return v;
@@ -531,7 +531,7 @@ public class ConstantsActivity extends AppCompatActivity {
 
 
     void setBackground(View x){
-        if(buttonshapeID==0)applySettings();
+
         Drawable background;
         SettingsApplier.setColors(ConstantsActivity.this);
         float factor_font = 0.5f;
@@ -539,18 +539,18 @@ public class ConstantsActivity extends AppCompatActivity {
 
         //Default Case
         background = getResources().getDrawable(buttonshapeID);
-        CalcActivity_science.setColor(background, SettingsApplier.color_specials,buttonfüllung,stroke);
-        int visual_unselect = ButtonSettingsActivity.manipulateColor(SettingsApplier.color_specials,factor_font);
+        CalcActivity_science.setColor((ConstantsActivity.this),background, SettingsApplier.getColor_specials(ConstantsActivity.this),buttonfüllung,stroke);
+        int visual_unselect = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_specials(ConstantsActivity.this),factor_font);
         if(x instanceof Button) ((Button) x).setTextColor(visual_unselect);
 
         if(x instanceof EditText){
-            ((EditText) x).setTextColor( SettingsApplier.color_fops);
+            ((EditText) x).setTextColor( SettingsApplier.getColor_const(ConstantsActivity.this));
         }
 
         if(VIEW_CONST.contains(x)){
             background = getResources().getDrawable(buttonshapeID);
-            CalcActivity_science.setColor(background, SettingsApplier.color_fops,buttonfüllung,stroke);
-            visual_unselect = ButtonSettingsActivity.manipulateColor(SettingsApplier.color_fops,factor_font);
+            CalcActivity_science.setColor(ConstantsActivity.this,background, SettingsApplier.getColor_const(ConstantsActivity.this),buttonfüllung,stroke);
+            visual_unselect = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_const(ConstantsActivity.this),factor_font);
             if(x instanceof Button) ((Button) x).setTextColor(visual_unselect);
         }
 
@@ -559,8 +559,8 @@ public class ConstantsActivity extends AppCompatActivity {
     }
 
     void setBackgrounds(){
-        tV_Pfad.setTextColor(SettingsApplier.color_fops);
-        const_background.setBackgroundColor(SettingsApplier.color_background);
+        tV_Pfad.setTextColor(SettingsApplier.getColor_const(ConstantsActivity.this));
+        const_background.setBackgroundColor(SettingsApplier.getColor_background(ConstantsActivity.this));
         for(View v: VIEW_CONST){
             setBackground(v);
         }
