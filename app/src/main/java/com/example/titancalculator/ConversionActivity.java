@@ -220,7 +220,7 @@ public class ConversionActivity extends AppCompatActivity {
 
         //Default Case
         background = getResources().getDrawable(buttonshapeID);
-        CalcActivity_science.setColor(ConversionActivity.this,background, SettingsApplier.getColor_specials(ConversionActivity.this),buttonfüllung,stroke);
+        SettingsApplier.setColor(ConversionActivity.this,background, SettingsApplier.getColor_specials(ConversionActivity.this),buttonfüllung,stroke);
         int visual_unselect = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_specials(ConversionActivity.this),factor_font);
         if(x instanceof Button) ((Button) x).setTextColor(visual_unselect);
 
@@ -230,7 +230,7 @@ public class ConversionActivity extends AppCompatActivity {
 
         if(VIEW_CONV.contains(x)){
             background = getResources().getDrawable(buttonshapeID);
-            CalcActivity_science.setColor(ConversionActivity.this,background, SettingsApplier.getColor_conv(ConversionActivity.this),buttonfüllung,stroke);
+            SettingsApplier.setColor(ConversionActivity.this,background, SettingsApplier.getColor_conv(ConversionActivity.this),buttonfüllung,stroke);
             visual_unselect = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_conv(ConversionActivity.this),factor_font);
             if(x instanceof Button) ((Button) x).setTextColor(visual_unselect);
         }
@@ -545,22 +545,8 @@ public class ConversionActivity extends AppCompatActivity {
         }
 
         //buttonshape
-        if (PreferenceManager.getDefaultSharedPreferences(ConversionActivity.this).contains("buttonshape")) {
-            String form = PreferenceManager.getDefaultSharedPreferences(ConversionActivity.this).getString("buttonshape","round");
-            if(form != null){
-                switch(form){
-                    case "Round": {
-                        buttonshapeID = R.drawable.buttonshape_round;
-                        break;
-                    }
-                    case "Square": {
-                        buttonshapeID = R.drawable.buttonshape_square;
-                        break;
-                    }
-                }
-            }
-            else Toast.makeText(ConversionActivity.this,"no buttonshape settings",Toast.LENGTH_SHORT).show();
-        }
+        buttonshapeID = SettingsApplier.getButtonshapeID();
+
 
         //buttonfüllung
         if (PreferenceManager.getDefaultSharedPreferences(ConversionActivity.this).contains("buttonfüllung")) {

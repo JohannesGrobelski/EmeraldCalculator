@@ -37,7 +37,13 @@
         android:inputType="textNoSuggestions"
         android:maxLines="1"
         android:minHeight="55sp"
-        android:textSize="50sp" />            <EditText
+        android:textSize="50sp" />
+
+    app:autoSizeMaxTextSize="100sp"
+    app:autoSizeMinTextSize="12sp"
+    app:autoSizeStepGranularity="1sp"
+
+    <EditText
     android:id="@+id/s_tV_Ausgabe"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -52,7 +58,12 @@
     android:inputType="none"
     android:maxLines="1"
     android:minHeight="45sp"
-    android:textSize="60sp" />
+    android:textSize="60sp"
+
+        app:autoSizeMaxTextSize="100sp"
+        app:autoSizeMinTextSize="12sp"
+        app:autoSizeStepGranularity="1sp"
+        />
     <TextView
         android:id="@+id/s_textView2"
         android:layout_width="match_parent"

@@ -5,10 +5,13 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +19,7 @@ import androidx.preference.PreferenceManager;
 
 import com.example.titancalculator.helper.ButtonShapeCustomAdapter;
 import com.example.titancalculator.helper.ButtonShapeImageModel;
+import com.example.titancalculator.helper.MainDisplay.SettingsApplier;
 
 import java.util.ArrayList;
 
@@ -27,8 +31,8 @@ public class ButtonshapeActivity extends AppCompatActivity {
 
     private ButtonShapeCustomAdapter ButtonShapeCustomAdapter;
     private ArrayList<ButtonShapeImageModel> ButtonShapeImageModelArrayList;
-    private int[] myImageList = new int[]{R.drawable.buttonshape_round, R.drawable.buttonshape_square};
-    private String[] myImageNameList = new String[]{"Round", "Square"};
+    private int[] myImageList = new int[]{R.drawable.buttonshape_round, R.drawable.buttonshape_square, R.drawable.buttonshape_circel};
+    private String[] myImageNameList = new String[]{"Round", "Square","Circle"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +50,16 @@ public class ButtonshapeActivity extends AppCompatActivity {
         }
 
         String[] füllungsoptionen = {"leer","voll"};
-        ArrayAdapter<String> aa_füllung = new ArrayAdapter<String>(this,R.layout.lvitem_layout, füllungsoptionen);
+        ArrayAdapter<String> aa_füllung = new ArrayAdapter<String>(ButtonshapeActivity.this, R.layout.spinner_shift_style, füllungsoptionen){
+            float factor_font = 0.5f;
+            int darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_const(ButtonshapeActivity.this),factor_font);
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View v = super.getView(position, convertView, parent);
+                ((TextView) v).setTextColor(0x000000);
+                ((TextView) v).setTextSize(20f);
+                return v;
+            }
+        };
         lv_füllung.setAdapter(aa_füllung);
 
         lv_form.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -57,8 +70,7 @@ public class ButtonshapeActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = preferences.edit();
 
                 String inh = ((ButtonShapeImageModel) ((ButtonShapeCustomAdapter) lv_form.getAdapter()).getItem(position)).getName();
-                editor.putString("buttonshape", inh);
-                editor.commit();
+                SettingsApplier.setButtonshapeID(inh);
                 Toast.makeText(ButtonshapeActivity.this,"set shape to:"+inh,Toast.LENGTH_SHORT).show();
                 setPreviewImage();
             }
@@ -81,24 +93,21 @@ public class ButtonshapeActivity extends AppCompatActivity {
 
     }
 
-    private Drawable generateDrawable(String form, String füllung){
+    private Drawable generateDrawable(int form, String füllung){
         Drawable d = getDrawable(R.drawable.buttonshape_square);
-        if(form.equals("Round")){
-            d = getDrawable(R.drawable.buttonshape_round);
-        } else if(form.equals("Square")){
-            d = getDrawable(R.drawable.buttonshape_square);
-        }
+         d = getDrawable(form);
 
-        CalcActivity_science.setColor(ButtonshapeActivity.this,d,0xffc60aff,füllung,true);
+
+        SettingsApplier.setColor(ButtonshapeActivity.this,d,0xffc60aff,füllung,true);
 
         return d;
 
     }
 
     private void setPreviewImage(){
-        String form = "";
+        int form = 0;
         String füllung = "";
-        form = PreferenceManager.getDefaultSharedPreferences(ButtonshapeActivity.this).getString("buttonshape","Round");
+        form = SettingsApplier.getButtonshapeID();
         füllung = PreferenceManager.getDefaultSharedPreferences(ButtonshapeActivity.this).getString("buttonfüllung","voll");
 
 

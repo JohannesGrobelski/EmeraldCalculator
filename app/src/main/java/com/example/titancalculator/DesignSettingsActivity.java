@@ -11,8 +11,11 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -21,6 +24,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.titancalculator.helper.MainDisplay.DesignApplier;
 import com.example.titancalculator.helper.MainDisplay.SettingsApplier;
 import com.example.titancalculator.helper.Math_String.NumberString;
 
@@ -31,7 +35,6 @@ import java.util.Set;
 
 public class DesignSettingsActivity extends AppCompatActivity {
 
-    static final String[] designs = {""};
 
     ArrayList<View> VIEW_ALL;
     LinearLayout design_background;
@@ -61,6 +64,46 @@ public class DesignSettingsActivity extends AppCompatActivity {
         VIEW_ALL = new ArrayList<>(Arrays.asList(new View[]{tv_selected_design,btn_save,btn_delete,btn_rename,btn_set}));
         SettingsApplier.setFonts(this, VIEW_ALL);
 
+        //ArrayAdapter<String> adapter = new ArrayAdapter<String>(DesignSettingsActivity.this, R.layout.spinner_shift_style, DesignApplier.designs);
+        ArrayAdapter<String> adapter =
+                new ArrayAdapter<String>(DesignSettingsActivity.this, R.layout.spinner_shift_style, DesignApplier.designs)
+                {
+
+                    float factor_font = SettingsApplier.getDarker_factor_font();
+                    int darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_fops(DesignSettingsActivity.this),factor_font);
+
+                    public View getView(int position, View convertView, ViewGroup parent) {
+                        View v = super.getView(position, convertView, parent);
+
+                        ((TextView) v).setTextSize(20);
+                        ((TextView) v).setTypeface(FontSettingsActivity.getTypeFace(SettingsApplier.current_font_family,SettingsApplier.current_fontstlye));
+                        ((TextView) v).setTextColor(darker);
+
+                        return v;
+                    }
+
+                    public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                        View v = super.getDropDownView(position, convertView, parent);
+                        v.setBackgroundResource(R.drawable.buttonshape_square);
+
+                        ((TextView) v).setTextColor(darker);
+
+                        ((TextView) v).setTypeface(FontSettingsActivity.getTypeFace(SettingsApplier.current_font_family,SettingsApplier.current_fontstlye));
+                        ((TextView) v).setGravity(Gravity.CENTER);
+
+                        return v;
+                    }
+                };
+        lv_design.setAdapter(adapter);
+
+        lv_design.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                DesignApplier.apply_theme(DesignSettingsActivity.this, lv_design.getItemAtPosition(i).toString());
+                tv_selected_design.setText(lv_design.getItemAtPosition(i).toString());
+            }
+        });
+
         applySettings();
         //setBackgrounds();
     }
@@ -80,75 +123,7 @@ public class DesignSettingsActivity extends AppCompatActivity {
             btn_set.setText(R.string.setDesignDE);
         }
 
-
-        //buttonshape
-        if (PreferenceManager.getDefaultSharedPreferences(DesignSettingsActivity.this).contains("buttonshape")) {
-            String form = PreferenceManager.getDefaultSharedPreferences(DesignSettingsActivity.this).getString("buttonshape", "round");
-            if (form != null) {
-                switch (form) {
-                    case "Round": {
-                        buttonshapeID = R.drawable.buttonshape_round;
-                        break;
-                    }
-                    case "Square": {
-                        buttonshapeID = R.drawable.buttonshape_square;
-                        break;
-                    }
-                }
-            } else
-                Toast.makeText(DesignSettingsActivity.this, "no buttonshape settings", Toast.LENGTH_SHORT).show();
-        }
-
-        //buttonfüllung
-        if (PreferenceManager.getDefaultSharedPreferences(DesignSettingsActivity.this).contains("buttonfüllung")) {
-            buttonfüllung = PreferenceManager.getDefaultSharedPreferences(DesignSettingsActivity.this).getString("buttonfüllung", "voll");
-        }
-
-        //Fonts
-        //Typeface font = Typeface.createFromAsset(getAssets(), "Crashed Scoreboard.ttf");
-        Typeface monospace = Typeface.create("MONOSPACE", Typeface.NORMAL);
-        Typeface sansSerif = Typeface.create("SANS_SERIF", Typeface.NORMAL);
-        Typeface serif = Typeface.create("SERIF", Typeface.NORMAL);
     }
 
-    void setBackground(View x) {
-        if (buttonshapeID == 0) applySettings();
-        Drawable background;
-        SettingsApplier.setColors(DesignSettingsActivity.this);
-        float factor_font = 0.5f;
-        boolean stroke = true;
 
-        //Default Case
-        background = getResources().getDrawable(buttonshapeID);
-        CalcActivity_science.setColor((DesignSettingsActivity.this), background, SettingsApplier.getColor_specials(DesignSettingsActivity.this), buttonfüllung, stroke);
-        int darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_specials(DesignSettingsActivity.this), factor_font);
-        if (x instanceof Button) ((Button) x).setTextColor(darker);
-
-
-        if (x.equals(tv_selected_design)) {
-            background = getResources().getDrawable(buttonshapeID);
-            CalcActivity_science.setColor((DesignSettingsActivity.this), background, SettingsApplier.getColor_display(DesignSettingsActivity.this), buttonfüllung, stroke);
-            tv_selected_design.setTextColor(SettingsApplier.getColor_displaytext(DesignSettingsActivity.this));
-            x.setBackground(background);
-        }
-
-        if (VIEW_ALL.contains(x)) {
-            background = getResources().getDrawable(buttonshapeID);
-            CalcActivity_science.setColor((DesignSettingsActivity.this), background, SettingsApplier.getColor_act(DesignSettingsActivity.this), buttonfüllung, stroke);
-            darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_numbers(DesignSettingsActivity.this), factor_font);
-            if (x instanceof Button) ((Button) x).setTextColor(darker);
-        }
-
-        x.setBackground(background);
-
-    }
-
-    
-    void setBackgrounds() {
-        design_background.setBackgroundColor(SettingsApplier.getColor_background(DesignSettingsActivity.this));
-
-        for (View v : VIEW_ALL) {
-            setBackground(v);
-        }
-    }
 }

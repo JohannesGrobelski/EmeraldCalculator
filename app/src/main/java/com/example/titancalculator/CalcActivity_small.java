@@ -153,7 +153,7 @@ public class CalcActivity_small extends AppCompatActivity {
         SettingsApplier.setColors(CalcActivity_small.this);
         applySettings();
         setBackgrounds();
-        ArrayList<View> list = new ArrayList<View>() {{addAll(BTN_ACT);addAll(BTN_ALL);add(tV_eingabe);add(tV_ausgabe);}};
+        ArrayList<View> list = new ArrayList<View>() {{addAll(BTN_ACT);addAll(BTN_ALL);}};
         SettingsApplier.setFonts(CalcActivity_small.this,list);
 
 
@@ -287,8 +287,8 @@ public class CalcActivity_small extends AppCompatActivity {
         BTN_ACT = new HashSet<>(Arrays.asList(new Button[]{btn_menu, btn_verlauf}));
         BTN_FKT = new HashSet<>(Arrays.asList(new Button[]{btn_clear, btn_clearall}));
         BTN_NUMBERS = new HashSet<>(Arrays.asList(new Button[]{btn_com, btn_0, btn_1, btn_2, btn_3, btn_4, btn_5, btn_6, btn_7, btn_8, btn_9}));
-        BTN_SAVES = new HashSet<>(Arrays.asList(new Button[]{btn_eq}));
-        BTN_SPECIALS = new HashSet<>(Arrays.asList(new Button[]{btn_mul, btn_div, btn_sub, btn_add}));
+        BTN_SAVES = new HashSet<>(Arrays.asList(new Button[]{}));
+        BTN_SPECIALS = new HashSet<>(Arrays.asList(new Button[]{btn_mul, btn_div, btn_sub, btn_add, btn_eq}));
         BTN_ALL = new ArrayList<>();
         BTN_ALL.addAll(BTN_ACT);
         BTN_ALL.addAll(BTN_FKT);
@@ -299,7 +299,7 @@ public class CalcActivity_small extends AppCompatActivity {
         applySettings();
         SettingsApplier.setColors(CalcActivity_small.this);
         setBackgrounds();
-        ArrayList<View> list = new ArrayList<View>() {{addAll(BTN_ALL);add(tV_eingabe);add(tV_ausgabe);}};
+        ArrayList<View> list = new ArrayList<View>() {{addAll(BTN_ALL);}};
         SettingsApplier.setFonts(CalcActivity_small.this,list);
 
         try {
@@ -554,14 +554,16 @@ public class CalcActivity_small extends AppCompatActivity {
         if(buttonshapeID==0)applySettings();
         Drawable background;
         SettingsApplier.setColors(CalcActivity_small.this);
-        float factor_font = 0.5f;
+        float factor_font = SettingsApplier.getDarker_factor_font();
+
+
         boolean stroke = true;
 
         //Default Case
         background = getResources().getDrawable(buttonshapeID);
-        setColor(background, SettingsApplier.getColor_specials(CalcActivity_small.this),buttonfüllung,stroke);
+        SettingsApplier.setColor(CalcActivity_small.this,background, SettingsApplier.getColor_specials(CalcActivity_small.this),buttonfüllung,stroke);
         int darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_specials(CalcActivity_small.this),factor_font);
-        if(x instanceof Button) ((Button) x).setTextColor(darker);
+        SettingsApplier.setTextColor(x,darker);
 
         if(x instanceof Button){
             //fix für größe dieser kleinen unicode symbole
@@ -572,7 +574,7 @@ public class CalcActivity_small extends AppCompatActivity {
 
         if(x.equals(display)){
             background = getResources().getDrawable(buttonshapeID);
-            setColor(background, SettingsApplier.getColor_display(CalcActivity_small.this),buttonfüllung,stroke);
+            SettingsApplier.setColor(CalcActivity_small.this,background, SettingsApplier.getColor_display(CalcActivity_small.this),buttonfüllung,stroke);
             tV_ausgabe.setTextColor(SettingsApplier.getColor_displaytext(CalcActivity_small.this));
             tV_eingabe.setTextColor(SettingsApplier.getColor_displaytext(CalcActivity_small.this));
             x.setBackground(background);
@@ -580,27 +582,27 @@ public class CalcActivity_small extends AppCompatActivity {
 
         else if(BTN_ACT.contains(x)){
             background = getResources().getDrawable(buttonshapeID);
-            setColor(background, SettingsApplier.getColor_act(CalcActivity_small.this),buttonfüllung,stroke);
+            SettingsApplier.setColor(CalcActivity_small.this,background, SettingsApplier.getColor_act(CalcActivity_small.this),buttonfüllung,stroke);
             darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_act(CalcActivity_small.this),factor_font);
-            if(x instanceof Button) ((Button) x).setTextColor(darker);
+            SettingsApplier.setTextColor(x,darker);
         }
         else if(BTN_FKT.contains(x)){
             background = getResources().getDrawable(buttonshapeID);
-            setColor(background, SettingsApplier.getColor_fkt(CalcActivity_small.this),buttonfüllung,stroke);
+            SettingsApplier.setColor(CalcActivity_small.this,background, SettingsApplier.getColor_fkt(CalcActivity_small.this),buttonfüllung,stroke);
             darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_fkt(CalcActivity_small.this),factor_font);
-            if(x instanceof Button) ((Button) x).setTextColor(darker);
+            SettingsApplier.setTextColor(x,darker);
         }
         else if(BTN_NUMBERS.contains(x)){
             background = getResources().getDrawable(buttonshapeID);
-            setColor(background, SettingsApplier.getColor_numbers(CalcActivity_small.this),buttonfüllung,stroke);
+            SettingsApplier.setColor(CalcActivity_small.this,background, SettingsApplier.getColor_numbers(CalcActivity_small.this),buttonfüllung,stroke);
             darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_numbers(CalcActivity_small.this),factor_font);
-            if(x instanceof Button) ((Button) x).setTextColor(darker);
+            SettingsApplier.setTextColor(x,darker);
         }
         else if(BTN_SAVES.contains(x)){
             background = getResources().getDrawable(buttonshapeID);
-            setColor(background, SettingsApplier.getColor_saves(CalcActivity_small.this),buttonfüllung,stroke);
+            SettingsApplier.setColor(CalcActivity_small.this,background, SettingsApplier.getColor_saves(CalcActivity_small.this),buttonfüllung,stroke);
             darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_saves(CalcActivity_small.this),factor_font);
-            if(x instanceof Button) ((Button) x).setTextColor(darker);
+            SettingsApplier.setTextColor(x,darker);
         }
 
         x.setBackground(background);
@@ -642,28 +644,6 @@ public class CalcActivity_small extends AppCompatActivity {
         setBackground(display);
     }
 
-
-
-    void setColor(Drawable background, int c, String füllung, boolean stroke){
-        if (background instanceof ShapeDrawable) {
-            // cast to 'ShapeDrawable'
-            ShapeDrawable shapeDrawable = (ShapeDrawable) background;
-            shapeDrawable.getPaint().setColor(c);
-        } else if (background instanceof GradientDrawable) {
-            // cast to 'GradientDrawable'
-            GradientDrawable gradientDrawable = (GradientDrawable) background;
-            gradientDrawable.setColor(c);
-            int rahmen_farbe = ButtonSettingsActivity.manipulateColor(c,0.7f);
-            if(füllung.equals("leer"))gradientDrawable.setColor(SettingsApplier.getColor_background(CalcActivity_small.this));
-            if(stroke)gradientDrawable.setStroke(7, rahmen_farbe);
-        } else if (background instanceof ColorDrawable) {
-            // alpha value may need to be set again after this call
-            ColorDrawable colorDrawable = (ColorDrawable) background;
-            colorDrawable.setColor(c);
-        }
-        else Log.e("setColor Error","");
-
-    }
 
 
 
@@ -795,22 +775,8 @@ public class CalcActivity_small extends AppCompatActivity {
         }
 
         //buttonshape
-        if (PreferenceManager.getDefaultSharedPreferences(CalcActivity_small.this).contains("buttonshape")) {
-            String form = PreferenceManager.getDefaultSharedPreferences(CalcActivity_small.this).getString("buttonshape","round");
-            if(form != null){
-                switch(form){
-                    case "Round": {
-                        buttonshapeID = R.drawable.buttonshape_round;
-                        break;
-                    }
-                    case "Square": {
-                        buttonshapeID = R.drawable.buttonshape_square;
-                        break;
-                    }
-                }
-            }
-            else Toast.makeText(CalcActivity_small.this,"no buttonshape settings",Toast.LENGTH_SHORT).show();
-        }
+        buttonshapeID = SettingsApplier.getButtonshapeID();
+
 
         //buttonfüllung
         if (PreferenceManager.getDefaultSharedPreferences(CalcActivity_small.this).contains("buttonfüllung")) {

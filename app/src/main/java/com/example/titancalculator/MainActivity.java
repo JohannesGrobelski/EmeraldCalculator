@@ -30,9 +30,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         String mode = getMode();
-        Log.v("Act ","main");
-
-        Toast.makeText(this,"MODE: "+mode,Toast.LENGTH_LONG).show();
         startMode(mode);
         finish();
     }

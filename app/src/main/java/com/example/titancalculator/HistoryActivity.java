@@ -105,22 +105,8 @@ public class HistoryActivity extends AppCompatActivity {
 
         //DisplaySettings
         //buttonshape
-        if (PreferenceManager.getDefaultSharedPreferences(HistoryActivity.this).contains("buttonshape")) {
-            String form = PreferenceManager.getDefaultSharedPreferences(HistoryActivity.this).getString("buttonshape","round");
-            if(form != null){
-                switch(form){
-                    case "Round": {
-                        buttonshapeID = R.drawable.buttonshape_round;
-                        break;
-                    }
-                    case "Square": {
-                        buttonshapeID = R.drawable.buttonshape_square;
-                        break;
-                    }
-                }
-            }
-            else Toast.makeText(HistoryActivity.this,"no buttonshape settings",Toast.LENGTH_SHORT).show();
-        }
+        buttonshapeID = SettingsApplier.getButtonshapeID();
+
 
         //buttonfüllung
         if (PreferenceManager.getDefaultSharedPreferences(HistoryActivity.this).contains("buttonfüllung")) {
@@ -147,7 +133,7 @@ public class HistoryActivity extends AppCompatActivity {
 
 
         background = getResources().getDrawable(buttonshapeID);
-        CalcActivity_science.setColor((HistoryActivity.this),background, SettingsApplier.getColor_hist(HistoryActivity.this),buttonfüllung,stroke);
+        SettingsApplier.setColor((HistoryActivity.this),background, SettingsApplier.getColor_hist(HistoryActivity.this),buttonfüllung,stroke);
         visual_unselect = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_hist(HistoryActivity.this),factor_font);
         if(btn_save instanceof Button) ((Button) btn_save).setTextColor(visual_unselect);
 

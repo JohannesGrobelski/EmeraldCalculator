@@ -289,7 +289,7 @@ public class ButtonSettingsActivity extends AppCompatActivity {
     }
 
     public static int manipulateColor(int color, float factor) {
-        int a = Color.alpha(color);
+        int a = Color.alpha(Math.round(color*factor));
         int r = Math.round(Color.red(color) * factor);
         int g = Math.round(Color.green(color) * factor);
         int b = Math.round(Color.blue(color) * factor);

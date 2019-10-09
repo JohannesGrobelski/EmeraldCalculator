@@ -316,22 +316,8 @@ public class FunctionGroupSettingsActivity extends AppCompatActivity {
         }
 
         //buttonshape
-        if (PreferenceManager.getDefaultSharedPreferences(FunctionGroupSettingsActivity.this).contains("buttonshape")) {
-            String form = PreferenceManager.getDefaultSharedPreferences(FunctionGroupSettingsActivity.this).getString("buttonshape","round");
-            if(form != null){
-                switch(form){
-                    case "Round": {
-                        buttonshapeID = R.drawable.buttonshape_round;
-                        break;
-                    }
-                    case "Square": {
-                        buttonshapeID = R.drawable.buttonshape_square;
-                        break;
-                    }
-                }
-            }
-            else Toast.makeText(FunctionGroupSettingsActivity.this,"no buttonshape settings",Toast.LENGTH_SHORT).show();
-        }
+        buttonshapeID = SettingsApplier.getButtonshapeID();
+
 
         //buttonfüllung
         if (PreferenceManager.getDefaultSharedPreferences(FunctionGroupSettingsActivity.this).contains("buttonfüllung")) {
@@ -356,7 +342,7 @@ public class FunctionGroupSettingsActivity extends AppCompatActivity {
 
     public void setBackground(View v, int color){
         Drawable background = getResources().getDrawable(buttonshapeID);
-        CalcActivity_science.setColor((FunctionGroupSettingsActivity.this),background, color,buttonfüllung,true);
+        SettingsApplier.setColor((FunctionGroupSettingsActivity.this),background, color,buttonfüllung,true);
         int darker = ButtonSettingsActivity.manipulateColor(color,0.6f);
         if(v instanceof Button) ((Button) v).setTextColor(darker);
     }

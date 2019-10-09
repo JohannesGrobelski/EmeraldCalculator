@@ -125,7 +125,7 @@ public class ConstantsActivity extends AppCompatActivity {
                 ((TextView) v).setTextSize(fontsize);
                 ((TextView) v).setBackgroundColor(SettingsApplier.getColor_background(ConstantsActivity.this));
                 ((TextView) v).setTypeface(FontSettingsActivity.getTypeFace(SettingsApplier.current_font_family,SettingsApplier.current_fontstlye));
-                ((TextView) v).setTextColor(darker);
+                SettingsApplier.setTextColor(v,darker);
                 return v;
             }
 
@@ -185,7 +185,7 @@ public class ConstantsActivity extends AppCompatActivity {
                             ((TextView) v).setTextSize(fontsize);
                             ((TextView) v).setBackgroundColor(SettingsApplier.getColor_background(ConstantsActivity.this));
                             ((TextView) v).setTypeface(FontSettingsActivity.getTypeFace(SettingsApplier.current_font_family,SettingsApplier.current_fontstlye));
-                            ((TextView) v).setTextColor(darker);
+                            SettingsApplier.setTextColor(v,darker);
                             return v;
                         }
 
@@ -213,7 +213,7 @@ public class ConstantsActivity extends AppCompatActivity {
                             ((TextView) v).setTextSize(fontsize);
                             ((TextView) v).setBackgroundColor(SettingsApplier.getColor_background(ConstantsActivity.this));
                             ((TextView) v).setTypeface(FontSettingsActivity.getTypeFace(SettingsApplier.current_font_family,SettingsApplier.current_fontstlye));
-                            ((TextView) v).setTextColor(darker);
+                            SettingsApplier.setTextColor(v,darker);
                             return v;
                         }
 
@@ -500,23 +500,10 @@ public class ConstantsActivity extends AppCompatActivity {
         }
         
         //DisplaySettings
+
         //buttonshape
-        if (PreferenceManager.getDefaultSharedPreferences(ConstantsActivity.this).contains("buttonshape")) {
-            String form = PreferenceManager.getDefaultSharedPreferences(ConstantsActivity.this).getString("buttonshape","round");
-            if(form != null){
-                switch(form){
-                    case "Round": {
-                        buttonshapeID = R.drawable.buttonshape_round;
-                        break;
-                    }
-                    case "Square": {
-                        buttonshapeID = R.drawable.buttonshape_square;
-                        break;
-                    }
-                }
-            }
-            else Toast.makeText(ConstantsActivity.this,"no buttonshape settings",Toast.LENGTH_SHORT).show();
-        }
+        buttonshapeID = SettingsApplier.getButtonshapeID();
+
 
         //buttonfüllung
         if (PreferenceManager.getDefaultSharedPreferences(ConstantsActivity.this).contains("buttonfüllung")) {
@@ -539,7 +526,7 @@ public class ConstantsActivity extends AppCompatActivity {
 
         //Default Case
         background = getResources().getDrawable(buttonshapeID);
-        CalcActivity_science.setColor((ConstantsActivity.this),background, SettingsApplier.getColor_specials(ConstantsActivity.this),buttonfüllung,stroke);
+        SettingsApplier.setColor((ConstantsActivity.this),background, SettingsApplier.getColor_specials(ConstantsActivity.this),buttonfüllung,stroke);
         int visual_unselect = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_specials(ConstantsActivity.this),factor_font);
         if(x instanceof Button) ((Button) x).setTextColor(visual_unselect);
 
@@ -549,7 +536,7 @@ public class ConstantsActivity extends AppCompatActivity {
 
         if(VIEW_CONST.contains(x)){
             background = getResources().getDrawable(buttonshapeID);
-            CalcActivity_science.setColor(ConstantsActivity.this,background, SettingsApplier.getColor_const(ConstantsActivity.this),buttonfüllung,stroke);
+            SettingsApplier.setColor(ConstantsActivity.this,background, SettingsApplier.getColor_const(ConstantsActivity.this),buttonfüllung,stroke);
             visual_unselect = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_const(ConstantsActivity.this),factor_font);
             if(x instanceof Button) ((Button) x).setTextColor(visual_unselect);
         }
