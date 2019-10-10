@@ -48,9 +48,5 @@
         android:title="@string/BackgroundColorDE"
         android:defaultValue="#FFFFFF"
         />
-    <SwitchPreference
-        android:defaultValue="true"
-        android:key="color_default_switch"
-        android:summary="@string/pref_summary_colors_default"
-        android:title="@string/pref_title_colors_default" />
+
 </PreferenceScreen>

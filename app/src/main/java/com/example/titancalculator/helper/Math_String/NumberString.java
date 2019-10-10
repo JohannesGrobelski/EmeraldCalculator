@@ -63,6 +63,7 @@ public class NumberString extends ContentString {
         input = input.replace(fct.toLowerCase(),fct);
         input = input.replace("( ","(");
         input = input.replace("(,","(");
+
         return input;
     }
 
@@ -97,8 +98,8 @@ public class NumberString extends ContentString {
             }
         }
 
-        a = a.replace(",",".");
-        a = a.replace(";",",");
+        //I: fix; sonst: PI -> P(I)
+        a = a.replaceAll("PI", MathEvaluator.evaluate("PI",10));
 
         a = a.replace("∑","SUME");
         a = a.replace("∏","MULP");
@@ -108,12 +109,12 @@ public class NumberString extends ContentString {
 
 
         a = parenthesise(a,"ROOT");
-        a = parenthesise(a,"LN ");
-        a = parenthesise(a,"LB ");
-        a = parenthesise(a,"LOG ");
-        a = parenthesise(a,"P ");
+        a = parenthesise(a,"LN");
+        a = parenthesise(a,"LB");
+        a = parenthesise(a,"LOG");
+        a = parenthesise(a,"P");
         a = parenthesise(a,"R");
-        a = parenthesise(a,"C ");
+        a = parenthesise(a,"C");
 
         a = parenthesise(a,"SIN");
         a = parenthesise(a,"COS");
@@ -129,42 +130,13 @@ public class NumberString extends ContentString {
         a = parenthesise(a,"ATANH");
 
         a = paraIn(a,"ROOT");
-        a = paraIn(a,"LOG ");
-        a = paraIn(a,"P ");
-        a = paraIn(a,"C ");
+        a = paraIn(a,"LOG");
+        a = paraIn(a,"P");
+        a = paraIn(a,"C");
         a = paraIn(a,"R");
 
-
-
-
-        /*
-        while(a.contains("E+")){
-            int exp_beg = a.indexOf("E+")+2;
-            int exp_end = a.indexOf("E+")+2;
-            StringBuilder exp = new StringBuilder();
-            while(true){
-                exp.append(a.charAt(exp_end));
-                ++exp_end;
-            }
-
-            int ind = a.indexOf("E+");
-            String nulls = "";
-            StringBuilder sb = new StringBuilder();
-            for(char i=0; i<exp; i++)sb.append("0");
-            nulls = sb.toString();
-            a = a.substring(0,a.indexOf("E+"))+nulls;
-        }
-        if(a.contains("E-")){
-            int exp = Integer.valueOf(a.substring(Math.min(0,a.indexOf("E+")+2)));
-            int ind = a.indexOf("E-");
-            String nulls = "";
-            StringBuilder sb = new StringBuilder();
-            for(char i=0; i<exp-1; i++)sb.append("0");
-            nulls = sb.toString();
-            a = "0,"+nulls+a.substring(0,a.indexOf("E-"));
-        }
-        */
         a = facToMul(a);
+
         Log.e("calcString: ",a);
         if(!last_answer.equals("Math Error"))last_answer = a;
         return a;
@@ -221,67 +193,67 @@ public class NumberString extends ContentString {
 
     String getPercent(){
         String res = getResult();
-        if(res.isEmpty())return res;
+        if(res.isEmpty() || res.equals("Math Error"))return res;
         return getDisplayableString(Double.toString(Double.parseDouble(res) * 100));
     }
 
     String getInvert(){
         String res = getResult();
-        if(res.isEmpty())return res;
+        if(res.isEmpty() || res.equals("Math Error"))return res;
         return getDisplayableString(Double.toString(-Double.parseDouble(res)));
     }
 
     String getReciproke(){
         String res = getResult();
-        if(res.isEmpty())return res;
+        if(res.isEmpty() || res.equals("Math Error"))return res;
         return getDisplayableString(Double.toString(1 / Double.parseDouble(res)));
     }
 
     String getBruch(){
         String res = getResult();
-        if(res.isEmpty())return res;
+        if(res.isEmpty() || res.equals("Math Error"))return res;
         return getDisplayableString(MathEvaluator.toBruch(res));
     }
 
     String getRAD(){
         String res = getResult();
-        if(res.isEmpty())return res;
+        if(res.isEmpty() || res.equals("Math Error"))return res;
         return getDisplayableString(MathEvaluator.toRAD(res));
     }
 
     String getDEG(){
         String res = getResult();
-        if(res.isEmpty())return res;
+        if(res.isEmpty() || res.equals("Math Error"))return res;
         return getDisplayableString(MathEvaluator.toDEG(res));
     }
 
     String getBIN(){
         String res = getResult();
-        if(res.isEmpty())return res;
+        if(res.isEmpty() || res.equals("Math Error"))return res;
         return getDisplayableString(MathEvaluator.baseConversion(res,10,2));
     }
 
     String getOCT(){
         String res = getResult();
-        if(res.isEmpty())return res;
+        if(res.isEmpty() || res.equals("Math Error"))return res;
         return getDisplayableString(MathEvaluator.baseConversion(res,10,8));
     }
 
     String getDEC(){
         String res = getResult();
-        if(res.isEmpty())return res;
+        if(res.isEmpty() || res.equals("Math Error"))return res;
         return getDisplayableString(MathEvaluator.baseConversion(res,10,10));
     }
 
     String getHEX(){
         String res = getResult();
-        if(res.isEmpty())return res;
+        if(res.isEmpty() || res.equals("Math Error"))return res;
         return getDisplayableString(MathEvaluator.baseConversion(res,10,16)).toUpperCase();
     }
 
     String getPFZ(){
         String res = getResult();
-        if(res.isEmpty())return res;
+        if(res.isEmpty() || res.equals("Math Error"))return res;
         try{
             Double a = Double.parseDouble(res);
             if((a == Math.floor(a)) && !Double.isInfinite(a)) {

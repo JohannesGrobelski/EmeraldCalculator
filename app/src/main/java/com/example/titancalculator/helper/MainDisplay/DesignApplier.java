@@ -84,6 +84,12 @@ public class DesignApplier {
                     SettingsApplier.setColor_act(0xffe6b89c);
                     SettingsApplier.setColor_specials(0xff4281a4);
                     SettingsApplier.setColor_background(0xff182f3c);
+                    SettingsApplier.setColor_displaytext(0xff182f3c);
+
+                    SettingsApplier.setColor_conv(0xfffe938c);
+                    SettingsApplier.setColor_const(0xff9cafb7);
+                    SettingsApplier.setColor_hist(0xff4281a4);
+
                     break;
                 } case "germany":{
                     SettingsApplier.setButtonshapeID("Round");
@@ -102,6 +108,10 @@ public class DesignApplier {
                     SettingsApplier.setColor_numbers(0xffFFCC00);
                     SettingsApplier.setColor_specials(0xffFFCC00);
                     SettingsApplier.setColor_background(0xffFFFFFF);
+
+                    SettingsApplier.setColor_conv(0xffFFCC00);
+                    SettingsApplier.setColor_const(0xffFF0000);
+                    SettingsApplier.setColor_hist(0xffFFCC00);
                     break;
                 } case "bright":{
                     SettingsApplier.darker_factor_font = .5f;

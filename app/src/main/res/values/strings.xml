@@ -222,6 +222,7 @@
     <string name="renameDesignDE">umbennen</string>
     <string name="deleteDesignDE">löschen</string>
     <string name="saveDesignDE">speichern</string>
+    <string name="decimal_places_pref">1</string>
     <string-array name="act_EN">
         <item>Calculator</item>
         <item>Menu</item>

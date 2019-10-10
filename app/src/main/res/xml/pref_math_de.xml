@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <EditTextPreference
+        android:defaultValue="5"
+        android:key="pre_decimal_places_pref"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="Anzahl der Vorkommastellen im Ergebnis"/>
+    <EditTextPreference
+        android:defaultValue="5"
+        android:key="decimal_places_pref"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:dialogLayout="@layout/pref_decimal_place"
+
+        android:title="Anzahl der Nachkommastellen im Ergebnis" />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="solve_inst_pref"
+        android:title="Zeige Ergebnis sofort" />
+</PreferenceScreen>

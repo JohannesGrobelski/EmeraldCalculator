@@ -47,7 +47,7 @@ public class SettingsApplier {
     private static int color_const=0;
     private static int color_hist=0;
 
-    public static Float darker_factor_font=0.7f;
+    public static Float darker_factor_font=-1f;
 
     private static int color_act=0;
     private static int color_fkt=0;
@@ -64,6 +64,7 @@ public class SettingsApplier {
         //write into Preferences
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(c);
         SharedPreferences.Editor editor = preferences.edit();
+        editor.putFloat("darker_factor_font", darker_factor_font);
 
         editor.putInt("buttonshape", SettingsApplier.getButtonshapeID());
         editor.putString("buttonfüllung", SettingsApplier.getButtonfüllung());
@@ -117,39 +118,21 @@ public class SettingsApplier {
         language = PreferenceManager.getDefaultSharedPreferences(c).getString("pref_lang","english");
 
         //buttonshape
-        if (PreferenceManager.getDefaultSharedPreferences(c).contains("buttonshape")) {
-            String form = PreferenceManager.getDefaultSharedPreferences(c).getString("buttonshape","round");
-            if(form != null){
-                switch(form){
-                    case "Circle": {
-                        buttonshapeID = R.drawable.buttonshape_circel;
-                        break;
-                    }
-                    case "Round": {
-                        buttonshapeID = R.drawable.buttonshape_round;
-                        break;
-                    }
-                    case "Square": {
-                        buttonshapeID = R.drawable.buttonshape_square;
-                        break;
-                    }
-                }
-            }
-            else Toast.makeText(c,"no buttonshape settings",Toast.LENGTH_SHORT).show();
-        }
+        SettingsApplier.getButtonshapeID();
 
         //buttonfüllung
         if (PreferenceManager.getDefaultSharedPreferences(c).contains("buttonfüllung")) {
             buttonfüllung = PreferenceManager.getDefaultSharedPreferences(c).getString("buttonfüllung","voll");
         }
 
+        darker_factor_font = PreferenceManager.getDefaultSharedPreferences(c).getFloat("darker_factor_font",1f);
     }
 
     public static void setBackgrounds(Context c, ArrayList<ArrayList<View>> ALL, ArrayList<Integer> colors){
         applySettings(c);
         Drawable background=null;
         SettingsApplier.setColors(c);
-        float factor_font = 0.5f;
+        float factor_font = getDarker_factor_font(c);
         int darker;
         boolean stroke = true;
 
@@ -510,7 +493,10 @@ public class SettingsApplier {
         SettingsApplier.darker_factor_font = darker_factor_font;
     }
 
-    public static Float getDarker_factor_font() {
+    public static Float getDarker_factor_font(Context c) {
+        if(darker_factor_font == -1f){
+            applySettings(c);
+        }
         return darker_factor_font;
     }
 

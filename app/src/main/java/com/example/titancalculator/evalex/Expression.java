@@ -610,10 +610,10 @@ public class Expression {
 			@Override
 			public BigDecimal eval(BigDecimal v1, BigDecimal v2) {
 				assertNotNull(v1, v2);
-				if(v2.compareTo(new BigDecimal((-7))) < 0){
-					return BigDecimalMath.pow(v1, v2);
-				}
-				else {
+				//if(v2.compareTo(new BigDecimal((-7))) < 0){
+				//	return BigDecimalMath.pow(v1, v2);
+				//}
+				//else {
 					/*-
 					 * Thanks to Gene Marin:
 					 * http://stackoverflow.com/questions/3579779/how-to-do-a-fractional-power-on-bigdecimal-in-java
@@ -631,7 +631,7 @@ public class Expression {
 						result = BigDecimal.ONE.divide(result, mc.getPrecision(), RoundingMode.HALF_UP);
 					}
 					return result;
-				}
+				//}
             }
 		});
 		addOperator(new Operator("&&", OPERATOR_PRECEDENCE_AND, false, true) {
@@ -925,7 +925,7 @@ public class Expression {
                 return new BigDecimal(d, mc);
             }
         });
-		addFunction(new Function("LOGB", 2) {
+		addFunction(new Function("LOG", 2) {
 			@Override
 			public BigDecimal eval(List<BigDecimal> parameters) {
 				assertNotNull(parameters.get(0));
@@ -959,7 +959,7 @@ public class Expression {
 			@Override
 			public BigDecimal eval(List<BigDecimal> parameters) {
 				assertNotNull(parameters.get(0));
-				double n = parameters.get(1).doubleValue();
+				double n = parameters.get(0).doubleValue();
 				double d = Math.log10(n) / Math.log10(2);
 				return new BigDecimal(d, mc);
 			}
@@ -1117,14 +1117,8 @@ public class Expression {
 				return new BigDecimal(d, mc);
 			}
 		});
-		addFunction(new Function("LOG", 1) {
-			@Override
-			public BigDecimal eval(List<BigDecimal> parameters) {
-				assertNotNull(parameters.get(0));
-				double d = Math.log10(parameters.get(0).doubleValue());
-				return new BigDecimal(d, mc);
-			}
-		});
+
+
 		addFunction(new Function("LOG10", 1) {
 			@Override
 			public BigDecimal eval(List<BigDecimal> parameters) {

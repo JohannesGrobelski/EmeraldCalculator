@@ -1,9 +1,22 @@
 package com.example.titancalculator.helper.Math_String;
 
-import com.example.titancalculator.evalex.Expression;
+import android.content.Context;
 
+import androidx.preference.PreferenceManager;
+
+import com.example.titancalculator.CalcActivity_science;
+import com.example.titancalculator.MainActivity;
+import com.example.titancalculator.evalex.Expression;
+import com.example.titancalculator.helper.StringUtils;
+
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -14,14 +27,24 @@ import java.util.regex.Pattern;
  *
  */
 public class MathEvaluator {
-	
+
+    //Math Settings
+    public static int pre_decimal_places_pref = 10;
+    public static int decimal_places_pref = 10;
+
 	String contentString = "123";
 	int marker = 1;
 	
 	public static void main(String[] args) {
-        System.out.println(MathEvaluator.evaluate("8^10",10));
-        System.out.println(MathEvaluator.evaluate("SUME(1,6)",10));
-        System.out.println(MathEvaluator.evaluate("SUME(1,6)",10));
+        System.out.println("3. "+MathEvaluator.evaluate("8^3",10));
+        System.out.println("3. "+MathEvaluator.evaluate("SUME(1,6)",10));
+        System.out.println("3. "+MathEvaluator.evaluate(".1 * 2",10));
+        System.out.println("3. "+MathEvaluator.evaluate("LOG(24)",10));
+        System.out.println("3. "+MathEvaluator.evaluate("2%2",10));
+
+        System.out.println("3. "+MathEvaluator.evaluate("PI",10));
+
+        System.out.println("3. "+MathEvaluator.evaluate("2 ^ -10",10));
 
 
 
@@ -128,13 +151,17 @@ public class MathEvaluator {
 	}
 
 	public static String evaluate(String input,int base) {
-        input = rootToSqrt(input);
+	    input = rootToSqrt(input);
+        input = logToLogb(input);
+
         if(input.contains("!"))input = facToMul(input);
         //input = baseConversion(input,base,10);
 
         Expression expression = new Expression(input);
         try {
-            String res = expression.eval().toString();
+            //System.out.println("1. "+expression.eval().toString());
+            expression.setPrecision(decimal_places_pref);
+            String res = format(expression.eval()).toString();
             return res; //baseConversion(res,10,base);
         }
         catch (Exception e) {
@@ -181,6 +208,19 @@ public class MathEvaluator {
         return input;
     }
 
+    private static String logToLogb(String input) {
+        List<String> allMatches = new ArrayList<String>();
+        Matcher m = Pattern.compile("LOG\\([^,]+\\)").matcher(input);
+        while (m.find()) {
+            allMatches.add(m.group());
+        }
+        for(String s: allMatches.toArray(new String[allMatches.size()])) {
+            String match = s.replace("LOG","LOG10");
+            input = input.replace(s,match);
+        }
+        return input;
+    }
+
 
 	
 	
@@ -207,10 +247,47 @@ public class MathEvaluator {
     }
 
 
+    public static String format(BigDecimal input){
+        //System.out.println("3.  "+input);
 
+        if(input.compareTo(BigDecimal.ONE) < 0){
+            if(input.compareTo(new BigDecimal( "0."+repeatString("0",pre_decimal_places_pref)+"1")) >= 0){
+                return input.toString().replaceAll(",",".").replaceAll("E0","");
+            }
+        }
+
+        if(input.compareTo(new BigDecimal( "1"+repeatString("0",pre_decimal_places_pref))) <= 0  ||
+                input.compareTo(new BigDecimal( "-1"+repeatString("0",pre_decimal_places_pref))) >= 0){
+            return input.toString().replaceAll(",",".").replaceAll("E0","");
+        }
+
+        String pattern = "0."+repeatString("#",pre_decimal_places_pref)+"E0";
+        NumberFormat formatter = new DecimalFormat(pattern);
+        formatter.setRoundingMode(RoundingMode.HALF_UP);
+        return formatter.format(input).toString().replaceAll(",",".").replaceAll("E0","");
+
+    }
 	
 	
 	
-	
+	public static void applySettings(Context c){
+        //Math Settings
+        String pre_decimal_places = PreferenceManager.getDefaultSharedPreferences(c).getString("pre_decimal_places_pref","5");
+        String decimal_places = PreferenceManager.getDefaultSharedPreferences(c).getString("decimal_places_pref","5");
+        if(isInteger(decimal_places))decimal_places_pref = Integer.parseInt(decimal_places);
+        if(isInteger(pre_decimal_places))pre_decimal_places_pref = Integer.parseInt(pre_decimal_places);
+    }
+
+    public static String repeatString(String s, int number){
+	    String res = "";
+	    for(int i=0; i<number; i++){
+	        res += s;
+        }
+	    return res;
+    }
+
+    public static boolean isInteger(String s) {
+        return s.matches("-?\\d+");
+    }
 
 }

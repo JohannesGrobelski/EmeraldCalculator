@@ -4,6 +4,7 @@
         android:defaultValue="1"
         android:entries="@array/LayoutModesDE"
         android:entryValues="@array/LayoutModesEN"
+        android:summary="%s"
         android:key="layout"
         android:title="layout preference" />
 </PreferenceScreen>

@@ -5,6 +5,7 @@
         android:defaultValue="1"
         android:entries="@array/LayoutModesEN"
         android:entryValues="@array/LayoutModesEN"
+        android:summary="%s"
         android:key="layout"
         android:title="List preference" />
 </PreferenceScreen>

@@ -69,7 +69,7 @@ public class DesignSettingsActivity extends AppCompatActivity {
                 new ArrayAdapter<String>(DesignSettingsActivity.this, R.layout.spinner_shift_style, DesignApplier.designs)
                 {
 
-                    float factor_font = SettingsApplier.getDarker_factor_font();
+                    float factor_font = SettingsApplier.getDarker_factor_font(DesignSettingsActivity.this);
                     int darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_fops(DesignSettingsActivity.this),factor_font);
 
                     public View getView(int position, View convertView, ViewGroup parent) {
