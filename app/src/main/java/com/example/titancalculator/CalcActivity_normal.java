@@ -10,6 +10,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
@@ -54,6 +55,7 @@ import com.example.titancalculator.helper.StringUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -66,7 +68,7 @@ public class CalcActivity_normal extends AppCompatActivity {
     static final int REQUEST_CODE_CONV = 1;  // The request code
     static final int REQUEST_CODE_Verlauf = 1;  // The request code
 
-    LinkedList<String> verlauf = new LinkedList<>();
+    LinkedHashSet<String> verlauf = new LinkedHashSet<>();
     int buttonshapeID = R.drawable.buttonshape_square;
     String buttonfüllung="voll";
     DisplayMetrics screen_density;
@@ -177,7 +179,7 @@ public class CalcActivity_normal extends AppCompatActivity {
             if(getIntent().hasExtra("onPotraitReturn")){
                 Intent conversionIntent= new Intent(CalcActivity_normal.this, CalcActivity_science.class);
 
-                conversionIntent.putExtra("verlauf",verlaufToString(verlauf));
+                conversionIntent.putExtra("verlauf",verlaufToString(new ArrayList<String>(verlauf)));
                 conversionIntent.putExtra("input",tV_eingabe.getText().toString());
                 conversionIntent.putExtra("output",tV_ausgabe.getText().toString());
                 conversionIntent.putExtra("swipeDir","");
@@ -211,7 +213,7 @@ public class CalcActivity_normal extends AppCompatActivity {
                 }
                 else return;
             }
-            conversionIntent.putExtra("verlauf",verlaufToString(verlauf));
+            conversionIntent.putExtra("verlauf",verlaufToString(new ArrayList<String>(verlauf)));
             conversionIntent.putExtra("input",tV_eingabe.getText().toString());
             conversionIntent.putExtra("output",tV_ausgabe.getText().toString());
             conversionIntent.putExtra("swipeDir","");
@@ -262,7 +264,10 @@ public class CalcActivity_normal extends AppCompatActivity {
                         v.setBackgroundResource(R.drawable.buttonshape_square);
 
                         ((TextView) v).setTextColor(SettingsApplier.getColor_displaytext(CalcActivity_normal.this));
-                        ((TextView) v).setBackgroundColor(SettingsApplier.getColor_display(CalcActivity_normal.this));
+                        if(SettingsApplier.getButtonfüllung().equals("leer")){
+                            ((TextView) v).setBackgroundColor(SettingsApplier.getColor_background(CalcActivity_normal.this));
+                        }
+                        else ((TextView) v).setBackgroundColor(SettingsApplier.getColor_display(CalcActivity_normal.this));
 
                         ((TextView) v).setTypeface(FontSettingsActivity.getTypeFace(SettingsApplier.current_font_family,SettingsApplier.current_fontstlye));
                         ((TextView) v).setGravity(Gravity.CENTER);
@@ -289,6 +294,7 @@ public class CalcActivity_normal extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SettingsApplier.initSettings(CalcActivity_normal.this);
 
         SettingsApplier.setButtonshapeID("round");
 
@@ -332,7 +338,7 @@ public class CalcActivity_normal extends AppCompatActivity {
             public void onSwipeRight() {
                 Toast.makeText(CalcActivity_normal.this, "right", Toast.LENGTH_SHORT).show();
                 Intent conversionIntent = new Intent(CalcActivity_normal.this, MainActivity.class);
-                conversionIntent.putExtra("verlauf",verlaufToString(verlauf));
+                conversionIntent.putExtra("verlauf",verlaufToString(new ArrayList<String>(verlauf)));
                 conversionIntent.putExtra("input",tV_eingabe.getText().toString());
                 conversionIntent.putExtra("output",tV_ausgabe.getText().toString());
                 conversionIntent.putExtra("swipeDir","right");
@@ -344,7 +350,7 @@ public class CalcActivity_normal extends AppCompatActivity {
             public void onSwipeLeft() {
                 Toast.makeText(CalcActivity_normal.this, "left", Toast.LENGTH_SHORT).show();
                 Intent conversionIntent = new Intent(CalcActivity_normal.this, MainActivity.class);
-                conversionIntent.putExtra("verlauf",verlaufToString(verlauf));
+                conversionIntent.putExtra("verlauf",verlaufToString( new ArrayList<String>(verlauf)));
                 conversionIntent.putExtra("input",tV_eingabe.getText().toString());
                 conversionIntent.putExtra("output",tV_ausgabe.getText().toString());
                 conversionIntent.putExtra("swipeDir","left");
@@ -580,6 +586,12 @@ public class CalcActivity_normal extends AppCompatActivity {
                 eingabeClear();
                 ausgabe_setText("");
                 setBackground(btn_clear);
+                if(!CalcActivity_science.noImmidiateOps.contains(I.getDisplayableString().trim())){
+                    if(solve_inst_pref){
+                        answer = I.getResult();
+                        if(!answer.equals("Math Error"))ausgabe_setText(answer);
+                    }
+                }
             }
         });
         btn_clearall.setOnClickListener(new View.OnClickListener() {
@@ -606,7 +618,7 @@ public class CalcActivity_normal extends AppCompatActivity {
                 } else if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
                     eingabeAddText("PI");
                 } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
-                    eingabeAddText("%");
+                    ausgabe_setText(I.getPFZ());
                 } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
                     eingabeAddText("SIN");
                 } else if (mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))) {
@@ -625,10 +637,7 @@ public class CalcActivity_normal extends AppCompatActivity {
                     unknownMode.show();
                 }
                 setBackground(btn_11);
-                if(solve_inst_pref){
-                    answer = I.getResult();
-                    if(!answer.equals("Math Error"))ausgabe_setText(answer);
-                }
+
             }
         });
         btn_12.setOnClickListener(new View.OnClickListener() {
@@ -641,7 +650,7 @@ public class CalcActivity_normal extends AppCompatActivity {
                 } else if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
                     eingabeAddText("E");
                 } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
-                    ausgabe_setText(I.getPFZ());
+                    eingabeAddText("ggt(,)");
                 } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
                     eingabeAddText("COS");
                 } else if (mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))) {
@@ -660,10 +669,7 @@ public class CalcActivity_normal extends AppCompatActivity {
                     unknownMode.show();
                 }
                 setBackground(btn_12);
-                if(solve_inst_pref){
-                    answer = I.getResult();
-                    if(!answer.equals("Math Error"))ausgabe_setText(answer);
-                }
+
             }
         });
         btn_13.setOnClickListener(new View.OnClickListener() {
@@ -674,9 +680,9 @@ public class CalcActivity_normal extends AppCompatActivity {
                 if (mode.equals("NUMBER") || mode.equals("ZAHLEN")) {
                     eingabeAddText("9");
                 } else if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
-                    eingabeAddText("√");
+                    eingabeAddText("^");
                 } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
-                    eingabeAddText("ggt(,)");
+                    eingabeAddText("kgv(,)");
                 } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
                     eingabeAddText("TAN");
                 } else if (mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))) {
@@ -695,10 +701,7 @@ public class CalcActivity_normal extends AppCompatActivity {
                     unknownMode.show();
                 }
                 setBackground(btn_13);
-                if(solve_inst_pref){
-                    answer = I.getResult();
-                    if(!answer.equals("Math Error"))ausgabe_setText(answer);
-                }
+
             }
         });
         btn_14.setOnClickListener(new View.OnClickListener() {
@@ -711,7 +714,7 @@ public class CalcActivity_normal extends AppCompatActivity {
                 } else if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
                     eingabeAddText("LOG");
                 } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
-                    eingabeAddText("kgv(,)");
+                    eingabeAddText(getResources().getString(R.string.SUME) + "(,)");
                 } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
                     eingabeAddText("ASIN");
                 } else if (mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))) {
@@ -730,10 +733,7 @@ public class CalcActivity_normal extends AppCompatActivity {
                     unknownMode.show();
                 }
                 setBackground(btn_14);
-                if(solve_inst_pref){
-                    answer = I.getResult();
-                    if(!answer.equals("Math Error"))ausgabe_setText(answer);
-                }
+
             }
         });
         btn_15.setOnClickListener(new View.OnClickListener() {
@@ -746,7 +746,7 @@ public class CalcActivity_normal extends AppCompatActivity {
                 } else if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
                     eingabeAddText("LN");
                 } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
-                    eingabeAddText(getResources().getString(R.string.SUME) + "(,)");
+                    eingabeAddText(getResources().getString(R.string.MULP) + "(,)");
                 } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
                     eingabeAddText("ACOS");
                 } else if (mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))) {
@@ -764,10 +764,7 @@ public class CalcActivity_normal extends AppCompatActivity {
                     unknownMode.show();
                 }
                 setBackground(btn_15);
-                if(solve_inst_pref){
-                    answer = I.getResult();
-                    if(!answer.equals("Math Error"))ausgabe_setText(answer);
-                }
+
             }
         });
         btn_16.setOnClickListener(new View.OnClickListener() {
@@ -778,9 +775,9 @@ public class CalcActivity_normal extends AppCompatActivity {
                 if (mode.equals("NUMBER") || mode.equals("ZAHLEN")) {
                     eingabeAddText("6");
                 } else if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
-                    eingabeAddText("LB ");
+                    eingabeAddText("LB");
                 } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
-                    eingabeAddText(getResources().getString(R.string.MULP) + "(,)");
+
                 } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
                     eingabeAddText("ATAN");
                 } else if (mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))) {
@@ -798,10 +795,7 @@ public class CalcActivity_normal extends AppCompatActivity {
                     unknownMode.show();
                 }
                 setBackground(btn_16);
-                if(solve_inst_pref){
-                    answer = I.getResult();
-                    if(!answer.equals("Math Error"))ausgabe_setText(answer);
-                }
+
             }
         });
 
@@ -817,9 +811,14 @@ public class CalcActivity_normal extends AppCompatActivity {
                 if (mode.equals("NUMBER") || mode.equals("ZAHLEN")) {
                     eingabeAddText("1");
                 } else if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
-                    ausgabe_setText(I.getPercent());
+                    eingabeAddText("³√");
                 } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
+                    ausgabe_setText(I.getPercent());
+                    if (verlauf == null) verlauf = new LinkedHashSet<>();
 
+                    answer = I.getPercent();
+                    ausgabe_setText(answer);
+                    verlauf.add(answer);
                 } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
                     ausgabe_setText(I.getDEG());
                 } else if (mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))) {
@@ -837,10 +836,7 @@ public class CalcActivity_normal extends AppCompatActivity {
                     unknownMode.show();
                 }
                 setBackground(btn_21);
-                if(solve_inst_pref){
-                    answer = I.getResult();
-                    if(!answer.equals("Math Error"))ausgabe_setText(answer);
-                }
+
             }
         });
         btn_22.setOnClickListener(new View.OnClickListener() {
@@ -851,9 +847,9 @@ public class CalcActivity_normal extends AppCompatActivity {
                 if (mode.equals("NUMBER") || mode.equals("ZAHLEN")) {
                     eingabeAddText("2");
                 } else if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
-                    eingabeAddText("!");
+                    eingabeAddText("√");
                 } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
-
+                    ausgabe_setText(I.getBruch());
                 } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
                     ausgabe_setText(I.getRAD());
                 } else if (mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))) {
@@ -871,10 +867,7 @@ public class CalcActivity_normal extends AppCompatActivity {
                     unknownMode.show();
                 }
                 setBackground(btn_22);
-                if(solve_inst_pref){
-                    answer = I.getResult();
-                    if(!answer.equals("Math Error"))ausgabe_setText(answer);
-                }
+
             }
         });
         btn_23.setOnClickListener(new View.OnClickListener() {
@@ -884,12 +877,11 @@ public class CalcActivity_normal extends AppCompatActivity {
 
                 if (mode.equals("NUMBER") || mode.equals("ZAHLEN")) {
                     eingabeAddText("3");
-                } else if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
-                    eingabeAddText("^");
-
+                } else  if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
+                    eingabeAddText("³");
                 } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
-
-                } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
+                    ausgabe_setText(I.getReciproke());
+                }  else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
                     eingabeAddText("toPolar(,)");
                 } else if (mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))) {
                     transBtnFct("btn_23");
@@ -905,10 +897,7 @@ public class CalcActivity_normal extends AppCompatActivity {
                     unknownMode.show();
                 }
                 setBackground(btn_23);
-                if(solve_inst_pref){
-                    answer = I.getResult();
-                    if(!answer.equals("Math Error"))ausgabe_setText(answer);
-                }
+
             }
         });
         btn_24.setOnClickListener(new View.OnClickListener() {
@@ -919,9 +908,9 @@ public class CalcActivity_normal extends AppCompatActivity {
                 if (mode.equals("NUMBER") || mode.equals("ZAHLEN")) {
                     eingabeAddText("0");
                 } else if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
-                    ausgabe_setText(I.getBruch());
+                    eingabeAddText("²");
                 } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
-
+                    ausgabe_setText(I.getInvert());
                 } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
                     eingabeAddText("toCart(,)");
                 } else if (mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))) {
@@ -938,10 +927,7 @@ public class CalcActivity_normal extends AppCompatActivity {
                     unknownMode.show();
                 }
                 setBackground(btn_24);
-                if(solve_inst_pref){
-                    answer = I.getResult();
-                    if(!answer.equals("Math Error"))ausgabe_setText(answer);
-                }
+
             }
         });
         btn_25.setOnClickListener(new View.OnClickListener() {
@@ -952,7 +938,7 @@ public class CalcActivity_normal extends AppCompatActivity {
                 if (mode.equals("NUMBER") || mode.equals("ZAHLEN")) {
                     eingabeAddText(".");
                 } else if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
-                    ausgabe_setText(I.getReciproke());
+                    eingabeAddText("10^");
                 } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
 
                 } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
@@ -971,10 +957,7 @@ public class CalcActivity_normal extends AppCompatActivity {
                     unknownMode.show();
                 }
                 setBackground(btn_25);
-                if(solve_inst_pref){
-                    answer = I.getResult();
-                    if(!answer.equals("Math Error"))ausgabe_setText(answer);
-                }
+
             }
         });
         btn_26.setOnClickListener(new View.OnClickListener() {
@@ -984,8 +967,8 @@ public class CalcActivity_normal extends AppCompatActivity {
 
                 if (mode.equals("NUMBER") || mode.equals("ZAHLEN")) {
                     eingabeAddText("ANS");
-                } else if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
-                    ausgabe_setText(I.getInvert());
+                } if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
+                    eingabeAddText("!");
                 } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
 
                 } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
@@ -1004,10 +987,7 @@ public class CalcActivity_normal extends AppCompatActivity {
                     unknownMode.show();
                 }
                 setBackground(btn_26);
-                if(solve_inst_pref){
-                    answer = I.getResult();
-                    if(!answer.equals("Math Error"))ausgabe_setText(answer);
-                }
+
             }
         });
 
@@ -1117,7 +1097,7 @@ public class CalcActivity_normal extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 view.startAnimation(buttonClick);
-                if (verlauf == null) verlauf = new LinkedList<>();
+                if (verlauf == null) verlauf = new LinkedHashSet<>();
                 verlauf.add(I.getDisplayableString());
 
                 answer = I.getResult();
@@ -1253,33 +1233,33 @@ public class CalcActivity_normal extends AppCompatActivity {
             //L1 normal: PI,E,->DEC,->BIN,->OCT
             btn_11.setText(R.string.PI);
             btn_12.setText(R.string.E);
-            btn_13.setText("√");
+            btn_13.setText("^");
             btn_14.setText("LOG");
             btn_15.setText("LN");
             btn_16.setText("LB");
 
             //L3 normal: %,!,^,a/b,x^-1,+/-
-            btn_21.setText(">%");
-            btn_22.setText("!N");
-            btn_23.setText("^");
-            btn_24.setText(R.string.bruch);
+            btn_21.setText("³√");
+            btn_22.setText("√");
+            btn_23.setText("x³");
+            btn_24.setText("x²");
 
-            btn_25.setText(getResources().getString(R.string.x_h_one));
-            btn_26.setText("+/-");
+            btn_25.setText("10^x");
+            btn_26.setText("!");
         }else if(mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))){
             //L1 normal: PI,E,->DEC,->BIN,->OCT
-            btn_11.setText("%");
-            btn_12.setText("PFZ");
-            btn_13.setText("ggT");
-            btn_14.setText("kgV");
-            btn_15.setText(getResources().getString(R.string.SUME));
-            btn_16.setText(getResources().getString(R.string.MULP));
+            btn_11.setText("PFZ");
+            btn_12.setText("GGT");
+            btn_13.setText("KGV");
+            btn_14.setText(getResources().getString(R.string.SUME));
+            btn_15.setText(getResources().getString(R.string.MULP));
+            btn_16.setText("");
 
             //L3 normal: %,!,^,a/b,x^-1,+/-
-            btn_21.setText("");
-            btn_22.setText("");
-            btn_23.setText("");
-            btn_24.setText("");
+            btn_21.setText(">%");
+            btn_22.setText("A/B");
+            btn_23.setText(R.string.x_h_one);
+            btn_24.setText("+/-");
             btn_25.setText("");
             btn_26.setText("");
         } else {
@@ -1335,6 +1315,51 @@ public class CalcActivity_normal extends AppCompatActivity {
             tV_ausgabe.setTextColor(SettingsApplier.getColor_displaytext(CalcActivity_normal.this));
             tV_eingabe.setTextColor(SettingsApplier.getColor_displaytext(CalcActivity_normal.this));
             x.setBackground(background);
+        }
+
+        if(x.equals(btn_CONST)){
+            darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_act(CalcActivity_normal.this),factor_font);
+            Drawable vector =  getResources().getDrawable(R.drawable.ic_konstanten1);
+            vector.setColorFilter(darker, PorterDuff.Mode.SRC_ATOP);
+
+            background = getResources().getDrawable(buttonshapeID);
+            SettingsApplier.setColor((CalcActivity_normal.this),background, SettingsApplier.getColor_act(CalcActivity_normal.this),buttonfüllung,stroke);
+            darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_act(CalcActivity_normal.this),factor_font);
+            SettingsApplier.setTextColor(x,darker);
+
+            x.setBackground( SettingsApplier.combineVectorBackground(vector,background));
+            ((Button) x).setText("");
+            return;
+        }
+
+        if(x.equals(btn_CONV)){
+            darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_act(CalcActivity_normal.this),factor_font);
+            Drawable vector =  getResources().getDrawable(R.drawable.ic_lineal);
+            vector.setColorFilter(darker, PorterDuff.Mode.SRC_ATOP);
+
+            background = getResources().getDrawable(buttonshapeID);
+            SettingsApplier.setColor((CalcActivity_normal.this),background, SettingsApplier.getColor_act(CalcActivity_normal.this),buttonfüllung,stroke);
+            darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_act(CalcActivity_normal.this),factor_font);
+            SettingsApplier.setTextColor(x,darker);
+
+            x.setBackground( SettingsApplier.combineVectorBackground(vector,background));
+            ((Button) x).setText("");
+            return;
+        }
+
+        if(x.equals(btn_verlauf)){
+            darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_act(CalcActivity_normal.this),factor_font);
+            Drawable vector =  getResources().getDrawable(R.drawable.ic_verlauf);
+            vector.setColorFilter(darker, PorterDuff.Mode.SRC_ATOP);
+
+            background = getResources().getDrawable(buttonshapeID);
+            SettingsApplier.setColor((CalcActivity_normal.this),background, SettingsApplier.getColor_act(CalcActivity_normal.this),buttonfüllung,stroke);
+            darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_act(CalcActivity_normal.this),factor_font);
+            SettingsApplier.setTextColor(x,darker);
+
+            x.setBackground( SettingsApplier.combineVectorBackground(vector,background));
+            ((Button) x).setText("");
+            return;
         }
 
         if(BTN_ACT.contains(x)){
@@ -1489,6 +1514,12 @@ public class CalcActivity_normal extends AppCompatActivity {
             tV_eingabe.getText().insert(tV_eingabe.getSelectionStart(), i);
             I.setText(tV_eingabe.getText().toString());
         }
+        if(solve_inst_pref){
+            if(!CalcActivity_science.noImmidiateOps.contains(i.trim())){
+                answer = I.getResult();
+                if(!answer.equals("Math Error"))ausgabe_setText(answer);
+            }
+        }
     }
 
     public void eingabeClear(){
@@ -1511,10 +1542,10 @@ public class CalcActivity_normal extends AppCompatActivity {
         //language
         language = PreferenceManager.getDefaultSharedPreferences(CalcActivity_normal.this).getString("pref_lang","english");
         if(language.equals("english") || language.equals("englisch")){
-            btn_CONV.setText(R.string.CONVEN);
-            btn_CONST.setText(R.string.CONSTEN);
+            //btn_CONV.setText(R.string.CONVEN);
+            //btn_CONST.setText(R.string.CONSTEN);
             btn_menu.setText(R.string.MENU_EN);
-            btn_verlauf.setText(R.string.VERLAUFEN);
+            //btn_verlauf.setText(R.string.VERLAUFEN);
             act_options = getResources().getStringArray(R.array.act_EN);
             mode_options = FunctionGroupSettingsActivity.getGroups(CalcActivity_normal.this);
             if(language.equals("german") || language.equals("deutsch")){
@@ -1524,10 +1555,10 @@ public class CalcActivity_normal extends AppCompatActivity {
             }
         }
         else if(language.equals("german") || language.equals("deutsch")){
-            btn_CONV.setText(R.string.CONVDE);
-            btn_CONST.setText(R.string.CONSTDE);
+            //btn_CONV.setText(R.string.CONVDE);
+            //btn_CONST.setText(R.string.CONSTDE);
             btn_menu.setText(R.string.MENU_DE);
-            btn_verlauf.setText(R.string.VERLAUFDE);
+            //btn_verlauf.setText(R.string.VERLAUFDE);
             act_options = getResources().getStringArray(R.array.act_DE);
             mode_options = FunctionGroupSettingsActivity.translateGroup(FunctionGroupSettingsActivity.getGroups(CalcActivity_normal.this),"german");
             if(language.equals("german") || language.equals("deutsch")){
@@ -1609,7 +1640,7 @@ public class CalcActivity_normal extends AppCompatActivity {
 
     private void stringToVerlauf(String verlauf_string){
         if(verlauf_string==null)return;
-        verlauf = new LinkedList<>();
+        verlauf = new LinkedHashSet<>();
         verlauf.addAll(new LinkedList<String>(Arrays.asList(verlauf_string.split("_"))));
     }
 }

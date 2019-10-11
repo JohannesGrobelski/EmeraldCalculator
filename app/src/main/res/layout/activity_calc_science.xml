@@ -100,25 +100,7 @@
                 android:text="BASIC"
                 android:textSize="30sp"
                 android:textStyle="bold" />
-            <Button
-                android:id="@+id/btn_CONV"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="1.25"
-                android:background="@drawable/buttonshape_square"
-                android:elevation="16dp"
-                android:maxLines="1"
-                android:shadowRadius="30"
-                android:text="@string/CONVEN"
-                android:textSize="15sp"
-                android:textStyle="normal"
-                android:visibility="visible"
 
-
-                />
             <Button
                 android:id="@+id/btn_CONST"
                 android:layout_width="match_parent"
@@ -138,6 +120,27 @@
 
 
                 />
+
+            <Button
+                android:id="@+id/btn_CONV"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1.25"
+                android:background="@drawable/buttonshape_square"
+                android:elevation="16dp"
+                android:maxLines="1"
+                android:shadowRadius="30"
+                android:text="@string/CONVEN"
+                android:textSize="15sp"
+                android:textStyle="normal"
+                android:visibility="visible"
+
+
+                />
+
             <Button
                 android:id="@+id/btn_Verlauf"
                 android:layout_width="match_parent"

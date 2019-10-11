@@ -25,7 +25,6 @@ public class NumberString extends ContentString {
     String E="e = 0";
 
     String getDisplayableString(String a) {
-        a = a.replace(".",",");
         a = a.replace("ROOT","√");
 
         return a;
@@ -107,6 +106,8 @@ public class NumberString extends ContentString {
         a = a.replace("³√","3ROOT");
         a = a.replace("√","ROOT");
 
+        a = a.replace("³","^3");
+        a = a.replace("²","^2");
 
         a = parenthesise(a,"ROOT");
         a = parenthesise(a,"LN");
@@ -135,8 +136,6 @@ public class NumberString extends ContentString {
         a = paraIn(a,"C");
         a = paraIn(a,"R");
 
-        a = facToMul(a);
-
         Log.e("calcString: ",a);
         if(!last_answer.equals("Math Error"))last_answer = a;
         return a;
@@ -157,35 +156,13 @@ public class NumberString extends ContentString {
         }
     }
 
-    private static String facToMul(String input) {
-        List<String> allMatches = new ArrayList<String>();
-        Matcher m = Pattern.compile("[0-9]+\\!").matcher(input);
-        while (m.find()) {
-            allMatches.add(m.group());
-        }
-        for(String s: allMatches.toArray(new String[allMatches.size()])) {
-            Double number = Double.valueOf(s.replace("!", ""));
 
-            if (!(number == Math.floor(number)) || Double.isInfinite(number) || number < 0 || number > 1000) {
-                return "";
-            } else {
-                String newnumber = "";
-                for(int i=1; i<=Math.floor(number); i++) {
-                    newnumber += String.valueOf(i)+"*";
-                }
-                newnumber = newnumber.substring(0,newnumber.length()-1);
-                Integer i =(int) Math.floor(number);
-                input = input.replace(String.valueOf(i)+"!",newnumber);
-            }
-
-        }
-        return input;
-    }
 
     String getResult(){
         String i = getCalcuableString(content);
+        Log.e("getRES input",i);
         String c = MathEvaluator.evaluate(i,10);
-        Log.e("getRES 3",c);
+        Log.e("getRES output",c);
 
         return c;
     }

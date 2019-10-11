@@ -45,6 +45,7 @@ import com.example.titancalculator.helper.Math_String.NumberString;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -57,7 +58,7 @@ public class CalcActivity_small extends AppCompatActivity {
     static final int REQUEST_CODE_CONV = 1;  // The request code
     static final int REQUEST_CODE_Verlauf = 1;  // The request code
 
-    LinkedList<String> verlauf = new LinkedList<>();
+    LinkedHashSet<String> verlauf = new LinkedHashSet<>();
     int buttonshapeID = R.drawable.buttonshape_square;
     String buttonfüllung="voll";
     DisplayMetrics screen_density;
@@ -143,7 +144,7 @@ public class CalcActivity_small extends AppCompatActivity {
                 Log.e("transfer ","science");
                 conversionIntent = new Intent(CalcActivity_small.this, CalcActivity_science.class);
             }
-            conversionIntent.putExtra("verlauf",verlaufToString(verlauf));
+            conversionIntent.putExtra("verlauf",verlaufToString(new ArrayList<String>(verlauf)));
             conversionIntent.putExtra("input",tV_eingabe.getText().toString());
             conversionIntent.putExtra("output",tV_ausgabe.getText().toString());
             conversionIntent.putExtra("swipeDir","");
@@ -182,6 +183,7 @@ public class CalcActivity_small extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calc_small);
+        SettingsApplier.initSettings(CalcActivity_small.this);
 
         setTitle("Rechner");
 
@@ -226,7 +228,7 @@ public class CalcActivity_small extends AppCompatActivity {
             public void onSwipeRight() {
                 Toast.makeText(CalcActivity_small.this, "right", Toast.LENGTH_SHORT).show();
                 Intent conversionIntent = new Intent(CalcActivity_small.this, MainActivity.class);
-                conversionIntent.putExtra("verlauf",verlaufToString(verlauf));
+                conversionIntent.putExtra("verlauf",verlaufToString(new ArrayList<String>(verlauf)));
                 conversionIntent.putExtra("input",tV_eingabe.getText().toString());
                 conversionIntent.putExtra("output",tV_ausgabe.getText().toString());
                 conversionIntent.putExtra("swipeDir","right");
@@ -237,7 +239,7 @@ public class CalcActivity_small extends AppCompatActivity {
             public void onSwipeLeft() {
                 Toast.makeText(CalcActivity_small.this, "left", Toast.LENGTH_SHORT).show();
                 Intent conversionIntent = new Intent(CalcActivity_small.this, MainActivity.class);
-                conversionIntent.putExtra("verlauf",verlaufToString(verlauf));
+                conversionIntent.putExtra("verlauf",verlaufToString(new ArrayList<String>(verlauf)));
                 conversionIntent.putExtra("input",tV_eingabe.getText().toString());
                 conversionIntent.putExtra("output",tV_ausgabe.getText().toString());
                 conversionIntent.putExtra("swipeDir","left");
@@ -351,6 +353,12 @@ public class CalcActivity_small extends AppCompatActivity {
                 eingabeClear();
                 ausgabe_setText("");
                 setBackground(btn_clear);
+                if(!CalcActivity_science.noImmidiateOps.contains(I.getDisplayableString().trim())){
+                    if(solve_inst_pref){
+                        answer = I.getResult();
+                        if(!answer.equals("Math Error"))ausgabe_setText(answer);
+                    }
+                }
             }
         });
         btn_clearall.setOnClickListener(new View.OnClickListener() {
@@ -568,7 +576,7 @@ public class CalcActivity_small extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 view.startAnimation(buttonClick);
-                if (verlauf == null) verlauf = new LinkedList<>();
+                if (verlauf == null) verlauf = new LinkedHashSet<>();
                 verlauf.add(I.getDisplayableString());
 
                 answer = I.getResult();
@@ -886,7 +894,7 @@ public class CalcActivity_small extends AppCompatActivity {
 
     private void stringToVerlauf(String verlauf_string){
         if(verlauf_string==null)return;
-        verlauf = new LinkedList<>();
+        verlauf = new LinkedHashSet<>();
         verlauf.addAll(new LinkedList<String>(Arrays.asList(verlauf_string.split("_"))));
     }
 }

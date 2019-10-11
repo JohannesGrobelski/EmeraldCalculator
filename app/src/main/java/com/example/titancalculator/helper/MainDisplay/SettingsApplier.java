@@ -3,10 +3,12 @@ package com.example.titancalculator.helper.MainDisplay;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.util.Log;
 import android.util.TypedValue;
@@ -17,6 +19,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.core.content.ContextCompat;
+import androidx.preference.Preference;
 import androidx.preference.PreferenceManager;
 
 import com.example.titancalculator.ButtonSettingsActivity;
@@ -190,6 +194,13 @@ public class SettingsApplier {
             ((EditText) v).setTextColor(color);
         }
     }
+
+
+    public static Drawable combineVectorBackground(Drawable vector, Drawable background){
+            LayerDrawable finalDrawable = new LayerDrawable(new Drawable[] {background, vector});
+            return finalDrawable;
+    }
+
 
 
     public static void setColor(Context context, Drawable background, int color, String füllung, boolean stroke){
@@ -498,6 +509,14 @@ public class SettingsApplier {
             applySettings(c);
         }
         return darker_factor_font;
+    }
+
+
+    //inits settings if user starts calc for first time
+    public static void initSettings(Context c){
+        if(!PreferenceManager.getDefaultSharedPreferences(c).contains("buttonfüllung")){ //signal
+            DesignApplier.apply_theme(c, "bright");
+        }
     }
 
 }

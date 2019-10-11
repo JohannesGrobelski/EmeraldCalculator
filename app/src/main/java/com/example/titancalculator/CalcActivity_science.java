@@ -10,12 +10,16 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.VectorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -53,19 +57,24 @@ import com.example.titancalculator.helper.Math_String.NumberString;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
 
+
 public class CalcActivity_science extends AppCompatActivity {
+    private static final int[] FROM_COLOR = new int[]{49, 179, 110};
+    private static final int THRESHOLD = 3;
+
     TableLayout science_background;
 
     static final int REQUEST_CODE_CONST = 1;  // The request code
     static final int REQUEST_CODE_CONV = 1;  // The request code
     static final int REQUEST_CODE_Verlauf = 1;  // The request code
 
-    LinkedList<String> verlauf = new LinkedList<>();
+    LinkedHashSet<String> verlauf = new LinkedHashSet<>();
     int buttonshapeID = R.drawable.buttonshape_square;
     String buttonfüllung="voll";
 
@@ -74,7 +83,7 @@ public class CalcActivity_science extends AppCompatActivity {
     String current_Callback="";
     String answer="";
     boolean solve_inst_pref=false;
-    public static Set<String> noImmidiateOps = new HashSet<>(Arrays.asList("ROOT","√","LOG","P","C","%"));
+    public static Set<String> noImmidiateOps = new HashSet<>(Arrays.asList("³√","ROOT","√","LOG","P","C","%"));
 
     String language = "";
     String[] act_options;
@@ -182,7 +191,7 @@ public class CalcActivity_science extends AppCompatActivity {
             conversionIntent = new Intent(CalcActivity_science.this, CalcActivity_normal.class);
 
             conversionIntent.putExtra("onPotraitReturn",true);
-            conversionIntent.putExtra("verlauf",verlaufToString(verlauf));
+            conversionIntent.putExtra("verlauf",verlaufToString(new ArrayList<String>(verlauf)));
             conversionIntent.putExtra("input",tV_eingabe.getText().toString());
             conversionIntent.putExtra("output",tV_ausgabe.getText().toString());
             conversionIntent.putExtra("swipeDir","");
@@ -224,7 +233,7 @@ public class CalcActivity_science extends AppCompatActivity {
                 conversionIntent = new Intent(CalcActivity_science.this, CalcActivity_small.class);
             }
             else Log.e("mode  ",mode);
-            conversionIntent.putExtra("verlauf",verlaufToString(verlauf));
+            conversionIntent.putExtra("verlauf",verlaufToString(new ArrayList<String>(verlauf)));
             conversionIntent.putExtra("input",tV_eingabe.getText().toString());
             conversionIntent.putExtra("output",tV_ausgabe.getText().toString());
             conversionIntent.putExtra("swipeDir","");
@@ -273,7 +282,10 @@ public class CalcActivity_science extends AppCompatActivity {
                         v.setBackgroundResource(R.drawable.buttonshape_square);
 
                         ((TextView) v).setTextColor(SettingsApplier.getColor_displaytext(CalcActivity_science.this));
-                        ((TextView) v).setBackgroundColor(SettingsApplier.getColor_display(CalcActivity_science.this));
+                        if(SettingsApplier.getButtonfüllung().equals("leer")){
+                            ((TextView) v).setBackgroundColor(SettingsApplier.getColor_background(CalcActivity_science.this));
+                        }
+                        else ((TextView) v).setBackgroundColor(SettingsApplier.getColor_display(CalcActivity_science.this));
 
                         ((TextView) v).setTypeface(FontSettingsActivity.getTypeFace(SettingsApplier.current_font_family,SettingsApplier.current_fontstlye));
                         ((TextView) v).setGravity(Gravity.CENTER);
@@ -300,6 +312,7 @@ public class CalcActivity_science extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SettingsApplier.initSettings(CalcActivity_science.this);
 
         setContentView(R.layout.activity_calc_science);
         int orientation = this.getResources().getConfiguration().orientation;
@@ -352,7 +365,7 @@ public class CalcActivity_science extends AppCompatActivity {
             public void onSwipeRight() {
                 Toast.makeText(CalcActivity_science.this, "right", Toast.LENGTH_SHORT).show();
                 Intent conversionIntent = new Intent(CalcActivity_science.this, MainActivity.class);
-                conversionIntent.putExtra("verlauf",verlaufToString(verlauf));
+                conversionIntent.putExtra("verlauf",verlaufToString(new ArrayList<String>(verlauf)));
                 conversionIntent.putExtra("input",tV_eingabe.getText().toString());
                 conversionIntent.putExtra("output",tV_ausgabe.getText().toString());
                 conversionIntent.putExtra("swipeDir","right");
@@ -363,7 +376,7 @@ public class CalcActivity_science extends AppCompatActivity {
             public void onSwipeLeft() {
                 Toast.makeText(CalcActivity_science.this, "left", Toast.LENGTH_SHORT).show();
                 Intent conversionIntent = new Intent(CalcActivity_science.this, MainActivity.class);
-                conversionIntent.putExtra("verlauf",verlaufToString(verlauf));
+                conversionIntent.putExtra("verlauf",verlaufToString(new ArrayList<String>(verlauf)));
                 conversionIntent.putExtra("input",tV_eingabe.getText().toString());
                 conversionIntent.putExtra("output",tV_ausgabe.getText().toString());
                 conversionIntent.putExtra("swipeDir","left");
@@ -617,7 +630,12 @@ public class CalcActivity_science extends AppCompatActivity {
                 eingabeClear();
                 ausgabe_setText("");
                 setBackground(btn_clear);
-                
+                if(!noImmidiateOps.contains(I.getDisplayableString().trim())){
+                    if(solve_inst_pref){
+                        answer = I.getResult();
+                        if(!answer.equals("Math Error"))ausgabe_setText(answer);
+                    }
+                }
             }
         });
         btn_clearall.setOnClickListener(new View.OnClickListener() {
@@ -627,6 +645,7 @@ public class CalcActivity_science extends AppCompatActivity {
                 eingabeSetText("");
                 ausgabe_setText("");
                 setBackground(btn_clearall);
+
             }
         });
 
@@ -642,7 +661,7 @@ public class CalcActivity_science extends AppCompatActivity {
                 if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
                     eingabeAddText("PI");
                 } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
-                    eingabeAddText("%");
+                    ausgabe_setText(I.getPFZ());
                 } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
                     eingabeAddText("SIN");
                 } else if (mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))) {
@@ -672,7 +691,7 @@ public class CalcActivity_science extends AppCompatActivity {
                 if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
                     eingabeAddText("E");
                 } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
-                    ausgabe_setText(I.getPFZ());
+                    eingabeAddText("ggt(,)");
                 } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
                     eingabeAddText("COS");
                 } else if (mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))) {
@@ -700,9 +719,9 @@ public class CalcActivity_science extends AppCompatActivity {
                 view.startAnimation(buttonClick);
 
                 if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
-                    eingabeAddText("√");
+                    eingabeAddText("^");
                 } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
-                    eingabeAddText("ggt(,)");
+                    eingabeAddText("kgv(,)");
                 } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
                     eingabeAddText("TAN");
                 } else if (mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))) {
@@ -732,7 +751,7 @@ public class CalcActivity_science extends AppCompatActivity {
                 if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
                     eingabeAddText("LOG");
                 } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
-                    eingabeAddText("kgv(,)");
+                    eingabeAddText(getResources().getString(R.string.SUME) + "(,)");
                 } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
                     eingabeAddText("ASIN");
                 } else if (mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))) {
@@ -762,7 +781,7 @@ public class CalcActivity_science extends AppCompatActivity {
                 if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
                     eingabeAddText("LN");
                 } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
-                    eingabeAddText(getResources().getString(R.string.SUME) + "(;)");
+                    eingabeAddText(getResources().getString(R.string.MULP) + "(,)");
                 } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
                     eingabeAddText("ACOS");
                 } else if (mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))) {
@@ -791,7 +810,7 @@ public class CalcActivity_science extends AppCompatActivity {
                 if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
                     eingabeAddText("LB");
                 } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
-                    eingabeAddText(getResources().getString(R.string.MULP) + "(;)");
+
                 } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
                     eingabeAddText("ATAN");
                 } else if (mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))) {
@@ -823,9 +842,14 @@ public class CalcActivity_science extends AppCompatActivity {
                 view.startAnimation(buttonClick);
 
                 if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
-                    ausgabe_setText(I.getPercent());
+                    eingabeAddText("³√");
                 } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
+                    ausgabe_setText(I.getPercent());
+                    if (verlauf == null) verlauf = new LinkedHashSet<>();
 
+                    answer = I.getPercent();
+                    ausgabe_setText(answer);
+                    verlauf.add(answer);
                 } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
                     ausgabe_setText(I.getDEG());
                 } else if (mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))) {
@@ -852,9 +876,9 @@ public class CalcActivity_science extends AppCompatActivity {
                 view.startAnimation(buttonClick);
 
                 if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
-                    eingabeAddText("!");
+                    eingabeAddText("√");
                 } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
-
+                    ausgabe_setText(I.getBruch());
                 } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
                     ausgabe_setText(I.getRAD());
                 } else if (mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))) {
@@ -881,10 +905,9 @@ public class CalcActivity_science extends AppCompatActivity {
                 view.startAnimation(buttonClick);
 
                 if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
-                    eingabeAddText("^");
-
+                    eingabeAddText("³");
                 } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
-
+                    ausgabe_setText(I.getReciproke());
                 } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
                     eingabeAddText("toPolar(,)");
                 } else if (mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))) {
@@ -910,9 +933,9 @@ public class CalcActivity_science extends AppCompatActivity {
                 view.startAnimation(buttonClick);
 
                 if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
-                    ausgabe_setText(I.getBruch());
+                    eingabeAddText("²");
                 } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
-
+                    ausgabe_setText(I.getInvert());
                 } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
                     eingabeAddText("toCart(,)");
                 } else if (mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))) {
@@ -938,7 +961,7 @@ public class CalcActivity_science extends AppCompatActivity {
                 view.startAnimation(buttonClick);
 
                 if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
-                    ausgabe_setText(I.getReciproke());
+                    eingabeAddText("10^");
                 } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
 
                 } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
@@ -966,7 +989,7 @@ public class CalcActivity_science extends AppCompatActivity {
                 view.startAnimation(buttonClick);
 
                 if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
-                    ausgabe_setText(I.getInvert());
+                    eingabeAddText("!");
                 } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
 
                 } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
@@ -1200,7 +1223,7 @@ public class CalcActivity_science extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 view.startAnimation(buttonClick);
-                if (verlauf == null) verlauf = new LinkedList<>();
+                if (verlauf == null) verlauf = new LinkedHashSet<>();
                 verlauf.add(I.getDisplayableString());
 
                 answer = I.getResult();
@@ -1319,33 +1342,33 @@ public class CalcActivity_science extends AppCompatActivity {
             //L1 normal: PI,E,->DEC,->BIN,->OCT
             btn_11.setText(R.string.PI);
             btn_12.setText(R.string.E);
-            btn_13.setText("√");
+            btn_13.setText("^");
             btn_14.setText("LOG");
             btn_15.setText("LN");
             btn_16.setText("LB");
 
             //L3 normal: %,!,^,a/b,x^-1,+/-
-            btn_21.setText(">%");
-            btn_22.setText("!N");
-            btn_23.setText("^");
-            btn_24.setText(R.string.bruch);
+            btn_21.setText("³√");
+            btn_22.setText("√");
+            btn_23.setText("x³");
+            btn_24.setText("x²");
 
-            btn_25.setText(getResources().getString(R.string.x_h_one));
-            btn_26.setText("+/-");
+            btn_25.setText("10^x");
+            btn_26.setText("!");
         }else if(mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))){
             //L1 normal: PI,E,->DEC,->BIN,->OCT
-            btn_11.setText("%");
-            btn_12.setText("PFZ");
-            btn_13.setText("ggT");
-            btn_14.setText("kgV");
-            btn_15.setText(getResources().getString(R.string.SUME));
-            btn_16.setText(getResources().getString(R.string.MULP));
+            btn_11.setText("PFZ");
+            btn_12.setText("GGT");
+            btn_13.setText("KGV");
+            btn_14.setText(getResources().getString(R.string.SUME));
+            btn_15.setText(getResources().getString(R.string.MULP));
+            btn_16.setText("");
 
             //L3 normal: %,!,^,a/b,x^-1,+/-
-            btn_21.setText("");
-            btn_22.setText("");
-            btn_23.setText("");
-            btn_24.setText("");
+            btn_21.setText(">%");
+            btn_22.setText("A/B");
+            btn_23.setText(R.string.x_h_one);
+            btn_24.setText("+/-");
             btn_25.setText("");
             btn_26.setText("");
         } else {
@@ -1368,6 +1391,9 @@ public class CalcActivity_science extends AppCompatActivity {
     void setBackground(View x){
         if(buttonshapeID==0)applySettings();
         Drawable background;
+
+
+
         SettingsApplier.setColors(CalcActivity_science.this);
         float factor_font = SettingsApplier.getDarker_factor_font(CalcActivity_science.this);
         boolean stroke = true;
@@ -1403,12 +1429,54 @@ public class CalcActivity_science extends AppCompatActivity {
             x.setBackground(background);
         }
 
+        if(x.equals(btn_CONST)){
+            darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_act(CalcActivity_science.this),factor_font);
+            Drawable vector =  getResources().getDrawable(R.drawable.ic_konstanten1);
+            vector.setColorFilter(darker, PorterDuff.Mode.SRC_ATOP);
+
+            background = getResources().getDrawable(buttonshapeID);
+            SettingsApplier.setColor((CalcActivity_science.this),background, SettingsApplier.getColor_act(CalcActivity_science.this),buttonfüllung,stroke);
+            darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_act(CalcActivity_science.this),factor_font);
+            SettingsApplier.setTextColor(x,darker);
+
+            x.setBackground( SettingsApplier.combineVectorBackground(vector,background));
+            ((Button) x).setText("");
+            return;
+        }
+        if(x.equals(btn_CONV)){
+            darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_act(CalcActivity_science.this),factor_font);
+            Drawable vector =  getResources().getDrawable(R.drawable.ic_lineal);
+            vector.setColorFilter(darker, PorterDuff.Mode.SRC_ATOP);
+
+            background = getResources().getDrawable(buttonshapeID);
+            SettingsApplier.setColor((CalcActivity_science.this),background, SettingsApplier.getColor_act(CalcActivity_science.this),buttonfüllung,stroke);
+            darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_act(CalcActivity_science.this),factor_font);
+            SettingsApplier.setTextColor(x,darker);
+
+            x.setBackground( SettingsApplier.combineVectorBackground(vector,background));
+            ((Button) x).setText("");
+            return;
+        }
+        if(x.equals(btn_verlauf)){
+            darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_act(CalcActivity_science.this),factor_font);
+            Drawable vector =  getResources().getDrawable(R.drawable.ic_verlauf);
+            vector.setColorFilter(darker, PorterDuff.Mode.SRC_ATOP);
+
+            background = getResources().getDrawable(buttonshapeID);
+            SettingsApplier.setColor((CalcActivity_science.this),background, SettingsApplier.getColor_act(CalcActivity_science.this),buttonfüllung,stroke);
+            darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_act(CalcActivity_science.this),factor_font);
+            SettingsApplier.setTextColor(x,darker);
+
+            x.setBackground( SettingsApplier.combineVectorBackground(vector,background));
+            ((Button) x).setText("");
+            return;
+        }
+
         if(VIEW_ACT.contains(x)){
             background = getResources().getDrawable(buttonshapeID);
             SettingsApplier.setColor((CalcActivity_science.this),background, SettingsApplier.getColor_act(CalcActivity_science.this),buttonfüllung,stroke);
             darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_act(CalcActivity_science.this),factor_font);
             SettingsApplier.setTextColor(x,darker);
-            
         }
         else if(VIEW_FKT.contains(x)){
             background = getResources().getDrawable(buttonshapeID);
@@ -1512,7 +1580,7 @@ public class CalcActivity_science extends AppCompatActivity {
         if(fct.startsWith("btn"))return;
 
         //"PI","E","NCR","NPR","%","!N","^","A/B","x\u207B\u00B9","+/-","√","\u00B3√","LOG","LN","LB","SIN","COS","TAN","ASIN","ATAN","ASINH","ACOSH","ATANH","SINH","COSH","TANH"};
-        if(fct.equals("%")){
+        if(fct.equals(">%")){
             ausgabe_setText(I.getPercent());
             return;
         }
@@ -1590,18 +1658,18 @@ public class CalcActivity_science extends AppCompatActivity {
         //language
         language = PreferenceManager.getDefaultSharedPreferences(CalcActivity_science.this).getString("pref_lang","english");
         if(language.equals("english") || language.equals("englisch")){
-            btn_CONV.setText(R.string.CONVEN);
-            btn_CONST.setText(R.string.CONSTEN);
+            //btn_CONV.setText(R.string.CONVEN);
+            //btn_CONST.setText(R.string.CONSTEN);
             btn_menu.setText(R.string.MENU_EN);
-            btn_verlauf.setText(R.string.VERLAUFEN);
+            //btn_verlauf.setText(R.string.VERLAUFEN);
             act_options = getResources().getStringArray(R.array.act_EN);
             mode_options = FunctionGroupSettingsActivity.getGroups(CalcActivity_science.this);
         }
         else if(language.equals("german") || language.equals("deutsch")){
-            btn_CONV.setText(R.string.CONVDE);
-            btn_CONST.setText(R.string.CONSTDE);
+            //btn_CONV.setText(R.string.CONVDE);
+           // btn_CONST.setText(R.string.CONSTDE);
             btn_menu.setText(R.string.MENU_DE);
-            btn_verlauf.setText(R.string.VERLAUFDE);
+            //btn_verlauf.setText(R.string.VERLAUFDE);
             act_options = getResources().getStringArray(R.array.act_DE);
             mode_options = FunctionGroupSettingsActivity.translateGroup(FunctionGroupSettingsActivity.getGroups(CalcActivity_science.this),"german");
         }
@@ -1634,10 +1702,6 @@ public class CalcActivity_science extends AppCompatActivity {
         //Math Settings
         solve_inst_pref = PreferenceManager.getDefaultSharedPreferences(CalcActivity_science.this).getBoolean("solve_inst_pref",false);
         MathEvaluator.applySettings(CalcActivity_science.this);
-
-        Toast.makeText(this,"predec "+MathEvaluator.pre_decimal_places_pref,Toast.LENGTH_LONG).show();
-        Toast.makeText(this,"dec "+MathEvaluator.decimal_places_pref,Toast.LENGTH_LONG).show();
-
     }
 
     public boolean checkPermissionForReadExtertalStorage(Context context) {
@@ -1683,12 +1747,51 @@ public class CalcActivity_science extends AppCompatActivity {
 
     private void stringToVerlauf(String verlauf_string){
         if(verlauf_string==null)return;
-        verlauf = new LinkedList<>();
+        verlauf = new LinkedHashSet<>();
         verlauf.addAll(new LinkedList<String>(Arrays.asList(verlauf_string.split("_"))));
     }
 
 
 
 
+    private Drawable adjust(VectorDrawable d)
+    {
+        int to = Color.RED;
+
+        //Need to copy to ensure that the bitmap is mutable.
+        Bitmap src = (vectorToBitmap(CalcActivity_science.this,d)).getBitmap();
+        Bitmap bitmap = src.copy(Bitmap.Config.ARGB_8888, true);
+        for(int x = 0;x < bitmap.getWidth();x++)
+            for(int y = 0;y < bitmap.getHeight();y++)
+                if(match(bitmap.getPixel(x, y)))
+                    bitmap.setPixel(x, y, to);
+
+        return new BitmapDrawable(bitmap);
+    }
+
+    private boolean match(int pixel)
+    {
+        //There may be a better way to match, but I wanted to do a comparison ignoring
+        //transparency, so I couldn't just do a direct integer compare.
+        return Math.abs(Color.red(pixel) - FROM_COLOR[0]) < THRESHOLD &&
+                Math.abs(Color.green(pixel) - FROM_COLOR[1]) < THRESHOLD &&
+                Math.abs(Color.blue(pixel) - FROM_COLOR[2]) < THRESHOLD;
+    }
+
+    private static android.graphics.drawable.BitmapDrawable vectorToBitmap(Context c,VectorDrawable drawable){
+        try {
+            Bitmap bitmap;
+
+            bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+
+            Canvas canvas = new Canvas(bitmap);
+            drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+            drawable.draw(canvas);
+            return new BitmapDrawable(c.getResources(), bitmap);
+        } catch (OutOfMemoryError e) {
+            // Handle the error
+            return null;
+        }
+    }
 }
 

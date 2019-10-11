@@ -13,9 +13,11 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -36,28 +38,33 @@ public class MathEvaluator {
 	int marker = 1;
 	
 	public static void main(String[] args) {
-        System.out.println("3. "+MathEvaluator.evaluate("8^3",10));
-        System.out.println("3. "+MathEvaluator.evaluate("SUME(1,6)",10));
-        System.out.println("3. "+MathEvaluator.evaluate(".1 * 2",10));
-        System.out.println("3. "+MathEvaluator.evaluate("LOG(24)",10));
-        System.out.println("3. "+MathEvaluator.evaluate("2%2",10));
+	    Expression e = new Expression(("3+5"));
+	    System.out.println(e.toRPN());
+        System.out.println(e.infixNotation());
 
-        System.out.println("3. "+MathEvaluator.evaluate("PI",10));
-
-        System.out.println("3. "+MathEvaluator.evaluate("2 ^ -10",10));
-
-
-
-        //System.out.println(MathEvaluator.evaluate("179910.2528331071280870501336296069"));
-
-		//System.out.println(Integer.toString(Integer.parseInt(evaluate("14"),10),16));
-		
-		//System.out.println(StatUtils.variance(new double[] {1,2,3}));
-
-		//System.out.println(toBruch("0.2534"));
+        test_format();
 	}
 
-	public static String toRAD(String dec) {
+    public static void test_format() {
+        //Testfälle absolut große/kleine zahlen, ganze/bruchzahlen, negative/positive zahlen
+        System.out.println(MathEvaluator.evaluate("3 4 +",10));
+
+        System.out.println(MathEvaluator.evaluate("10000!",10));
+
+        System.out.println(MathEvaluator.evaluate("-8^32",10));
+        System.out.println(MathEvaluator.evaluate("8^32",10));
+
+        System.out.println(MathEvaluator.evaluate("-8^32 + 0.123456789",10));
+        System.out.println(MathEvaluator.evaluate("8^32 - 0.123456789",10));
+
+        System.out.println(MathEvaluator.evaluate("-150",10));
+        System.out.println(MathEvaluator.evaluate("150",10));
+
+        System.out.println(MathEvaluator.evaluate("-150 + 0.123456789",10));
+        System.out.println(MathEvaluator.evaluate("150 - 0.123456789",10));
+    }
+
+        public static String toRAD(String dec) {
 		dec = dec.replace(',','.');
 		return String.valueOf(Math.toRadians(Double.valueOf(dec)));
 	}
@@ -154,13 +161,15 @@ public class MathEvaluator {
 	    input = rootToSqrt(input);
         input = logToLogb(input);
 
-        if(input.contains("!"))input = facToMul(input);
+        if(input.contains("!"))input = facCor(input);
         //input = baseConversion(input,base,10);
 
         Expression expression = new Expression(input);
+
         try {
             //System.out.println("1. "+expression.eval().toString());
             expression.setPrecision(decimal_places_pref);
+
             String res = format(expression.eval()).toString();
             return res; //baseConversion(res,10,base);
         }
@@ -168,6 +177,19 @@ public class MathEvaluator {
             return "Math Error";
         }
 
+    }
+
+    private static String facCor(String input) {
+        List<String> allMatches = new ArrayList<String>();
+        Matcher m = Pattern.compile("[0-9]+\\!").matcher(input);
+        while (m.find()) {
+            allMatches.add(m.group());
+        }
+        for(int i=0; i<allMatches.size(); i++) {
+            String newEl = "!"+allMatches.get(i).replace("!", "");
+            input = input.replaceAll(allMatches.get(i),newEl);
+        }
+        return input;
     }
 
     private static String facToMul(String input) {
@@ -248,24 +270,25 @@ public class MathEvaluator {
 
 
     public static String format(BigDecimal input){
-        //System.out.println("3.  "+input);
+	    //1. problem: 150: 1.5E+2
 
-        if(input.compareTo(BigDecimal.ONE) < 0){
-            if(input.compareTo(new BigDecimal( "0."+repeatString("0",pre_decimal_places_pref)+"1")) >= 0){
-                return input.toString().replaceAll(",",".").replaceAll("E0","");
+
+        //System.out.println("3.1  "+input);
+
+
+            if(input.toPlainString().length() <= pre_decimal_places_pref){
+                DecimalFormatSymbols otherSymbols = new DecimalFormatSymbols(Locale.US);
+                otherSymbols.setDecimalSeparator('.');
+                otherSymbols.setGroupingSeparator(',');
+                String format = "#.#";
+
+                NumberFormat formatter = new DecimalFormat(format,otherSymbols);
+                formatter.setMaximumFractionDigits(decimal_places_pref);
+                return formatter.format(input).replaceAll("E0","");
             }
-        }
 
-        if(input.compareTo(new BigDecimal( "1"+repeatString("0",pre_decimal_places_pref))) <= 0  ||
-                input.compareTo(new BigDecimal( "-1"+repeatString("0",pre_decimal_places_pref))) >= 0){
-            return input.toString().replaceAll(",",".").replaceAll("E0","");
-        }
 
-        String pattern = "0."+repeatString("#",pre_decimal_places_pref)+"E0";
-        NumberFormat formatter = new DecimalFormat(pattern);
-        formatter.setRoundingMode(RoundingMode.HALF_UP);
-        return formatter.format(input).toString().replaceAll(",",".").replaceAll("E0","");
-
+        return input.toString();
     }
 	
 	
