@@ -36,8 +36,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 public class SettingsApplier {
+
+    public static int haptic_feedback_duration=0;
 
     private static String language="german";
     private static int buttonshapeID= R.drawable.buttonshape_square;
@@ -62,6 +65,8 @@ public class SettingsApplier {
     private static int color_display=0;
     private static int color_displaytext=0;
     private static int color_background=0;
+    public static int vibrate_length=0;
+    public static boolean vibrate_on=false;
 
 
     public static void saveSettings(Context c){
@@ -117,7 +122,7 @@ public class SettingsApplier {
 
 
 
-    private static void applySettings(Context c){
+    public static void applySettings(Context c){
         //language
         language = PreferenceManager.getDefaultSharedPreferences(c).getString("pref_lang","english");
 
@@ -130,6 +135,20 @@ public class SettingsApplier {
         }
 
         darker_factor_font = PreferenceManager.getDefaultSharedPreferences(c).getFloat("darker_factor_font",1f);
+
+        if(PreferenceManager.getDefaultSharedPreferences(c).contains("vibration_on")){
+            Boolean vb = PreferenceManager.getDefaultSharedPreferences(c).getBoolean("vibration_on",false);
+            vibrate_on = Boolean.valueOf(vb);
+
+        }
+
+
+
+        String vl = PreferenceManager.getDefaultSharedPreferences(c).getString("vibrate_length","0");
+        if(Pattern.matches("[0-9]?[0-9]?[0-9]?",vl)){
+                vibrate_length = Integer.valueOf(vl);
+        }
+
     }
 
     public static void setBackgrounds(Context c, ArrayList<ArrayList<View>> ALL, ArrayList<Integer> colors){

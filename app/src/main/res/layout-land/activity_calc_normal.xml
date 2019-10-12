@@ -359,247 +359,264 @@
 
         </TableRow>
     </TableRow>
-    <TableRow
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight=".1">
-        <TableRow
-            android:id="@+id/m_LN8"
+        android:layout_weight="1.3">
+
+        <LinearLayout
+            android:id="@+id/LL34"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_weight=".9">
+            android:layout_weight=".161"
+            android:orientation="vertical">
 
-            <Button
-                android:id="@+id/m_btn_Verlauf"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/buttonshape_square"
-                android:elevation="16dp"
-                android:maxLines="1"
-                android:shadowRadius="30"
-                android:text="@string/VERLAUFDE"
-                android:textSize="15sp"
-                android:textStyle="normal"
-                android:visibility="visible"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1.2"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/m_btn_Verlauf"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight=".8"
+                    android:background="@drawable/buttonshape_square"
+                    android:elevation="16dp"
+                    android:maxLines="1"
+                    android:shadowRadius="30"
+                    android:text="@string/VERLAUFDE"
+                    android:textSize="15sp"
+                    android:textStyle="normal"
+                    android:visibility="visible"
 
 
-                />
+                    />
 
-            <Button
-                android:id="@+id/m_btn_21"
+                <Button
+                    android:id="@+id/m_btn_21"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight=".8"
+                    android:background="@drawable/buttonshape_square"
+                    android:maxLines="1"
+                    android:shadowRadius="30"
+                    android:text="1"
+                    android:visibility="visible"
+
+
+                    app:autoSizeStepGranularity="1sp"
+                    app:autoSizeTextType="uniform" />
+
+                <Button
+                    android:id="@+id/m_btn_22"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight=".8"
+                    android:background="@drawable/buttonshape_square"
+                    android:maxLines="1"
+                    android:shadowRadius="30"
+                    android:text="2"
+                    android:visibility="visible"
+
+
+                    app:autoSizeStepGranularity="1sp"
+                    app:autoSizeTextType="uniform" />
+
+                <Button
+                    android:id="@+id/m_btn_23"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight=".8"
+                    android:background="@drawable/buttonshape_square"
+                    android:maxLines="1"
+                    android:shadowRadius="30"
+                    android:text="3"
+                    android:visibility="visible"
+
+
+                    app:autoSizeStepGranularity="1sp"
+                    app:autoSizeTextType="uniform" />
+
+                <Button
+                    android:id="@+id/m_btn_sub"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight=".8"
+                    android:background="@drawable/buttonshape_square"
+                    android:maxLines="1"
+                    android:shadowRadius="30"
+                    android:text="@string/SUB"
+                    android:visibility="visible"
+
+
+                    app:autoSizeStepGranularity="1sp"
+                    app:autoSizeTextType="uniform" />
+
+                <Button
+                    android:id="@+id/m_btn_add"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight=".8"
+                    android:background="@drawable/buttonshape_square"
+                    android:maxLines="1"
+                    android:shadowRadius="30"
+                    android:text="@string/ADD"
+                    android:visibility="visible"
+
+
+                    app:autoSizeStepGranularity="1sp"
+                    app:autoSizeTextType="uniform" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:layout_weight="1"
-                android:background="@drawable/buttonshape_square"
-                android:maxLines="1"
-                android:shadowRadius="30"
-                android:text="1"
-                android:visibility="visible"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/m_btn_menu"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/buttonshape_square"
+                    android:text="@string/MENU_DE" />
+
+                <Button
+                    android:id="@+id/m_btn_24"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/buttonshape_square"
+                    android:maxLines="1"
+                    android:shadowRadius="30"
+                    android:text="0"
+                    android:visibility="visible"
 
 
-                app:autoSizeStepGranularity="1sp"
-                app:autoSizeTextType="uniform" />
+                    app:autoSizeStepGranularity="1sp"
+                    app:autoSizeTextType="uniform" />
 
-            <Button
-                android:id="@+id/m_btn_22"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/buttonshape_square"
-                android:maxLines="1"
-                android:shadowRadius="30"
-                android:text="2"
-                android:visibility="visible"
-
-
-                app:autoSizeStepGranularity="1sp"
-                app:autoSizeTextType="uniform" />
-
-            <Button
-                android:id="@+id/m_btn_23"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/buttonshape_square"
-                android:maxLines="1"
-                android:shadowRadius="30"
-                android:text="3"
-                android:visibility="visible"
+                <Button
+                    android:id="@+id/m_btn_25"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/buttonshape_square"
+                    android:maxLines="1"
+                    android:shadowRadius="30"
+                    android:text="."
+                    android:visibility="visible"
 
 
-                app:autoSizeStepGranularity="1sp"
-                app:autoSizeTextType="uniform" />
+                    app:autoSizeStepGranularity="1sp"
+                    app:autoSizeTextType="uniform" />
 
-            <Button
-                android:id="@+id/m_btn_sub"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/buttonshape_square"
-                android:maxLines="1"
-                android:shadowRadius="30"
-                android:text="@string/SUB"
-                android:visibility="visible"
-
-
-                app:autoSizeStepGranularity="1sp"
-                app:autoSizeTextType="uniform" />
-
-            <Button
-                android:id="@+id/m_btn_add"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/buttonshape_square"
-                android:maxLines="1"
-                android:shadowRadius="30"
-                android:text="@string/ADD"
-                android:visibility="visible"
+                <Button
+                    android:id="@+id/m_btn_26"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/buttonshape_square"
+                    android:maxLines="1"
+                    android:shadowRadius="30"
+                    android:text=","
+                    android:visibility="visible"
 
 
-                app:autoSizeStepGranularity="1sp"
-                app:autoSizeTextType="uniform" />
+                    app:autoSizeStepGranularity="1sp"
+                    app:autoSizeTextType="uniform" />
 
-            <Button
-                android:id="@+id/m_btn_LINKS"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="0dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/buttonshape_square"
-                android:maxLines="1"
-                android:shadowRadius="30"
-                android:text="@string/LEFTARROW"
-                android:visibility="visible"
+                <Spinner
+                    android:id="@+id/m_spinner_SHIFT"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/buttonshape_square"
+                    android:entries="@array/modes_DE"
+                    android:outlineAmbientShadowColor="#00000000"
+                    android:outlineSpotShadowColor="#00000000"
+                    android:popupBackground="@drawable/buttonshape_square"
+                    android:shadowColor="#00000000"
+                    android:shadowDx="20"
+                    android:shadowDy="20"
+                    android:shadowRadius="30"
+                    android:spinnerMode="dropdown"
+                    android:text="BASIC"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/m_btn_ans"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="1"
+                    android:width="186dp"
+                    android:background="@drawable/buttonshape_square"
+                    android:maxLines="1"
+                    android:minWidth="186dp"
+                    android:shadowRadius="30"
+                    android:text="@string/ANS"
+                    android:visibility="visible"
 
 
-                app:autoSizeStepGranularity="1sp"
-                app:autoSizeTextType="uniform" />
+                    app:autoSizeStepGranularity="1sp"
+                    app:autoSizeTextType="uniform" />
 
-        </TableRow>
-    </TableRow>
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight=".1">
-        <TableRow
-            android:id="@+id/m_LN9"
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="-10dp"
             android:layout_marginEnd="10dp"
-            android:layout_weight=".9">
-
-            <Button
-                android:id="@+id/m_btn_menu"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/buttonshape_square"
-                android:text="@string/MENU_DE" />
-
-            <Button
-                android:id="@+id/m_btn_24"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/buttonshape_square"
-                android:maxLines="1"
-                android:shadowRadius="30"
-                android:text="0"
-                android:visibility="visible"
-
-
-                app:autoSizeStepGranularity="1sp"
-                app:autoSizeTextType="uniform" />
-
-            <Button
-                android:id="@+id/m_btn_25"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/buttonshape_square"
-                android:maxLines="1"
-                android:shadowRadius="30"
-                android:text="."
-                android:visibility="visible"
-
-
-                app:autoSizeStepGranularity="1sp"
-                app:autoSizeTextType="uniform" />
-
-            <Button
-                android:id="@+id/m_btn_26"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/buttonshape_square"
-                android:maxLines="1"
-                android:shadowRadius="30"
-                android:text="@string/ANS"
-                android:visibility="visible"
-
-
-                app:autoSizeStepGranularity="1sp"
-                app:autoSizeTextType="uniform" />
-
-            <Spinner
-                android:id="@+id/m_spinner_SHIFT"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/buttonshape_square"
-                android:entries="@array/modes_DE"
-                android:outlineAmbientShadowColor="#00000000"
-                android:outlineSpotShadowColor="#00000000"
-                android:popupBackground="@drawable/buttonshape_square"
-                android:shadowColor="#00000000"
-                android:shadowDx="20"
-                android:shadowDy="20"
-                android:shadowRadius="30"
-                android:spinnerMode="dropdown"
-                android:text="BASIC"
-                android:textSize="30sp"
-                android:textStyle="bold" />
+            android:layout_weight="1"
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/m_btn_eq"
@@ -609,10 +626,8 @@
                 android:layout_marginRight="5dp"
                 android:layout_marginBottom="10dp"
                 android:layout_weight="1"
-                android:width="186dp"
                 android:background="@drawable/buttonshape_square"
                 android:maxLines="1"
-                android:minWidth="186dp"
                 android:shadowRadius="30"
                 android:text="="
                 android:visibility="visible"
@@ -620,26 +635,8 @@
 
                 app:autoSizeStepGranularity="1sp"
                 app:autoSizeTextType="uniform" />
-
-            <Button
-                android:id="@+id/m_btn_RECHTS"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="0dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/buttonshape_square"
-                android:maxLines="1"
-                android:shadowRadius="30"
-                android:text="@string/RIGHTARROW"
-                android:visibility="visible"
+        </LinearLayout>
+    </LinearLayout>
 
 
-                app:autoSizeStepGranularity="1sp"
-                app:autoSizeTextType="uniform" />
-
-        </TableRow>
-    </TableRow>
 </TableLayout>

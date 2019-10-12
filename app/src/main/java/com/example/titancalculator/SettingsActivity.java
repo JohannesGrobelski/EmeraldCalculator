@@ -64,6 +64,8 @@ import java.util.List;
 
 public class SettingsActivity extends AppCompatPreferenceActivity {
 
+
+
     static String language = "english";
     static Typeface current_typeface;
     static String current_fontsize;
@@ -382,6 +384,10 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class GeneralPreferenceFragment
             extends PreferenceFragment {
+
+        private Preference pref_vibOn;
+        private Preference pref_vibLen;
+
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -389,13 +395,19 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             else if(language.equals("deutsch") || language.equals("german"))addPreferencesFromResource(R.xml.pref_general_de);
             setHasOptionsMenu(true);
 
-            // Bind the summaries of EditText/List/Dialog/Ringtone preferences
-            // to their values. When their values change, their summaries are
-            // updated to reflect the new value, per the Android Design
-            // guidelines.
-            bindPreferenceSummaryToValue(findPreference("example_text"));
-            bindPreferenceSummaryToValue(findPreference("example_list"));
+            pref_vibOn = findPreference("vibration_on");
+            pref_vibLen = findPreference("vibrate_length");
+
+
+            pref_vibOn.setOnPreferenceClickListener( new Preference.OnPreferenceClickListener() {
+                public boolean onPreferenceClick(Preference preference) {
+                    pref_vibLen.setEnabled(((SwitchPreference) pref_vibOn).isChecked());
+                    return true;
+                }
+            });
         }
+
+
 
         @Override
         public void onResume() {

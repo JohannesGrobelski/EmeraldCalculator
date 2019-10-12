@@ -15,6 +15,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.titancalculator.helper.ArrayUtils;
+import com.example.titancalculator.helper.MainDisplay.DesignApplier;
 import com.example.titancalculator.helper.MainDisplay.SettingsApplier;
 
 import java.util.ArrayList;
@@ -145,7 +147,7 @@ public class FunctionGroupSettingsActivity extends AppCompatActivity {
     }
 
     private static String[] removeElements(String[] input, String deleteMe) {
-        if(contains(defaultgroup,deleteMe)){
+        if(ArrayUtils.array_contains(defaultgroup,deleteMe)){
             return input;
         }
         List<String> result = new LinkedList<>();
@@ -206,12 +208,7 @@ public class FunctionGroupSettingsActivity extends AppCompatActivity {
         return true;
     }
 
-    private static boolean contains(String ar[], String a){
-        for(String s: ar){
-            if(a.equals(s))return true;
-        }
-        return false;
-    }
+
 
     private static String[] moveElementOneUp(String[] A, String e){
         for(int i=0; i<A.length; i++){
@@ -273,7 +270,7 @@ public class FunctionGroupSettingsActivity extends AppCompatActivity {
     public static String[] getUserGroups(Context c){
         String UserGroups[] = new String[0];
         for(String g: getGroups(c)){
-            if(!contains(defaultgroup,g)){
+            if(!ArrayUtils.array_contains(defaultgroup,g)){
                 UserGroups = entailElement(UserGroups,g);
             }
         }
@@ -407,7 +404,7 @@ public class FunctionGroupSettingsActivity extends AppCompatActivity {
     }
 
     private void renameGroup(String old,String neu){
-        if(contains(defaultgroup,sel_group_name))return;
+        if(ArrayUtils.array_contains(defaultgroup,sel_group_name))return;
         for(int i=0; i<groups.length; i++){
             if(groups[i].equals(sel_group_name)){
                 groups[i] = neu;

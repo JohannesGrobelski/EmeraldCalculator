@@ -130,4 +130,12 @@ public class NavigatableString{
     public String getDisplayableString(){
         return ((NumberString)contentString).getDisplayableString(((NumberString)contentString).content);
     }
+
+    public void setMeanMode(String mode){
+        ((NumberString)contentString).setMean_mode(mode);
+    }
+
+    public void setVarMode(String mode){
+        ((NumberString)contentString).setVar_mode(mode);
+    }
 }

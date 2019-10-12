@@ -279,6 +279,22 @@ public class Expression {
 	}
 
 	/**
+	 * Abstract definition of a supported expression function. A function is
+	 * defined by a name, the number of parameters and the actual processing
+	 * implementation.
+	 */
+	public abstract class VFunction extends AbstractVFunction {
+
+		public VFunction(String name) {
+			super(name);
+		}
+
+		public VFunction(String name, boolean booleanFunction) {
+			super(name, booleanFunction);
+		}
+	}
+
+	/**
 	 * Abstract definition of a supported operator. An operator is defined by
 	 * its name (pattern), precedence and if it is left- or right associative.
 	 */
@@ -759,6 +775,8 @@ public class Expression {
 			}
 		});
 
+
+
 		addLazyFunction(new LazyFunction("IF", 3) {
 			@Override
 			public LazyNumber lazyEval(List<LazyNumber> lazyParams) {
@@ -1068,6 +1086,161 @@ public class Expression {
 				return new BigDecimal(d, mc);
 			}
 		});
+
+		addFunction(new Function("AriMit", -1) {
+			@Override
+			public BigDecimal eval(List<BigDecimal> parameters) {
+				if (parameters.size() == 0) {
+					throw new ExpressionException("AriMit requires at least one parameter");
+				}
+				BigDecimal sum = BigDecimal.ZERO;
+				for (BigDecimal parameter : parameters) {
+					assertNotNull(parameter);
+					sum = sum.add(parameter);
+				}
+				return sum.divide(BigDecimal.valueOf(parameters.size()));
+			}
+		});
+
+		addFunction(new Function("GeoMit", -1) {
+			@Override
+			public BigDecimal eval(List<BigDecimal> parameters) {
+				if (parameters.size() == 0) {
+					throw new ExpressionException("AriMit requires at least one parameter");
+				}
+				BigDecimal prod = BigDecimal.ONE;
+				for (BigDecimal parameter : parameters) {
+					assertNotNull(parameter);
+					prod = prod.multiply(parameter);
+				}
+
+
+				double base = prod.doubleValue();
+				double n = parameters.size();
+				double root = Math.pow(base,1/n);
+				return new BigDecimal(root, mc);
+			}
+		});
+
+		addFunction(new Function("HarMit", -1) {
+			@Override
+			public BigDecimal eval(List<BigDecimal> parameters) {
+				if (parameters.size() == 0) {
+					throw new ExpressionException("AriMit requires at least one parameter");
+				}
+				BigDecimal sum = BigDecimal.ZERO;
+				for (BigDecimal parameter : parameters) {
+					assertNotNull(parameter);
+					sum = sum.add(new BigDecimal(1/(parameter.doubleValue())));
+				}
+				return new BigDecimal(parameters.size()*(1/sum.doubleValue()));
+			}
+		});
+
+		addFunction(new Function("E", -1) {
+			@Override
+			public BigDecimal eval(List<BigDecimal> parameters) {
+				if (parameters.size() == 0) {
+					throw new ExpressionException("AriMit requires at least one parameter");
+				}
+				BigDecimal sum = BigDecimal.ZERO;
+				for (BigDecimal parameter : parameters) {
+					assertNotNull(parameter);
+					sum = sum.add(parameter);
+				}
+				return sum.divide(new BigDecimal(parameters.size()));
+			}
+		});
+
+		addFunction(new Function("AriVar", -1) {
+			@Override
+			public BigDecimal eval(List<BigDecimal> parameters) {
+				if (parameters.size() == 0) {
+					throw new ExpressionException("VAR requires at least one parameter");
+				}
+				BigDecimal size = new BigDecimal(parameters.size(),mc);
+
+				BigDecimal sum = BigDecimal.ZERO;
+				for (BigDecimal parameter : parameters) {
+					assertNotNull(parameter);
+					sum = sum.add(parameter);
+				}
+				BigDecimal ariMittel = sum.divide(BigDecimal.valueOf(parameters.size()));
+
+				sum = BigDecimal.ZERO;
+				for (BigDecimal parameter : parameters) {
+					assertNotNull(parameter);
+					BigDecimal square = parameter.subtract(ariMittel);
+					square = square.multiply(square,mc);
+					square = square.divide(size,mc);
+					sum = sum.add(square);
+				}
+				return sum;
+			}
+		});
+
+		addFunction(new Function("GeoVar", -1) {
+			@Override
+			public BigDecimal eval(List<BigDecimal> parameters) {
+				if (parameters.size() == 0) {
+					throw new ExpressionException("VAR requires at least one parameter");
+				}
+				BigDecimal size = new BigDecimal(parameters.size(),mc);
+
+				BigDecimal prod = BigDecimal.ONE;
+				for (BigDecimal parameter : parameters) {
+					assertNotNull(parameter);
+					prod = prod.multiply(parameter);
+				}
+
+				double base = prod.doubleValue();
+				double n = parameters.size();
+				double root = Math.pow(base,1/n);
+				BigDecimal ariMittel = new BigDecimal(root, mc);
+
+				BigDecimal sum = BigDecimal.ZERO;
+				for (BigDecimal parameter : parameters) {
+					assertNotNull(parameter);
+					BigDecimal square = parameter.subtract(ariMittel);
+					square = square.multiply(square,mc);
+					square = square.divide(size,mc);
+					sum = sum.add(square);
+				}
+
+				return sum;
+			}
+		});
+
+		addFunction(new Function("HarVar", -1) {
+			@Override
+			public BigDecimal eval(List<BigDecimal> parameters) {
+				if (parameters.size() == 0) {
+					throw new ExpressionException("VAR requires at least one parameter");
+				}
+				BigDecimal size = new BigDecimal(parameters.size(),mc);
+
+				BigDecimal sum = BigDecimal.ZERO;
+				for (BigDecimal parameter : parameters) {
+					assertNotNull(parameter);
+					sum = sum.add(new BigDecimal(1/(parameter.doubleValue())));
+				}
+
+				BigDecimal ariMittel = new BigDecimal(parameters.size()*(1/sum.doubleValue()));
+
+				sum = BigDecimal.ZERO;
+				for (BigDecimal parameter : parameters) {
+					assertNotNull(parameter);
+					BigDecimal square = parameter.subtract(ariMittel);
+					square = square.multiply(square,mc);
+					square = square.divide(size,mc);
+					sum = sum.add(square);
+				}
+
+				return sum;
+			}
+		});
+
+
 		addFunction(new Function("MAX", -1) {
 			@Override
 			public BigDecimal eval(List<BigDecimal> parameters) {

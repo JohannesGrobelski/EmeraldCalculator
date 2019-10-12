@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -13,10 +12,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.ShapeDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -45,6 +41,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.preference.PreferenceManager;
 
+import com.example.titancalculator.helper.MainDisplay.DesignApplier;
 import com.example.titancalculator.helper.MainDisplay.OnSwipeTouchListener;
 import com.example.titancalculator.helper.MainDisplay.SettingsApplier;
 import com.example.titancalculator.helper.Math_String.MathEvaluator;
@@ -132,6 +129,7 @@ public class CalcActivity_normal extends AppCompatActivity {
     Button btn_sub;
     Button btn_mul;
     Button btn_div;
+    Button btn_ans;
     Button btn_eq;
 
 
@@ -196,6 +194,7 @@ public class CalcActivity_normal extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        SettingsApplier.applySettings(CalcActivity_normal.this);
 
         String mode = PreferenceManager.getDefaultSharedPreferences(this).getString("layout","");
         if(!mode.isEmpty()  && MainActivity.modes.contains(mode) && !mode.equals("normal")){
@@ -236,7 +235,8 @@ public class CalcActivity_normal extends AppCompatActivity {
         tV_ausgabe.setOnFocusChangeListener(focusListener);
         tV_eingabe.setOnFocusChangeListener(focusListener);
 
-        spinner_shift.setSelection(0);
+        //spinner_shift = findViewById(R.id.spinner_SHIFT);
+        //spinner_shift.setSelection(0);
         mode = "BASIC";
 
 
@@ -294,11 +294,11 @@ public class CalcActivity_normal extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_calc_normal);
         SettingsApplier.initSettings(CalcActivity_normal.this);
 
         SettingsApplier.setButtonshapeID("round");
 
-        setContentView(R.layout.activity_calc_normal);
         Log.v("Act ","normal");
         setTitle("Rechner");
         normal_background = findViewById(R.id.science_background);
@@ -424,6 +424,7 @@ public class CalcActivity_normal extends AppCompatActivity {
         btn_sub = findViewById(R.id.m_btn_sub);
         btn_mul = findViewById(R.id.m_btn_mul);
         btn_div = findViewById(R.id.m_btn_div);
+        btn_ans = findViewById(R.id.m_btn_ans);
         btn_eq = findViewById(R.id.m_btn_eq);
 
 
@@ -431,7 +432,7 @@ public class CalcActivity_normal extends AppCompatActivity {
         BTN_FKT = new HashSet<>(Arrays.asList(new Button[]{btn_clear, btn_clearall, btn_LINKS, btn_RECHTS}));
         BTN_FOPS = new HashSet<>(Arrays.asList(new Button[]{btn_11, btn_12, btn_13, btn_14, btn_15, btn_16, btn_21, btn_22, btn_23, btn_24, btn_25, btn_26}));
         BTN_SAVES = new HashSet<>(Arrays.asList(new Button[]{}));
-        BTN_SPECIALS = new HashSet<>(Arrays.asList(new Button[]{btn_open_bracket, btn_close_bracket, btn_mul, btn_div, btn_sub, btn_add, btn_eq}));
+        BTN_SPECIALS = new HashSet<>(Arrays.asList(new Button[]{btn_open_bracket, btn_close_bracket, btn_mul, btn_div, btn_sub, btn_add, btn_ans, btn_eq}));
         BTN_ALL = new ArrayList<>();
         BTN_ALL.addAll(BTN_ACT);
         BTN_ALL.addAll(BTN_FKT);
@@ -500,8 +501,6 @@ public class CalcActivity_normal extends AppCompatActivity {
         spinner_shift.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                view.startAnimation(buttonClick);
-
                 mode = spinner_shift.getSelectedItem().toString();
 
                 assignModeFct();
@@ -616,7 +615,7 @@ public class CalcActivity_normal extends AppCompatActivity {
                 if (mode.equals("NUMBER") || mode.equals("ZAHLEN")) {
                     eingabeAddText("7");
                 } else if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
-                    eingabeAddText("PI");
+                    eingabeAddText("π");
                 } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
                     ausgabe_setText(I.getPFZ());
                 } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
@@ -648,7 +647,7 @@ public class CalcActivity_normal extends AppCompatActivity {
                 if (mode.equals("NUMBER") || mode.equals("ZAHLEN")) {
                     eingabeAddText("8");
                 } else if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
-                    eingabeAddText("E");
+                    eingabeAddText("e");
                 } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
                     eingabeAddText("ggt(,)");
                 } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
@@ -716,7 +715,7 @@ public class CalcActivity_normal extends AppCompatActivity {
                 } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
                     eingabeAddText(getResources().getString(R.string.SUME) + "(,)");
                 } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
-                    eingabeAddText("ASIN");
+                    eingabeAddText("COT");
                 } else if (mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))) {
                     transBtnFct("btn_14");
                 } else if (mode.equals(getResources().getString(R.string.STATS_EN)) || mode.equals(getResources().getString(R.string.STATS_DE))) {
@@ -748,7 +747,7 @@ public class CalcActivity_normal extends AppCompatActivity {
                 } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
                     eingabeAddText(getResources().getString(R.string.MULP) + "(,)");
                 } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
-                    eingabeAddText("ACOS");
+                    eingabeAddText("ASIN");
                 } else if (mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))) {
                     transBtnFct("btn_15");
                 } else if (mode.equals(getResources().getString(R.string.STATS_EN)) || mode.equals(getResources().getString(R.string.STATS_DE))) {
@@ -779,7 +778,7 @@ public class CalcActivity_normal extends AppCompatActivity {
                 } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
 
                 } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
-                    eingabeAddText("ATAN");
+                    eingabeAddText("ACOS");
                 } else if (mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))) {
                     transBtnFct("btn_16");
                 } else if (mode.equals(getResources().getString(R.string.STATS_EN)) || mode.equals(getResources().getString(R.string.STATS_DE))) {
@@ -820,7 +819,7 @@ public class CalcActivity_normal extends AppCompatActivity {
                     ausgabe_setText(answer);
                     verlauf.add(answer);
                 } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
-                    ausgabe_setText(I.getDEG());
+                    eingabeAddText("ATAN");
                 } else if (mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))) {
                     transBtnFct("btn_21");
                 } else if (mode.equals(getResources().getString(R.string.STATS_EN)) || mode.equals(getResources().getString(R.string.STATS_DE))) {
@@ -851,7 +850,7 @@ public class CalcActivity_normal extends AppCompatActivity {
                 } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
                     ausgabe_setText(I.getBruch());
                 } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
-                    ausgabe_setText(I.getRAD());
+                    eingabeAddText("ACOT");
                 } else if (mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))) {
                     transBtnFct("btn_22");
                 } else if (mode.equals(getResources().getString(R.string.STATS_EN)) || mode.equals(getResources().getString(R.string.STATS_DE))) {
@@ -882,7 +881,7 @@ public class CalcActivity_normal extends AppCompatActivity {
                 } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
                     ausgabe_setText(I.getReciproke());
                 }  else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
-                    eingabeAddText("toPolar(,)");
+                    ausgabe_setText(I.getDEG());
                 } else if (mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))) {
                     transBtnFct("btn_23");
                 } else if (mode.equals(getResources().getString(R.string.STATS_EN)) || mode.equals(getResources().getString(R.string.STATS_DE))) {
@@ -912,7 +911,7 @@ public class CalcActivity_normal extends AppCompatActivity {
                 } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
                     ausgabe_setText(I.getInvert());
                 } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
-                    eingabeAddText("toCart(,)");
+                    ausgabe_setText(I.getRAD());
                 } else if (mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))) {
                     transBtnFct("btn_24");
                 } else if (mode.equals(getResources().getString(R.string.STATS_EN)) || mode.equals(getResources().getString(R.string.STATS_DE))) {
@@ -940,9 +939,9 @@ public class CalcActivity_normal extends AppCompatActivity {
                 } else if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
                     eingabeAddText("10^");
                 } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
-
+                    eingabeAddText("MIN()");
                 } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
-
+                    eingabeAddText("toPolar(,)");
                 } else if (mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))) {
                     transBtnFct("btn_25");
                 } else if (mode.equals(getResources().getString(R.string.STATS_EN)) || mode.equals(getResources().getString(R.string.STATS_DE))) {
@@ -966,13 +965,13 @@ public class CalcActivity_normal extends AppCompatActivity {
                 view.startAnimation(buttonClick);
 
                 if (mode.equals("NUMBER") || mode.equals("ZAHLEN")) {
-                    eingabeAddText("ANS");
+                    eingabeAddText(",");
                 } if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
                     eingabeAddText("!");
                 } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
-
+                    eingabeAddText("MAX()");
                 } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
-
+                    eingabeAddText("toCart(,)");
                 } else if (mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))) {
                     transBtnFct("btn_26");
                 } else if (mode.equals(getResources().getString(R.string.STATS_EN)) || mode.equals(getResources().getString(R.string.STATS_DE))) {
@@ -991,28 +990,32 @@ public class CalcActivity_normal extends AppCompatActivity {
             }
         });
 
+        if(btn_LINKS!=null){
+            btn_LINKS.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    view.startAnimation(buttonClick);
+                    int pos = tV_eingabe.getSelectionStart();
+                    tV_eingabe.setSelection(Math.max(0, pos - 1));
 
-        btn_LINKS.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                view.startAnimation(buttonClick);
-                int pos = tV_eingabe.getSelectionStart();
-                tV_eingabe.setSelection(Math.max(0, pos - 1));
+                    setBackground(btn_LINKS);
+                }
+            });
+        }
 
-                setBackground(btn_LINKS);
-            }
-        });
+        if(btn_RECHTS!=null) {
+            btn_RECHTS.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    view.startAnimation(buttonClick);
+                    int pos = tV_eingabe.getSelectionStart();
+                    tV_eingabe.setSelection(Math.min(tV_eingabe.length(), pos + 1));
+                    setBackground(btn_RECHTS);
 
-        btn_RECHTS.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                view.startAnimation(buttonClick);
-                int pos = tV_eingabe.getSelectionStart();
-                tV_eingabe.setSelection(Math.min(tV_eingabe.length(), pos + 1));
-                setBackground(btn_RECHTS);
+                }
+            });
+        }
 
-            }
-        });
 
 
 
@@ -1093,6 +1096,17 @@ public class CalcActivity_normal extends AppCompatActivity {
 
             }
         });
+        if(btn_ans != null){
+            btn_ans.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    view.startAnimation(buttonClick);
+
+                    eingabeAddText("ANS");
+                    setBackground(btn_ans);
+                }
+            });
+        }
         btn_eq.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -1162,23 +1176,23 @@ public class CalcActivity_normal extends AppCompatActivity {
             btn_23.setText("3");
             btn_24.setText("0");
             btn_25.setText(".");
-            btn_26.setText("ANS");
+            btn_26.setText(",");
         } else if(mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))){
             //L1 normal: SIN,COS,TAN,ASIN,ACOS,ATAN
             btn_11.setText("SIN");
             btn_12.setText("COS");
             btn_13.setText("TAN");
-            btn_14.setText("ASIN");
-            btn_15.setText("ACOS");
-            btn_16.setText("ATAN");
+            btn_14.setText("COT");
+            btn_15.setText("ASIN");
+            btn_16.setText("ACOS");
 
             //L3 normal: >DEG/>RAD/>Polar/>Cart
-            btn_21.setText(">DEG");
-            btn_22.setText(">RAD");
-            btn_23.setText(">Polar");
-            btn_24.setText(">Cart");
-            btn_25.setText("");
-            btn_26.setText("");
+            btn_21.setText("ATAN");
+            btn_22.setText("ACOT");
+            btn_23.setText(">DEG");
+            btn_24.setText(">RAD");
+            btn_25.setText(">Polar");
+            btn_26.setText(">Cart");
         }if(mode.equals("HYPER")){
             //L1 normal: SIN,COS,TAN,ASIN,ACOS,ATAN
             btn_11.setText("SINH");
@@ -1260,8 +1274,8 @@ public class CalcActivity_normal extends AppCompatActivity {
             btn_22.setText("A/B");
             btn_23.setText(R.string.x_h_one);
             btn_24.setText("+/-");
-            btn_25.setText("");
-            btn_26.setText("");
+            btn_25.setText("MIN");
+            btn_26.setText("MAX");
         } else {
             if(UserFctGroups.contains(mode)){
                 //NutzerFct
@@ -1295,7 +1309,7 @@ public class CalcActivity_normal extends AppCompatActivity {
         if(x instanceof Button){
             //fix für größe dieser kleinen unicode symbole
             if(((Button) x).getText().equals(getResources().getString(R.string.CLEAR_ALL)) || ((Button) x).getText().equals(getResources().getString(R.string.CLEAR))){
-                ((Button) x).setTextSize(Math.min(30,((Button) btn_LINKS).getTextSize()*2));
+                ((Button) x).setTextSize(Math.min(30,((Button) btn_11).getTextSize()*2));
             }
         }
 
@@ -1319,6 +1333,9 @@ public class CalcActivity_normal extends AppCompatActivity {
 
         if(x.equals(btn_CONST)){
             darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_act(CalcActivity_normal.this),factor_font);
+            if(DesignApplier.getBrightness(DesignApplier.transToRGB(darker)) < 20){
+                darker = 0xffFFFFFF;
+            }
             Drawable vector =  getResources().getDrawable(R.drawable.ic_konstanten1);
             vector.setColorFilter(darker, PorterDuff.Mode.SRC_ATOP);
 
@@ -1334,6 +1351,9 @@ public class CalcActivity_normal extends AppCompatActivity {
 
         if(x.equals(btn_CONV)){
             darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_act(CalcActivity_normal.this),factor_font);
+            if(DesignApplier.getBrightness(DesignApplier.transToRGB(darker)) < 20){
+                darker = 0xffFFFFFF;
+            }
             Drawable vector =  getResources().getDrawable(R.drawable.ic_lineal);
             vector.setColorFilter(darker, PorterDuff.Mode.SRC_ATOP);
 
@@ -1349,6 +1369,9 @@ public class CalcActivity_normal extends AppCompatActivity {
 
         if(x.equals(btn_verlauf)){
             darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_act(CalcActivity_normal.this),factor_font);
+            if(DesignApplier.getBrightness(DesignApplier.transToRGB(darker)) < 20){
+                darker = 0xffFFFFFF;
+            }
             Drawable vector =  getResources().getDrawable(R.drawable.ic_verlauf);
             vector.setColorFilter(darker, PorterDuff.Mode.SRC_ATOP);
 
@@ -1417,9 +1440,8 @@ public class CalcActivity_normal extends AppCompatActivity {
         background.setBackgroundColor(SettingsApplier.getColor_background(CalcActivity_normal.this));
 
         //setBackground(spinner_shift);
-
-
         for(Button b: BTN_ALL){
+            if(b == null)continue;
             setBackground(b);
         }
 

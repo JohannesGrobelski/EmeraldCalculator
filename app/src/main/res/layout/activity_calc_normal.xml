@@ -565,23 +565,25 @@
             android:layout_height="match_parent"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:layout_weight=".9">            <Button
-            android:id="@+id/m_btn_24"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginBottom="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/buttonshape_square"
-            android:maxLines="1"
-            android:shadowRadius="30"
-            android:text="0"
-            android:visibility="visible"
+            android:layout_weight=".9">
+
+            <Button
+                android:id="@+id/m_btn_24"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/buttonshape_square"
+                android:maxLines="1"
+                android:shadowRadius="30"
+                android:text="0"
+                android:visibility="visible"
 
 
-            app:autoSizeStepGranularity="1sp"
-            app:autoSizeTextType="uniform" />
+                app:autoSizeStepGranularity="1sp"
+                app:autoSizeTextType="uniform" />
 
             <Button
                 android:id="@+id/m_btn_25"
@@ -600,6 +602,7 @@
 
                 app:autoSizeStepGranularity="1sp"
                 app:autoSizeTextType="uniform" />
+
             <Button
                 android:id="@+id/m_btn_26"
                 android:layout_width="match_parent"
@@ -611,12 +614,33 @@
                 android:background="@drawable/buttonshape_square"
                 android:maxLines="1"
                 android:shadowRadius="30"
+                android:text=","
+                android:visibility="visible"
+
+
+                app:autoSizeStepGranularity="1sp"
+                app:autoSizeTextType="uniform" />
+
+            <Button
+                android:id="@+id/m_btn_ans"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:width="186dp"
+                android:background="@drawable/buttonshape_square"
+                android:maxLines="1"
+                android:minWidth="186dp"
+                android:shadowRadius="30"
                 android:text="@string/ANS"
                 android:visibility="visible"
 
 
                 app:autoSizeStepGranularity="1sp"
                 app:autoSizeTextType="uniform" />
+
             <Button
                 android:id="@+id/m_btn_eq"
                 android:layout_width="match_parent"
@@ -624,7 +648,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginBottom="10dp"
-                android:layout_weight=".75"
+                android:layout_weight="1"
                 android:width="186dp"
                 android:background="@drawable/buttonshape_square"
                 android:maxLines="1"

@@ -2,6 +2,7 @@ package com.example.titancalculator.helper.Math_String;
 
 import android.util.Log;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -9,10 +10,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class NumberString extends ContentString {
+    static String mean_mode = "AriMit";
+    static String var_mode = "AriVar";
+
     public static int precision = 0;
 
-    String last_answer="";
-    String angle_unit = "";
+    static String last_answer="";
+    static String angle_unit = "";
 
 
     int base=10;
@@ -24,13 +28,25 @@ public class NumberString extends ContentString {
     String D="d = 0";
     String E="e = 0";
 
+    public void setMean_mode(String mode){
+        if(mode.equals("AriMit") || mode.equals("GeoMit") || mode.equals("HarMit") ){
+            mean_mode = mode;
+        }
+    }
+
+    public void setVar_mode(String mode){
+        if(mode.equals("AriVar") || mode.equals("GeoVar") || mode.equals("HarVar") ){
+            var_mode = mode;
+        }
+    }
+
     String getDisplayableString(String a) {
         a = a.replace("ROOT","√");
 
         return a;
     }
 
-    private String paraIn(String input, String fct){
+    public static String paraIn(String input, String fct){
         String res="";
         while(input.contains(fct)) {
             int i = input.indexOf(fct);
@@ -66,7 +82,7 @@ public class NumberString extends ContentString {
         return input;
     }
 
-    private String parenthesise(String input, String fct){
+    public static String parenthesise(String input, String fct){
         for(int i=0; i<input.length(); i++) {
             for(int j=i; j<i+fct.length() && j < input.length(); j++) {
                 if(input.substring(i,j+1).equals(fct)) {
@@ -87,7 +103,10 @@ public class NumberString extends ContentString {
         return input;
     }
 
-    private String getCalcuableString(String a){
+
+
+    public static String getCalcuableString(String a){
+
         if(a.contains("ANS")){
             if(last_answer.equals("Math Error")){
                 a = a.replace("ANS","");
@@ -98,6 +117,8 @@ public class NumberString extends ContentString {
         }
 
         //I: fix; sonst: PI -> P(I)
+        a = a.replace("π","PI");
+
         a = a.replaceAll("PI", MathEvaluator.evaluate("PI",10));
 
         a = a.replace("∑","SUME");
@@ -108,6 +129,7 @@ public class NumberString extends ContentString {
 
         a = a.replace("³","^3");
         a = a.replace("²","^2");
+
 
         a = parenthesise(a,"ROOT");
         a = parenthesise(a,"LN");
@@ -120,9 +142,11 @@ public class NumberString extends ContentString {
         a = parenthesise(a,"SIN");
         a = parenthesise(a,"COS");
         a = parenthesise(a,"TAN");
+        a = parenthesise(a,"COT");
         a = parenthesise(a,"ASIN");
         a = parenthesise(a,"ACOS");
         a = parenthesise(a,"ATAN");
+        a = parenthesise(a,"ACOT");
         a = parenthesise(a,"SINH");
         a = parenthesise(a,"COSH");
         a = parenthesise(a,"TANH");
@@ -130,14 +154,23 @@ public class NumberString extends ContentString {
         a = parenthesise(a,"ACOSH");
         a = parenthesise(a,"ATANH");
 
+        a = parenthesise(a,"MEAN");
+
+
         a = paraIn(a,"ROOT");
         a = paraIn(a,"LOG");
         a = paraIn(a,"P");
         a = paraIn(a,"C");
         a = paraIn(a,"R");
 
-        Log.e("calcString: ",a);
+        //.e("calcString: ",a);
         if(!last_answer.equals("Math Error"))last_answer = a;
+
+        //settings
+        a = a.replaceAll("MEAN",mean_mode);
+        a = a.replaceAll("VAR",var_mode);
+
+
         return a;
     }
 
@@ -278,6 +311,15 @@ public class NumberString extends ContentString {
         } else if(content.contains("e")){
             E = content;
         }
+    }
+
+    public static boolean isNumeric(String strNum) {
+        try {
+            BigDecimal d = new BigDecimal(strNum);
+        } catch (NumberFormatException | NullPointerException nfe) {
+            return false;
+        }
+        return true;
     }
 
 }

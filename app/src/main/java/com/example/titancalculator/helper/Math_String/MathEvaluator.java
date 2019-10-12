@@ -16,6 +16,7 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
@@ -30,6 +31,10 @@ import java.util.regex.Pattern;
  */
 public class MathEvaluator {
 
+
+
+
+
     //Math Settings
     public static int pre_decimal_places_pref = 10;
     public static int decimal_places_pref = 10;
@@ -38,16 +43,19 @@ public class MathEvaluator {
 	int marker = 1;
 	
 	public static void main(String[] args) {
-	    Expression e = new Expression(("3+5"));
-	    System.out.println(e.toRPN());
-        System.out.println(e.infixNotation());
+	    System.out.println(rootToSqrt("ROOT(AriVar(1,2,3))"));
 
-        test_format();
+        //test_format();
 	}
 
     public static void test_format() {
         //Testfälle absolut große/kleine zahlen, ganze/bruchzahlen, negative/positive zahlen
-        System.out.println(MathEvaluator.evaluate("3 4 +",10));
+        System.out.println(MathEvaluator.evaluate("15.25*22! + 7.90^sin(22) + 3.12^23",10));
+        System.out.println(MathEvaluator.evaluate("89*9*62.2",10));
+        System.out.println(MathEvaluator.evaluate("MAX(1,2,3)",10));
+        System.out.println("ARI: "+MathEvaluator.evaluate("AriVar(1,2,3,4,5,6)",10));
+        System.out.println(MathEvaluator.evaluate("AriMit(1,2,3,4,5,6)",10));
+
 
         System.out.println(MathEvaluator.evaluate("10000!",10));
 

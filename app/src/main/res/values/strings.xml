@@ -33,7 +33,7 @@
     <string name="COS">COS</string>
     <string name="TAN">TAN</string>
     <string name="e">e</string>
-    <string name="PI">PI</string>
+    <string name="PI">π</string>
     <string name="DEC">DEC</string>
     <string name="BIN">BIN</string>
     <string name="OCT">OCT</string>
@@ -60,7 +60,7 @@
     <string name="C">C</string>
     <string name="D">D</string>
 
-    <string name="E">E</string>
+    <string name="E">e</string>
     <string name="F">F</string>
     <string name="a">A</string>
     <string name="b">B</string>
@@ -265,6 +265,53 @@
         <item>englisch</item>
         <item>deutsch</item>
     </string-array>
+
+    <string-array name="mittelwert_de">
+        <item>arithmetisches Mittel</item>
+        <item>geometrisches Mittel</item>
+        <item>harmonisches Mittel</item>
+    </string-array>
+    <string-array name="mittelwert_en">
+        <item>arithmetic mean</item>
+        <item>geometric mean</item>
+        <item>harmonic mean</item>
+    </string-array>
+    <string-array name="mittelwert_val">
+        <item>AriMit</item>
+        <item>GeoMit</item>
+        <item>HarMit</item>
+    </string-array>
+
+    <string-array name="varianz_de">
+        <item>arithmetische Varianz</item>
+        <item>geometrisches Varianz</item>
+        <item>harmonisches Varianz</item>
+    </string-array>
+    <string-array name="varianz_en">
+        <item>arithmetic Variance</item>
+        <item>geometric Variance</item>
+        <item>harmonic Variance</item>
+    </string-array>
+    <string-array name="varianz_val">
+        <item>AriVar</item>
+        <item>GeoVar</item>
+        <item>HarVar</item>
+    </string-array>
+
+
+    <string-array name="calc_modes_de">
+        <item>normal</item>
+        <item>sequenziell infix</item>
+    </string-array>
+    <string-array name="calc_modes_en">
+        <item>normal</item>
+        <item>sequential infix</item>
+    </string-array>
+    <string-array name="calc_modes_val">
+        <item>normal</item>
+        <item>sequential_infix</item>
+    </string-array>
+
 
 
 </resources>

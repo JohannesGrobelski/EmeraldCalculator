@@ -19,4 +19,16 @@
         android:defaultValue="false"
         android:key="solve_inst_pref"
         android:title="Zeige Ergebnis sofort" />
+    <ListPreference
+        android:defaultValue="arithmetischer Mittelwert"
+        android:entries="@array/mittelwert_de"
+        android:entryValues="@array/mittelwert_de"
+        android:key="mean_mode"
+        android:title="Mittelwert Typ" />
+    <ListPreference
+        android:defaultValue="arithmetische Varianz"
+        android:entries="@array/varianz_de"
+        android:entryValues="@array/varianz_val"
+        android:key="var_mode"
+        android:title="Varianz Typ" />
 </PreferenceScreen>

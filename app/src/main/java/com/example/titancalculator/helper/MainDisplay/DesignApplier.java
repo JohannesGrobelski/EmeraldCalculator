@@ -11,6 +11,7 @@ import androidx.preference.PreferenceManager;
 import com.example.titancalculator.CalcActivity_science;
 import com.example.titancalculator.FontSettingsActivity;
 import com.example.titancalculator.R;
+import com.example.titancalculator.helper.ArrayUtils;
 
 public class DesignApplier {
     public static final String[] designs = {"light","dark","dawn","germany","bright"};
@@ -40,7 +41,7 @@ public class DesignApplier {
 
     public static void apply_theme(Context c, String name){
         Toast.makeText(c,"Set Design to:"+name,Toast.LENGTH_SHORT).show();
-        if(array_contains(designs,name)){
+        if(ArrayUtils.array_contains(designs,name)){
             switch(name){
                 case "dark":{
                     SettingsApplier.darker_factor_font = 1f;
@@ -145,12 +146,7 @@ public class DesignApplier {
     }
 
 
-    private static boolean array_contains(String AR[], String S){
-        for(String s: AR){
-            if(s.equals(S))return true;
-        }
-        return false;
-    }
+
 
     public static int getBrightness(int[]RGB){
         if(RGB.length != 3)return -1;

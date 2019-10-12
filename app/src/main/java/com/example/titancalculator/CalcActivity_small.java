@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
@@ -36,6 +37,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.preference.PreferenceManager;
 
+import com.example.titancalculator.helper.MainDisplay.DesignApplier;
 import com.example.titancalculator.helper.MainDisplay.OnSwipeTouchListener;
 import com.example.titancalculator.helper.MainDisplay.SettingsApplier;
 import com.example.titancalculator.helper.Math_String.MathEvaluator;
@@ -133,6 +135,7 @@ public class CalcActivity_small extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        SettingsApplier.applySettings(CalcActivity_small.this);
 
         String mode = PreferenceManager.getDefaultSharedPreferences(this).getString("layout","");
         if(!mode.isEmpty()  && MainActivity.modes.contains(mode) && !mode.equals("small")){
@@ -183,6 +186,7 @@ public class CalcActivity_small extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calc_small);
+
         SettingsApplier.initSettings(CalcActivity_small.this);
 
         setTitle("Rechner");
@@ -637,6 +641,25 @@ public class CalcActivity_small extends AppCompatActivity {
             x.setBackground(background);
         }
 
+        if(x.equals(btn_verlauf)){
+
+            darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_act(CalcActivity_small.this),factor_font);
+            if(DesignApplier.getBrightness(DesignApplier.transToRGB(darker)) < 20){
+                darker = 0xffFFFFFF;
+            }
+            Drawable vector =  getResources().getDrawable(R.drawable.ic_verlauf);
+            vector.setColorFilter(darker, PorterDuff.Mode.SRC_ATOP);
+
+            background = getResources().getDrawable(buttonshapeID);
+            SettingsApplier.setColor((CalcActivity_small.this),background, SettingsApplier.getColor_act(CalcActivity_small.this),buttonfüllung,stroke);
+            darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_act(CalcActivity_small.this),factor_font);
+            SettingsApplier.setTextColor(x,darker);
+
+            x.setBackground( SettingsApplier.combineVectorBackground(vector,background));
+            ((Button) x).setText("");
+            return;
+        }
+
         else if(BTN_ACT.contains(x)){
             background = getResources().getDrawable(buttonshapeID);
             SettingsApplier.setColor(CalcActivity_small.this,background, SettingsApplier.getColor_act(CalcActivity_small.this),buttonfüllung,stroke);
@@ -810,13 +833,13 @@ public class CalcActivity_small extends AppCompatActivity {
         language = PreferenceManager.getDefaultSharedPreferences(CalcActivity_small.this).getString("pref_lang","english");
         if(language.equals("english") || language.equals("englisch")){
             btn_menu.setText(R.string.MENU_EN);
-            btn_verlauf.setText(R.string.VERLAUFEN);
+            //btn_verlauf.setText(R.string.VERLAUFEN);
             act_options = getResources().getStringArray(R.array.act_EN);
             mode_options = FunctionGroupSettingsActivity.getGroups(CalcActivity_small.this);
         }
         else if(language.equals("german") || language.equals("deutsch")){
             btn_menu.setText(R.string.MENU_DE);
-            btn_verlauf.setText(R.string.VERLAUFDE);
+            //btn_verlauf.setText(R.string.VERLAUFDE);
             act_options = getResources().getStringArray(R.array.act_DE);
             mode_options = FunctionGroupSettingsActivity.translateGroup(FunctionGroupSettingsActivity.getGroups(CalcActivity_small.this),"german");
         }
