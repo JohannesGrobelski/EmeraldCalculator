@@ -76,7 +76,7 @@ public class CalcActivity_science extends AppCompatActivity {
     static final int REQUEST_CODE_history = 1;  // The request code
     ArrayList<String> history = new ArrayList<>();
     int buttonshapeID = R.drawable.buttonshape_square;
-    String llung="voll";
+    String buttonfüllung="voll";
     Set<String> UserFctGroups = new HashSet<>();
     String current_Callback="";
     String answer="";
@@ -241,7 +241,7 @@ public class CalcActivity_science extends AppCompatActivity {
                         View v = super.getDropDownView(position, convertView, parent);
                         v.setBackgroundResource(R.drawable.buttonshape_square);
                         ((TextView) v).setTextColor(SettingsApplier.getColor_displaytext(CalcActivity_science.this));
-                        if(SettingsApplier.getllung().equals("leer")){
+                        if(SettingsApplier.getButtonfüllung().equals("leer")){
                             ((TextView) v).setBackgroundColor(SettingsApplier.getColor_background(CalcActivity_science.this));
                         }
                         else ((TextView) v).setBackgroundColor(SettingsApplier.getColor_display(CalcActivity_science.this));
@@ -269,6 +269,10 @@ public class CalcActivity_science extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calc_science);
+
+        Toast.makeText(CalcActivity_science.this,"mode: science",Toast.LENGTH_SHORT).show();
+        mode = "";
+
         SettingsApplier.initSettings(CalcActivity_science.this);
         myVib = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
         int orientation = this.getResources().getConfiguration().orientation;
@@ -1308,6 +1312,7 @@ public class CalcActivity_science extends AppCompatActivity {
     public static void setDefaultColors(Context c){
         SettingsApplier.setDefaultColors();
     }
+    
     void setBackground(View x){
         if(buttonshapeID==0)applySettings();
         Drawable background;
@@ -1316,7 +1321,7 @@ public class CalcActivity_science extends AppCompatActivity {
         boolean stroke = true;
         //Default Case
         background = getResources().getDrawable(buttonshapeID);
-        SettingsApplier.setColor((CalcActivity_science.this),background, SettingsApplier.getColor_specials(CalcActivity_science.this),llung,stroke);
+        SettingsApplier.setColor((CalcActivity_science.this),background, SettingsApplier.getColor_specials(CalcActivity_science.this),buttonfüllung,stroke);
         int darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_specials(CalcActivity_science.this),factor_font);
         SettingsApplier.setTextColor(x,darker);
         if(x instanceof Button){
@@ -1327,7 +1332,7 @@ public class CalcActivity_science extends AppCompatActivity {
         }
         if(x.equals(spinner_shift) || x instanceof Spinner){
             background = getResources().getDrawable(buttonshapeID);
-            SettingsApplier.setColor((CalcActivity_science.this),background, SettingsApplier.getColor_fops(CalcActivity_science.this),llung,stroke);
+            SettingsApplier.setColor((CalcActivity_science.this),background, SettingsApplier.getColor_fops(CalcActivity_science.this),buttonfüllung,stroke);
             x.setBackground(background);
             ///((Spinner) x).setPopupBackgroundDrawable(background);
             x.setBackgroundColor(SettingsApplier.getColor_fops(CalcActivity_science.this));
@@ -1336,7 +1341,7 @@ public class CalcActivity_science extends AppCompatActivity {
         }
         if(x.equals(display)){
             background = getResources().getDrawable(buttonshapeID);
-            SettingsApplier.setColor((CalcActivity_science.this),background, SettingsApplier.getColor_display(CalcActivity_science.this),llung,stroke);
+            SettingsApplier.setColor((CalcActivity_science.this),background, SettingsApplier.getColor_display(CalcActivity_science.this),buttonfüllung,stroke);
             eT_ausgabe.setTextColor(SettingsApplier.getColor_displaytext(CalcActivity_science.this));
             eT_eingabe.setTextColor(SettingsApplier.getColor_displaytext(CalcActivity_science.this));
             x.setBackground(background);
@@ -1349,7 +1354,7 @@ public class CalcActivity_science extends AppCompatActivity {
             Drawable vector =  getResources().getDrawable(R.drawable.ic_konstanten1);
             vector.setColorFilter(darker, PorterDuff.Mode.SRC_ATOP);
             background = getResources().getDrawable(buttonshapeID);
-            SettingsApplier.setColor((CalcActivity_science.this),background, SettingsApplier.getColor_act(CalcActivity_science.this),llung,stroke);
+            SettingsApplier.setColor((CalcActivity_science.this),background, SettingsApplier.getColor_act(CalcActivity_science.this),buttonfüllung,stroke);
             darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_act(CalcActivity_science.this),factor_font);
             SettingsApplier.setTextColor(x,darker);
             x.setBackground( SettingsApplier.combineVectorBackground(vector,background));
@@ -1364,7 +1369,7 @@ public class CalcActivity_science extends AppCompatActivity {
             Drawable vector =  getResources().getDrawable(R.drawable.ic_lineal);
             vector.setColorFilter(darker, PorterDuff.Mode.SRC_ATOP);
             background = getResources().getDrawable(buttonshapeID);
-            SettingsApplier.setColor((CalcActivity_science.this),background, SettingsApplier.getColor_act(CalcActivity_science.this),llung,stroke);
+            SettingsApplier.setColor((CalcActivity_science.this),background, SettingsApplier.getColor_act(CalcActivity_science.this),buttonfüllung,stroke);
             darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_act(CalcActivity_science.this),factor_font);
             SettingsApplier.setTextColor(x,darker);
             x.setBackground( SettingsApplier.combineVectorBackground(vector,background));
@@ -1379,7 +1384,7 @@ public class CalcActivity_science extends AppCompatActivity {
             Drawable vector =  getResources().getDrawable(R.drawable.ic_verlauf);
             vector.setColorFilter(darker, PorterDuff.Mode.SRC_ATOP);
             background = getResources().getDrawable(buttonshapeID);
-            SettingsApplier.setColor((CalcActivity_science.this),background, SettingsApplier.getColor_act(CalcActivity_science.this),llung,stroke);
+            SettingsApplier.setColor((CalcActivity_science.this),background, SettingsApplier.getColor_act(CalcActivity_science.this),buttonfüllung,stroke);
             darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_act(CalcActivity_science.this),factor_font);
             SettingsApplier.setTextColor(x,darker);
             x.setBackground( SettingsApplier.combineVectorBackground(vector,background));
@@ -1388,31 +1393,31 @@ public class CalcActivity_science extends AppCompatActivity {
         }
         if(VIEW_ACT.contains(x)){
             background = getResources().getDrawable(buttonshapeID);
-            SettingsApplier.setColor((CalcActivity_science.this),background, SettingsApplier.getColor_act(CalcActivity_science.this),llung,stroke);
+            SettingsApplier.setColor((CalcActivity_science.this),background, SettingsApplier.getColor_act(CalcActivity_science.this),buttonfüllung,stroke);
             darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_act(CalcActivity_science.this),factor_font);
             SettingsApplier.setTextColor(x,darker);
         }
         else if(VIEW_FKT.contains(x)){
             background = getResources().getDrawable(buttonshapeID);
-            SettingsApplier.setColor((CalcActivity_science.this),background, SettingsApplier.getColor_fkt(CalcActivity_science.this),llung,stroke);
+            SettingsApplier.setColor((CalcActivity_science.this),background, SettingsApplier.getColor_fkt(CalcActivity_science.this),buttonfüllung,stroke);
             darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_fkt(CalcActivity_science.this),factor_font);
             SettingsApplier.setTextColor(x,darker);
         }
         else if(VIEW_FOPS.contains(x)){
             background = getResources().getDrawable(buttonshapeID);
-            SettingsApplier.setColor((CalcActivity_science.this),background, SettingsApplier.getColor_fops(CalcActivity_science.this),llung,stroke);
+            SettingsApplier.setColor((CalcActivity_science.this),background, SettingsApplier.getColor_fops(CalcActivity_science.this),buttonfüllung,stroke);
             darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_fops(CalcActivity_science.this),factor_font);
             SettingsApplier.setTextColor(x,darker);
         }
         else if(VIEW_NUMBERS.contains(x)){
             background = getResources().getDrawable(buttonshapeID);
-            SettingsApplier.setColor((CalcActivity_science.this),background, SettingsApplier.getColor_numbers(CalcActivity_science.this),llung,stroke);
+            SettingsApplier.setColor((CalcActivity_science.this),background, SettingsApplier.getColor_numbers(CalcActivity_science.this),buttonfüllung,stroke);
             darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_numbers(CalcActivity_science.this),factor_font);
             SettingsApplier.setTextColor(x,darker);
         }
         else if(VIEW_SAVES.contains(x)){
             background = getResources().getDrawable(buttonshapeID);
-            SettingsApplier.setColor((CalcActivity_science.this),background, SettingsApplier.getColor_saves(CalcActivity_science.this),llung,stroke);
+            SettingsApplier.setColor((CalcActivity_science.this),background, SettingsApplier.getColor_saves(CalcActivity_science.this),buttonfüllung,stroke);
             darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_saves(CalcActivity_science.this),factor_font);
             SettingsApplier.setTextColor(x,darker);
         }
@@ -1424,14 +1429,13 @@ public class CalcActivity_science extends AppCompatActivity {
         if(path.equals(""))return;
         if(!checkPermissionForReadExtertalStorage(c))requestPermissionForReadExtertalStorage(c);
         try{
-            Toast.makeText(c,"BI: "+path,Toast.LENGTH_LONG).show();
+            //Toast.makeText(c,"BI: "+path,Toast.LENGTH_LONG).show();
             Resources res = c.getResources();
             Bitmap bitmap = BitmapFactory.decodeFile(path);
             BitmapDrawable bd = new BitmapDrawable(res, bitmap);
             view.setBackground(bd);
         } catch (Exception e){
-            Toast t =  Toast.makeText(c,"Could not draw Backgroundimage:"+e.getMessage(),Toast.LENGTH_LONG);
-            t.show();
+           // Toast t =  Toast.makeText(c,"Could not draw Backgroundimage:"+e.getMessage(),Toast.LENGTH_LONG).show();
             Log.e("IMAGEERROR",path);
             Log.e("IMAGEERROR", e.getMessage());
 
@@ -1613,9 +1617,9 @@ public class CalcActivity_science extends AppCompatActivity {
         }
         //buttonshape
         buttonshapeID = SettingsApplier.getButtonshapeID();
-        //llung
-        if (PreferenceManager.getDefaultSharedPreferences(CalcActivity_science.this).contains("llung")) {
-            llung = PreferenceManager.getDefaultSharedPreferences(CalcActivity_science.this).getString("llung","voll");
+        //buttonfüllung
+        if (PreferenceManager.getDefaultSharedPreferences(CalcActivity_science.this).contains("buttonfüllung")) {
+            buttonfüllung = PreferenceManager.getDefaultSharedPreferences(CalcActivity_science.this).getString("buttonfüllung","voll");
         }
         //Fonts
         //Typeface font = Typeface.createFromAsset(getAssets(), "Crashed Scoreboard.ttf");

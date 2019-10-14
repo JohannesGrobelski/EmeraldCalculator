@@ -41,6 +41,12 @@ public class MainActivity extends AppCompatActivity {
         current_input = intent.getStringExtra("input");
         current_output = intent.getStringExtra("output");
         current_verlauf = intent.getStringExtra("verlauf");
+        //layout zurücksetzen
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("layout", "");
+            editor.commit();
+
         if(swipeDir == null || swipeDir.equals("") || layout == null || layout.equals("")){
             return loadLayout();
         } else {
@@ -69,12 +75,15 @@ public class MainActivity extends AppCompatActivity {
     private void startMode(String mode){
         saveLayout(mode);
         Intent conversionIntent;
+
         if(mode.equals("small")){
             conversionIntent = new Intent(MainActivity.this, CalcActivity_small.class);
         } else if(mode.equals("normal")){
             conversionIntent = new Intent(MainActivity.this, CalcActivity_normal.class);
-        } else {
+        } else if(mode.equals("science")){
             conversionIntent = new Intent(MainActivity.this, CalcActivity_science.class);
+        } else {
+            return;
         }
         conversionIntent.putExtra("verlauf",current_verlauf);
         conversionIntent.putExtra("input",current_input);

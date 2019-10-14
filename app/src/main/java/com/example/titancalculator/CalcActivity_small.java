@@ -187,7 +187,8 @@ public class CalcActivity_small extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calc_small);
-
+        Toast.makeText(CalcActivity_small.this,"mode: small",Toast.LENGTH_SHORT).show();
+        mode = "";
         SettingsApplier.initSettings(CalcActivity_small.this);
 
         setTitle("Rechner");

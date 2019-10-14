@@ -299,6 +299,10 @@ public class CalcActivity_normal extends AppCompatActivity {
         setContentView(R.layout.activity_calc_normal);
         SettingsApplier.initSettings(CalcActivity_normal.this);
 
+        Toast.makeText(CalcActivity_normal.this,"mode: normal",Toast.LENGTH_SHORT).show();
+        mode = "";
+
+
         SettingsApplier.setButtonshapeID("round");
 
         Log.v("Act ","normal");
@@ -1439,10 +1443,6 @@ public class CalcActivity_normal extends AppCompatActivity {
         setBackground(spinner_shift);
         setBackground(display);
     }
-
-
-
-
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode,resultCode,data);
