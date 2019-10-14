@@ -16,7 +16,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
-import com.example.titancalculator.helper.PathUtil;
+import com.example.titancalculator.helper.PathUtils;
 
 import java.io.File;
 import java.net.URISyntaxException;
@@ -54,7 +54,7 @@ public class SettingBackgroundimageActivity extends AppCompatActivity {
             if(isImageFile(selectedfile)){
                 String path = ""; // "/mnt/sdcard/FileName.mp3"
                 try {
-                    path = PathUtil.getPath(this,selectedfile);
+                    path = PathUtils.getPath(this,selectedfile);
                 } catch (URISyntaxException e) {
                     e.printStackTrace();
                     Toast t =  Toast.makeText(SettingBackgroundimageActivity.this,"invalid File URI:"+path,Toast.LENGTH_LONG);

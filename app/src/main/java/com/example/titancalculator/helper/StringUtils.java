@@ -14,4 +14,17 @@ public class StringUtils {
 
         return c;
     }
+
+    public static String replace(String source, String replacement , int start, int end){
+        if(source == null || replacement == null)return source;
+        if(replacement.isEmpty() || start < 0)return source;
+
+        return source.substring(0,start)+replacement+source.substring(end);
+    }
+
+    public static void main(String[] a){
+        String ges = "112233";
+        String repl = "55555";
+        System.out.println(replace(ges,repl,ges.length(),ges.length()));
+    }
 }

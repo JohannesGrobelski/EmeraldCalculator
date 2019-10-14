@@ -43,14 +43,13 @@ public class MathEvaluator {
 	int marker = 1;
 	
 	public static void main(String[] args) {
-	    System.out.println(rootToSqrt("ROOT(AriVar(1,2,3))"));
-
-        //test_format();
+        test_format();
 	}
 
     public static void test_format() {
         //Testfälle absolut große/kleine zahlen, ganze/bruchzahlen, negative/positive zahlen
         System.out.println(MathEvaluator.evaluate("15.25*22! + 7.90^sin(22) + 3.12^23",10));
+        System.out.println(MathEvaluator.evaluate("69.2*37122.44",10));
         System.out.println(MathEvaluator.evaluate("89*9*62.2",10));
         System.out.println(MathEvaluator.evaluate("MAX(1,2,3)",10));
         System.out.println("ARI: "+MathEvaluator.evaluate("AriVar(1,2,3,4,5,6)",10));
@@ -303,11 +302,14 @@ public class MathEvaluator {
 	
 	public static void applySettings(Context c){
         //Math Settings
+        /*
         String pre_decimal_places = PreferenceManager.getDefaultSharedPreferences(c).getString("pre_decimal_places_pref","5");
         String decimal_places = PreferenceManager.getDefaultSharedPreferences(c).getString("decimal_places_pref","5");
         if(isInteger(decimal_places))decimal_places_pref = Integer.parseInt(decimal_places);
         if(isInteger(pre_decimal_places))pre_decimal_places_pref = Integer.parseInt(pre_decimal_places);
+        */
     }
+
 
     public static String repeatString(String s, int number){
 	    String res = "";

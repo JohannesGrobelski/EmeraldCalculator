@@ -26,7 +26,7 @@
     android:minHeight="120dp"
     android:orientation="vertical">
     <EditText
-        android:id="@+id/m_tV_Eingabe"
+        android:id="@+id/m_eT_Eingabe"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -43,7 +43,7 @@
         app:autoSizeMinTextSize="12sp"
         app:autoSizeStepGranularity="1sp"
         />            <EditText
-    android:id="@+id/m_tV_Ausgabe"
+    android:id="@+id/m_eT_Ausgabe"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="20dp"

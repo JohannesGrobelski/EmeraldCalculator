@@ -41,6 +41,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.preference.PreferenceManager;
 
+import com.example.titancalculator.helper.ArrayUtils;
 import com.example.titancalculator.helper.MainDisplay.DesignApplier;
 import com.example.titancalculator.helper.MainDisplay.OnSwipeTouchListener;
 import com.example.titancalculator.helper.MainDisplay.SettingsApplier;
@@ -49,6 +50,7 @@ import com.example.titancalculator.helper.Math_String.NavigatableString;
 import com.example.titancalculator.helper.Math_String.NumberString;
 import com.example.titancalculator.helper.StringUtils;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -65,7 +67,7 @@ public class CalcActivity_normal extends AppCompatActivity {
     static final int REQUEST_CODE_CONV = 1;  // The request code
     static final int REQUEST_CODE_Verlauf = 1;  // The request code
 
-    LinkedHashSet<String> verlauf = new LinkedHashSet<>();
+    ArrayList<String> verlauf = new ArrayList<>();
     int buttonshapeID = R.drawable.buttonshape_square;
     String buttonfüllung="voll";
     DisplayMetrics screen_density;
@@ -134,9 +136,9 @@ public class CalcActivity_normal extends AppCompatActivity {
 
 
 
-    EditText tV_eingabe;
-    boolean tV_eingabe_hasFocus=true;
-    EditText tV_ausgabe;
+    EditText eT_eingabe;
+    boolean eT_eingabe_hasFocus=true;
+    EditText eT_ausgabe;
 
     NavigatableString I;
 
@@ -177,9 +179,9 @@ public class CalcActivity_normal extends AppCompatActivity {
             if(getIntent().hasExtra("onPotraitReturn")){
                 Intent conversionIntent= new Intent(CalcActivity_normal.this, CalcActivity_science.class);
 
-                conversionIntent.putExtra("verlauf",verlaufToString(new ArrayList<String>(verlauf)));
-                conversionIntent.putExtra("input",tV_eingabe.getText().toString());
-                conversionIntent.putExtra("output",tV_ausgabe.getText().toString());
+                conversionIntent.putExtra("verlauf",ArrayUtils.listToString(new ArrayList<String>(verlauf)));
+                conversionIntent.putExtra("input",eT_eingabe.getText().toString());
+                conversionIntent.putExtra("output",eT_ausgabe.getText().toString());
                 conversionIntent.putExtra("swipeDir","");
                 conversionIntent.putExtra("layout","science");
                 startActivity(conversionIntent);
@@ -212,9 +214,9 @@ public class CalcActivity_normal extends AppCompatActivity {
                 }
                 else return;
             }
-            conversionIntent.putExtra("verlauf",verlaufToString(new ArrayList<String>(verlauf)));
-            conversionIntent.putExtra("input",tV_eingabe.getText().toString());
-            conversionIntent.putExtra("output",tV_ausgabe.getText().toString());
+            conversionIntent.putExtra("verlauf",ArrayUtils.listToString(new ArrayList<String>(verlauf)));
+            conversionIntent.putExtra("input",eT_eingabe.getText().toString());
+            conversionIntent.putExtra("output",eT_ausgabe.getText().toString());
             conversionIntent.putExtra("swipeDir","");
             conversionIntent.putExtra("layout",mode);
             startActivity(conversionIntent);
@@ -232,8 +234,8 @@ public class CalcActivity_normal extends AppCompatActivity {
 
 
 
-        tV_ausgabe.setOnFocusChangeListener(focusListener);
-        tV_eingabe.setOnFocusChangeListener(focusListener);
+        eT_ausgabe.setOnFocusChangeListener(focusListener);
+        eT_eingabe.setOnFocusChangeListener(focusListener);
 
         //spinner_shift = findViewById(R.id.spinner_SHIFT);
         //spinner_shift.setSelection(0);
@@ -303,16 +305,16 @@ public class CalcActivity_normal extends AppCompatActivity {
         setTitle("Rechner");
         normal_background = findViewById(R.id.science_background);
 
-        tV_eingabe = findViewById(R.id.m_tV_Eingabe);
-        tV_ausgabe = findViewById(R.id.m_tV_Ausgabe);
+        eT_eingabe = findViewById(R.id.m_eT_Eingabe);
+        eT_ausgabe = findViewById(R.id.m_eT_Ausgabe);
 
-        tV_ausgabe.setOnFocusChangeListener(focusListener);
-        tV_eingabe.setOnFocusChangeListener(focusListener);
+        eT_ausgabe.setOnFocusChangeListener(focusListener);
+        eT_eingabe.setOnFocusChangeListener(focusListener);
         mode = "BASIC";
 
 
-        tV_eingabe.setShowSoftInputOnFocus(false);
-        tV_eingabe.setOnTouchListener(new View.OnTouchListener() {
+        eT_eingabe.setShowSoftInputOnFocus(false);
+        eT_eingabe.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 hideKeyboard(CalcActivity_normal.this);
@@ -321,8 +323,8 @@ public class CalcActivity_normal extends AppCompatActivity {
             }
         });
 
-        tV_ausgabe.setShowSoftInputOnFocus(false);
-        tV_ausgabe.setOnTouchListener(new View.OnTouchListener() {
+        eT_ausgabe.setShowSoftInputOnFocus(false);
+        eT_ausgabe.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 hideKeyboard(CalcActivity_normal.this);
@@ -338,9 +340,9 @@ public class CalcActivity_normal extends AppCompatActivity {
             public void onSwipeRight() {
                 Toast.makeText(CalcActivity_normal.this, "right", Toast.LENGTH_SHORT).show();
                 Intent conversionIntent = new Intent(CalcActivity_normal.this, MainActivity.class);
-                conversionIntent.putExtra("verlauf",verlaufToString(new ArrayList<String>(verlauf)));
-                conversionIntent.putExtra("input",tV_eingabe.getText().toString());
-                conversionIntent.putExtra("output",tV_ausgabe.getText().toString());
+                conversionIntent.putExtra("verlauf",ArrayUtils.listToString(new ArrayList<String>(verlauf)));
+                conversionIntent.putExtra("input",eT_eingabe.getText().toString());
+                conversionIntent.putExtra("output",eT_ausgabe.getText().toString());
                 conversionIntent.putExtra("swipeDir","right");
                 conversionIntent.putExtra("layout","normal");
                 startActivity(conversionIntent);
@@ -350,9 +352,9 @@ public class CalcActivity_normal extends AppCompatActivity {
             public void onSwipeLeft() {
                 Toast.makeText(CalcActivity_normal.this, "left", Toast.LENGTH_SHORT).show();
                 Intent conversionIntent = new Intent(CalcActivity_normal.this, MainActivity.class);
-                conversionIntent.putExtra("verlauf",verlaufToString( new ArrayList<String>(verlauf)));
-                conversionIntent.putExtra("input",tV_eingabe.getText().toString());
-                conversionIntent.putExtra("output",tV_ausgabe.getText().toString());
+                conversionIntent.putExtra("verlauf",ArrayUtils.listToString( new ArrayList<String>(verlauf)));
+                conversionIntent.putExtra("input",eT_eingabe.getText().toString());
+                conversionIntent.putExtra("output",eT_ausgabe.getText().toString());
                 conversionIntent.putExtra("swipeDir","left");
                 conversionIntent.putExtra("layout","normal");
                 startActivity(conversionIntent);
@@ -813,7 +815,7 @@ public class CalcActivity_normal extends AppCompatActivity {
                     eingabeAddText("³√");
                 } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
                     ausgabe_setText(I.getPercent());
-                    if (verlauf == null) verlauf = new LinkedHashSet<>();
+                    if (verlauf == null) verlauf = new ArrayList<>();
 
                     answer = I.getPercent();
                     ausgabe_setText(answer);
@@ -995,8 +997,8 @@ public class CalcActivity_normal extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     view.startAnimation(buttonClick);
-                    int pos = tV_eingabe.getSelectionStart();
-                    tV_eingabe.setSelection(Math.max(0, pos - 1));
+                    int pos = eT_eingabe.getSelectionStart();
+                    eT_eingabe.setSelection(Math.max(0, pos - 1));
 
                     setBackground(btn_LINKS);
                 }
@@ -1008,8 +1010,8 @@ public class CalcActivity_normal extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     view.startAnimation(buttonClick);
-                    int pos = tV_eingabe.getSelectionStart();
-                    tV_eingabe.setSelection(Math.min(tV_eingabe.length(), pos + 1));
+                    int pos = eT_eingabe.getSelectionStart();
+                    eT_eingabe.setSelection(Math.min(eT_eingabe.length(), pos + 1));
                     setBackground(btn_RECHTS);
 
                 }
@@ -1111,7 +1113,7 @@ public class CalcActivity_normal extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 view.startAnimation(buttonClick);
-                if (verlauf == null) verlauf = new LinkedHashSet<>();
+                if (verlauf == null) verlauf = new ArrayList<>();
                 verlauf.add(I.getDisplayableString());
 
                 answer = I.getResult();
@@ -1124,9 +1126,9 @@ public class CalcActivity_normal extends AppCompatActivity {
         setBackground(btn_clearall);
 
         Intent v = getIntent();
-        tV_eingabe.setText( v.getStringExtra("input"));
-        tV_ausgabe.setText( v.getStringExtra("output"));
-        stringToVerlauf(v.getStringExtra("verlauf"));
+        eT_eingabe.setText( v.getStringExtra("input"));
+        eT_ausgabe.setText( v.getStringExtra("output"));
+        verlauf = ArrayUtils.stringToList(v.getStringExtra("verlauf"));
 
     }
 
@@ -1134,7 +1136,7 @@ public class CalcActivity_normal extends AppCompatActivity {
 
     private void ausgabe_setText(String res) {
         //Toast.makeText(CalcActivity_normal.this,"Ausgabe: "+res,Toast.LENGTH_SHORT).show();
-        tV_ausgabe.setText(res);
+        eT_ausgabe.setText(res);
     }
 
 
@@ -1326,8 +1328,8 @@ public class CalcActivity_normal extends AppCompatActivity {
         if(x.equals(display)){
             background = getResources().getDrawable(buttonshapeID);
             SettingsApplier.setColor(CalcActivity_normal.this,background, SettingsApplier.getColor_display(CalcActivity_normal.this),buttonfüllung,stroke);
-            tV_ausgabe.setTextColor(SettingsApplier.getColor_displaytext(CalcActivity_normal.this));
-            tV_eingabe.setTextColor(SettingsApplier.getColor_displaytext(CalcActivity_normal.this));
+            eT_ausgabe.setTextColor(SettingsApplier.getColor_displaytext(CalcActivity_normal.this));
+            eT_eingabe.setTextColor(SettingsApplier.getColor_displaytext(CalcActivity_normal.this));
             x.setBackground(background);
         }
 
@@ -1530,11 +1532,11 @@ public class CalcActivity_normal extends AppCompatActivity {
     }
 
     public void eingabeAddText(String i){
-        if(tV_eingabe_hasFocus){
-            tV_eingabe.clearFocus();
+        if(eT_eingabe_hasFocus){
+            eT_eingabe.clearFocus();
 
-            tV_eingabe.getText().insert(tV_eingabe.getSelectionStart(), i);
-            I.setText(tV_eingabe.getText().toString());
+            eT_eingabe.getText().insert(eT_eingabe.getSelectionStart(), i);
+            I.setText(eT_eingabe.getText().toString());
         }
         if(solve_inst_pref){
             if(!CalcActivity_science.noImmidiateOps.contains(i.trim())){
@@ -1545,18 +1547,18 @@ public class CalcActivity_normal extends AppCompatActivity {
     }
 
     public void eingabeClear(){
-        if(tV_eingabe_hasFocus) {
-            int pos = tV_eingabe.getSelectionStart();
-            I.clear(tV_eingabe.getSelectionStart());
+        if(eT_eingabe_hasFocus) {
+            int pos = eT_eingabe.getSelectionStart();
+            I.clear(eT_eingabe.getSelectionStart());
             eingabeSetText(I.getDisplayableString());
-            tV_eingabe.setSelection(Math.max(0,pos-1));
+            eT_eingabe.setSelection(Math.max(0,pos-1));
         }
     }
 
     public void eingabeSetText(String i){
-        if(tV_eingabe_hasFocus) {
-            tV_eingabe.setText(i);
-            I.setText(tV_eingabe.getText().toString());
+        if(eT_eingabe_hasFocus) {
+            eT_eingabe.setText(i);
+            I.setText(eT_eingabe.getText().toString());
         }
     }
 
@@ -1642,28 +1644,16 @@ public class CalcActivity_normal extends AppCompatActivity {
     private View.OnFocusChangeListener focusListener = new View.OnFocusChangeListener() {
         public void onFocusChange(View v, boolean hasFocus) {
             if (hasFocus){
-                if(v.equals(tV_eingabe)){
-                    tV_eingabe_hasFocus = true;
+                if(v.equals(eT_eingabe)){
+                    eT_eingabe_hasFocus = true;
                 }
-                else tV_eingabe_hasFocus = false;
+                else eT_eingabe_hasFocus = false;
             } else {
-                tV_eingabe_hasFocus = false;
+                eT_eingabe_hasFocus = false;
             }
         }
     };
 
-    public String verlaufToString(List<String> verlauf){
-        if(verlauf.isEmpty())return"";
-        String output="";
-        for(int i=0; i<verlauf.size()-1; i++)output+=verlauf.get(i)+"_";
-        output+=verlauf.get(verlauf.size()-1);
-        return output;
-    }
 
-    private void stringToVerlauf(String verlauf_string){
-        if(verlauf_string==null)return;
-        verlauf = new LinkedHashSet<>();
-        verlauf.addAll(new LinkedList<String>(Arrays.asList(verlauf_string.split("_"))));
-    }
 }
 

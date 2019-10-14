@@ -1,5 +1,7 @@
 package com.example.titancalculator.helper.Math_String;
 
+import android.util.Log;
+
 import com.example.titancalculator.FunctionGroupSettingsActivity;
 import com.example.titancalculator.evalex.Expression;
 import com.example.titancalculator.helper.ArrayUtils;
@@ -16,6 +18,8 @@ import java.util.HashMap;
  * bei calc() wird Ergebnis der EingabeString berechnet
  */
 public class SequentialInfixEvaluator {
+    public static String[] constants = {"π", "e"};
+
     public static String[] unaryOpsAfter = {"!", "³", "²"};
     public static String[] unaryOpsBefore = {"-", "LOG", "LN", "LB", "√", "³√", "10^",
             "SIN", "COS", "TAN", "COT", "ASIN", "ACOS", "ATAN", "ACOT", "SINH", "COSH", "TANH", "COTH", "ASINH", "ACOSH", "ATANH", "ACOTH",
@@ -29,19 +33,30 @@ public class SequentialInfixEvaluator {
 
 
     private static String input = "";
-    private static String lastOperator = "";
     private static String currentInput = "";
+    private static String lastOperator = "";
+    private static String result = "";
+
 
     private static boolean init = false;
     private static void init() {
 
     }
 
-    private static boolean pushDigitCom(String d){
+    private static boolean pushDigitComConst(String d){
+            if(input.isEmpty() && !result.isEmpty()){
+                result = "";
+            }
             if (ArrayUtils.array_contains(unaryOpsBefore,currentInput)
                     || ArrayUtils.array_contains(unaryOpsAfter,currentInput)
                     || ArrayUtils.array_contains(NaryOps,currentInput)) {
                 currentInput = "";
+            }
+            if(!currentInput.isEmpty() && ArrayUtils.array_contains(constants,currentInput)){
+                return false;
+            }
+            if (ArrayUtils.array_contains(unaryOpsAfter,lastOperator)){
+                return false;
             }
             if(currentInput.contains(".") && d.equals(".")){
                 return false;
@@ -53,6 +68,8 @@ public class SequentialInfixEvaluator {
             }
     }
 
+
+
     private static boolean pushOperator(String p){
         if (ArrayUtils.array_contains(unaryOpsBefore,currentInput)
             || ArrayUtils.array_contains(unaryOpsAfter,currentInput)
@@ -60,16 +77,28 @@ public class SequentialInfixEvaluator {
                 return false;
         }
         else{
-            currentInput=p;
-            lastOperator=p;
-            input += p;
+            //weiterrechnen
+            if(input.isEmpty() && !result.isEmpty()){
+                input = result;
+            }
+            if (!ArrayUtils.array_contains(unaryOpsAfter,p)  && ArrayUtils.array_contains(unaryOpsBefore,p)){
+                currentInput=p;
+                lastOperator=p;
+                input = p;
+            }
+            else if (ArrayUtils.array_contains(unaryOpsAfter,p) || ArrayUtils.array_contains(NaryOps,p)){
+                currentInput=p;
+                lastOperator=p;
+                input += p;
+            }
             return true;
         }
     }
 
     public static boolean push(String p) {
+        Log.v("input","input");
         if(p.equals(".") || p.matches("[0-9]")){
-            return pushDigitCom(p);
+            return pushDigitComConst(p);
         }
 
         if (ArrayUtils.array_contains(unaryOpsBefore,p)
@@ -98,11 +127,13 @@ public class SequentialInfixEvaluator {
         currentInput = "";
         input = "";
         lastOperator="";
+        result = "";
     }
 
     public static String calc(){
         String res = MathEvaluator.evaluate(NumberString.getCalcuableString(input),10);
-        erase();
+        input = currentInput = lastOperator = "";
+        result = res;
         return res;
     }
 

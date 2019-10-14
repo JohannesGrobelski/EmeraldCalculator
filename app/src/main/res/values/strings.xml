@@ -138,7 +138,7 @@
 
     <string name="title_activity_constants">CONSTANTS</string>
 
-    <string name="app_name">CALCULATOR</string>
+    <string name="app_name">TITAN CALC</string>
     <string name="pref_summary_colors_default">Farbe wählen</string>
     <string name="pref_title_colors_default">Farbe wählen</string>
     <string name="save_settings_EN">SAVE SETTINGS</string>
@@ -238,6 +238,7 @@
         <item>HYPER</item>
         <item>LOGIC</item>
         <item>STATISTIC</item>
+        <item>MEMORY</item>
         <item>USER</item>
     </string-array>
     <string-array name="modes_DE">
@@ -247,6 +248,7 @@
         <item>HYPER</item>
         <item>LOGISCH</item>
         <item>STATISTIK</item>
+        <item>SPEICHER</item>
         <item>NUTZER</item>
     </string-array>
     <string-array name="languagesNames_EN">

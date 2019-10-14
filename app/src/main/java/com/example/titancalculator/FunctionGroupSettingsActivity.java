@@ -30,7 +30,7 @@ public class FunctionGroupSettingsActivity extends AppCompatActivity {
 
 
     private static String groups[] = new String[1];
-    private static final String defaultgroup[] = new String[]{"BASIC","BASIC2","TRIGO","HYPER","LOGIC","STATISTIC"};
+    private static final String defaultgroup[] = new String[]{"BASIC","BASIC2","TRIGO","HYPER","LOGIC","STATISTIC","MEMORY"};
 
     ListView lv_group;
     EditText tv_selected_group;
@@ -284,6 +284,7 @@ public class FunctionGroupSettingsActivity extends AppCompatActivity {
                 groups[i] = groups[i].replace("BASIC","STANDART");
                 groups[i] = groups[i].replace("LOGIC","LOGISCH");
                 groups[i] = groups[i].replace("STATISTIC","STATISTIK");
+                groups[i] = groups[i].replace("MEMORY","SPEICHER");
                 groups[i] = groups[i].replace("USER","NUTZER");
             }
         }

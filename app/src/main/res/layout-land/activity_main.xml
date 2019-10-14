@@ -19,7 +19,7 @@
         android:layout_weight=".2">
 
         <TextView
-            android:id="@+id/tV_Eingabe"
+            android:id="@+id/eT_Eingabe"
             android:background="@drawable/displayshape"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

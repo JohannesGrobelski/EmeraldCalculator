@@ -28,8 +28,11 @@ public class HistoryActivity extends AppCompatActivity {
 
 
     Button btn_save;
+    Button btn_clear;
+
     View hist_background;
     ListView lv_verlauf;
+    TextView tV_selection;
     String item = "";
 
 
@@ -40,6 +43,8 @@ public class HistoryActivity extends AppCompatActivity {
     private String buttonfüllung = "voll";
     private Float fontsize;
 
+    String[] arrayVerlauf;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,36 +52,28 @@ public class HistoryActivity extends AppCompatActivity {
 
         hist_background = findViewById(R.id.hist_background);
         btn_save = findViewById(R.id.btn_save);
+        btn_clear = findViewById(R.id.btn_clear);
         lv_verlauf = findViewById(R.id.lv_verlauf);
+        tV_selection = findViewById(R.id.tV_selection);
 
         applySettings();
 
 
-        ArrayList<View> list = new ArrayList<View>() {{add(btn_save);}};
+        ArrayList<View> list = new ArrayList<View>() {{add(btn_save);add(btn_clear);}};
         SettingsApplier.setFonts(HistoryActivity.this,list);
 
         Intent myIntent = getIntent(); // gets the previously created intent
-        String[] arrayVerlauf = myIntent.getStringArrayExtra("verlauf");
+        arrayVerlauf = myIntent.getStringArrayExtra("history");
         //Toast.makeText(HistoryActivity.this, Arrays.toString(arrayVerlauf), Toast.LENGTH_LONG).show();
+        if(arrayVerlauf == null)arrayVerlauf=new String[0];
 
-        ArrayAdapter<String> adapter_verlauf = new ArrayAdapter<String>(HistoryActivity.this, R.layout.spinner_shift_style, arrayVerlauf){
-            float factor_font = 0.5f;
-            int darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_hist(HistoryActivity.this),factor_font);
-            public View getView(int position, View convertView, ViewGroup parent) {
-                View v = super.getView(position, convertView, parent);
-                ((TextView) v).setTextSize(fontsize);
-                ((TextView) v).setBackgroundColor(SettingsApplier.getColor_background(HistoryActivity.this));
-                ((TextView) v).setTypeface(FontSettingsActivity.getTypeFace(SettingsApplier.current_font_family,SettingsApplier.current_fontstlye));
-                ((TextView) v).setTextColor(darker);
-                return v;
-            }
-        };
-        lv_verlauf.setAdapter(adapter_verlauf);
+        setHistAdap();
 
         lv_verlauf.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
                 item = lv_verlauf.getItemAtPosition(position).toString();
+                tV_selection.setText(item);
             }
 
         });
@@ -90,6 +87,30 @@ public class HistoryActivity extends AppCompatActivity {
                 finish();
             }
         });
+        btn_clear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ArrayList<String> history = new ArrayList<String>(0);
+                arrayVerlauf =  CalcActivity_science.saveHistory(HistoryActivity.this,history).toArray(new String[0]);
+                setHistAdap();
+            }
+        });
+    }
+
+    private void setHistAdap(){
+        ArrayAdapter<String> adapter_verlauf = new ArrayAdapter<String>(HistoryActivity.this, R.layout.spinner_shift_style, arrayVerlauf){
+            float factor_font = 0.5f;
+            int darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_hist(HistoryActivity.this),factor_font);
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View v = super.getView(position, convertView, parent);
+                ((TextView) v).setTextSize(fontsize);
+                ((TextView) v).setBackgroundColor(SettingsApplier.getColor_background(HistoryActivity.this));
+                ((TextView) v).setTypeface(FontSettingsActivity.getTypeFace(SettingsApplier.current_font_family,SettingsApplier.current_fontstlye));
+                ((TextView) v).setTextColor(darker);
+                return v;
+            }
+        };
+        lv_verlauf.setAdapter(adapter_verlauf);
     }
 
     private void applySettings(){
@@ -136,8 +157,9 @@ public class HistoryActivity extends AppCompatActivity {
         SettingsApplier.setColor((HistoryActivity.this),background, SettingsApplier.getColor_hist(HistoryActivity.this),buttonfüllung,stroke);
         visual_unselect = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_hist(HistoryActivity.this),factor_font);
         if(btn_save instanceof Button) ((Button) btn_save).setTextColor(visual_unselect);
+        if(btn_clear instanceof Button) ((Button) btn_clear).setTextColor(visual_unselect);
 
-
+        btn_clear.setBackground(background);
         btn_save.setBackground(background);
     }
 

@@ -33,7 +33,7 @@
             >
 
             <EditText
-                android:id="@+id/tV_Eingabe"
+                android:id="@+id/eT_Eingabe"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -51,7 +51,7 @@
 
 
             <EditText
-                android:id="@+id/tV_Ausgabe"
+                android:id="@+id/eT_Ausgabe"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="fill"
