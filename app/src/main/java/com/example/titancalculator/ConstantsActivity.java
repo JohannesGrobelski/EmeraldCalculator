@@ -83,6 +83,12 @@ public class ConstantsActivity extends AppCompatActivity {
         super.onResume();
         applySettings();
         initMaps();
+
+        try {
+            CalcActivity_science.setBackgroundImage(ConstantsActivity.this,const_background);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -283,6 +289,11 @@ public class ConstantsActivity extends AppCompatActivity {
         });
 
 
+        try {
+            CalcActivity_science.setBackgroundImage(ConstantsActivity.this,const_background);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 

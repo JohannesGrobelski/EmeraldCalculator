@@ -281,7 +281,7 @@ public class CalcActivity_normal extends AppCompatActivity {
         spinner_shift.setAdapter(adapter);
 
         try {
-            setBackgroundImage();
+            CalcActivity_science.setBackgroundImage(CalcActivity_normal.this,normal_background);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -449,7 +449,7 @@ public class CalcActivity_normal extends AppCompatActivity {
         SettingsApplier.setFonts(CalcActivity_normal.this,list);
 
         try {
-            setBackgroundImage();
+            CalcActivity_science.setBackgroundImage(CalcActivity_normal.this,normal_background);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -1130,6 +1130,11 @@ public class CalcActivity_normal extends AppCompatActivity {
         eT_ausgabe.setText( v.getStringExtra("output"));
         verlauf = ArrayUtils.stringToList(v.getStringExtra("verlauf"));
 
+        try {
+            CalcActivity_science.setBackgroundImage(CalcActivity_normal.this,normal_background);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -1416,25 +1421,9 @@ public class CalcActivity_normal extends AppCompatActivity {
 
     }
 
-    void setBackgroundImage() throws Exception {
-        String path = PreferenceManager.getDefaultSharedPreferences(CalcActivity_normal.this).getString("backgroundimage", "");
-        if(path.equals(""))return;
 
-        if(!checkPermissionForReadExtertalStorage(this))requestPermissionForReadExtertalStorage(this);
 
-        try{
-            Resources res = getResources();
-            Bitmap bitmap = BitmapFactory.decodeFile(path);
-            BitmapDrawable bd = new BitmapDrawable(res, bitmap);
-            View view = (ImageView) findViewById(R.id.container);
-            view.setBackground(bd);
-        } catch (Exception e){
-            Toast t =  Toast.makeText(CalcActivity_normal.this,"Could not draw Backgroundimage:"+e.getMessage(),Toast.LENGTH_LONG);
-            t.show();
-            Log.e("IMAGEERROR",path);
-        }
 
-    }
 
 
     void setBackgrounds(){

@@ -171,7 +171,7 @@ public class CalcActivity_small extends AppCompatActivity {
         mode = "BASIC";
 
         try {
-            setBackgroundImage();
+            CalcActivity_science.setBackgroundImage(CalcActivity_small.this,small_background);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -313,7 +313,7 @@ public class CalcActivity_small extends AppCompatActivity {
         SettingsApplier.setFonts(CalcActivity_small.this,list);
 
         try {
-            setBackgroundImage();
+            CalcActivity_science.setBackgroundImage(CalcActivity_small.this,small_background);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -690,25 +690,7 @@ public class CalcActivity_small extends AppCompatActivity {
 
     }
 
-    void setBackgroundImage() throws Exception {
-        String path = PreferenceManager.getDefaultSharedPreferences(CalcActivity_small.this).getString("backgroundimage", "");
-        if(path.equals(""))return;
 
-        if(!checkPermissionForReadExtertalStorage(this))requestPermissionForReadExtertalStorage(this);
-
-        try{
-            Resources res = getResources();
-            Bitmap bitmap = BitmapFactory.decodeFile(path);
-            BitmapDrawable bd = new BitmapDrawable(res, bitmap);
-            View view = (ImageView) findViewById(R.id.container);
-            view.setBackground(bd);
-        } catch (Exception e){
-            Toast t =  Toast.makeText(CalcActivity_small.this,"Could not draw Backgroundimage:"+e.getMessage(),Toast.LENGTH_LONG);
-            t.show();
-            Log.e("IMAGEERROR",path);
-        }
-
-    }
 
 
     void setBackgrounds(){

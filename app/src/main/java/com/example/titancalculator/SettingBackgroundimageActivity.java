@@ -1,11 +1,14 @@
 package com.example.titancalculator;
 
+import android.Manifest;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -13,7 +16,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceManager;
 
 import com.example.titancalculator.helper.PathUtils;
@@ -25,13 +31,22 @@ public class SettingBackgroundimageActivity extends AppCompatActivity {
 
     Button addPath;
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting_backgroundimage2);
 
-        addPath = findViewById(R.id.add_image);
+        ActivityCompat.requestPermissions(SettingBackgroundimageActivity.this,new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},1);
 
+        if (ContextCompat.checkSelfPermission(SettingBackgroundimageActivity.this, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+             // Permission is not granted
+            ActivityCompat.requestPermissions(SettingBackgroundimageActivity.this,new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},1);
+            Toast.makeText(SettingBackgroundimageActivity.this, "The app needs permission to access storage to find the image.", Toast.LENGTH_LONG).show();
+        }
+
+
+        addPath = findViewById(R.id.add_image);
         addPath.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -50,28 +65,29 @@ public class SettingBackgroundimageActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 123 && resultCode == RESULT_OK) {
             Uri selectedfile = data.getData(); //The uri with the location of the file
-
             if(isImageFile(selectedfile)){
                 String path = ""; // "/mnt/sdcard/FileName.mp3"
                 try {
                     path = PathUtils.getPath(this,selectedfile);
+                    if(path != null) {
+                        if (path.startsWith("/")) path = path.replaceFirst("/", "");
+                        try {
+                            File f = new File(path);
+                        } catch (Exception e) {
+                           Toast.makeText(SettingBackgroundimageActivity.this, "Something went wrong:" + path, Toast.LENGTH_LONG).show();
+                        }
+                        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(SettingBackgroundimageActivity.this);
+                        SharedPreferences.Editor editor = preferences.edit();
+                        editor.putString("backgroundimage", path);
+                        editor.commit();
+                    }
                 } catch (URISyntaxException e) {
                     e.printStackTrace();
                     Toast t =  Toast.makeText(SettingBackgroundimageActivity.this,"invalid File URI:"+path,Toast.LENGTH_LONG);
                     t.show();
                 }
-                if(path.startsWith("/"))path = path.replaceFirst("/","");
 
-                try {
-                    File f = new File(path);
-                } catch (Exception e){
-                    Toast t =  Toast.makeText(SettingBackgroundimageActivity.this,"Something went wrong:"+path,Toast.LENGTH_LONG);
-                    t.show();
-                }
-                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(SettingBackgroundimageActivity.this);
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.putString("backgroundimage", path);
-                editor.commit();
+
             } else{
                 Toast t =  Toast.makeText(SettingBackgroundimageActivity.this,"Selected File is not an image",Toast.LENGTH_LONG);
                 t.show();

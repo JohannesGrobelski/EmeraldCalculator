@@ -43,7 +43,6 @@
             android:targetClass="com.example.titancalculator.FontSettingsActivity" />
     </header>
 
-
     <header
         android:icon="@drawable/ic_formen"
         android:title="Formen">
@@ -51,6 +50,8 @@
             android:targetPackage="com.example.titancalculator"
             android:targetClass="com.example.titancalculator.ButtonshapeActivity" />
     </header>
+
+
 
     <header
         android:icon="@drawable/ic_language_black_24dp"

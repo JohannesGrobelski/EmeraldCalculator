@@ -95,6 +95,12 @@ public class HistoryActivity extends AppCompatActivity {
                 setHistAdap();
             }
         });
+
+        try {
+            CalcActivity_science.setBackgroundImage(HistoryActivity.this,hist_background);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void setHistAdap(){

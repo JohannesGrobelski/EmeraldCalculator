@@ -607,4 +607,5 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
 
 
+
 }

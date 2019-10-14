@@ -251,6 +251,12 @@ public class ConversionActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         applySettings();
+
+        try {
+            CalcActivity_science.setBackgroundImage(ConversionActivity.this,conv_background);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -410,7 +416,11 @@ public class ConversionActivity extends AppCompatActivity {
         });
 
 
-
+        try {
+            CalcActivity_science.setBackgroundImage(ConversionActivity.this,conv_background);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private static void initMaps(){

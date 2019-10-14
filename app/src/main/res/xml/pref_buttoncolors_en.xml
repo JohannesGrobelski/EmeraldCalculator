@@ -65,4 +65,12 @@
         android:defaultValue="#FFFFFF"
         />
 
+
+    <Preference
+        android:icon="@drawable/ic_image_black_24dp"
+        android:title="Backgroundimage">
+        <intent
+            android:targetPackage="com.example.titancalculator"
+            android:targetClass="com.example.titancalculator.SettingBackgroundimageActivity" />
+    </Preference>
 </PreferenceScreen>
