@@ -27,6 +27,7 @@ public class NumberString extends ContentString {
     String C="c = 0";
     String D="d = 0";
     String E="e = 0";
+    private int Base;
 
     public void setMean_mode(String mode){
         if(mode.equals("AriMit") || mode.equals("GeoMit") || mode.equals("HarMit") ){
@@ -194,11 +195,16 @@ public class NumberString extends ContentString {
     String getResult(){
         String i = getCalcuableString(content);
         Log.e("getRES input",i);
-        String c = MathEvaluator.evaluate(i,10);
+        String c = MathEvaluator.evaluate(i,Base);
         Log.e("getRES output",c);
 
         return c;
     }
+
+    public void setBase(int base){
+        Base = base;
+    }
+
 
 
     String getPercent(){

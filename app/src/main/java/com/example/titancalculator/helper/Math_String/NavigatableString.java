@@ -68,6 +68,10 @@ public class NavigatableString{
         return ((NumberString) contentString).getResult();
     }
 
+    public void setBase(int base){
+        ((NumberString) contentString).setBase(base);
+    }
+
     public String getPercent(){
         if(contentString instanceof NumberString) return((NumberString)contentString).getPercent();
         else return "";

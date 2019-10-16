@@ -147,9 +147,11 @@ public class FunctionGroupSettingsActivity extends AppCompatActivity {
     }
 
     private static String[] removeElements(String[] input, String deleteMe) {
+        /*
         if(ArrayUtils.array_contains(defaultgroup,deleteMe)){
             return input;
         }
+         */
         List<String> result = new LinkedList<>();
 
         for(String item : input)
@@ -285,6 +287,7 @@ public class FunctionGroupSettingsActivity extends AppCompatActivity {
                 groups[i] = groups[i].replace("LOGIC","LOGISCH");
                 groups[i] = groups[i].replace("STATISTIC","STATISTIK");
                 groups[i] = groups[i].replace("MEMORY","SPEICHER");
+                groups[i] = groups[i].replace("PROGRAM","PROGRAM");
                 groups[i] = groups[i].replace("USER","NUTZER");
             }
         }
@@ -301,16 +304,16 @@ public class FunctionGroupSettingsActivity extends AppCompatActivity {
             btn_delete.setText("delete");
             btn_rename.setText("rename");
             btn_default.setText("default");
-            btn_moveUp.setText("move up");
-            btn_moveDown.setText("move down");
+            btn_moveUp.setText("up");
+            btn_moveDown.setText("down");
         }
         else if(language.equals("german") || language.equals("deutsch")){
             btn_new.setText("neu");
             btn_delete.setText("löschen");
             btn_rename.setText("umbennen");
             btn_default.setText("standart");
-            btn_moveUp.setText("nach oben");
-            btn_moveDown.setText("nach unten");
+            btn_moveUp.setText("oben");
+            btn_moveDown.setText("unten");
         }
 
         //buttonshape

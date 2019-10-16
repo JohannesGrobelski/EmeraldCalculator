@@ -427,6 +427,27 @@
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:layout_weight=".9">
+
+            <Spinner
+                android:id="@+id/spinner_Base"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/buttonshape_square"
+                android:elevation="16dp"
+                android:maxLines="1"
+                android:shadowRadius="30"
+                android:text="++base"
+                android:textAllCaps="false"
+                android:visibility="visible"
+
+
+                app:autoSizeStepGranularity="1sp" />
+
             <Button
                 android:id="@+id/btn_clearall"
                 android:layout_width="match_parent"

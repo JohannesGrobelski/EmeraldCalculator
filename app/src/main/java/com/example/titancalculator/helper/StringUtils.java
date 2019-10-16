@@ -15,11 +15,31 @@ public class StringUtils {
         return c;
     }
 
+    // Function to insert string
+    public static String insertString(String originalString,String stringToBeInserted,int index) {
+        // Create a new string
+        String newString = originalString.substring(0, index + 1)
+                + stringToBeInserted
+                + originalString.substring(index + 1);
+
+        // return the modified String
+        return newString;
+    }
+
     public static String replace(String source, String replacement , int start, int end){
         if(source == null || replacement == null)return source;
         if(replacement.isEmpty() || start < 0)return source;
 
         return source.substring(0,start)+replacement+source.substring(end);
+    }
+
+    public static String repeat(String s, int k){
+        if(k<0)return "";
+        StringBuilder res = new StringBuilder("");
+        for(int i=0; i<k; i++){
+            res.append(s);
+        }
+        return res.toString();
     }
 
     public static void main(String[] a){

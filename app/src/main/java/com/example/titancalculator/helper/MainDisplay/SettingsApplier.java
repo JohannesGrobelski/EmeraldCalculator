@@ -31,6 +31,7 @@ import com.example.titancalculator.MainActivity;
 import com.example.titancalculator.R;
 import com.example.titancalculator.SettingsActivity;
 import com.example.titancalculator.helper.Math_String.NumberString;
+import com.example.titancalculator.helper.ShakeListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -67,6 +68,8 @@ public class SettingsApplier {
     private static int color_background=0;
     public static int vibrate_length=0;
     public static boolean vibrate_on=false;
+
+
 
 
     public static void saveSettings(Context c){
@@ -139,10 +142,7 @@ public class SettingsApplier {
         if(PreferenceManager.getDefaultSharedPreferences(c).contains("vibration_on")){
             Boolean vb = PreferenceManager.getDefaultSharedPreferences(c).getBoolean("vibration_on",false);
             vibrate_on = Boolean.valueOf(vb);
-
         }
-
-
 
         String vl = PreferenceManager.getDefaultSharedPreferences(c).getString("vibrate_length","0");
         if(Pattern.matches("[0-9]?[0-9]?[0-9]?",vl)){

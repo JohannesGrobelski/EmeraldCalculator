@@ -23,6 +23,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.util.Log;
+import android.view.DragEvent;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -55,9 +56,13 @@ import com.example.titancalculator.helper.Math_String.MathEvaluator;
 import com.example.titancalculator.helper.Math_String.NavigatableString;
 import com.example.titancalculator.helper.Math_String.NumberString;
 import com.example.titancalculator.helper.Math_String.SequentialInfixEvaluator;
+import com.example.titancalculator.helper.ShakeListener;
 import com.example.titancalculator.helper.StringUtils;
+import com.google.common.base.MoreObjects;
 
 import java.lang.reflect.Array;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.AbstractQueue;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -66,10 +71,20 @@ import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.IntStream;
+
 public class CalcActivity_science extends AppCompatActivity {
+    int btn_digit_group_cnt = 0; int base = 0;
+    String state_spinner_shift = "number_selection"; //number_selection, base_selection
+    String btn_1_text="";String btn_2_text="";String btn_3_text="";String btn_4_text="";String btn_5_text="";String btn_6_text="";String btn_7_text="";String btn_8_text="";String btn_9_text="";
+
     private static String[] MEMORY = new String[6];
 
+    boolean shake = false;
+    private ShakeListener mShaker;
+
     private Vibrator myVib;
+
     TableLayout science_background;
     static final int REQUEST_CODE_CONST = 1;  // The request code
     static final int REQUEST_CODE_CONV = 1;  // The request code
@@ -115,6 +130,7 @@ public class CalcActivity_science extends AppCompatActivity {
     //Button btn_FKT2;
     Button btn_LINKS;
     Button btn_RECHTS;
+    Spinner spinner_Base;
     //G1
     Button btn_1;
     Button btn_2;
@@ -224,33 +240,10 @@ public class CalcActivity_science extends AppCompatActivity {
         //spinner_shift.setSelection(0);
         mode = "BASIC";
         //ArrayAdapter adpt_modeoptions = new ArrayAdapter<String>(this, R.layout.lvitem_layout, mode_options);
-        ArrayAdapter<String> adapter =
-                new ArrayAdapter<String>(CalcActivity_science.this, R.layout.spinner_shift_style, mode_options)
-                {
-                    float factor_font = SettingsApplier.getDarker_factor_font(CalcActivity_science.this);
-                    int darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_fops(CalcActivity_science.this),factor_font);
-                    public View getView(int position, View convertView, ViewGroup parent) {
-                        View v = super.getView(position, convertView, parent);
-                        ((TextView) v).setTextSize(16);
-                        ((TextView) v).setTypeface(FontSettingsActivity.getTypeFace(SettingsApplier.current_font_family,SettingsApplier.current_fontstlye));
-                        ((TextView) v).setTextColor(darker);
-                        SettingsApplier.setTextColor(v,darker);
-                        return v;
-                    }
-                    public View getDropDownView(int position, View convertView, ViewGroup parent) {
-                        View v = super.getDropDownView(position, convertView, parent);
-                        v.setBackgroundResource(R.drawable.buttonshape_square);
-                        ((TextView) v).setTextColor(SettingsApplier.getColor_displaytext(CalcActivity_science.this));
-                        if(SettingsApplier.getButtonfüllung().equals("leer")){
-                            ((TextView) v).setBackgroundColor(SettingsApplier.getColor_background(CalcActivity_science.this));
-                        }
-                        else ((TextView) v).setBackgroundColor(SettingsApplier.getColor_display(CalcActivity_science.this));
-                        ((TextView) v).setTypeface(FontSettingsActivity.getTypeFace(SettingsApplier.current_font_family,SettingsApplier.current_fontstlye));
-                        ((TextView) v).setGravity(Gravity.CENTER);
-                        return v;
-                    }
-        };
-        spinner_shift.setAdapter(adapter);
+
+
+        setUp_spinner_shift();
+
         try {
             setBackgroundImage(CalcActivity_science.this,science_background);
         } catch (Exception e) {
@@ -269,9 +262,12 @@ public class CalcActivity_science extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calc_science);
+        if(shake)init_shake();
 
         Toast.makeText(CalcActivity_science.this,"mode: science",Toast.LENGTH_SHORT).show();
         mode = "";
+
+
 
         SettingsApplier.initSettings(CalcActivity_science.this);
         myVib = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
@@ -314,7 +310,12 @@ public class CalcActivity_science extends AppCompatActivity {
         });
         science_background.setOnTouchListener(new OnSwipeTouchListener(CalcActivity_science.this) {
             public void onSwipeTop() {
-                Toast.makeText(CalcActivity_science.this, "top", Toast.LENGTH_SHORT).show();
+                int new_btn_digit_group_cnt = ((btn_digit_group_cnt - 1) % (MathEvaluator.digit_alphabet.length / 9));
+                if(new_btn_digit_group_cnt < base ){
+                    btn_digit_group_cnt = new_btn_digit_group_cnt;
+                    assignModeFct();
+                }
+                Toast.makeText(CalcActivity_science.this, "top: "+new_btn_digit_group_cnt+" < "+base+" = "+(new_btn_digit_group_cnt < base), Toast.LENGTH_SHORT).show();
             }
             public void onSwipeRight() {
                 Toast.makeText(CalcActivity_science.this, "right", Toast.LENGTH_SHORT).show();
@@ -339,11 +340,17 @@ public class CalcActivity_science extends AppCompatActivity {
                 finish();
             }
             public void onSwipeBottom() {
-                Toast.makeText(CalcActivity_science.this, "bottom", Toast.LENGTH_SHORT).show();
+                int new_btn_digit_group_cnt = ((btn_digit_group_cnt + 1) % (MathEvaluator.digit_alphabet.length / 9));
+                if(new_btn_digit_group_cnt < base ){
+                    btn_digit_group_cnt = new_btn_digit_group_cnt;
+                    assignModeFct();
+                }
+                Toast.makeText(CalcActivity_science.this, "top: "+new_btn_digit_group_cnt, Toast.LENGTH_SHORT).show();
             }
         });
         //setzt hintergrundbild
         I = new NavigatableString("content");
+
         eingabeSetText("");
         //find
         display = findViewById(R.id.display);
@@ -381,6 +388,7 @@ public class CalcActivity_science extends AppCompatActivity {
         //btn_FKT2 = findViewById(R.id.btn_FKT2);
         btn_LINKS = findViewById(R.id.btn_LINKS);
         btn_RECHTS = findViewById(R.id.btn_RECHTS);
+        spinner_Base = findViewById(R.id.spinner_Base);
         //G1
         btn_1 = findViewById(R.id.btn_1);
         btn_2 = findViewById(R.id.btn_2);
@@ -540,6 +548,9 @@ public class CalcActivity_science extends AppCompatActivity {
 
             }
         });
+
+
+
         btn_clear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -943,6 +954,7 @@ public class CalcActivity_science extends AppCompatActivity {
                 setBackground(btn_26);
             }
         });
+        setUp_spinner_shift();
         btn_LINKS.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -969,7 +981,13 @@ public class CalcActivity_science extends AppCompatActivity {
             public void onClick(View view) {
                 if(SettingsApplier.vibrate_on)myVib.vibrate(SettingsApplier.vibrate_length);
                 view.startAnimation(buttonClick);
-                eingabeAddText("1");
+                if(state_spinner_shift.equals("base_selection") && !btn_1_text.equals("1")){
+                    base = Integer.valueOf(btn_1_text);
+                    state_spinner_shift = "number_selection";
+                    setUp_spinner_shift();
+                } else {
+                    eingabeAddText(btn_1_text);
+                }
                 setBackground(btn_1);
             }
         });
@@ -978,7 +996,13 @@ public class CalcActivity_science extends AppCompatActivity {
             public void onClick(View view) {
                 if(SettingsApplier.vibrate_on)myVib.vibrate(SettingsApplier.vibrate_length);
                 view.startAnimation(buttonClick);
-                eingabeAddText("2");
+                if(state_spinner_shift.equals("base_selection")){
+                    base = Integer.valueOf(btn_2_text);
+                    state_spinner_shift = "number_selection";
+                    setUp_spinner_shift();
+                } else {
+                    eingabeAddText(btn_2_text);
+                }
                 setBackground(btn_2);
             }
         });
@@ -987,7 +1011,13 @@ public class CalcActivity_science extends AppCompatActivity {
             public void onClick(View view) {
                 if(SettingsApplier.vibrate_on)myVib.vibrate(SettingsApplier.vibrate_length);
                 view.startAnimation(buttonClick);
-                eingabeAddText("3");
+                if(state_spinner_shift.equals("base_selection")){
+                    base = Integer.valueOf(btn_3_text);
+                    state_spinner_shift = "number_selection";
+                    setUp_spinner_shift();
+                } else {
+                    eingabeAddText(btn_3_text);
+                }
                 setBackground(btn_3);
             }
         });
@@ -996,7 +1026,13 @@ public class CalcActivity_science extends AppCompatActivity {
             public void onClick(View view) {
                 if(SettingsApplier.vibrate_on)myVib.vibrate(SettingsApplier.vibrate_length);
                 view.startAnimation(buttonClick);
-                eingabeAddText("4");
+                if(state_spinner_shift.equals("base_selection")){
+                    base = Integer.valueOf(btn_4_text);
+                    state_spinner_shift = "number_selection";
+                    setUp_spinner_shift();
+                } else {
+                    eingabeAddText(btn_4_text);
+                }
                 setBackground(btn_4);
             }
         });
@@ -1005,7 +1041,13 @@ public class CalcActivity_science extends AppCompatActivity {
             public void onClick(View view) {
                 if(SettingsApplier.vibrate_on)myVib.vibrate(SettingsApplier.vibrate_length);
                 view.startAnimation(buttonClick);
-                eingabeAddText("5");
+                if(state_spinner_shift.equals("base_selection")){
+                    base = Integer.valueOf(btn_5_text);
+                    state_spinner_shift = "number_selection";
+                    setUp_spinner_shift();
+                } else {
+                    eingabeAddText(btn_5_text);
+                }
                 setBackground(btn_5);
             }
         });
@@ -1014,7 +1056,13 @@ public class CalcActivity_science extends AppCompatActivity {
             public void onClick(View view) {
                 if(SettingsApplier.vibrate_on)myVib.vibrate(SettingsApplier.vibrate_length);
                 view.startAnimation(buttonClick);
-                eingabeAddText("6");
+                if(state_spinner_shift.equals("base_selection")){
+                    base = Integer.valueOf(btn_6_text);
+                    state_spinner_shift = "number_selection";
+                    setUp_spinner_shift();
+                } else {
+                    eingabeAddText(btn_6_text);
+                }
                 setBackground(btn_6);
             }
         });
@@ -1023,7 +1071,13 @@ public class CalcActivity_science extends AppCompatActivity {
             public void onClick(View view) {
                 if(SettingsApplier.vibrate_on)myVib.vibrate(SettingsApplier.vibrate_length);
                 view.startAnimation(buttonClick);
-                eingabeAddText("7");
+                if(state_spinner_shift.equals("base_selection")){
+                    base = Integer.valueOf(btn_7_text);
+                    state_spinner_shift = "number_selection";
+                    setUp_spinner_shift();
+                } else {
+                    eingabeAddText(btn_7_text);
+                }
                 setBackground(btn_7);
             }
         });
@@ -1032,7 +1086,13 @@ public class CalcActivity_science extends AppCompatActivity {
             public void onClick(View view) {
                 if(SettingsApplier.vibrate_on)myVib.vibrate(SettingsApplier.vibrate_length);
                 view.startAnimation(buttonClick);
-                eingabeAddText("8");
+                if(state_spinner_shift.equals("base_selection")){
+                    base = Integer.valueOf(btn_8_text);
+                    state_spinner_shift = "number_selection";
+                    setUp_spinner_shift();
+                } else {
+                    eingabeAddText(btn_8_text);
+                }
                 setBackground(btn_8);
             }
         });
@@ -1041,7 +1101,13 @@ public class CalcActivity_science extends AppCompatActivity {
             public void onClick(View view) {
                 if(SettingsApplier.vibrate_on)myVib.vibrate(SettingsApplier.vibrate_length);
                 view.startAnimation(buttonClick);
-                eingabeAddText("9");
+                if(state_spinner_shift.equals("base_selection")){
+                    base = Integer.valueOf(btn_9_text);
+                    state_spinner_shift = "number_selection";
+                    setUp_spinner_shift();
+                } else {
+                    eingabeAddText(btn_9_text);
+                }
                 setBackground(btn_9);
             }
         });
@@ -1143,7 +1209,7 @@ public class CalcActivity_science extends AppCompatActivity {
                 view.startAnimation(buttonClick);
                 {
                     if (history == null) history = new ArrayList<>();
-                    answer = I.getDisplayableString();
+                    answer = I.getResult();
 
                     if(!(!history.isEmpty() && answer == history.get(history.size()-1))){
                         history.add(answer);
@@ -1194,7 +1260,38 @@ public class CalcActivity_science extends AppCompatActivity {
     public void setUpButton(Button x, String name){
         x.setText(PreferenceManager.getDefaultSharedPreferences(CalcActivity_science.this).getString(name, name));
     }
+
+    String assignBtnNumberText(int i){
+        if(state_spinner_shift.equals("base_selection")){
+            return String.valueOf(btn_digit_group_cnt*9 + i);
+        }
+        else if(state_spinner_shift.equals("number_selection")){
+            return String.valueOf(MathEvaluator.digit_alphabet[btn_digit_group_cnt*9 + i]);
+        }
+        return "";
+    }
+
     void assignModeFct(){
+        btn_1_text = assignBtnNumberText(1);
+        btn_2_text = assignBtnNumberText(2);
+        btn_3_text = assignBtnNumberText(3);
+        btn_4_text = assignBtnNumberText(4);
+        btn_5_text = assignBtnNumberText(5);
+        btn_6_text = assignBtnNumberText(6);
+        btn_7_text = assignBtnNumberText(7);
+        btn_8_text = assignBtnNumberText(8);
+        btn_9_text = assignBtnNumberText(9);
+
+        btn_1.setText(btn_1_text);
+        btn_2.setText(btn_2_text);
+        btn_3.setText(btn_3_text);
+        btn_4.setText(btn_4_text);
+        btn_5.setText(btn_5_text);
+        btn_6.setText(btn_6_text);
+        btn_7.setText(btn_7_text);
+        btn_8.setText(btn_8_text);
+        btn_9.setText(btn_9_text);
+
         if(mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))){
             //L1 normal: SIN,COS,TAN,ASIN,ACOS,ATAN
             btn_11.setText("SIN");
@@ -1302,7 +1399,22 @@ public class CalcActivity_science extends AppCompatActivity {
             btn_24.setText("+/-");
             btn_25.setText("MIN");
             btn_26.setText("MAX");
-        } else {
+        } if(mode.equals("PROGRAM") || mode.equals("PROGRAMM")){
+            //L1 normal: SIN,COS,TAN,ASIN,ACOS,ATAN
+            btn_11.setText("P1");
+            btn_12.setText("P2");
+            btn_13.setText("P3");
+            btn_14.setText("P4");
+            btn_15.setText("P5");
+            btn_16.setText("P6");
+            //L3 normal: >DEG/>RAD/>Polar/>Cart
+            btn_21.setText(">P1");
+            btn_22.setText(">P1");
+            btn_23.setText(">P3");
+            btn_24.setText(">P4");
+            btn_25.setText(">P5");
+            btn_26.setText(">P6");
+        }else {
             if(UserFctGroups.contains(mode)){
                 //NutzerFct
                 setUpButtons(mode);
@@ -1635,7 +1747,12 @@ public class CalcActivity_science extends AppCompatActivity {
         I.setMeanMode(mean_mode);
         I.setVarMode(var_mode);
 
-
+        String base_set = PreferenceManager.getDefaultSharedPreferences(CalcActivity_science.this).getString("base","10");
+        if(base_set.matches("[0-9]*")){
+            base = Integer.parseInt(base_set);
+            I.setBase(base);
+            Toast.makeText(CalcActivity_science.this,"BASE: "+base_set,Toast.LENGTH_SHORT).show();
+        }
 
 
     }
@@ -1710,5 +1827,133 @@ public class CalcActivity_science extends AppCompatActivity {
             else res[i] = "";
         }
         return res;
+    }
+
+    private void init_shake(){
+        mShaker = new ShakeListener(CalcActivity_science.this);
+        final Context c = CalcActivity_science.this;
+        mShaker.setOnShakeListener(new ShakeListener.OnShakeListener () {
+            public void onShake()
+            {
+                String random_design = DesignApplier.designs[(int) (Math.random()*DesignApplier.designs.length)];
+                Toast.makeText(c, "Design: "+random_design,Toast.LENGTH_SHORT).show();
+                DesignApplier.apply_theme(c,random_design);
+                setBackgrounds();
+            }
+        });
+    }
+
+    private void setUp_spinner_shift(){
+        if(state_spinner_shift.equals("number_selection")){
+            //save base
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(CalcActivity_science.this);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("base", String.valueOf(base));
+            I.setBase(base);
+            editor.commit();
+
+            //set up spinner
+            int d = (int) Math.ceil(((double) (base) / 10) - 1.0);
+            int beg = 0, end = Math.max(d,0);
+            String[] subarray = new String[end - beg + 2];
+            System.arraycopy(MathEvaluator.digit_alphabet_groups, beg, subarray, 0, subarray.length);
+            subarray[subarray.length-1] = "set base";
+
+            ArrayAdapter<String> adapterBase =
+                    new ArrayAdapter<String>(CalcActivity_science.this, R.layout.spinner_shift_style, subarray)
+                    {
+                        float factor_font = SettingsApplier.getDarker_factor_font(CalcActivity_science.this);
+                        int darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_fops(CalcActivity_science.this),factor_font);
+                        public View getView(int position, View convertView, ViewGroup parent) {
+                            View v = super.getView(position, convertView, parent);
+                            ((TextView) v).setTextSize(20);
+                            ((TextView) v).setTypeface(FontSettingsActivity.getTypeFace(SettingsApplier.current_font_family,SettingsApplier.current_fontstlye));
+                            ((TextView) v).setTextColor(darker);
+                            SettingsApplier.setTextColor(v,darker);
+                            return v;
+                        }
+                        public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                            View v = super.getDropDownView(position, convertView, parent);
+                            v.setBackgroundResource(R.drawable.buttonshape_square);
+                            ((TextView) v).setTextSize(btn_1.getTextSize() / 2);
+                            ((TextView) v).setTextColor(SettingsApplier.getColor_displaytext(CalcActivity_science.this));
+                            if(SettingsApplier.getButtonfüllung().equals("leer")){
+                                ((TextView) v).setBackgroundColor(SettingsApplier.getColor_background(CalcActivity_science.this));
+                            }
+                            else ((TextView) v).setBackgroundColor(SettingsApplier.getColor_display(CalcActivity_science.this));
+                            ((TextView) v).setTypeface(FontSettingsActivity.getTypeFace(SettingsApplier.current_font_family,SettingsApplier.current_fontstlye));
+                            ((TextView) v).setGravity(Gravity.CENTER);
+                            return v;
+                        }
+                    };
+            spinner_Base.setAdapter(adapterBase);
+
+            spinner_Base.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    Log.e("spinner: ",adapterView.getItemAtPosition(i).toString());
+                    Toast.makeText(CalcActivity_science.this, "spinner: "+adapterView.getItemAtPosition(i).toString(), Toast.LENGTH_SHORT).show();
+                    if(adapterView.getItemAtPosition(i).equals("set base")){
+                        state_spinner_shift = "base_selection";
+                        setUp_spinner_shift();
+                    } else {
+                        int new_btn_digit_group_cnt = ((i  % (MathEvaluator.digit_alphabet.length / 9)));
+                        if(new_btn_digit_group_cnt*9 < base ){
+                            btn_digit_group_cnt = new_btn_digit_group_cnt;
+                        } else {
+                            btn_digit_group_cnt = 0;
+                        }
+                        assignModeFct();
+                        Toast.makeText(CalcActivity_science.this, "ns new base sel: "+btn_digit_group_cnt, Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override public void onNothingSelected(AdapterView<?> adapterView) {}
+            });
+        } else if(state_spinner_shift.equals("base_selection")){
+            ArrayAdapter<String> adapterBase =
+                    new ArrayAdapter<String>(CalcActivity_science.this, R.layout.spinner_shift_style, MathEvaluator.int_digit_alphabet_groups)
+                    {
+                        float factor_font = SettingsApplier.getDarker_factor_font(CalcActivity_science.this);
+                        int darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_fops(CalcActivity_science.this),factor_font);
+                        public View getView(int position, View convertView, ViewGroup parent) {
+                            View v = super.getView(position, convertView, parent);
+                            ((TextView) v).setTextSize(20);
+                            ((TextView) v).setTypeface(FontSettingsActivity.getTypeFace(SettingsApplier.current_font_family,SettingsApplier.current_fontstlye));
+                            ((TextView) v).setTextColor(darker);
+                            SettingsApplier.setTextColor(v,darker);
+                            return v;
+                        }
+                        public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                            View v = super.getDropDownView(position, convertView, parent);
+                            v.setBackgroundResource(R.drawable.buttonshape_square);
+                            ((TextView) v).setTextSize(btn_1.getTextSize() / 2);
+                            ((TextView) v).setTextColor(SettingsApplier.getColor_displaytext(CalcActivity_science.this));
+                            if(SettingsApplier.getButtonfüllung().equals("leer")){
+                                ((TextView) v).setBackgroundColor(SettingsApplier.getColor_background(CalcActivity_science.this));
+                            }
+                            else ((TextView) v).setBackgroundColor(SettingsApplier.getColor_display(CalcActivity_science.this));
+                            ((TextView) v).setTypeface(FontSettingsActivity.getTypeFace(SettingsApplier.current_font_family,SettingsApplier.current_fontstlye));
+                            ((TextView) v).setGravity(Gravity.CENTER);
+                            return v;
+                        }
+                    };
+            spinner_Base.setAdapter(adapterBase);
+
+            spinner_Base.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    int new_btn_digit_group_cnt = ((i  % (MathEvaluator.digit_alphabet.length / 9)));
+                    btn_digit_group_cnt = new_btn_digit_group_cnt;
+
+                    assignModeFct();
+                    Toast.makeText(CalcActivity_science.this, "bs new base sel: "+btn_digit_group_cnt, Toast.LENGTH_SHORT).show();
+                }
+
+                @Override public void onNothingSelected(AdapterView<?> adapterView) {}
+            });
+        }
+
+
     }
 }

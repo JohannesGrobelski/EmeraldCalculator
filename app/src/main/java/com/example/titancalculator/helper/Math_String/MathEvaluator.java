@@ -10,6 +10,7 @@ import com.example.titancalculator.evalex.Expression;
 import com.example.titancalculator.helper.StringUtils;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.math.MathContext;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -17,6 +18,7 @@ import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
@@ -30,10 +32,15 @@ import java.util.regex.Pattern;
  *
  */
 public class MathEvaluator {
+    public static char[] digit_alphabet = "0123456789abcdefghijklmnopqrstuvwxyz".toCharArray();
+    public static String[] digit_alphabet_groups = {"1-9", "a-i", "j-r", "s-z"};
+    public static String[] int_digit_alphabet_groups = {"1-9", "10-18", "19-27", "28-36"};
 
+    public static HashMap<String,Integer> int_base_digits = init_intBase_digits();
+    public static HashMap<Integer,String> int_base_digits_rl = init_intBase_digits_rl();
 
-
-
+    public static HashMap<BigDecimal,String> base_digits = initBase_digits();
+    public static HashMap<String,BigDecimal> base_digits_rl = initBase_digits_rl();
 
     //Math Settings
     public static int pre_decimal_places_pref = 10;
@@ -43,8 +50,15 @@ public class MathEvaluator {
 	int marker = 1;
 	
 	public static void main(String[] args) {
-        test_format();
-	}
+        //test_format();
+        //test(100);
+        //System.out.println(toDec(".a", 16 , 20));
+        System.out.println(MathEvaluator.evaluate("0.000000000000000001",16));
+        //System.out.println(toBase("1412432",16,20));
+    }
+
+
+
 
     public static void test_format() {
         //Testfälle absolut große/kleine zahlen, ganze/bruchzahlen, negative/positive zahlen
@@ -84,17 +98,151 @@ public class MathEvaluator {
     // Parse EVERY number with source radix
     // and transform in specified radix(base)
     public static String baseConversion(String input, int sBase, int dBase) {
-        List<String> allMatches = new ArrayList<String>();
-        Matcher m = Pattern.compile("[0-9A-Z]+").matcher(input);
-        while (m.find()) {
-            allMatches.add(m.group());
+        //trans scientific notation
+
+        while(input.contains("E+")){
+            int places = Integer.valueOf(input.substring(input.indexOf("E+")+2));
+            String search = "E\\+"+String.valueOf(places);
+            input = input.replaceFirst(search,StringUtils.repeat("0",places));
+            input = input.replace(".","");
+            input = StringUtils.insertString(input,".",places);
         }
+        while(input.contains("E-")){
+            int places = Integer.valueOf(input.substring(input.indexOf("E-")+2));
+            String search = "E-"+String.valueOf(places);
+            input = input.replaceFirst(search,"");
+
+            input = input.replace(".","");
+            input = "0."+StringUtils.repeat("0",places)+input;
+
+        }
+        System.out.println(input);
+
+
+        Matcher m1 = Pattern.compile("[0-9a-z]+\\.[0-9a-z]+").matcher(input);
+        Matcher m2 = Pattern.compile("[0-9a-z]*\\.[0-9a-z]+").matcher(input);
+        Matcher m3 = Pattern.compile("[0-9a-z]+\\.[0-9a-z]*").matcher(input);
+        Matcher m4  = Pattern.compile("[0-9a-z]+\\.?[0-9a-z]*").matcher(input);
+        LinkedHashSet<String> allMatches = new LinkedHashSet<String>();
+
+        while(m1.find()) {allMatches.add(m1.group());}
+        while(m2.find()) {allMatches.add(m2.group());}
+        while(m3.find()) {allMatches.add(m3.group());}
+        while(m4.find()) {allMatches.add(m4.group());}
+
         for(String s: allMatches.toArray(new String[allMatches.size()])) {
-            String number = Integer.toString(Integer.parseInt(s, sBase), dBase);
+            String number = s;
+            if(sBase == 10 && dBase != 10){
+                number = toBase(s,dBase,1000);
+            } else if(sBase != 10 && dBase == 10){
+                number = toDec(s,sBase,1000);
+                System.out.println("bc: "+s+" = "+number);
+            }
             input = input.replace(s,number);
         }
         return input;
     }
+
+
+
+
+    public static String toDec(String input, int base, int precision){
+	    if(base < 0 || base > 36) return "";
+        BigDecimal b = new BigDecimal(base);
+
+        String pc = "";
+        if(input.contains(".")){
+            pc = input.substring(input.indexOf(".")+1);
+            input = input.substring(0,input.indexOf("."));
+        }
+
+        BigDecimal res = BigDecimal.ZERO;
+
+        if(!input.isEmpty()){
+            for(int i=input.length()-1; i>=0; --i){
+                String digit = String.valueOf(input.toCharArray()[i]);
+                BigDecimal d = base_digits_rl.get(digit);
+                int p = input.length()-1-i;
+                BigDecimal m = BigDecimal.valueOf(base).pow(p,MathContext.DECIMAL128);
+                d = d.multiply(m,MathContext.DECIMAL128);
+                res = res.add(d,MathContext.DECIMAL128);
+                //System.out.println("digit: "+digit+", d: "+d+", m: "+m+", res"+res);
+            }
+        }
+
+        if(!pc.isEmpty()){
+            BigDecimal pc_res = BigDecimal.ZERO;
+            if(!pc.isEmpty()){
+                for(int i=pc.length()-1; i>=0; --i){
+                    String digit = String.valueOf(pc.toCharArray()[i]);
+                    BigDecimal d = base_digits_rl.get(digit);
+                    int p = -(i+1);
+                    BigDecimal m = BigDecimal.valueOf(base).pow(p,MathContext.DECIMAL128);
+                    d = d.multiply(m,MathContext.DECIMAL128);
+                    pc_res = pc_res.add(d,MathContext.DECIMAL128);
+                   //System.out.println("decdigit: "+digit+", p: "+p+", d: "+d+", m: "+m+", res: "+pc_res);
+                }
+            }
+            res = res.add(pc_res);
+        }
+
+        return res.toString();
+    }
+
+    public static String toBase(String input, int base, int precision){
+        if(base < 2 || base > 36) return "";
+
+        BigDecimal b = new BigDecimal(base);
+
+	    String pc = "";
+	    if(input.contains(".")){
+	        pc = "0"+input.substring(input.indexOf("."));
+	        input = input.substring(0,input.indexOf("."));
+        }
+
+        String res = "";
+        if(!input.isEmpty()){
+            BigDecimal n = new BigDecimal(input,MathContext.DECIMAL128);
+            while(n.compareTo(BigDecimal.ZERO)>=0){
+                BigDecimal d = n.divide(b,MathContext.DECIMAL128).setScale(0,RoundingMode.FLOOR);
+                BigDecimal r = n.remainder(b,MathContext.DECIMAL128).setScale(0,RoundingMode.FLOOR);
+                res = base_digits.get(r) + res;
+
+                n = d;
+                //System.out.println("n: "+n.toString()+", r: "+r+", res: "+res);
+
+                if(n.compareTo(b)<=0){
+                    r = n.remainder(b,MathContext.DECIMAL128).setScale(0,RoundingMode.HALF_DOWN);
+                    res = base_digits.get(r) + res;
+
+                    //System.out.println("n: "+n.toString()+", r: "+r+", res: "+res);
+                    break;
+                }
+            }
+        }
+
+        String pc_res="";
+	    if(!pc.isEmpty()){
+            BigDecimal n = new BigDecimal(pc,MathContext.DECIMAL128);
+            //System.out.println(n+" "+b+" "+(n.compareTo(b) == 0));
+
+            while(!(n.multiply(b,MathContext.DECIMAL128).compareTo(b) == 0) && !(n.compareTo(BigDecimal.ZERO) == 0)){
+                n = n.multiply(b,MathContext.DECIMAL128);
+                BigDecimal r = n.setScale(0,RoundingMode.FLOOR).remainder(b,MathContext.DECIMAL128);
+                pc_res += base_digits.get(r);
+
+                //System.out.println("n: "+n.toString()+", r: "+r+", pc_res: "+pc_res);
+                n = n.remainder(b,MathContext.DECIMAL128);
+
+                --precision;
+                if(precision == 0)break;
+            }
+
+            res = res+"."+pc_res;
+        }
+        return res;
+    }
+
 
 
     public static String toBruch(String dec) {
@@ -171,6 +319,11 @@ public class MathEvaluator {
         if(input.contains("!"))input = facCor(input);
         //input = baseConversion(input,base,10);
 
+        if(base != 10){
+            input = baseConversion(input,base,10);
+        }
+        System.out.println("DEC: "+input);
+
         Expression expression = new Expression(input);
 
         try {
@@ -178,7 +331,15 @@ public class MathEvaluator {
             expression.setPrecision(decimal_places_pref);
 
             String res = format(expression.eval()).toString();
-            return res; //baseConversion(res,10,base);
+            System.out.println("RES: "+res);
+
+            if(base != 10){
+                //BigDecimal a = new BigDecimal(baseConversion(res,10,base));
+                //return a.toString();
+
+                return formatNumber(baseConversion(res,10,base),10,10,base);
+            }
+            else return res;
         }
         catch (Exception e) {
             return "Math Error";
@@ -321,6 +482,133 @@ public class MathEvaluator {
 
     public static boolean isInteger(String s) {
         return s.matches("-?\\d+");
+    }
+
+
+    private static void test(int durchläufe){
+        for(int i=0; i<durchläufe;i++){
+            BigDecimal z = BigDecimal.valueOf(Math.random()*100000);
+            int bz = (int) Math.round(Math.random()*36)+1;
+            BigDecimal res = new BigDecimal(toDec(toBase(String.valueOf(z), bz , 20),bz,20),MathContext.DECIMAL128);
+            if(Math.round(z.subtract(res).doubleValue()) > .1){
+                System.out.println(z+" != "+ res);
+            }
+        }
+    }
+
+    private static HashMap<Integer,String> init_intBase_digits_rl(){
+        HashMap<Integer,String> base_digits = new HashMap<Integer,String>(){{}};
+        for(int i=0; i<36; i++){
+            base_digits.put(i,String.valueOf(digit_alphabet[i]));
+        }
+        return base_digits;
+    }
+
+    private static HashMap<String,Integer> init_intBase_digits(){
+        HashMap<String,Integer> base_digits = new HashMap<String,Integer>(){{}};
+        for(int i=0; i<36; i++){
+            base_digits.put(String.valueOf(digit_alphabet[i]),i);
+        }
+        return base_digits;
+    }
+
+    private static HashMap<BigDecimal,String> initBase_digits(){
+        HashMap<BigDecimal,String> base_digits = new HashMap<BigDecimal,String>(){{}};
+        for(int i=0; i<36; i++){
+            base_digits.put(BigDecimal.valueOf(i),String.valueOf(digit_alphabet[i]));
+        }
+        return base_digits;
+    }
+
+    private static HashMap<String,BigDecimal> initBase_digits_rl(){
+        HashMap<String,BigDecimal> base_digits = new HashMap<String,BigDecimal>(){{}};
+        for(int i=0; i<36; i++){
+            base_digits.put(String.valueOf(digit_alphabet[i]),BigDecimal.valueOf(i));
+        }
+        return base_digits;
+    }
+
+    private static String formatNumber(String input, int precision, int scientic_notation_threshold, int base){
+	    //erase all leading zeros
+        while(input.startsWith("0") && input.length() > 1){
+            if(input.matches("0\\..+"))break;
+            input = input.substring(1);
+        }
+
+        //deleting all last zeros
+        while(input.endsWith("0") && input.length() > 1){
+            input = input.substring(0,input.length()-1);
+        }
+
+        //cut of .0+
+        if(input.contains(".") && input.substring(input.indexOf(".")).matches("\\.0*")){
+            input = input.substring(0,input.indexOf("."));
+        }
+
+        //put into scientific notation
+        String scientific_notation="";
+
+        if(input.length() > scientic_notation_threshold){
+            String pre_decimal_places = "";
+            if(input.matches(".*\\..+")) {
+                input.substring(input.indexOf("."));
+            } else {
+                pre_decimal_places = input;
+            }
+
+            //E+
+            if(pre_decimal_places.length() > scientic_notation_threshold){
+                scientific_notation = "E+"+String.valueOf(pre_decimal_places.length() - scientic_notation_threshold);
+                //round
+                String last_decimal_place = pre_decimal_places.substring(scientic_notation_threshold-1,scientic_notation_threshold);
+                //lookup
+                if(!int_base_digits.containsKey(last_decimal_place))return input;
+                else{
+                    if(int_base_digits.get(last_decimal_place) * 2 > base){ //round up
+                        char[] dp = pre_decimal_places.toCharArray();
+                        //System.out.println("TEST: "+int_base_digits_rl.get(int_base_digits.get(last_decimal_place)+1).toCharArray()[0]);
+                        dp[scientic_notation_threshold-1] = int_base_digits_rl.get(int_base_digits.get(last_decimal_place)+1).toCharArray()[0];
+                        pre_decimal_places = String.valueOf(dp);
+                    }
+                    pre_decimal_places = pre_decimal_places.substring(0,scientic_notation_threshold);
+                }
+
+                System.out.println("bef scino: "+input);
+                if(input.matches(".*\\..+")) {
+                    input = input.replace(input.substring(input.indexOf(".")),pre_decimal_places);
+                } else {
+                    input = pre_decimal_places;
+                }
+            }
+
+
+
+        }
+
+        //round
+        if(input.matches(".*\\..+")){
+            String decimal_places = input.substring(input.indexOf(".")+1);
+            if(decimal_places.length() > precision){
+                String last_decimal_place = decimal_places.substring(precision-1,precision);
+                //lookup
+                if(!int_base_digits.containsKey(last_decimal_place))return input;
+                else{
+                    if(int_base_digits.get(last_decimal_place) * 2 > base){ //round up
+                        char[] dp = decimal_places.toCharArray();
+                        //System.out.println("TEST: "+int_base_digits_rl.get(int_base_digits.get(last_decimal_place)+1).toCharArray()[0]);
+                        dp[precision-1] = int_base_digits_rl.get(int_base_digits.get(last_decimal_place)+1).toCharArray()[0];
+                        decimal_places = String.valueOf(dp);
+                    }
+                    decimal_places = decimal_places.substring(0,precision);
+
+                }
+                input = input.replace(input.substring(input.indexOf(".")+1),decimal_places);
+            }
+        }
+
+
+
+        return input+scientific_notation;
     }
 
 }
