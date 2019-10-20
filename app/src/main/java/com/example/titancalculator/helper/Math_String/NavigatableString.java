@@ -64,61 +64,59 @@ public class NavigatableString{
         return newString.toString();
     }
 
-    public String getResult(){
-        return ((NumberString) contentString).getResult();
+    public String getResult(int base){
+        return ((NumberString) contentString).getResult(base);
     }
 
-    public void setBase(int base){
-        ((NumberString) contentString).setBase(base);
-    }
 
-    public String getPercent(){
-        if(contentString instanceof NumberString) return((NumberString)contentString).getPercent();
+
+    public String getPercent(int base){
+        if(contentString instanceof NumberString) return((NumberString)contentString).getPercent(base);
         else return "";
     }
 
-    public String getBIN(){
-        if(contentString instanceof NumberString) return((NumberString)contentString).getBIN();
+    public String getBIN(int base){
+        if(contentString instanceof NumberString) return((NumberString)contentString).getBIN(base);
         else return "";
     }
 
-    public String getOCT(){
-        if(contentString instanceof NumberString) return((NumberString)contentString).getOCT();
+    public String getOCT(int base){
+        if(contentString instanceof NumberString) return((NumberString)contentString).getOCT(base);
         else return "";
     }
 
-    public String getDEC(){
-        if(contentString instanceof NumberString) return((NumberString)contentString).getDEC();
+    public String getDEC(int base){
+        if(contentString instanceof NumberString) return((NumberString)contentString).getDEC(base);
         else return "";
     }
 
-    public String getHEX(){
-        if(contentString instanceof NumberString) return((NumberString)contentString).getHEX();
+    public String getHEX(int base){
+        if(contentString instanceof NumberString) return((NumberString)contentString).getHEX(base);
         else return "";
     }
 
-    public String getRAD(){
-        if(contentString instanceof NumberString) return((NumberString)contentString).getRAD();
+    public String getRAD(int base){
+        if(contentString instanceof NumberString) return((NumberString)contentString).getRAD(base);
         else return "";
     }
 
-    public String getDEG(){
-        if(contentString instanceof NumberString) return((NumberString)contentString).getDEG();
+    public String getDEG(int base){
+        if(contentString instanceof NumberString) return((NumberString)contentString).getDEG(base);
         else return "";
     }
 
-    public String getInvert(){
-        if(contentString instanceof NumberString) return ((NumberString)contentString).getInvert();
+    public String getInvert(int base){
+        if(contentString instanceof NumberString) return ((NumberString)contentString).getInvert(base);
         else return "";
     }
 
-    public String getReciproke(){
-        if(contentString instanceof NumberString) return ((NumberString)contentString).getReciproke();
+    public String getReciproke(int base){
+        if(contentString instanceof NumberString) return ((NumberString)contentString).getReciproke(base);
         else return "";
     }
 
-    public String getPFZ(){
-        if(contentString instanceof NumberString) return ((NumberString)contentString).getPFZ();
+    public String getPFZ(int base){
+        if(contentString instanceof NumberString) return ((NumberString)contentString).getPFZ(base);
         else return "";
     }
 
@@ -126,8 +124,8 @@ public class NavigatableString{
         if(contentString instanceof NumberString) ((NumberString)contentString).setArgument();
     }
 
-    public String getBruch(){
-        if(contentString instanceof NumberString) return ((NumberString)contentString).getBruch();
+    public String getBruch(int base){
+        if(contentString instanceof NumberString) return ((NumberString)contentString).getBruch(base);
         else return "";
     }
 

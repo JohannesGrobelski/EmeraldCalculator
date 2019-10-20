@@ -489,6 +489,24 @@
 
                     app:autoSizeStepGranularity="1sp"
                     app:autoSizeTextType="uniform" />
+
+                <Spinner
+                    android:id="@+id/m_spinner_base"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight=".8"
+                    android:background="@drawable/buttonshape_square"
+                    android:maxLines="1"
+                    android:shadowRadius="30"
+                    android:text="@string/ADD"
+                    android:visibility="visible"
+
+
+                    app:autoSizeStepGranularity="1sp"
+                    app:autoSizeTextType="uniform" />
             </LinearLayout>
 
             <LinearLayout
@@ -606,36 +624,28 @@
                     app:autoSizeStepGranularity="1sp"
                     app:autoSizeTextType="uniform" />
 
+                <Button
+                    android:id="@+id/m_btn_eq"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/buttonshape_square"
+                    android:maxLines="1"
+                    android:shadowRadius="30"
+                    android:text="="
+                    android:visibility="visible"
+
+
+                    app:autoSizeStepGranularity="1sp"
+                    app:autoSizeTextType="uniform" />
+
             </LinearLayout>
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="-10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/m_btn_eq"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/buttonshape_square"
-                android:maxLines="1"
-                android:shadowRadius="30"
-                android:text="="
-                android:visibility="visible"
-
-
-                app:autoSizeStepGranularity="1sp"
-                app:autoSizeTextType="uniform" />
-        </LinearLayout>
     </LinearLayout>
 
 

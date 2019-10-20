@@ -106,7 +106,7 @@ public class HistoryActivity extends AppCompatActivity {
     private void setHistAdap(){
         ArrayAdapter<String> adapter_verlauf = new ArrayAdapter<String>(HistoryActivity.this, R.layout.spinner_shift_style, arrayVerlauf){
             float factor_font = 0.5f;
-            int darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_hist(HistoryActivity.this),factor_font);
+            int darker = SettingsApplier.manipulateColor(SettingsApplier.getColor_hist(HistoryActivity.this),factor_font);
             public View getView(int position, View convertView, ViewGroup parent) {
                 View v = super.getView(position, convertView, parent);
                 ((TextView) v).setTextSize(fontsize);
@@ -156,12 +156,12 @@ public class HistoryActivity extends AppCompatActivity {
         float factor_font = 0.5f;
         boolean stroke = true;
 
-        int visual_unselect = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_specials(HistoryActivity.this),factor_font);
+        int visual_unselect = SettingsApplier.manipulateColor(SettingsApplier.getColor_specials(HistoryActivity.this),factor_font);
 
 
         background = getResources().getDrawable(buttonshapeID);
         SettingsApplier.setColor((HistoryActivity.this),background, SettingsApplier.getColor_hist(HistoryActivity.this),buttonfüllung,stroke);
-        visual_unselect = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_hist(HistoryActivity.this),factor_font);
+        visual_unselect = SettingsApplier.manipulateColor(SettingsApplier.getColor_hist(HistoryActivity.this),factor_font);
         if(btn_save instanceof Button) ((Button) btn_save).setTextColor(visual_unselect);
         if(btn_clear instanceof Button) ((Button) btn_clear).setTextColor(visual_unselect);
 

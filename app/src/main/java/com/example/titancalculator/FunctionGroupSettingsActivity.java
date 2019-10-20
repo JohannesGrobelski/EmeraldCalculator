@@ -344,7 +344,7 @@ public class FunctionGroupSettingsActivity extends AppCompatActivity {
     public void setBackground(View v, int color){
         Drawable background = getResources().getDrawable(buttonshapeID);
         SettingsApplier.setColor((FunctionGroupSettingsActivity.this),background, color,buttonfüllung,true);
-        int darker = ButtonSettingsActivity.manipulateColor(color,0.6f);
+        int darker = SettingsApplier.manipulateColor(color,0.6f);
         if(v instanceof Button) ((Button) v).setTextColor(darker);
     }
 

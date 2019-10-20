@@ -53,8 +53,9 @@ public class DesignApplier {
                     SettingsApplier.setCurrent_fontsize("normal");
 
                     SettingsApplier.setDefaultColors();
-                    SettingsApplier.setColor_background(0xff000000);
+                    SettingsApplier.setColor_background(0x00FFFFFF);
                     SettingsApplier.setColor_displaytext(0xffFFFFFF);
+                    SettingsApplier.setDarker_factor_font(0.99f);
                     break;
                 }
                 case "light":{

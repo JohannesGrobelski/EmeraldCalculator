@@ -52,7 +52,7 @@ public class ButtonshapeActivity extends AppCompatActivity {
         String[] füllungsoptionen = {"leer","voll"};
         ArrayAdapter<String> aa_füllung = new ArrayAdapter<String>(ButtonshapeActivity.this, R.layout.spinner_shift_style, füllungsoptionen){
             float factor_font = 0.5f;
-            int darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_const(ButtonshapeActivity.this),factor_font);
+            int darker = SettingsApplier.manipulateColor(SettingsApplier.getColor_const(ButtonshapeActivity.this),factor_font);
             public View getView(int position, View convertView, ViewGroup parent) {
                 View v = super.getView(position, convertView, parent);
                 ((TextView) v).setTextColor(0x000000);

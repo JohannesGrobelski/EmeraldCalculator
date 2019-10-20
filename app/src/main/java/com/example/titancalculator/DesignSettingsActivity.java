@@ -70,7 +70,7 @@ public class DesignSettingsActivity extends AppCompatActivity {
                 {
 
                     float factor_font = SettingsApplier.getDarker_factor_font(DesignSettingsActivity.this);
-                    int darker = ButtonSettingsActivity.manipulateColor(SettingsApplier.getColor_fops(DesignSettingsActivity.this),factor_font);
+                    int darker = SettingsApplier.manipulateColor(SettingsApplier.getColor_fops(DesignSettingsActivity.this),factor_font);
 
                     public View getView(int position, View convertView, ViewGroup parent) {
                         View v = super.getView(position, convertView, parent);

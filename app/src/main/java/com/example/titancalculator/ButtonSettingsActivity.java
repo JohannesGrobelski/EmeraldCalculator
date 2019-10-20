@@ -17,6 +17,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
+import com.example.titancalculator.helper.MainDisplay.SettingsApplier;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -264,7 +266,7 @@ public class ButtonSettingsActivity extends AppCompatActivity {
     void darker(Button x){
         Drawable background_fkt = getResources().getDrawable(R.drawable.buttonshape_square);
         int color_act = PreferenceManager.getDefaultSharedPreferences(ButtonSettingsActivity.this).getInt("actColor", 0xffff0000);
-        setColor(background_fkt, manipulateColor(color_act,0.8f));
+        setColor(background_fkt, SettingsApplier.manipulateColor(color_act,0.8f));
         x.setBackground(background_fkt);
     }
 
@@ -278,7 +280,7 @@ public class ButtonSettingsActivity extends AppCompatActivity {
             // cast to 'GradientDrawable'
             GradientDrawable gradientDrawable = (GradientDrawable) background;
             gradientDrawable.setColor(c);
-            int darker = ButtonSettingsActivity.manipulateColor(c,0.8f);
+            int darker = SettingsApplier.manipulateColor(c,0.8f);
             gradientDrawable.setStroke(5, darker);
         } else if (background instanceof ColorDrawable) {
             // alpha value may need to be set again after this call
@@ -288,16 +290,7 @@ public class ButtonSettingsActivity extends AppCompatActivity {
 
     }
 
-    public static int manipulateColor(int color, float factor) {
-        int a = Color.alpha(Math.round(color*factor));
-        int r = Math.round(Color.red(color) * factor);
-        int g = Math.round(Color.green(color) * factor);
-        int b = Math.round(Color.blue(color) * factor);
-        return Color.argb(a,
-                Math.min(r,255),
-                Math.min(g,255),
-                Math.min(b,255));
-    }
+
 
     public void setUpButtons(String group){
         //L1
