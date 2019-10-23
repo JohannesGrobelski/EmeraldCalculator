@@ -259,31 +259,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         current_typeface = FontSettingsActivity.getTypeFace(current_font_family,current_fontstlye);
     }
 
-    private void setBackground(){
-        getListView().setBackgroundColor(Color.RED);
-
-        ArrayAdapter adpt_header = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, new String[]{}) {
-
-            @Override
-            public View getDropDownView(int position, View convertView, ViewGroup parent) {
-                View view = super.getView(position, convertView, parent);
-                TextView text = (TextView) view.findViewById(android.R.id.text1);
-                text.setTextColor(SettingsApplier.getColor_fkt(getContext()));
-                return view;
-            }
-
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                View view = super.getView(position, convertView, parent);
-                TextView text = (TextView) view.findViewById(android.R.id.text1);
-                text.setTextColor(SettingsApplier.getColor_fkt(getContext()));
-                return view;
-            }
-        };
-
-        getListView().setAdapter(adpt_header);
-    }
-
 
     /**
      * Dieses Fragment lässt den Nutzer Farbeinstellungen verändern.

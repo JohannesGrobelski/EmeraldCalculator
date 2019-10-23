@@ -97,7 +97,7 @@ public class HistoryActivity extends AppCompatActivity {
         });
 
         try {
-            CalcActivity_science.setBackgroundImage(HistoryActivity.this,hist_background);
+            SettingsApplier.setBackgroundImage(HistoryActivity.this,hist_background);
         } catch (Exception e) {
             e.printStackTrace();
         }

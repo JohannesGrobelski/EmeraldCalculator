@@ -120,7 +120,7 @@ public class CalcActivity_small extends AppCompatActivity {
     String Y = "";
 
 
-    private Set<Button> BTN_ACT,BTN_FKT,BTN_NUMBERS,BTN_SAVES,BTN_SPECIALS;
+    private Set<Button> BTN_ACT,BTN_FKT,BTN_NUMBERS,BTN_SAVES,BTN_FOPS;
     private ArrayList<Button> BTN_ALL;
 
     String mode = "BASIC";
@@ -172,7 +172,7 @@ public class CalcActivity_small extends AppCompatActivity {
         mode = "BASIC";
 
         try {
-            CalcActivity_science.setBackgroundImage(CalcActivity_small.this,small_background);
+            SettingsApplier.setBackgroundImage(CalcActivity_small.this,small_background);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -300,13 +300,13 @@ public class CalcActivity_small extends AppCompatActivity {
         BTN_FKT = new HashSet<>(Arrays.asList(new Button[]{btn_clear, btn_clearall}));
         BTN_NUMBERS = new HashSet<>(Arrays.asList(new Button[]{btn_com, btn_0, btn_1, btn_2, btn_3, btn_4, btn_5, btn_6, btn_7, btn_8, btn_9}));
         BTN_SAVES = new HashSet<>(Arrays.asList(new Button[]{}));
-        BTN_SPECIALS = new HashSet<>(Arrays.asList(new Button[]{btn_mul, btn_div, btn_sub, btn_add, btn_eq}));
+        BTN_FOPS = new HashSet<>(Arrays.asList(new Button[]{btn_mul, btn_div, btn_sub, btn_add, btn_eq}));
         BTN_ALL = new ArrayList<>();
         BTN_ALL.addAll(BTN_ACT);
         BTN_ALL.addAll(BTN_FKT);
         BTN_ALL.addAll(BTN_NUMBERS);
         BTN_ALL.addAll(BTN_SAVES);
-        BTN_ALL.addAll(BTN_SPECIALS);
+        BTN_ALL.addAll(BTN_FOPS);
 
         applySettings();
         SettingsApplier.setColors(CalcActivity_small.this);
@@ -315,7 +315,7 @@ public class CalcActivity_small extends AppCompatActivity {
         SettingsApplier.setFonts(CalcActivity_small.this,list);
 
         try {
-            CalcActivity_science.setBackgroundImage(CalcActivity_small.this,small_background);
+            SettingsApplier.setBackgroundImage(CalcActivity_small.this,small_background);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -359,7 +359,7 @@ public class CalcActivity_small extends AppCompatActivity {
                 //TODO: TAN( etc. vollständig löschen
                 eingabeClear();
                 ausgabe_setText("");
-                setBackground(btn_clear);
+
                 if(!CalcActivity_science.noImmidiateOps.contains(I.getDisplayableString().trim())){
                     if(solve_inst_pref){
                         answer = I.getResult(CalcActivity_science.getBase(CalcActivity_small.this));
@@ -374,7 +374,7 @@ public class CalcActivity_small extends AppCompatActivity {
                 view.startAnimation(buttonClick);
                 eingabeSetText("");
                 ausgabe_setText("");
-                setBackground(btn_clearall);
+
             }
         });
 
@@ -387,7 +387,7 @@ public class CalcActivity_small extends AppCompatActivity {
                 view.startAnimation(buttonClick);
 
                 eingabeAddText("1");
-                setBackground(btn_1);
+
                 if(solve_inst_pref){
                     answer = I.getResult(CalcActivity_science.getBase(CalcActivity_small.this));
                     if(!answer.equals("Math Error"))ausgabe_setText(answer);
@@ -401,7 +401,7 @@ public class CalcActivity_small extends AppCompatActivity {
                 view.startAnimation(buttonClick);
 
                 eingabeAddText("2");
-                setBackground(btn_2);
+
                 if(solve_inst_pref){
                     answer = I.getResult(CalcActivity_science.getBase(CalcActivity_small.this));
                     if(!answer.equals("Math Error"))ausgabe_setText(answer);
@@ -414,7 +414,7 @@ public class CalcActivity_small extends AppCompatActivity {
                 view.startAnimation(buttonClick);
 
                 eingabeAddText("3");
-                setBackground(btn_3);
+
                 if(solve_inst_pref){
                     answer = I.getResult(CalcActivity_science.getBase(CalcActivity_small.this));
                     if(!answer.equals("Math Error"))ausgabe_setText(answer);
@@ -427,7 +427,7 @@ public class CalcActivity_small extends AppCompatActivity {
                 view.startAnimation(buttonClick);
 
                 eingabeAddText("4");
-                setBackground(btn_4);
+
                 if(solve_inst_pref){
                     answer = I.getResult(CalcActivity_science.getBase(CalcActivity_small.this));
                     if(!answer.equals("Math Error"))ausgabe_setText(answer);
@@ -440,7 +440,7 @@ public class CalcActivity_small extends AppCompatActivity {
                 view.startAnimation(buttonClick);
 
                 eingabeAddText("5");
-                setBackground(btn_5);
+
                 if(solve_inst_pref){
                     answer = I.getResult(CalcActivity_science.getBase(CalcActivity_small.this));
                     if(!answer.equals("Math Error"))ausgabe_setText(answer);
@@ -453,7 +453,7 @@ public class CalcActivity_small extends AppCompatActivity {
                 view.startAnimation(buttonClick);
 
                 eingabeAddText("6");
-                setBackground(btn_6);
+
                 if(solve_inst_pref){
                     answer = I.getResult(CalcActivity_science.getBase(CalcActivity_small.this));
                     if(!answer.equals("Math Error"))ausgabe_setText(answer);
@@ -466,7 +466,7 @@ public class CalcActivity_small extends AppCompatActivity {
                 view.startAnimation(buttonClick);
 
                 eingabeAddText("7");
-                setBackground(btn_7);
+
                 if(solve_inst_pref){
                     answer = I.getResult(CalcActivity_science.getBase(CalcActivity_small.this));
                     if(!answer.equals("Math Error"))ausgabe_setText(answer);
@@ -479,7 +479,7 @@ public class CalcActivity_small extends AppCompatActivity {
                 view.startAnimation(buttonClick);
 
                 eingabeAddText("8");
-                setBackground(btn_8);
+
                 if(solve_inst_pref){
                     answer = I.getResult(CalcActivity_science.getBase(CalcActivity_small.this));
                     if(!answer.equals("Math Error"))ausgabe_setText(answer);
@@ -492,7 +492,7 @@ public class CalcActivity_small extends AppCompatActivity {
                 view.startAnimation(buttonClick);
 
                 eingabeAddText("9");
-                setBackground(btn_9);
+
                 if(solve_inst_pref){
                     answer = I.getResult(CalcActivity_science.getBase(CalcActivity_small.this));
                     if(!answer.equals("Math Error"))ausgabe_setText(answer);
@@ -505,7 +505,7 @@ public class CalcActivity_small extends AppCompatActivity {
                 view.startAnimation(buttonClick);
 
                 eingabeAddText("0");
-                setBackground(btn_0);
+
                 if(solve_inst_pref){
                     answer = I.getResult(CalcActivity_science.getBase(CalcActivity_small.this));
                     if(!answer.equals("Math Error"))ausgabe_setText(answer);
@@ -518,7 +518,7 @@ public class CalcActivity_small extends AppCompatActivity {
                 view.startAnimation(buttonClick);
 
                 eingabeAddText(".");
-                setBackground(btn_com);
+
                 if(solve_inst_pref){
                     answer = I.getResult(CalcActivity_science.getBase(CalcActivity_small.this));
                     if(!answer.equals("Math Error"))ausgabe_setText(answer);
@@ -533,7 +533,7 @@ public class CalcActivity_small extends AppCompatActivity {
                 view.startAnimation(buttonClick);
 
                 eingabeAddText("+");
-                setBackground(btn_add);
+
                 if(solve_inst_pref){
                     answer = I.getResult(CalcActivity_science.getBase(CalcActivity_small.this));
                     if(!answer.equals("Math Error"))ausgabe_setText(answer);
@@ -546,7 +546,7 @@ public class CalcActivity_small extends AppCompatActivity {
                 view.startAnimation(buttonClick);
 
                 eingabeAddText("-");
-                setBackground(btn_sub);
+
                 if(solve_inst_pref){
                     answer = I.getResult(CalcActivity_science.getBase(CalcActivity_small.this));
                     if(!answer.equals("Math Error"))ausgabe_setText(answer);
@@ -559,7 +559,7 @@ public class CalcActivity_small extends AppCompatActivity {
                 view.startAnimation(buttonClick);
 
                 eingabeAddText("*");
-                setBackground(btn_mul);
+
                 if(solve_inst_pref){
                     answer = I.getResult(CalcActivity_science.getBase(CalcActivity_small.this));
                     if(!answer.equals("Math Error"))ausgabe_setText(answer);
@@ -572,7 +572,7 @@ public class CalcActivity_small extends AppCompatActivity {
                 view.startAnimation(buttonClick);
 
                 eingabeAddText("/");
-                setBackground(btn_div);
+
                 if(solve_inst_pref){
                     answer = I.getResult(CalcActivity_science.getBase(CalcActivity_small.this));
                     if(!answer.equals("Math Error"))ausgabe_setText(answer);
@@ -588,12 +588,12 @@ public class CalcActivity_small extends AppCompatActivity {
 
                 answer = I.getResult(CalcActivity_science.getBase(CalcActivity_small.this));
                 ausgabe_setText(answer);
-                setBackground(btn_eq);
+
             }
         });
 
-        setBackground(btn_clear);
-        setBackground(btn_clearall);
+
+
 
         Intent v = getIntent();
         eT_eingabe.setText( v.getStringExtra("input"));
@@ -613,103 +613,16 @@ public class CalcActivity_small extends AppCompatActivity {
     }
 
 
-
-    void setBackground(View x){
-        if(buttonshapeID==0)applySettings();
-        Drawable background;
-        SettingsApplier.setColors(CalcActivity_small.this);
-        float factor_font = SettingsApplier.getDarker_factor_font(CalcActivity_small.this);
-
-
-        boolean stroke = true;
-
-        //Default Case
-        background = getResources().getDrawable(buttonshapeID);
-        SettingsApplier.setColor(CalcActivity_small.this,background, SettingsApplier.getColor_specials(CalcActivity_small.this),buttonfüllung,stroke);
-        int darker = SettingsApplier.manipulateColor(SettingsApplier.getColor_specials(CalcActivity_small.this),factor_font);
-        SettingsApplier.setTextColor(x,darker);
-
-        if(x instanceof Button){
-            //fix für größe dieser kleinen unicode symbole
-            if(((Button) x).getText().equals(getResources().getString(R.string.CLEAR_ALL)) || ((Button) x).getText().equals(getResources().getString(R.string.CLEAR))){
-                ((Button) x).setTextSize(Math.min(30,((Button)btn_0).getTextSize()*2));
-            }
-        }
-
-        if(x.equals(display)){
-            background = getResources().getDrawable(buttonshapeID);
-            SettingsApplier.setColor(CalcActivity_small.this,background, SettingsApplier.getColor_display(CalcActivity_small.this),buttonfüllung,stroke);
-            eT_ausgabe.setTextColor(SettingsApplier.getColor_displaytext(CalcActivity_small.this));
-            eT_eingabe.setTextColor(SettingsApplier.getColor_displaytext(CalcActivity_small.this));
-            x.setBackground(background);
-        }
-
-        if(x.equals(btn_verlauf)){
-
-            darker = SettingsApplier.manipulateColor(SettingsApplier.getColor_act(CalcActivity_small.this),factor_font);
-            if(DesignApplier.getBrightness(DesignApplier.transToRGB(darker)) < 20){
-                darker = 0xffFFFFFF;
-            }
-            Drawable vector =  getResources().getDrawable(R.drawable.ic_verlauf);
-            vector.setColorFilter(darker, PorterDuff.Mode.SRC_ATOP);
-
-            background = getResources().getDrawable(buttonshapeID);
-            SettingsApplier.setColor((CalcActivity_small.this),background, SettingsApplier.getColor_act(CalcActivity_small.this),buttonfüllung,stroke);
-            darker = SettingsApplier.manipulateColor(SettingsApplier.getColor_act(CalcActivity_small.this),factor_font);
-            SettingsApplier.setTextColor(x,darker);
-
-            x.setBackground( SettingsApplier.combineVectorBackground(vector,background));
-            ((Button) x).setText("");
-            return;
-        }
-
-        else if(BTN_ACT.contains(x)){
-            background = getResources().getDrawable(buttonshapeID);
-            SettingsApplier.setColor(CalcActivity_small.this,background, SettingsApplier.getColor_act(CalcActivity_small.this),buttonfüllung,stroke);
-            darker = SettingsApplier.manipulateColor(SettingsApplier.getColor_act(CalcActivity_small.this),factor_font);
-            SettingsApplier.setTextColor(x,darker);
-        }
-        else if(BTN_FKT.contains(x)){
-            background = getResources().getDrawable(buttonshapeID);
-            SettingsApplier.setColor(CalcActivity_small.this,background, SettingsApplier.getColor_fkt(CalcActivity_small.this),buttonfüllung,stroke);
-            darker = SettingsApplier.manipulateColor(SettingsApplier.getColor_fkt(CalcActivity_small.this),factor_font);
-            SettingsApplier.setTextColor(x,darker);
-        }
-        else if(BTN_NUMBERS.contains(x)){
-            background = getResources().getDrawable(buttonshapeID);
-            SettingsApplier.setColor(CalcActivity_small.this,background, SettingsApplier.getColor_numbers(CalcActivity_small.this),buttonfüllung,stroke);
-            darker = SettingsApplier.manipulateColor(SettingsApplier.getColor_numbers(CalcActivity_small.this),factor_font);
-            SettingsApplier.setTextColor(x,darker);
-        }
-        else if(BTN_SAVES.contains(x)){
-            background = getResources().getDrawable(buttonshapeID);
-            SettingsApplier.setColor(CalcActivity_small.this,background, SettingsApplier.getColor_saves(CalcActivity_small.this),buttonfüllung,stroke);
-            darker = SettingsApplier.manipulateColor(SettingsApplier.getColor_saves(CalcActivity_small.this),factor_font);
-            SettingsApplier.setTextColor(x,darker);
-        }
-
-        x.setBackground(background);
-
-    }
-
-
-
-
     void setBackgrounds(){
-        display.setBackgroundColor(SettingsApplier.getColor_display(CalcActivity_small.this));
-        small_background.setBackgroundColor(SettingsApplier.getColor_background(CalcActivity_small.this));
-
-        //setBackground(spinner_shift);
-
-
         for(Button b: BTN_ALL){
-            setBackground(b);
+            if(BTN_ACT.contains(b))SettingsApplier.setViewDesign(CalcActivity_small.this,b,SettingsApplier.getColor_act(CalcActivity_small.this));
+            if(BTN_FKT.contains(b))SettingsApplier.setViewDesign(CalcActivity_small.this,b,SettingsApplier.getColor_fkt(CalcActivity_small.this));
+            if(BTN_SAVES.contains(b))SettingsApplier.setViewDesign(CalcActivity_small.this,b,SettingsApplier.getColor_saves(CalcActivity_small.this));
+            if(BTN_FOPS.contains(b))SettingsApplier.setViewDesign(CalcActivity_small.this,b,SettingsApplier.getColor_fops(CalcActivity_small.this));
+            if(BTN_NUMBERS.contains(b))SettingsApplier.setViewDesign(CalcActivity_small.this,b,SettingsApplier.getColor_numbers(CalcActivity_small.this));
         }
-
-        setBackground(display);
+        SettingsApplier.setViewDesign(CalcActivity_small.this,display,SettingsApplier.getColor_numbers(CalcActivity_small.this));
     }
-
-
 
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

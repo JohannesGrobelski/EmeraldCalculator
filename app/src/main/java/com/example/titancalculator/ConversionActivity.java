@@ -196,7 +196,6 @@ public class ConversionActivity extends AppCompatActivity {
     void visual_select(Button x){
         if(x==null)return;
         Drawable background_fkt = getResources().getDrawable(buttonshapeID);
-        setBackground(x);
         setColor(background_fkt,SettingsApplier.getColor_conv(ConversionActivity.this),buttonfüllung,7);
 
         x.setBackground(background_fkt);
@@ -205,45 +204,17 @@ public class ConversionActivity extends AppCompatActivity {
     void visual_unselect(Button x){
         if(x==null)return;
         Drawable background_fkt = getResources().getDrawable(buttonshapeID);
-        setBackground(x);
         setColor(background_fkt,SettingsApplier.getColor_conv(ConversionActivity.this),buttonfüllung,12);
 
         x.setBackground(background_fkt);
     }
 
-    void setBackground(View x){
 
-        Drawable background;
-        SettingsApplier.setColors(ConversionActivity.this);
-        float factor_font = SettingsApplier.darker_factor_font;
-        boolean stroke = true;
-
-        //Default Case
-        background = getResources().getDrawable(buttonshapeID);
-        SettingsApplier.setColor(ConversionActivity.this,background, SettingsApplier.getColor_specials(ConversionActivity.this),buttonfüllung,stroke);
-        int visual_unselect = SettingsApplier.manipulateColor(SettingsApplier.getColor_specials(ConversionActivity.this),factor_font);
-        if(x instanceof Button) ((Button) x).setTextColor(visual_unselect);
-
-        if(x instanceof EditText){
-            int fontcolor = SettingsApplier.manipulateColor(SettingsApplier.getColor_conv(ConversionActivity.this),factor_font);
-            SettingsApplier.setTextColor(x,fontcolor);
-        }
-
-        if(VIEW_CONV.contains(x)){
-            background = getResources().getDrawable(buttonshapeID);
-            SettingsApplier.setColor(ConversionActivity.this,background, SettingsApplier.getColor_conv(ConversionActivity.this),buttonfüllung,stroke);
-            visual_unselect = SettingsApplier.manipulateColor(SettingsApplier.getColor_conv(ConversionActivity.this),factor_font);
-            if(x instanceof Button) ((Button) x).setTextColor(visual_unselect);
-        }
-
-
-        x.setBackground(background);
-    }
 
     void setBackgrounds(){
         conv_background.setBackgroundColor(SettingsApplier.getColor_background(ConversionActivity.this));
         for(View v: VIEW_CONV){
-            setBackground(v);
+            SettingsApplier.setViewDesign(ConversionActivity.this,v,SettingsApplier.getColor_conv(ConversionActivity.this));
         }
     }
 
@@ -253,7 +224,7 @@ public class ConversionActivity extends AppCompatActivity {
         applySettings();
 
         try {
-            CalcActivity_science.setBackgroundImage(ConversionActivity.this,conv_background);
+            SettingsApplier.setBackgroundImage(ConversionActivity.this,conv_background);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -417,7 +388,7 @@ public class ConversionActivity extends AppCompatActivity {
 
 
         try {
-            CalcActivity_science.setBackgroundImage(ConversionActivity.this,conv_background);
+            SettingsApplier.setBackgroundImage(ConversionActivity.this,conv_background);
         } catch (Exception e) {
             e.printStackTrace();
         }

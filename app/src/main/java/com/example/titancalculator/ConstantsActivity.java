@@ -85,7 +85,7 @@ public class ConstantsActivity extends AppCompatActivity {
         initMaps();
 
         try {
-            CalcActivity_science.setBackgroundImage(ConstantsActivity.this,const_background);
+            SettingsApplier.setBackgroundImage(ConstantsActivity.this,const_background);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -290,7 +290,7 @@ public class ConstantsActivity extends AppCompatActivity {
 
 
         try {
-            CalcActivity_science.setBackgroundImage(ConstantsActivity.this,const_background);
+            SettingsApplier.setBackgroundImage(ConstantsActivity.this,const_background);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -528,40 +528,11 @@ public class ConstantsActivity extends AppCompatActivity {
 
 
 
-    void setBackground(View x){
-
-        Drawable background;
-        SettingsApplier.setColors(ConstantsActivity.this);
-        float factor_font = 0.5f;
-        boolean stroke = true;
-
-        //Default Case
-        background = getResources().getDrawable(buttonshapeID);
-        SettingsApplier.setColor((ConstantsActivity.this),background, SettingsApplier.getColor_specials(ConstantsActivity.this),buttonfüllung,stroke);
-        int visual_unselect = SettingsApplier.manipulateColor(SettingsApplier.getColor_specials(ConstantsActivity.this),factor_font);
-        if(x instanceof Button) ((Button) x).setTextColor(visual_unselect);
-
-        if(x instanceof EditText){
-            int fontcolor = SettingsApplier.manipulateColor(SettingsApplier.getColor_const(ConstantsActivity.this),factor_font);
-            SettingsApplier.setTextColor(x,fontcolor);
-        }
-
-        if(VIEW_CONST.contains(x)){
-            background = getResources().getDrawable(buttonshapeID);
-            SettingsApplier.setColor(ConstantsActivity.this,background, SettingsApplier.getColor_const(ConstantsActivity.this),buttonfüllung,stroke);
-            visual_unselect = SettingsApplier.manipulateColor(SettingsApplier.getColor_const(ConstantsActivity.this),factor_font);
-            if(x instanceof Button) ((Button) x).setTextColor(visual_unselect);
-        }
-
-        x.setBackground(background);
-
-    }
-
     void setBackgrounds(){
         tV_Pfad.setTextColor(SettingsApplier.getColor_const(ConstantsActivity.this));
         const_background.setBackgroundColor(SettingsApplier.getColor_background(ConstantsActivity.this));
         for(View v: VIEW_CONST){
-            setBackground(v);
+            SettingsApplier.setViewDesign(ConstantsActivity.this,v,SettingsApplier.getColor_const(ConstantsActivity.this));
         }
     }
 
