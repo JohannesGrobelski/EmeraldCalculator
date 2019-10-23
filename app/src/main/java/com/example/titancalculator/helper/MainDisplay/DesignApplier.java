@@ -3,6 +3,8 @@ package com.example.titancalculator.helper.MainDisplay;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.media.audiofx.Equalizer;
 import android.widget.Toast;
 
@@ -146,6 +148,9 @@ public class DesignApplier {
         return;
     }
 
+    public static Drawable generateButtonDrawable(Drawable Shape, Drawable Filling){
+        return new LayerDrawable(new Drawable[] {Filling,Shape});
+    }
 
 
 

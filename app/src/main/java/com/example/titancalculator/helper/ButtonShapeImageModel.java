@@ -5,6 +5,9 @@ public class ButtonShapeImageModel {
     private String name;
     private int image_drawable;
 
+    public int getID() {return image_drawable;}
+
+
     public String getName() {
         return name;
     }

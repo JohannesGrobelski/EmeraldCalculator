@@ -155,6 +155,7 @@ public class SettingsApplier {
         String simplename = view.getClass().getSimpleName();
 
         if(view instanceof TextView){
+           // Drawable background = DesignApplier.generateButtonDrawable(context.getDrawable(buttonshapeID),buttonfüllung);
             Drawable background = context.getDrawable(buttonshapeID);
             SettingsApplier.setColor((context),background, color,buttonfüllung,stroke);
             SettingsApplier.setTextColor(view,darker);
@@ -484,6 +485,10 @@ public class SettingsApplier {
         }
     }
 
+    public static void setButtonshapeID(int ID) {
+        buttonshapeID = ID;
+    }
+
     public static String getButtonfüllung() {
         return buttonfüllung;
     }
@@ -665,7 +670,7 @@ public class SettingsApplier {
     }
 
     public static Float getDarker_factor_font(Context c) {
-        if(darker_factor_font < 0f || darker_factor_font >= 1f){
+        if(darker_factor_font < .2f || darker_factor_font >= .8f){
             darker_factor_font = 0.5f;
         }
         return darker_factor_font;

@@ -248,7 +248,7 @@ public class CalcActivity_normal extends AppCompatActivity {
         setUp_spinner_base();
 
         try {
-
+            SettingsApplier.setBackgroundImage(CalcActivity_normal.this,normal_background);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -1141,7 +1141,7 @@ public class CalcActivity_normal extends AppCompatActivity {
         verlauf = ArrayUtils.stringToList(v.getStringExtra("verlauf"));
 
         try {
-
+            SettingsApplier.setBackgroundImage(CalcActivity_normal.this,normal_background);
         } catch (Exception e) {
             e.printStackTrace();
         }
