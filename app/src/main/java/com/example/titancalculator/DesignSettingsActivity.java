@@ -44,9 +44,6 @@ public class DesignSettingsActivity extends AppCompatActivity {
 
 
     private String language;
-    int buttonshapeID = R.drawable.buttonshape_square;
-    String buttonfüllung = "voll";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

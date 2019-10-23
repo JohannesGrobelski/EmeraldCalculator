@@ -42,9 +42,6 @@ public class FunctionGroupSettingsActivity extends AppCompatActivity {
     Button btn_moveDown;
 
     String sel_group_name = "";
-    private int buttonshapeID;
-    private String buttonfüllung;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -316,15 +313,6 @@ public class FunctionGroupSettingsActivity extends AppCompatActivity {
             btn_moveDown.setText("unten");
         }
 
-        //buttonshape
-        buttonshapeID = SettingsApplier.getButtonshapeID();
-
-
-        //buttonfüllung
-        if (PreferenceManager.getDefaultSharedPreferences(FunctionGroupSettingsActivity.this).contains("buttonfüllung")) {
-            buttonfüllung = PreferenceManager.getDefaultSharedPreferences(FunctionGroupSettingsActivity.this).getString("buttonfüllung","voll");
-        }
-
         lv_group = findViewById(R.id.lv_group);
         tv_selected_group  = findViewById(R.id.tv_selected_group);
         setBackground(btn_new,SettingsApplier.getColor_act(FunctionGroupSettingsActivity.this));
@@ -342,8 +330,8 @@ public class FunctionGroupSettingsActivity extends AppCompatActivity {
     }
 
     public void setBackground(View v, int color){
-        Drawable background = getResources().getDrawable(buttonshapeID);
-        SettingsApplier.setColor((FunctionGroupSettingsActivity.this),background, color,buttonfüllung,true);
+        Drawable background = getResources().getDrawable(SettingsApplier.getButtonshapeID());
+        SettingsApplier.setColor((FunctionGroupSettingsActivity.this),background, color,SettingsApplier.getButtonfüllung(),true);
         int darker = SettingsApplier.manipulateColor(color,0.6f);
         if(v instanceof Button) ((Button) v).setTextColor(darker);
     }

@@ -93,8 +93,6 @@ public class ConversionActivity extends AppCompatActivity {
     Button selected;
     Button btn_save;
 
-    private int buttonshapeID = R.drawable.buttonshape_square;
-    private String buttonfüllung = "voll";
     Set<View> VIEW_CONV;
 
 
@@ -152,29 +150,8 @@ public class ConversionActivity extends AppCompatActivity {
 
         String[] a = (String[]) currentSet.toArray(new String[currentSet.size()]);
         //ArrayAdapter adapter_cat = new ArrayAdapter<String>(this, R.layout.lvitem_layout, a);
-        ArrayAdapter<String> adapter_cat = new ArrayAdapter<String>(this, R.layout.spinner_shift_style, a){
-            int color_font = SettingsApplier.manipulateColor(SettingsApplier.getColor_conv(ConversionActivity.this),SettingsApplier.darker_factor_font);
-            public View getView(int position, View convertView, ViewGroup parent) {
-                View v = super.getView(position, convertView, parent);
-                ((TextView) v).setTextSize(fontsize);
-                ((TextView) v).setBackgroundColor(SettingsApplier.getColor_background(ConversionActivity.this));
-                ((TextView) v).setTypeface(FontSettingsActivity.getTypeFace(SettingsApplier.current_font_family,SettingsApplier.current_fontstlye));
-                ((TextView) v).setTextColor(color_font);
-                return v;
-            }
-            public View getDropDownView(int position, View convertView, ViewGroup parent) {
-                View v = super.getDropDownView(position, convertView, parent);
-                v.setBackgroundResource(buttonshapeID);
-                int darker = Math.round(SettingsApplier.getColor_conv(ConversionActivity.this) * SettingsApplier.darker_factor_font);
-                SettingsApplier.setTextColor(v,darker);
-                ((TextView) v).setBackgroundColor(SettingsApplier.getColor_background(ConversionActivity.this));
-                ((TextView) v).setTypeface(FontSettingsActivity.getTypeFace(SettingsApplier.current_font_family,SettingsApplier.current_fontstlye));
-                ((TextView) v).setGravity(Gravity.CENTER);
-                return v;
-            }
-        };
-        LV_Auswahl.setBackgroundColor(SettingsApplier.getColor_background(ConversionActivity.this));
-        LV_Auswahl.setAdapter(adapter_cat);
+        SettingsApplier.setArrayAdapter(ConversionActivity.this,LV_Auswahl,a,SettingsApplier.getColor_background(ConversionActivity.this));
+
     }
 
     void select(Button x){
@@ -195,16 +172,16 @@ public class ConversionActivity extends AppCompatActivity {
 
     void visual_select(Button x){
         if(x==null)return;
-        Drawable background_fkt = getResources().getDrawable(buttonshapeID);
-        setColor(background_fkt,SettingsApplier.getColor_conv(ConversionActivity.this),buttonfüllung,7);
+        Drawable background_fkt = getResources().getDrawable(SettingsApplier.getButtonshapeID());
+        setColor(background_fkt,SettingsApplier.getColor_conv(ConversionActivity.this),SettingsApplier.getButtonfüllung(),12);
 
         x.setBackground(background_fkt);
     }
 
     void visual_unselect(Button x){
         if(x==null)return;
-        Drawable background_fkt = getResources().getDrawable(buttonshapeID);
-        setColor(background_fkt,SettingsApplier.getColor_conv(ConversionActivity.this),buttonfüllung,12);
+        Drawable background_fkt = getResources().getDrawable(SettingsApplier.getButtonshapeID());
+        setColor(background_fkt,SettingsApplier.getColor_conv(ConversionActivity.this),SettingsApplier.getButtonfüllung(),12);
 
         x.setBackground(background_fkt);
     }
@@ -526,15 +503,6 @@ public class ConversionActivity extends AppCompatActivity {
             eT_cur_const_val2.setHint("Maß2");
             btn_maßeinheit1.setText("Maß1");
             btn_maßeinheit2.setText("Maß2");
-        }
-
-        //buttonshape
-        buttonshapeID = SettingsApplier.getButtonshapeID();
-
-
-        //buttonfüllung
-        if (PreferenceManager.getDefaultSharedPreferences(ConversionActivity.this).contains("buttonfüllung")) {
-            buttonfüllung = PreferenceManager.getDefaultSharedPreferences(ConversionActivity.this).getString("buttonfüllung","voll");
         }
 
         if (PreferenceManager.getDefaultSharedPreferences(ConversionActivity.this).contains("pref_precision")) {

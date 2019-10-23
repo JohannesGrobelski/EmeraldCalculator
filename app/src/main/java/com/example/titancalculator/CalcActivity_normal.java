@@ -72,8 +72,6 @@ public class CalcActivity_normal extends AppCompatActivity {
     static final int REQUEST_CODE_Verlauf = 1;  // The request code
 
     ArrayList<String> verlauf = new ArrayList<>();
-    int buttonshapeID = R.drawable.buttonshape_square;
-    String buttonfüllung="voll";
     DisplayMetrics screen_density;
 
     Set<String> UserFctGroups = new HashSet<>();
@@ -1500,13 +1498,6 @@ public class CalcActivity_normal extends AppCompatActivity {
         if (PreferenceManager.getDefaultSharedPreferences(CalcActivity_normal.this).contains("pref_precision")) {
             String prec = PreferenceManager.getDefaultSharedPreferences(CalcActivity_normal.this).getString("pref_precision","10");
             if(prec != null)NumberString.precision =  Integer.valueOf(prec) + 1;
-        }
-
-        buttonshapeID = SettingsApplier.getButtonshapeID();
-
-        //buttonfüllung
-        if (PreferenceManager.getDefaultSharedPreferences(CalcActivity_normal.this).contains("buttonfüllung")) {
-            buttonfüllung = PreferenceManager.getDefaultSharedPreferences(CalcActivity_normal.this).getString("buttonfüllung","voll");
         }
 
         //Fonts

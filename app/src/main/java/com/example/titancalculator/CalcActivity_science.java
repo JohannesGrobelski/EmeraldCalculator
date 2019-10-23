@@ -90,8 +90,6 @@ public class CalcActivity_science extends AppCompatActivity {
     static final int REQUEST_CODE_CONV = 1;  // The request code
     static final int REQUEST_CODE_history = 1;  // The request code
     ArrayList<String> history = new ArrayList<>();
-    int buttonshapeID = 0;
-    String buttonfüllung="";
     Set<String> UserFctGroups = new HashSet<>();
     String current_Callback="";
     String answer="";
@@ -1611,12 +1609,7 @@ public class CalcActivity_science extends AppCompatActivity {
             String prec = PreferenceManager.getDefaultSharedPreferences(CalcActivity_science.this).getString("pref_precision","10");
             if(prec != null)NumberString.precision =  Integer.valueOf(prec) + 1;
         }
-        //buttonshape
-        buttonshapeID = SettingsApplier.getButtonshapeID();
-        //buttonfüllung
-        if (PreferenceManager.getDefaultSharedPreferences(CalcActivity_science.this).contains("buttonfüllung")) {
-            buttonfüllung = PreferenceManager.getDefaultSharedPreferences(CalcActivity_science.this).getString("buttonfüllung","voll");
-        }
+
         //Fonts
         //Typeface font = Typeface.createFromAsset(getAssets(), "Crashed Scoreboard.ttf");
         Typeface monospace = Typeface.create("MONOSPACE",Typeface.NORMAL);

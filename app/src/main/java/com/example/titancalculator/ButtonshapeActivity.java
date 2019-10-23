@@ -99,7 +99,7 @@ public class ButtonshapeActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = preferences.edit();
 
 
-                String NAME = ((ButtonShapeImageModel) ((com.example.titancalculator.helper.ButtonShapeCustomAdapter) lv_füllung.getAdapter()).getItem(position)).getName();
+                String NAME = ((ButtonShapeImageModel) (lv_füllung.getAdapter()).getItem(position)).getName();
                 SettingsApplier.setButtonfüllung(NAME);
                 editor.putString("buttonfüllung", NAME);
                 editor.commit();
@@ -131,7 +131,7 @@ public class ButtonshapeActivity extends AppCompatActivity {
 
     private void setPreviewImage(){
         int form = 0;
-        String füllung = "";
+        String füllung = "voll";
         form =  SettingsApplier.getButtonshapeID();
         füllung = PreferenceManager.getDefaultSharedPreferences(ButtonshapeActivity.this).getString("buttonfüllung","voll");
 

@@ -102,7 +102,7 @@ public class SettingsApplier {
         }
     }
 
-    public static void setArrayAdapter(final Context context, Spinner spinner, String[] array, final int color){
+    public static void setArrayAdapter(final Context context, View view, String[] array, final int color){
         float textsize = 20f;
         if(SettingsApplier.getCurrent_fontsize().matches("[0-9]+")){
             textsize = Float.valueOf(SettingsApplier.getCurrent_fontsize());
@@ -131,7 +131,9 @@ public class SettingsApplier {
                         return v;
                     }
                 };
-        spinner.setAdapter(array_adaper);
+        if(view instanceof  Spinner) ((Spinner) view).setAdapter(array_adaper);
+        if(view instanceof  ListView) ((ListView) view).setAdapter(array_adaper);
+
     }
 
     /**

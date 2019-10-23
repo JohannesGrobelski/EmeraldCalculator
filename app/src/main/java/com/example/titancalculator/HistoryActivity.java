@@ -39,8 +39,6 @@ public class HistoryActivity extends AppCompatActivity {
     private String language;
 
     //Display
-    int buttonshapeID = R.drawable.buttonshape_square;
-    private String buttonfüllung = "voll";
     private Float fontsize;
 
     String[] arrayVerlauf;
@@ -104,19 +102,7 @@ public class HistoryActivity extends AppCompatActivity {
     }
 
     private void setHistAdap(){
-        ArrayAdapter<String> adapter_verlauf = new ArrayAdapter<String>(HistoryActivity.this, R.layout.spinner_shift_style, arrayVerlauf){
-            float factor_font = 0.5f;
-            int darker = SettingsApplier.manipulateColor(SettingsApplier.getColor_hist(HistoryActivity.this),factor_font);
-            public View getView(int position, View convertView, ViewGroup parent) {
-                View v = super.getView(position, convertView, parent);
-                ((TextView) v).setTextSize(fontsize);
-                ((TextView) v).setBackgroundColor(SettingsApplier.getColor_background(HistoryActivity.this));
-                ((TextView) v).setTypeface(FontSettingsActivity.getTypeFace(SettingsApplier.current_font_family,SettingsApplier.current_fontstlye));
-                ((TextView) v).setTextColor(darker);
-                return v;
-            }
-        };
-        lv_verlauf.setAdapter(adapter_verlauf);
+        SettingsApplier.setArrayAdapter(HistoryActivity.this,lv_verlauf,arrayVerlauf,SettingsApplier.getColor_hist(HistoryActivity.this));
     }
 
     private void applySettings(){
@@ -131,16 +117,7 @@ public class HistoryActivity extends AppCompatActivity {
         }
 
         //DisplaySettings
-        //buttonshape
-        buttonshapeID = SettingsApplier.getButtonshapeID();
-
-
-        //buttonfüllung
-        if (PreferenceManager.getDefaultSharedPreferences(HistoryActivity.this).contains("buttonfüllung")) {
-            buttonfüllung = PreferenceManager.getDefaultSharedPreferences(HistoryActivity.this).getString("buttonfüllung","voll");
-        }
-
-        fontsize = SettingsApplier.getCurrentFontsize(this);
+       fontsize = SettingsApplier.getCurrentFontsize(this);
 
         setBackgrounds();
     }
@@ -159,8 +136,8 @@ public class HistoryActivity extends AppCompatActivity {
         int visual_unselect = SettingsApplier.manipulateColor(SettingsApplier.getColor_specials(HistoryActivity.this),factor_font);
 
 
-        background = getResources().getDrawable(buttonshapeID);
-        SettingsApplier.setColor((HistoryActivity.this),background, SettingsApplier.getColor_hist(HistoryActivity.this),buttonfüllung,stroke);
+        background = getResources().getDrawable(SettingsApplier.getButtonshapeID());
+        SettingsApplier.setColor((HistoryActivity.this),background, SettingsApplier.getColor_hist(HistoryActivity.this),SettingsApplier.getButtonfüllung(),stroke);
         visual_unselect = SettingsApplier.manipulateColor(SettingsApplier.getColor_hist(HistoryActivity.this),factor_font);
         if(btn_save instanceof Button) ((Button) btn_save).setTextColor(visual_unselect);
         if(btn_clear instanceof Button) ((Button) btn_clear).setTextColor(visual_unselect);
