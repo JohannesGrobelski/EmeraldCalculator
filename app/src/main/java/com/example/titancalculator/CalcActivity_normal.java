@@ -397,7 +397,7 @@ public class CalcActivity_normal extends AppCompatActivity {
         VIEW_ans = findViewById(R.id.m_btn_ans);
         VIEW_eq = findViewById(R.id.m_btn_eq);
 
-        VIEW_ACT = new HashSet<>(Arrays.asList(new Button[]{VIEW_CONST, VIEW_CONV, VIEW_verlauf, VIEW_menu}));
+        VIEW_ACT = new HashSet<>(Arrays.asList(new Button[]{VIEW_menu}));
         VIEW_FKT = new HashSet<>(Arrays.asList(new Button[]{VIEW_clear, VIEW_clearall, VIEW_LINKS, VIEW_RECHTS}));
         VIEW_FOPS = new HashSet<>(Arrays.asList(new Button[]{VIEW_11, VIEW_12, VIEW_13, VIEW_14, VIEW_15, VIEW_16, VIEW_21, VIEW_22, VIEW_23, VIEW_24, VIEW_25, VIEW_26}));
         VIEW_SAVES = new HashSet<>(Arrays.asList(new Button[]{}));
@@ -1320,7 +1320,13 @@ public class CalcActivity_normal extends AppCompatActivity {
 
 
     void setBackgrounds(){
+        normal_background.setBackgroundColor(SettingsApplier.getColor_background(CalcActivity_normal.this));
+
         //
+        SettingsApplier.drawVectorImage(CalcActivity_normal.this,VIEW_CONST,R.drawable.ic_konstanten1);
+        SettingsApplier.drawVectorImage(CalcActivity_normal.this,VIEW_CONV,R.drawable.ic_lineal);
+        SettingsApplier.drawVectorImage(CalcActivity_normal.this,VIEW_verlauf,R.drawable.ic_verlauf);
+
         for(Button b: VIEW_ALL){
             if(VIEW_ACT.contains(b))SettingsApplier.setViewDesign(CalcActivity_normal.this,b,SettingsApplier.getColor_act(CalcActivity_normal.this));
             if(VIEW_FKT.contains(b))SettingsApplier.setViewDesign(CalcActivity_normal.this,b,SettingsApplier.getColor_fkt(CalcActivity_normal.this));

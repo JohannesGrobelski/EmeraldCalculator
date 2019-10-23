@@ -35,8 +35,8 @@ public class ButtonshapeActivity extends AppCompatActivity {
     private com.example.titancalculator.helper.ButtonShapeCustomAdapter ButtonFillingCustomAdapter;
     private ArrayList<ButtonShapeImageModel> ButtonFillingImageModelArrayList;
 
-    private int[] formList = new int[]{R.drawable.buttonshape_round, R.drawable.buttonshape_square, R.drawable.buttonshape_circel};
-    private String[] formNameList = new String[]{"Round", "Square","Circle"};
+    private int[] formList = new int[]{R.drawable.buttonshape_round, R.drawable.buttonshape_square, R.drawable.buttonshape_circel,R.drawable.buttonshape_ring};
+    private String[] formNameList = new String[]{"Round", "Square","Circle","Ring"};
     private int[] füllungList = new int[]{R.drawable.buttonshape_voll, R.drawable.buttonshape_leer};
     private String[] füllungNameList = new String[]{"voll", "leer"};
 
@@ -122,9 +122,7 @@ public class ButtonshapeActivity extends AppCompatActivity {
         Drawable d = getDrawable(R.drawable.buttonshape_square);
         d = getDrawable(form);
 
-
         SettingsApplier.setColor(ButtonshapeActivity.this,d,0xffc60aff,füllung,true);
-
         return d;
 
     }

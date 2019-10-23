@@ -294,7 +294,7 @@ public class CalcActivity_small extends AppCompatActivity {
         btn_div = findViewById(R.id.s_btn_div);
         btn_eq = findViewById(R.id.s_btn_eq);
 
-        BTN_ACT = new HashSet<>(Arrays.asList(new Button[]{btn_menu, btn_verlauf}));
+        BTN_ACT = new HashSet<>(Arrays.asList(new Button[]{btn_menu}));
         BTN_FKT = new HashSet<>(Arrays.asList(new Button[]{btn_clear, btn_clearall}));
         BTN_NUMBERS = new HashSet<>(Arrays.asList(new Button[]{btn_com, btn_0, btn_1, btn_2, btn_3, btn_4, btn_5, btn_6, btn_7, btn_8, btn_9}));
         BTN_SAVES = new HashSet<>(Arrays.asList(new Button[]{}));
@@ -612,6 +612,11 @@ public class CalcActivity_small extends AppCompatActivity {
 
 
     void setBackgrounds(){
+        small_background.setBackgroundColor(SettingsApplier.getColor_background(CalcActivity_small.this));
+
+        //
+        SettingsApplier.drawVectorImage(CalcActivity_small.this,btn_verlauf,R.drawable.ic_verlauf);
+
         for(Button b: BTN_ALL){
             if(BTN_ACT.contains(b))SettingsApplier.setViewDesign(CalcActivity_small.this,b,SettingsApplier.getColor_act(CalcActivity_small.this));
             if(BTN_FKT.contains(b))SettingsApplier.setViewDesign(CalcActivity_small.this,b,SettingsApplier.getColor_fkt(CalcActivity_small.this));

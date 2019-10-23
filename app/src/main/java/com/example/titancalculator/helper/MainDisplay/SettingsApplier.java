@@ -34,6 +34,7 @@ import androidx.preference.PreferenceManager;
 
 import com.example.titancalculator.ButtonSettingsActivity;
 import com.example.titancalculator.CalcActivity_science;
+import com.example.titancalculator.ConversionActivity;
 import com.example.titancalculator.FontSettingsActivity;
 import com.example.titancalculator.FunctionGroupSettingsActivity;
 import com.example.titancalculator.MainActivity;
@@ -672,12 +673,28 @@ public class SettingsApplier {
     }
 
     public static Float getDarker_factor_font(Context c) {
-        if(darker_factor_font < .2f || darker_factor_font >= .8f){
-            darker_factor_font = 0.5f;
+        if(getButtonfüllung().equals("voll")){
+            if(darker_factor_font < .2f || darker_factor_font >= .8f){
+                darker_factor_font = 0.5f;
+            }
         }
         return darker_factor_font;
     }
 
+    public static void drawVectorImage(Context context, View v,  int vectorID){
+            int darker = SettingsApplier.manipulateColor(SettingsApplier.getColor_act(context),getDarker_factor_font(context));
+            if(DesignApplier.getBrightness(DesignApplier.transToRGB(darker)) < 20){
+                darker = 0xffFFFFFF;
+            }
+            Drawable vector =  context.getResources().getDrawable(vectorID);
+            vector.setColorFilter(darker, PorterDuff.Mode.SRC_ATOP);
+            Drawable background = context.getResources().getDrawable(buttonshapeID);
+            SettingsApplier.setColor((context),background, SettingsApplier.getColor_act(context),buttonfüllung,true);
+            SettingsApplier.setTextColor(v,darker);
+            v.setBackground( SettingsApplier.combineVectorBackground(vector,background));
+            ((Button) v).setText("");
+            return;
+    }
 
     //inits settings if user starts calc for first time
     public static void initSettings(Context c){

@@ -416,7 +416,7 @@ public class CalcActivity_science extends AppCompatActivity {
         LN2 = findViewById(R.id.LN2);
         LN3 = findViewById(R.id.LN3);
         LN4 = findViewById(R.id.LN4);
-        VIEW_ACT = new HashSet<>(Arrays.asList(new Button[]{btn_CONST, btn_CONV, btn_history, btn_menu}));
+        VIEW_ACT = new HashSet<>(Arrays.asList(new Button[]{btn_menu}));
         VIEW_FKT = new HashSet<>(Arrays.asList(new Button[]{btn_clear, btn_clearall, btn_LINKS, btn_RECHTS}));
         VIEW_FOPS = new HashSet<>(Arrays.asList(new Button[]{btn_11, btn_12, btn_13, btn_14, btn_15, btn_16, btn_21, btn_22, btn_23, btn_24, btn_25, btn_26}));
         VIEW_NUMBERS = new HashSet<>(Arrays.asList(new Button[]{btn_com, btn_sep, btn_ans, btn_0, btn_1, btn_2, btn_3, btn_4, btn_5, btn_6, btn_7, btn_8, btn_9}));
@@ -1416,6 +1416,10 @@ public class CalcActivity_science extends AppCompatActivity {
     void setBackgrounds(){
         science_background.setBackgroundColor(SettingsApplier.getColor_background(CalcActivity_science.this));
         //
+        SettingsApplier.drawVectorImage(CalcActivity_science.this,btn_CONST,R.drawable.ic_konstanten1);
+        SettingsApplier.drawVectorImage(CalcActivity_science.this,btn_CONV,R.drawable.ic_lineal);
+        SettingsApplier.drawVectorImage(CalcActivity_science.this,btn_history,R.drawable.ic_verlauf);
+
         for(Button b: VIEW_ALL){
             if(VIEW_ACT.contains(b))SettingsApplier.setViewDesign(CalcActivity_science.this,b,SettingsApplier.getColor_act(CalcActivity_science.this));
             if(VIEW_FKT.contains(b))SettingsApplier.setViewDesign(CalcActivity_science.this,b,SettingsApplier.getColor_fkt(CalcActivity_science.this));
