@@ -53,9 +53,10 @@ public class MathEvaluator {
         //test_format();
         //test(100);
         //System.out.println(toDec(".a", 16 , 20));
-        System.out.println(MathEvaluator.evaluate("5*6-3598^9^3",10));
+        System.out.println(MathEvaluator.evaluate("LOG(2,AriVAR(2,3))",10));
+        System.out.println(MathEvaluator.evaluate("AriVAR(2,3)",10));
 
-        System.out.println(MathEvaluator.evaluate("d^b",16));
+        //System.out.println(MathEvaluator.evaluate("d^b",16));
         //System.out.println(toBase("1412432",16,20));
     }
 
@@ -309,6 +310,27 @@ public class MathEvaluator {
 		
 		return ggT;
 	}
+
+    /**
+     * Zähle kommas in richtiger Ebene
+     * richtige Ebene klammer_offen - klammer_zu <= 1
+     * @param eval: Input
+     * @param posAnfang: star
+     * @return
+     */
+	public static int getParameterNumber(String eval, int posAnfang){
+	    if(StringUtils.occurences(eval,"(") != StringUtils.occurences(eval,")"))return -1;
+	    int number_comma = 0;
+	    int klammern_offen = 0; int klammern_geschlossen = 0;
+	    while(posAnfang < eval.length()-2){
+	        ++posAnfang;
+	        char pos = eval.charAt(posAnfang);
+	        if(pos == '(')++klammern_offen;
+            if(pos == ')')++klammern_geschlossen;
+            if(pos == ',' && klammern_offen - klammern_geschlossen <= 1)++number_comma;
+        }
+        return number_comma + 1;
+    }
 
 	public static String evaluate(String input,int base) {
 	    input = rootToSqrt(input);

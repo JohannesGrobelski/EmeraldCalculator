@@ -15,6 +15,11 @@ public class StringUtils {
         return c;
     }
 
+    public static int occurences(String s, String sub){
+        String temp = s.replace(sub, "");
+        return (s.length() - temp.length()) / sub.length();
+    }
+
     // Function to insert string
     public static String insertString(String originalString,String stringToBeInserted,int index) {
         // Create a new string
