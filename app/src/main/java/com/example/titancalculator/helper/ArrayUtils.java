@@ -16,6 +16,15 @@ public class ArrayUtils {
         return false;
     }
 
+    public static ArrayList<String> sublistLastN(ArrayList<String> list, int cap){
+        if(list == null || cap > list.size())return list;
+        ArrayList<String> res = new ArrayList<>();
+        for(int i=list.size() - cap;i<list.size(); i++){
+            res.add(list.get(i));
+        }
+        return res;
+    }
+
     public static String listToString(List<String> array){
         if(array == null)return "";
         if(array.isEmpty())return"";
@@ -50,9 +59,11 @@ public class ArrayUtils {
     }
 
     public static void main(String[] a){
+
         String[] ar = stringToArray("a_b");
         for(String l: ar){
             System.out.println(l);
         }
+
     }
 }

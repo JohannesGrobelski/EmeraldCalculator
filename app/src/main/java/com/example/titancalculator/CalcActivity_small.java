@@ -294,7 +294,7 @@ public class CalcActivity_small extends AppCompatActivity {
         btn_div = findViewById(R.id.s_btn_div);
         btn_eq = findViewById(R.id.s_btn_eq);
 
-        BTN_ACT = new HashSet<>(Arrays.asList(new Button[]{btn_menu}));
+        BTN_ACT = new HashSet<>();
         BTN_FKT = new HashSet<>(Arrays.asList(new Button[]{btn_clear, btn_clearall}));
         BTN_NUMBERS = new HashSet<>(Arrays.asList(new Button[]{btn_com, btn_0, btn_1, btn_2, btn_3, btn_4, btn_5, btn_6, btn_7, btn_8, btn_9}));
         BTN_SAVES = new HashSet<>(Arrays.asList(new Button[]{}));
@@ -586,6 +586,7 @@ public class CalcActivity_small extends AppCompatActivity {
 
                 answer = I.getResult(CalcActivity_science.getBase(CalcActivity_small.this));
                 ausgabe_setText(answer);
+                HistoryActivity.addHistory(CalcActivity_small.this,answer);
 
             }
         });
@@ -615,6 +616,7 @@ public class CalcActivity_small extends AppCompatActivity {
         small_background.setBackgroundColor(SettingsApplier.getColor_background(CalcActivity_small.this));
 
         //
+        SettingsApplier.drawVectorImage(CalcActivity_small.this,btn_menu,R.drawable.ic_menu_black_24dp);
         SettingsApplier.drawVectorImage(CalcActivity_small.this,btn_verlauf,R.drawable.ic_verlauf);
 
         for(Button b: BTN_ALL){
@@ -735,13 +737,13 @@ public class CalcActivity_small extends AppCompatActivity {
         //language
         language = PreferenceManager.getDefaultSharedPreferences(CalcActivity_small.this).getString("pref_lang","english");
         if(language.equals("english") || language.equals("englisch")){
-            btn_menu.setText(R.string.MENU_EN);
+            btn_menu.setText("");
             //btn_verlauf.setText(R.string.VERLAUFEN);
             act_options = getResources().getStringArray(R.array.act_EN);
             mode_options = FunctionGroupSettingsActivity.getGroups(CalcActivity_small.this);
         }
         else if(language.equals("german") || language.equals("deutsch")){
-            btn_menu.setText(R.string.MENU_DE);
+            btn_menu.setText("");
             //btn_verlauf.setText(R.string.VERLAUFDE);
             act_options = getResources().getStringArray(R.array.act_DE);
             mode_options = FunctionGroupSettingsActivity.translateGroup(FunctionGroupSettingsActivity.getGroups(CalcActivity_small.this),"german");

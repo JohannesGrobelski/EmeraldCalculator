@@ -89,7 +89,6 @@ public class CalcActivity_science extends AppCompatActivity {
     static final int REQUEST_CODE_CONST = 1;  // The request code
     static final int REQUEST_CODE_CONV = 1;  // The request code
     static final int REQUEST_CODE_history = 1;  // The request code
-    ArrayList<String> history = new ArrayList<>();
     Set<String> UserFctGroups = new HashSet<>();
     String current_Callback="";
     String answer="";
@@ -180,7 +179,6 @@ public class CalcActivity_science extends AppCompatActivity {
             Intent conversionIntent=null;
             conversionIntent = new Intent(CalcActivity_science.this, CalcActivity_normal.class);
             conversionIntent.putExtra("onPotraitReturn",true);
-            conversionIntent.putExtra("history",ArrayUtils.listToString(new ArrayList<String>(history)));
             conversionIntent.putExtra("input",eT_eingabe.getText().toString());
             conversionIntent.putExtra("output",eT_ausgabe.getText().toString());
             conversionIntent.putExtra("swipeDir","");
@@ -218,7 +216,6 @@ public class CalcActivity_science extends AppCompatActivity {
                 conversionIntent = new Intent(CalcActivity_science.this, CalcActivity_small.class);
             }
             else Log.e("mode  ",mode);
-            conversionIntent.putExtra("history",ArrayUtils.listToString(new ArrayList<String>(history)));
             conversionIntent.putExtra("input",eT_eingabe.getText().toString());
             conversionIntent.putExtra("output",eT_ausgabe.getText().toString());
             conversionIntent.putExtra("swipeDir","");
@@ -322,7 +319,6 @@ public class CalcActivity_science extends AppCompatActivity {
             public void onSwipeRight() {
                 Toast.makeText(CalcActivity_science.this, "right", Toast.LENGTH_SHORT).show();
                 Intent conversionIntent = new Intent(CalcActivity_science.this, MainActivity.class);
-                conversionIntent.putExtra("history",ArrayUtils.listToString(new ArrayList<String>(history)));
                 conversionIntent.putExtra("input",eT_eingabe.getText().toString());
                 conversionIntent.putExtra("output",eT_ausgabe.getText().toString());
                 conversionIntent.putExtra("swipeDir","right");
@@ -333,7 +329,6 @@ public class CalcActivity_science extends AppCompatActivity {
             public void onSwipeLeft() {
                 Toast.makeText(CalcActivity_science.this, "left", Toast.LENGTH_SHORT).show();
                 Intent conversionIntent = new Intent(CalcActivity_science.this, MainActivity.class);
-                conversionIntent.putExtra("history",ArrayUtils.listToString(new ArrayList<String>(history)));
                 conversionIntent.putExtra("input",eT_eingabe.getText().toString());
                 conversionIntent.putExtra("output",eT_ausgabe.getText().toString());
                 conversionIntent.putExtra("swipeDir","left");
@@ -416,7 +411,7 @@ public class CalcActivity_science extends AppCompatActivity {
         LN2 = findViewById(R.id.LN2);
         LN3 = findViewById(R.id.LN3);
         LN4 = findViewById(R.id.LN4);
-        VIEW_ACT = new HashSet<>(Arrays.asList(new Button[]{btn_menu}));
+        VIEW_ACT = new HashSet<>();
         VIEW_FKT = new HashSet<>(Arrays.asList(new Button[]{btn_clear, btn_clearall, btn_LINKS, btn_RECHTS}));
         VIEW_FOPS = new HashSet<>(Arrays.asList(new Button[]{btn_11, btn_12, btn_13, btn_14, btn_15, btn_16, btn_21, btn_22, btn_23, btn_24, btn_25, btn_26}));
         VIEW_NUMBERS = new HashSet<>(Arrays.asList(new Button[]{btn_com, btn_sep, btn_ans, btn_0, btn_1, btn_2, btn_3, btn_4, btn_5, btn_6, btn_7, btn_8, btn_9}));
@@ -510,7 +505,6 @@ public class CalcActivity_science extends AppCompatActivity {
                 current_Callback = "";
                 Intent constIntent = new Intent(CalcActivity_science.this, ConstantsActivity.class);
                 startActivityForResult(constIntent, REQUEST_CODE_CONST);
-                
             }
         });
         btn_history.setOnClickListener(new View.OnClickListener() {
@@ -521,7 +515,7 @@ public class CalcActivity_science extends AppCompatActivity {
                 current_Callback = "";
                 Intent historyIntent = new Intent(CalcActivity_science.this, HistoryActivity.class);
 
-                String[] historyarray = history.toArray(new String[history.size()]);
+                String[] historyarray = HistoryActivity.getHistory().toArray(new String[HistoryActivity.getHistory().size()]);
                 //Toast.makeText(CalcActivity_science.this,"hist: "+Arrays.toString(historyarray),Toast.LENGTH_LONG).show();
                 historyIntent.putExtra("history", historyarray);
 
@@ -772,13 +766,10 @@ public class CalcActivity_science extends AppCompatActivity {
                     eingabeAddText("³√");
                 } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
                     ausgabeSetText(I.getPercent(getBase(CalcActivity_science.this)));
-                    if (history == null) history = new ArrayList<>();
                     answer = I.getPercent(getBase(CalcActivity_science.this));
                     ausgabeSetText(answer);
-                    if(!(!history.isEmpty() && answer == history.get(history.size()-1))){
-                        history.add(answer);
-                        history = saveHistory(CalcActivity_science.this,history);
-                    }
+                    HistoryActivity.saveHistory(CalcActivity_science.this);
+
                 } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
                     eingabeAddText("ATAN");
                 } else if (mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))) {
@@ -1195,15 +1186,9 @@ public class CalcActivity_science extends AppCompatActivity {
                 if(SettingsApplier.vibrate_on)myVib.vibrate(SettingsApplier.vibrate_length);
                 view.startAnimation(buttonClick);
                 {
-                    if (history == null) history = new ArrayList<>();
                     answer = I.getResult(getBase(CalcActivity_science.this));
-
-                    if(!(!history.isEmpty() && answer == history.get(history.size()-1))){
-                        history.add(answer);
-                        history = saveHistory(CalcActivity_science.this,history);
-                    }
                     ausgabeSetText(answer);
-                    
+                    HistoryActivity.addHistory(CalcActivity_science.this,answer);
                 }
             }
         });
@@ -1212,13 +1197,6 @@ public class CalcActivity_science extends AppCompatActivity {
         Intent v = getIntent();
         eT_eingabe.setText( v.getStringExtra("input"));
         eT_ausgabe.setText( v.getStringExtra("output"));
-
-        ArrayList<String> h  = ArrayUtils.stringToList(v.getStringExtra("history"));
-        if(h!= null && !h.isEmpty()){
-            history = h;
-        } else {
-            history = loadHistory(CalcActivity_science.this);
-        }
 
         try {
             SettingsApplier.setBackgroundImage(CalcActivity_science.this,science_background);
@@ -1419,6 +1397,7 @@ public class CalcActivity_science extends AppCompatActivity {
         SettingsApplier.drawVectorImage(CalcActivity_science.this,btn_CONST,R.drawable.ic_konstanten1);
         SettingsApplier.drawVectorImage(CalcActivity_science.this,btn_CONV,R.drawable.ic_lineal);
         SettingsApplier.drawVectorImage(CalcActivity_science.this,btn_history,R.drawable.ic_verlauf);
+        SettingsApplier.drawVectorImage(CalcActivity_science.this,btn_menu,R.drawable.ic_menu_black_24dp);
 
         for(Button b: VIEW_ALL){
             if(VIEW_ACT.contains(b))SettingsApplier.setViewDesign(CalcActivity_science.this,b,SettingsApplier.getColor_act(CalcActivity_science.this));
@@ -1429,6 +1408,7 @@ public class CalcActivity_science extends AppCompatActivity {
             if(VIEW_SPECIALS.contains(b))SettingsApplier.setViewDesign(CalcActivity_science.this,b,SettingsApplier.getColor_specials(CalcActivity_science.this));
         }
         SettingsApplier.setViewDesign(CalcActivity_science.this,spinner_shift,SettingsApplier.getColor_fops(CalcActivity_science.this));
+        SettingsApplier.setViewDesign(CalcActivity_science.this,spinner_Base,SettingsApplier.getColor_fkt(CalcActivity_science.this));
         SettingsApplier.setViewDesign(CalcActivity_science.this,display,SettingsApplier.getColor_numbers(CalcActivity_science.this));
 
     }
@@ -1592,7 +1572,7 @@ public class CalcActivity_science extends AppCompatActivity {
         if(language.equals("english") || language.equals("englisch")){
             //btn_CONV.setText(R.string.CONVEN);
             //btn_CONST.setText(R.string.CONSTEN);
-            btn_menu.setText(R.string.MENU_EN);
+            btn_menu.setText("");
             //btn_history.setText(R.string.historyEN);
             act_options = getResources().getStringArray(R.array.act_EN);
             mode_options = FunctionGroupSettingsActivity.getGroups(CalcActivity_science.this);
@@ -1600,7 +1580,7 @@ public class CalcActivity_science extends AppCompatActivity {
         else if(language.equals("german") || language.equals("deutsch")){
             //btn_CONV.setText(R.string.CONVDE);
            // btn_CONST.setText(R.string.CONSTDE);
-            btn_menu.setText(R.string.MENU_DE);
+            btn_menu.setText("");
             //btn_history.setText(R.string.historyDE);
             act_options = getResources().getStringArray(R.array.act_DE);
             mode_options = FunctionGroupSettingsActivity.translateGroup(FunctionGroupSettingsActivity.getGroups(CalcActivity_science.this),"german");
@@ -1664,20 +1644,7 @@ public class CalcActivity_science extends AppCompatActivity {
         }
     };
 
-    public static ArrayList<String> saveHistory(Context c, ArrayList<String> history){
-        ArrayList<String> save = new ArrayList<>(history);
-        if(history.size() > 10){
-            save = new ArrayList<String>(history.subList(history.size()-10,history.size()-1));
-        }
-        history = save;
-        String histString = ArrayUtils.listToString(save);
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(c);
-        SharedPreferences.Editor editor = preferences.edit();
-        Toast.makeText(c, "save: "+histString, Toast.LENGTH_SHORT).show();
-        editor.putString("HISTORY", histString);
-        editor.commit();
-        return history;
-    }
+
 
     public static ArrayList<String> loadHistory(Context c){
         String HIST = PreferenceManager.getDefaultSharedPreferences(c).getString("HISTORY","");
@@ -1734,7 +1701,7 @@ public class CalcActivity_science extends AppCompatActivity {
             System.arraycopy(MathEvaluator.digit_alphabet_groups, beg, subarray, 0, subarray.length);
             subarray[subarray.length-1] = "set base";
 
-            SettingsApplier.setArrayAdapter(CalcActivity_science.this,spinner_Base,subarray,SettingsApplier.getColor_numbers(CalcActivity_science.this));
+            SettingsApplier.setArrayAdapter(CalcActivity_science.this,spinner_Base,subarray,SettingsApplier.getColor_fkt(CalcActivity_science.this));
 
             spinner_Base.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override

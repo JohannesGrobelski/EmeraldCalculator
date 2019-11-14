@@ -1,6 +1,8 @@
 package com.example.titancalculator;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -17,6 +19,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
+import com.example.titancalculator.helper.ArrayUtils;
 import com.example.titancalculator.helper.MainDisplay.SettingsApplier;
 
 import java.util.ArrayList;
@@ -25,7 +28,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class HistoryActivity extends AppCompatActivity {
-
+    public static final String SAVEWORD_HITORY = "HISTORY";
+    public static final int CAPACITY_HISTORY = 10;
+    private static ArrayList<String> history = new ArrayList<>();
 
     Button btn_save;
     Button btn_clear;
@@ -41,11 +46,11 @@ public class HistoryActivity extends AppCompatActivity {
     //Display
     private Float fontsize;
 
-    String[] arrayVerlauf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        init(HistoryActivity.this);
         setContentView(R.layout.activity_verlauf);
 
         hist_background = findViewById(R.id.hist_background);
@@ -61,9 +66,7 @@ public class HistoryActivity extends AppCompatActivity {
         SettingsApplier.setFonts(HistoryActivity.this,list);
 
         Intent myIntent = getIntent(); // gets the previously created intent
-        arrayVerlauf = myIntent.getStringArrayExtra("history");
         //Toast.makeText(HistoryActivity.this, Arrays.toString(arrayVerlauf), Toast.LENGTH_LONG).show();
-        if(arrayVerlauf == null)arrayVerlauf=new String[0];
 
         setHistAdap();
 
@@ -88,9 +91,9 @@ public class HistoryActivity extends AppCompatActivity {
         btn_clear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ArrayList<String> history = new ArrayList<String>(0);
-                arrayVerlauf =  CalcActivity_science.saveHistory(HistoryActivity.this,history).toArray(new String[0]);
+                history = new ArrayList<String>(0);
                 setHistAdap();
+                saveHistory(HistoryActivity.this);
             }
         });
 
@@ -102,6 +105,7 @@ public class HistoryActivity extends AppCompatActivity {
     }
 
     private void setHistAdap(){
+        String[] arrayVerlauf = history.toArray(new String[history.size()]);
         SettingsApplier.setArrayAdapter(HistoryActivity.this,lv_verlauf,arrayVerlauf,SettingsApplier.getColor_hist(HistoryActivity.this));
     }
 
@@ -118,10 +122,44 @@ public class HistoryActivity extends AppCompatActivity {
 
         //DisplaySettings
        fontsize = SettingsApplier.getCurrentFontsize(this);
-
-        setBackgrounds();
+       setBackgrounds();
     }
 
+    public static void init(Context context){
+        String h = PreferenceManager.getDefaultSharedPreferences(context).getString(SAVEWORD_HITORY,"");
+        //Toast.makeText(context, "load: "+h, Toast.LENGTH_SHORT).show();
+        history =  ArrayUtils.stringToList(h);
+    }
+
+
+    public static void addHistory(Context context, String answer){
+        if(history == null)init(context);
+        if(!history.isEmpty() && answer.equals(history.get(history.size()-1)))return;
+        history.add(answer);
+        if(history.size() > CAPACITY_HISTORY){
+            history = ArrayUtils.sublistLastN(history,CAPACITY_HISTORY);
+        }
+        history = saveHistory(context);
+    }
+
+    public static ArrayList<String> getHistory(){
+        return history;
+    }
+
+    public static ArrayList<String> saveHistory(Context c){
+        if(history == null)init(c);
+        ArrayList<String> save = new ArrayList<>(history);
+        if(history.size() > 10){
+            save = new ArrayList<String>(history.subList(history.size()-10,history.size()-1));
+        }
+        history = save;
+        String histString = ArrayUtils.listToString(save);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(c);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(SAVEWORD_HITORY, histString);
+        editor.commit();
+        return history;
+    }
 
 
     void setBackgrounds(){

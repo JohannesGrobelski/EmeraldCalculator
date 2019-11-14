@@ -397,7 +397,7 @@ public class CalcActivity_normal extends AppCompatActivity {
         VIEW_ans = findViewById(R.id.m_btn_ans);
         VIEW_eq = findViewById(R.id.m_btn_eq);
 
-        VIEW_ACT = new HashSet<>(Arrays.asList(new Button[]{VIEW_menu}));
+        VIEW_ACT = new HashSet<>();
         VIEW_FKT = new HashSet<>(Arrays.asList(new Button[]{VIEW_clear, VIEW_clearall, VIEW_LINKS, VIEW_RECHTS}));
         VIEW_FOPS = new HashSet<>(Arrays.asList(new Button[]{VIEW_11, VIEW_12, VIEW_13, VIEW_14, VIEW_15, VIEW_16, VIEW_21, VIEW_22, VIEW_23, VIEW_24, VIEW_25, VIEW_26}));
         VIEW_SAVES = new HashSet<>(Arrays.asList(new Button[]{}));
@@ -1127,7 +1127,7 @@ public class CalcActivity_normal extends AppCompatActivity {
 
                 answer = I.getResult(CalcActivity_science.getBase(CalcActivity_normal.this));
                 ausgabe_setText(answer);
-
+                HistoryActivity.addHistory(CalcActivity_normal.this,answer);
             }
         });
 
@@ -1323,6 +1323,7 @@ public class CalcActivity_normal extends AppCompatActivity {
         normal_background.setBackgroundColor(SettingsApplier.getColor_background(CalcActivity_normal.this));
 
         //
+        SettingsApplier.drawVectorImage(CalcActivity_normal.this,VIEW_menu,R.drawable.ic_menu_black_24dp);
         SettingsApplier.drawVectorImage(CalcActivity_normal.this,VIEW_CONST,R.drawable.ic_konstanten1);
         SettingsApplier.drawVectorImage(CalcActivity_normal.this,VIEW_CONV,R.drawable.ic_lineal);
         SettingsApplier.drawVectorImage(CalcActivity_normal.this,VIEW_verlauf,R.drawable.ic_verlauf);
@@ -1472,7 +1473,7 @@ public class CalcActivity_normal extends AppCompatActivity {
         if(language.equals("english") || language.equals("englisch")){
             //VIEW_CONV.setText(R.string.CONVEN);
             //VIEW_CONST.setText(R.string.CONSTEN);
-            VIEW_menu.setText(R.string.MENU_EN);
+            VIEW_menu.setText("");
             //VIEW_verlauf.setText(R.string.VERLAUFEN);
             act_options = getResources().getStringArray(R.array.act_EN);
             mode_options = FunctionGroupSettingsActivity.getGroups(CalcActivity_normal.this);
@@ -1485,7 +1486,7 @@ public class CalcActivity_normal extends AppCompatActivity {
         else if(language.equals("german") || language.equals("deutsch")){
             //VIEW_CONV.setText(R.string.CONVDE);
             //VIEW_CONST.setText(R.string.CONSTDE);
-            VIEW_menu.setText(R.string.MENU_DE);
+            VIEW_menu.setText("");
             //VIEW_verlauf.setText(R.string.VERLAUFDE);
             act_options = getResources().getStringArray(R.array.act_DE);
             mode_options = FunctionGroupSettingsActivity.translateGroup(FunctionGroupSettingsActivity.getGroups(CalcActivity_normal.this),"german");

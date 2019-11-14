@@ -34,12 +34,12 @@
                 android:id="@+id/tV_selection"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_margin="5dp"
                 android:layout_weight="1"
-                android:text="TextView"
-                app:autoSizeTextType="uniform"
                 app:autoSizeMaxTextSize="100sp"
                 app:autoSizeMinTextSize="12sp"
-                app:autoSizeStepGranularity="4sp"/>
+                app:autoSizeStepGranularity="4sp"
+                app:autoSizeTextType="uniform" />
         </LinearLayout>
 
         <LinearLayout
@@ -52,6 +52,10 @@
                 android:id="@+id/btn_save"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="2.5dp"
+                android:layout_marginBottom="5dp"
                 android:layout_weight=".9"
                 android:text="@string/save_settings_DE"
                 android:textSize="40sp" />
@@ -60,6 +64,10 @@
                 android:id="@+id/btn_clear"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginStart="2.5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="5dp"
                 android:layout_weight=".9"
                 android:text="clear history"
                 android:textSize="40sp" />

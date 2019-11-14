@@ -693,7 +693,6 @@ public class SettingsApplier {
             SettingsApplier.setTextColor(v,darker);
             v.setBackground( SettingsApplier.combineVectorBackground(vector,background));
             ((Button) v).setText("");
-            return;
     }
 
     //inits settings if user starts calc for first time
