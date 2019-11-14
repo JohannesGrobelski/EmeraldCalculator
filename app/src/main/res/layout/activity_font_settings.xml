@@ -17,6 +17,10 @@
             android:id="@+id/lv_fontfamily"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="2.5dp"
+            android:layout_marginBottom="5dp"
             android:layout_weight=".8">
 
         </ListView>
@@ -25,12 +29,20 @@
             android:id="@+id/lv_style"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="2.5dp"
+            android:layout_marginBottom="5dp"
             android:layout_weight=".8" />
 
         <ListView
             android:id="@+id/lv_fontsize"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginStart="2.5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
             android:layout_weight="1" />
 
     </LinearLayout>
@@ -45,8 +57,8 @@
             android:id="@+id/tv_preview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="TextView" />
+            android:layout_margin="5dp"
+            android:layout_weight="1" />
     </LinearLayout>
 
 </LinearLayout>

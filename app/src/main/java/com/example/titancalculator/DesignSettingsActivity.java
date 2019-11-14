@@ -6,6 +6,7 @@ import androidx.preference.PreferenceManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -67,7 +68,7 @@ public class DesignSettingsActivity extends AppCompatActivity {
                 {
 
                     float factor_font = SettingsApplier.getDarker_factor_font(DesignSettingsActivity.this);
-                    int darker = SettingsApplier.manipulateColor(SettingsApplier.getColor_fops(DesignSettingsActivity.this),factor_font);
+                    int darker = SettingsApplier.manipulateColor(Color.GRAY,factor_font);
 
                     public View getView(int position, View convertView, ViewGroup parent) {
                         View v = super.getView(position, convertView, parent);
@@ -102,7 +103,14 @@ public class DesignSettingsActivity extends AppCompatActivity {
         });
 
         applySettings();
-        //setBackgrounds();
+        setBackgrounds();
+    }
+
+    public void setBackgrounds(){
+        design_background.setBackgroundColor(SettingsApplier.getColor_background(DesignSettingsActivity.this));
+        for(View b: VIEW_ALL){
+            SettingsApplier.setViewDesign(DesignSettingsActivity.this,b, Color.GRAY);
+        }
     }
 
     private void applySettings() {

@@ -1,14 +1,20 @@
 package com.example.titancalculator;
 
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +24,7 @@ import androidx.preference.PreferenceManager;
 import com.example.titancalculator.helper.ButtonShapeCustomAdapter;
 import com.example.titancalculator.helper.ButtonShapeImageModel;
 import com.example.titancalculator.helper.MainDisplay.DisplaySetupHelper;
+import com.example.titancalculator.helper.MainDisplay.SettingsApplier;
 
 public class FontSettingsActivity extends AppCompatActivity {
 
@@ -46,14 +53,17 @@ public class FontSettingsActivity extends AppCompatActivity {
         lv_fontstyle = findViewById(R.id.lv_style);
         tv_preview = findViewById(R.id.tv_preview);
 
-        ArrayAdapter<String> ff_adt = new ArrayAdapter<String>(this,R.layout.lvitem_layout, font_families);
-        lv_fontfamily.setAdapter(ff_adt);
+        //ArrayAdapter<String> ff_adt = new ArrayAdapter<>(this,R.layout.lvitem_layout, font_families);
+        //lv_fontfamily.setAdapter(ff_adt);
+        setAdapter(FontSettingsActivity.this,lv_fontfamily,font_families);
 
-        ArrayAdapter<String> s_adt = new ArrayAdapter<String>(this,R.layout.lvitem_layout, font_style);
-        lv_fontstyle.setAdapter(s_adt);
+        //ArrayAdapter<String> s_adt = new ArrayAdapter<>(this,R.layout.lvitem_layout, font_style);
+        //lv_fontstyle.setAdapter(s_adt);
+        setAdapter(FontSettingsActivity.this,lv_fontstyle,font_style);
 
-        ArrayAdapter<String> fs_adt = new ArrayAdapter<String>(this,R.layout.lvitem_layout, fontsize);
-        lv_fontsize.setAdapter(fs_adt);
+        //ArrayAdapter<String> fs_adt = new ArrayAdapter<>(this,R.layout.lvitem_layout, fontsize);
+        //lv_fontsize.setAdapter(fs_adt);
+        setAdapter(FontSettingsActivity.this,lv_fontsize,fontsize);
 
 
         lv_fontstyle.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -101,6 +111,40 @@ public class FontSettingsActivity extends AppCompatActivity {
                 setPreviewImage();
             }
         });
+    }
+
+    public static void setAdapter(final Context context, View view, String[] array){
+        float textsize = 20f;
+
+        if(SettingsApplier.getCurrent_fontsize().matches("[0-9]+")){
+            textsize = Float.valueOf(SettingsApplier.getCurrent_fontsize());
+        } final float textsizefinal = textsize;
+        ArrayAdapter<String> array_adaper = new ArrayAdapter<String>(context, R.layout.spinner_shift_style, array)
+        {
+            float factor_font = SettingsApplier.getDarker_factor_font(context);
+            int darker =SettingsApplier.manipulateColor(SettingsApplier.getColor_fops(context),factor_font);
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View v = super.getView(position, convertView, parent);
+                //SettingsApplier.setViewDesign(context,v,color);
+                //((TextView) v).setBackgroundColor(color);
+                ((TextView) v).setTextSize(textsizefinal);
+                ((TextView) v).setTextColor(darker);
+                ((TextView) v).setTypeface(Typeface.MONOSPACE);
+                ((TextView) v).setGravity(Gravity.CENTER);
+                return v;
+            }
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                View v = super.getDropDownView(position, convertView, parent);
+                SettingsApplier.setViewDesign(context,v,Color.GRAY);
+                ((TextView) v).setTextSize(textsizefinal);
+                ((TextView) v).setTextColor(darker);
+                ((TextView) v).setTypeface(Typeface.MONOSPACE);
+                ((TextView) v).setGravity(Gravity.CENTER);
+                return v;
+            }
+        };
+        if(view instanceof Spinner) ((Spinner) view).setAdapter(array_adaper);
+        if(view instanceof  ListView) ((ListView) view).setAdapter(array_adaper);
     }
 
     private void populate_fontsizeaAr(){

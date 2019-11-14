@@ -6,10 +6,12 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.media.audiofx.Equalizer;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.preference.PreferenceManager;
 
+import com.example.titancalculator.CalcActivity_normal;
 import com.example.titancalculator.CalcActivity_science;
 import com.example.titancalculator.FontSettingsActivity;
 import com.example.titancalculator.R;

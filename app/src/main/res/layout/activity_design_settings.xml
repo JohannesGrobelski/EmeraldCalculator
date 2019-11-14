@@ -17,7 +17,8 @@
         <ListView
             android:id="@+id/lv_design"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_margin="5dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -36,6 +37,7 @@
                 android:id="@+id/tv_selected_design"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:inputType="textPersonName" />
 
@@ -53,6 +55,10 @@
             android:id="@+id/btn_save"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginRight="2.5dp"
+            android:layout_marginBottom="5dp"
             android:layout_weight="1"
             android:text="save Design" />
 
@@ -60,6 +66,11 @@
             android:id="@+id/btn_delete"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="2.5dp"
+            android:layout_marginBottom="5dp"
             android:layout_weight="1"
             android:text="delete design" />
 
@@ -67,6 +78,11 @@
             android:id="@+id/btn_rename"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="2.5dp"
+            android:layout_marginBottom="5dp"
             android:layout_weight="1"
             android:text="RENAME design" />
 
@@ -74,6 +90,10 @@
             android:id="@+id/btn_set"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
             android:layout_weight="1"
             android:text="Set Design" />
     </LinearLayout>

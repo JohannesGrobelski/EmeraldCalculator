@@ -16,7 +16,8 @@
         <ListView
             android:id="@+id/lv_group"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_margin="5dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -35,9 +36,10 @@
                 android:id="@+id/tv_selected_group"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:hint="name of group"
-                android:inputType="textPersonName"/>
+                android:inputType="textPersonName" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -49,6 +51,10 @@
                     android:id="@+id/btn_moveUp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="2.5dp"
                     android:layout_weight="1"
                     android:text="move up" />
 
@@ -56,6 +62,10 @@
                     android:id="@+id/btn_moveDown"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="2.5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="5dp"
                     android:layout_weight="1"
                     android:text="move down" />
             </LinearLayout>
@@ -73,6 +83,10 @@
             android:id="@+id/btn_new"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="2.5dp"
+            android:layout_marginBottom="5dp"
             android:layout_weight="1"
             android:text="new Group" />
 
@@ -80,6 +94,10 @@
             android:id="@+id/btn_delete"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginStart="2.5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
             android:layout_weight="1"
             android:text="delete group" />
 
@@ -87,6 +105,10 @@
             android:id="@+id/btn_rename"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginStart="2.5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
             android:layout_weight="1"
             android:text="RENAME group" />
 
@@ -94,6 +116,11 @@
             android:id="@+id/btn_default"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginStart="2.5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
             android:layout_weight="1"
             android:text="DEFAULT SETTINGS" />
     </LinearLayout>

@@ -95,9 +95,8 @@ public class ButtonSettingsActivity extends AppCompatActivity {
 
             save_settings = findViewById(R.id.save_settings);
             applyLanguage();
-            ArrayAdapter adapter_fct = new ArrayAdapter<String>(this,R.layout.lvitem_layout, validFct);
             LV_fct_sel = (ListView) findViewById(R.id.LV_fct_sel);
-            LV_fct_sel.setAdapter(adapter_fct);
+            FontSettingsActivity.setAdapter(ButtonSettingsActivity.this,LV_fct_sel,validFct);
 
             //L2
             //normal: PI,E,CONST,CONV
@@ -191,8 +190,7 @@ public class ButtonSettingsActivity extends AppCompatActivity {
             setUpButtons(current_group);
 
             Toast.makeText(ButtonSettingsActivity.this,"Modes: "+Arrays.toString(ug),Toast.LENGTH_SHORT).show();
-            ArrayAdapter adapter_groups = new ArrayAdapter<String>(this,R.layout.lvitem_layout, ug);
-            lv_group.setAdapter(adapter_groups);
+            FontSettingsActivity.setAdapter(ButtonSettingsActivity.this,lv_group,ug);
 
             save_settings.setOnClickListener(new View.OnClickListener() {
                 @Override

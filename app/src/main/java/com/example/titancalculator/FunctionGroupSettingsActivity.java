@@ -5,6 +5,7 @@ import androidx.preference.PreferenceManager;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
@@ -61,8 +62,7 @@ public class FunctionGroupSettingsActivity extends AppCompatActivity {
         groups = getGroups(FunctionGroupSettingsActivity.this);
         applySettings();
 
-        ArrayAdapter adapter_uni = new ArrayAdapter<String>(this, R.layout.lvitem_layout, groups);
-        lv_group.setAdapter(adapter_uni);
+        FontSettingsActivity.setAdapter(FunctionGroupSettingsActivity.this,lv_group,groups);
 
         lv_group.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -99,8 +99,7 @@ public class FunctionGroupSettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 groups = getDefault();
-                ArrayAdapter adapter_uni = new ArrayAdapter<String>(getBaseContext(), R.layout.lvitem_layout, groups);
-                lv_group.setAdapter(adapter_uni);
+                FontSettingsActivity.setAdapter(FunctionGroupSettingsActivity.this,lv_group,groups);
                 savePref(FunctionGroupSettingsActivity.this,groups);
             }
         });
@@ -110,8 +109,7 @@ public class FunctionGroupSettingsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String inh = tv_selected_group.getText().toString();
                 groups = moveElementOneUp(groups,inh);
-                ArrayAdapter adapter_uni = new ArrayAdapter<String>(getBaseContext(), R.layout.lvitem_layout, groups);
-                lv_group.setAdapter(adapter_uni);
+                FontSettingsActivity.setAdapter(FunctionGroupSettingsActivity.this,lv_group,groups);
                 savePref(FunctionGroupSettingsActivity.this,groups);
             }
         });
@@ -121,8 +119,7 @@ public class FunctionGroupSettingsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String inh = tv_selected_group.getText().toString();
                 groups = moveElementOneDown(groups,inh);
-                ArrayAdapter adapter_uni = new ArrayAdapter<String>(getBaseContext(), R.layout.lvitem_layout, groups);
-                lv_group.setAdapter(adapter_uni);
+                FontSettingsActivity.setAdapter(FunctionGroupSettingsActivity.this,lv_group,groups);
                 savePref(FunctionGroupSettingsActivity.this,groups);
             }
         });
@@ -315,25 +312,28 @@ public class FunctionGroupSettingsActivity extends AppCompatActivity {
 
         lv_group = findViewById(R.id.lv_group);
         tv_selected_group  = findViewById(R.id.tv_selected_group);
-        setBackground(btn_new,SettingsApplier.getColor_act(FunctionGroupSettingsActivity.this));
-        setBackground(btn_delete,SettingsApplier.getColor_act(FunctionGroupSettingsActivity.this));
-        setBackground(btn_rename,SettingsApplier.getColor_act(FunctionGroupSettingsActivity.this));
-        setBackground(btn_default,SettingsApplier.getColor_act(FunctionGroupSettingsActivity.this));
-        setBackground(btn_moveUp,SettingsApplier.getColor_fkt(FunctionGroupSettingsActivity.this));
-        setBackground(btn_moveDown,SettingsApplier.getColor_fkt(FunctionGroupSettingsActivity.this));
+
 
         //Fonts
         //Typeface font = Typeface.createFromAsset(getAssets(), "Crashed Scoreboard.ttf");
         ArrayList<View> list = new ArrayList<View>() {{add(btn_new);add(btn_delete);add(btn_rename);add(btn_default);add(btn_moveUp);add(btn_moveDown);}};
 
         SettingsApplier.setFonts(FunctionGroupSettingsActivity.this,list);
+        setBackgrounds();
     }
 
-    public void setBackground(View v, int color){
-        Drawable background = getResources().getDrawable(SettingsApplier.getButtonshapeID());
-        SettingsApplier.setColor((FunctionGroupSettingsActivity.this),background, color,SettingsApplier.getButtonfüllung(),true);
-        int darker = SettingsApplier.manipulateColor(color,0.6f);
-        if(v instanceof Button) ((Button) v).setTextColor(darker);
+
+
+    public void setBackgrounds(){
+        SettingsApplier.setViewDesign(FunctionGroupSettingsActivity.this,lv_group,Color.GRAY);
+        SettingsApplier.setViewDesign(FunctionGroupSettingsActivity.this,tv_selected_group,Color.GRAY);
+
+        SettingsApplier.setViewDesign(FunctionGroupSettingsActivity.this,btn_new, Color.GRAY);
+        SettingsApplier.setViewDesign(FunctionGroupSettingsActivity.this,btn_delete, Color.GRAY);
+        SettingsApplier.setViewDesign(FunctionGroupSettingsActivity.this,btn_rename, Color.GRAY);
+        SettingsApplier.setViewDesign(FunctionGroupSettingsActivity.this,btn_default, Color.GRAY);
+        SettingsApplier.setViewDesign(FunctionGroupSettingsActivity.this,btn_moveUp, Color.GRAY);
+        SettingsApplier.setViewDesign(FunctionGroupSettingsActivity.this,btn_moveDown, Color.GRAY);
     }
 
     private void newGroup(String name){
@@ -342,8 +342,8 @@ public class FunctionGroupSettingsActivity extends AppCompatActivity {
         if(equals(g,groups))return;
         else groups = g;
 
-        ArrayAdapter adapter_uni = new ArrayAdapter<String>(getBaseContext(), R.layout.lvitem_layout, groups);
-        lv_group.setAdapter(adapter_uni);
+        FontSettingsActivity.setAdapter(FunctionGroupSettingsActivity.this,lv_group,groups);
+
         savePref(FunctionGroupSettingsActivity.this,groups);
 
         //Preference Gruppe erzeugen
@@ -376,10 +376,11 @@ public class FunctionGroupSettingsActivity extends AppCompatActivity {
         editor.commit();
     }
 
+
+
     private void delGroup(String name) {
         groups = removeElements(groups,name);
-        ArrayAdapter adapter_uni = new ArrayAdapter<String>(getBaseContext(), R.layout.lvitem_layout, groups);
-        lv_group.setAdapter(adapter_uni);
+        FontSettingsActivity.setAdapter(FunctionGroupSettingsActivity.this,lv_group,groups);
         savePref(FunctionGroupSettingsActivity.this,groups);
 
         //Preference Gruppe löschen
@@ -402,8 +403,7 @@ public class FunctionGroupSettingsActivity extends AppCompatActivity {
                 groups[i] = neu;
             }
         }
-        ArrayAdapter adapter_uni = new ArrayAdapter<String>(getBaseContext(), R.layout.lvitem_layout, groups);
-        lv_group.setAdapter(adapter_uni);
+        FontSettingsActivity.setAdapter(FunctionGroupSettingsActivity.this,lv_group,groups);
         savePref(FunctionGroupSettingsActivity.this,groups);
 
         //Preference Gruppe löschen

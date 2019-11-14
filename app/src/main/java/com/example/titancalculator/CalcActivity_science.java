@@ -1410,7 +1410,7 @@ public class CalcActivity_science extends AppCompatActivity {
             if(VIEW_SPECIALS.contains(b))SettingsApplier.setViewDesign(CalcActivity_science.this,b,SettingsApplier.getColor_specials(CalcActivity_science.this));
         }
         SettingsApplier.setViewDesign(CalcActivity_science.this,spinner_shift,SettingsApplier.getColor_fops(CalcActivity_science.this));
-        SettingsApplier.setViewDesign(CalcActivity_science.this,spinner_Base,SettingsApplier.getColor_fkt(CalcActivity_science.this));
+        SettingsApplier.setViewDesign(CalcActivity_science.this,spinner_Base,SettingsApplier.getColor_numbers(CalcActivity_science.this));
         SettingsApplier.setViewDesign(CalcActivity_science.this,display,SettingsApplier.getColor_numbers(CalcActivity_science.this));
 
     }

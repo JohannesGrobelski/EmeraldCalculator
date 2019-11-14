@@ -31,9 +31,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.TableLayout;
-import android.widget.TableRow;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -65,7 +66,7 @@ public class CalcActivity_normal extends AppCompatActivity {
     int VIEW_digit_group_cnt = 0;
     String state_spinner_shift = "number_selection"; //number_selection, base_selection
     String VIEW_1_text="";String VIEW_2_text="";String VIEW_3_text="";String VIEW_4_text="";String VIEW_5_text="";String VIEW_6_text="";String VIEW_7_text="";String VIEW_8_text="";String VIEW_9_text="";
-    TableLayout normal_background;
+    LinearLayout normal_background;
 
     static final int REQUEST_CODE_CONST = 1;  // The request code
     static final int REQUEST_CODE_CONV = 1;  // The request code
@@ -89,8 +90,8 @@ public class CalcActivity_normal extends AppCompatActivity {
     String[] act_options;
     String[] mode_options;
 
-    TableLayout background;
-    TableRow display;
+    LinearLayout background;
+    LinearLayout display;
     //L1
     Button VIEW_CONV;
     Button VIEW_CONST;
@@ -148,9 +149,12 @@ public class CalcActivity_normal extends AppCompatActivity {
     String X = "";
     String Y = "";
 
-    TableRow LN2;
-    TableRow LN3;
-    TableRow LN4;
+    LinearLayout LN2;
+    LinearLayout LN3;
+    LinearLayout LN4;
+    LinearLayout LN5;
+    LinearLayout LN6;
+
 
     private Set<Button> VIEW_ACT;
     private Set<Button> VIEW_FKT;
@@ -272,6 +276,10 @@ public class CalcActivity_normal extends AppCompatActivity {
         Log.v("Act ","normal");
         setTitle("Rechner");
         normal_background = findViewById(R.id.science_background);
+
+        LN4 = findViewById(R.id.LN4);
+        LN5 = findViewById(R.id.LN5);
+        LN6 = findViewById(R.id.LN6);
 
         eT_eingabe = findViewById(R.id.m_eT_Eingabe);
         eT_ausgabe = findViewById(R.id.m_eT_Ausgabe);
@@ -1329,13 +1337,16 @@ public class CalcActivity_normal extends AppCompatActivity {
         SettingsApplier.drawVectorImage(CalcActivity_normal.this,VIEW_CONV,R.drawable.ic_lineal,SettingsApplier.getColor_act(CalcActivity_normal.this));
         SettingsApplier.drawVectorImage(CalcActivity_normal.this,VIEW_verlauf,R.drawable.ic_verlauf,SettingsApplier.getColor_act(CalcActivity_normal.this));
 
+        int height = VIEW_eq.getHeight();
         for(Button b: VIEW_ALL){
+            b.setHeight(height);
             if(VIEW_ACT.contains(b))SettingsApplier.setViewDesign(CalcActivity_normal.this,b,SettingsApplier.getColor_act(CalcActivity_normal.this));
             if(VIEW_FKT.contains(b))SettingsApplier.setViewDesign(CalcActivity_normal.this,b,SettingsApplier.getColor_fkt(CalcActivity_normal.this));
             if(VIEW_FOPS.contains(b))SettingsApplier.setViewDesign(CalcActivity_normal.this,b,SettingsApplier.getColor_fops(CalcActivity_normal.this));
             if(VIEW_SAVES.contains(b))SettingsApplier.setViewDesign(CalcActivity_normal.this,b,SettingsApplier.getColor_saves(CalcActivity_normal.this));
             if(VIEW_SPECIALS.contains(b))SettingsApplier.setViewDesign(CalcActivity_normal.this,b,SettingsApplier.getColor_specials(CalcActivity_normal.this));
         }
+        SettingsApplier.setViewDesign(CalcActivity_normal.this,spinner_base,SettingsApplier.getColor_fops(CalcActivity_normal.this));
         SettingsApplier.setViewDesign(CalcActivity_normal.this,spinner_shift,SettingsApplier.getColor_fops(CalcActivity_normal.this));
         SettingsApplier.setViewDesign(CalcActivity_normal.this,display,SettingsApplier.getColor_numbers(CalcActivity_normal.this));
     }
