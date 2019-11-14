@@ -681,15 +681,15 @@ public class SettingsApplier {
         return darker_factor_font;
     }
 
-    public static void drawVectorImage(Context context, View v,  int vectorID){
-            int darker = SettingsApplier.manipulateColor(SettingsApplier.getColor_act(context),getDarker_factor_font(context));
+    public static void drawVectorImage(Context context, View v,  int vectorID, int color){
+            int darker = SettingsApplier.manipulateColor(color,getDarker_factor_font(context));
             if(DesignApplier.getBrightness(DesignApplier.transToRGB(darker)) < 20){
                 darker = 0xffFFFFFF;
             }
             Drawable vector =  context.getResources().getDrawable(vectorID);
             vector.setColorFilter(darker, PorterDuff.Mode.SRC_ATOP);
             Drawable background = context.getResources().getDrawable(buttonshapeID);
-            SettingsApplier.setColor((context),background, SettingsApplier.getColor_act(context),buttonfüllung,true);
+            SettingsApplier.setColor((context),background, color,buttonfüllung,true);
             SettingsApplier.setTextColor(v,darker);
             v.setBackground( SettingsApplier.combineVectorBackground(vector,background));
             ((Button) v).setText("");

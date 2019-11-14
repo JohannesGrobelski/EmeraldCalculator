@@ -398,7 +398,7 @@ public class CalcActivity_normal extends AppCompatActivity {
         VIEW_eq = findViewById(R.id.m_btn_eq);
 
         VIEW_ACT = new HashSet<>();
-        VIEW_FKT = new HashSet<>(Arrays.asList(new Button[]{VIEW_clear, VIEW_clearall, VIEW_LINKS, VIEW_RECHTS}));
+        VIEW_FKT = new HashSet<>(Arrays.asList(new Button[]{VIEW_LINKS, VIEW_RECHTS}));
         VIEW_FOPS = new HashSet<>(Arrays.asList(new Button[]{VIEW_11, VIEW_12, VIEW_13, VIEW_14, VIEW_15, VIEW_16, VIEW_21, VIEW_22, VIEW_23, VIEW_24, VIEW_25, VIEW_26}));
         VIEW_SAVES = new HashSet<>(Arrays.asList(new Button[]{}));
         VIEW_SPECIALS = new HashSet<>(Arrays.asList(new Button[]{VIEW_open_bracket, VIEW_close_bracket, VIEW_mul, VIEW_div, VIEW_sub, VIEW_add, VIEW_ans, VIEW_eq}));
@@ -1321,12 +1321,13 @@ public class CalcActivity_normal extends AppCompatActivity {
 
     void setBackgrounds(){
         normal_background.setBackgroundColor(SettingsApplier.getColor_background(CalcActivity_normal.this));
+        SettingsApplier.drawVectorImage(CalcActivity_normal.this,VIEW_clear,R.drawable.ic_clear,SettingsApplier.getColor_fkt(CalcActivity_normal.this));
+        SettingsApplier.drawVectorImage(CalcActivity_normal.this,VIEW_clearall,R.drawable.ic_clear_all,SettingsApplier.getColor_fkt(CalcActivity_normal.this));
 
-        //
-        SettingsApplier.drawVectorImage(CalcActivity_normal.this,VIEW_menu,R.drawable.ic_menu_black_24dp);
-        SettingsApplier.drawVectorImage(CalcActivity_normal.this,VIEW_CONST,R.drawable.ic_konstanten1);
-        SettingsApplier.drawVectorImage(CalcActivity_normal.this,VIEW_CONV,R.drawable.ic_lineal);
-        SettingsApplier.drawVectorImage(CalcActivity_normal.this,VIEW_verlauf,R.drawable.ic_verlauf);
+        SettingsApplier.drawVectorImage(CalcActivity_normal.this,VIEW_menu,R.drawable.ic_menu_black_24dp,SettingsApplier.getColor_act(CalcActivity_normal.this));
+        SettingsApplier.drawVectorImage(CalcActivity_normal.this,VIEW_CONST,R.drawable.ic_konstanten1,SettingsApplier.getColor_act(CalcActivity_normal.this));
+        SettingsApplier.drawVectorImage(CalcActivity_normal.this,VIEW_CONV,R.drawable.ic_lineal,SettingsApplier.getColor_act(CalcActivity_normal.this));
+        SettingsApplier.drawVectorImage(CalcActivity_normal.this,VIEW_verlauf,R.drawable.ic_verlauf,SettingsApplier.getColor_act(CalcActivity_normal.this));
 
         for(Button b: VIEW_ALL){
             if(VIEW_ACT.contains(b))SettingsApplier.setViewDesign(CalcActivity_normal.this,b,SettingsApplier.getColor_act(CalcActivity_normal.this));
