@@ -25,13 +25,14 @@
             android:background="@drawable/buttonshape_square"
             android:drawableBottom="#00E676"
             android:shadowRadius="30"
-            android:text="BTN11"
+            android:tag="btn_11"
 
+            android:text="BTN11"
             android:textSize="20sp"
             android:visibility="visible"
             app:autoSizeMaxTextSize="20sp"
-            app:autoSizeMinTextSize="12sp"
 
+            app:autoSizeMinTextSize="12sp"
             app:autoSizeStepGranularity="6sp"
             app:autoSizeTextType="uniform" />
 
@@ -45,13 +46,14 @@
             android:layout_weight="1"
             android:background="@drawable/buttonshape_square"
             android:shadowRadius="30"
-            android:text="BTN12"
+            android:tag="btn_12"
 
+            android:text="BTN12"
             android:textSize="20sp"
             android:visibility="visible"
             app:autoSizeMaxTextSize="20sp"
-            app:autoSizeMinTextSize="12sp"
 
+            app:autoSizeMinTextSize="12sp"
             app:autoSizeStepGranularity="6sp"
             app:autoSizeTextType="uniform" />
 
@@ -65,13 +67,14 @@
             android:layout_weight="1"
             android:background="@drawable/buttonshape_square"
             android:shadowRadius="30"
-            android:text="BTN13"
+            android:tag="btn_13"
 
+            android:text="BTN13"
             android:textSize="15sp"
             android:visibility="visible"
             app:autoSizeMaxTextSize="20sp"
-            app:autoSizeMinTextSize="12sp"
 
+            app:autoSizeMinTextSize="12sp"
             app:autoSizeStepGranularity="6sp"
             app:autoSizeTextType="uniform" />
 
@@ -85,13 +88,14 @@
             android:layout_weight="1"
             android:background="@drawable/buttonshape_square"
             android:shadowRadius="30"
-            android:text="BTN14"
+            android:tag="btn_14"
 
+            android:text="BTN14"
             android:textSize="15sp"
             android:visibility="visible"
             app:autoSizeMaxTextSize="20sp"
-            app:autoSizeMinTextSize="12sp"
 
+            app:autoSizeMinTextSize="12sp"
             app:autoSizeStepGranularity="6sp"
             app:autoSizeTextType="uniform" />
 
@@ -106,11 +110,12 @@
             android:background="@drawable/buttonshape_square"
             android:shadowRadius="30"
 
+            android:tag="btn_15"
             android:text="BTN15"
             android:textSize="15sp"
             android:visibility="visible"
-            app:autoSizeMaxTextSize="20sp"
 
+            app:autoSizeMaxTextSize="20sp"
             app:autoSizeMinTextSize="12sp"
             app:autoSizeStepGranularity="6sp"
             app:autoSizeTextType="uniform" />
@@ -127,10 +132,11 @@
             android:background="@drawable/buttonshape_square"
 
             android:shadowRadius="30"
+            android:tag="btn_16"
             android:text="BTN16"
             android:textSize="15sp"
-            android:visibility="visible"
 
+            android:visibility="visible"
             app:autoSizeMaxTextSize="20sp"
             app:autoSizeMinTextSize="12sp"
             app:autoSizeStepGranularity="6sp"
@@ -153,6 +159,7 @@
             android:layout_weight="1"
             android:background="@drawable/buttonshape_square"
             android:shadowRadius="30"
+            android:tag="btn_21"
             android:text="BTN21"
             android:textSize="20sp"
             android:visibility="visible"
@@ -171,6 +178,7 @@
             android:layout_weight="1"
             android:background="@drawable/buttonshape_square"
             android:shadowRadius="30"
+            android:tag="btn_22"
             android:text="BTN22"
             android:textSize="20sp"
             android:visibility="visible"
@@ -189,6 +197,7 @@
             android:layout_weight="1"
             android:background="@drawable/buttonshape_square"
             android:shadowRadius="30"
+            android:tag="btn_23"
             android:text="BTN23"
             android:textSize="20sp"
             android:visibility="visible"
@@ -206,6 +215,7 @@
             android:layout_marginBottom="5dp"
             android:layout_weight="1"
             android:background="@drawable/buttonshape_square"
+            android:tag="btn_24"
             android:text="BTN24"
             android:textSize="20sp"
             android:visibility="visible"
@@ -224,6 +234,7 @@
             android:layout_weight="1"
             android:background="@drawable/buttonshape_square"
             android:shadowRadius="30"
+            android:tag="btn_25"
             android:text="BTN25"
             android:textSize="20sp"
             android:visibility="visible"
@@ -242,6 +253,7 @@
             android:layout_weight="1"
             android:background="@drawable/buttonshape_square"
             android:shadowRadius="30"
+            android:tag="btn_26"
             android:text="BTN26"
             android:textSize="20sp"
             android:visibility="visible"

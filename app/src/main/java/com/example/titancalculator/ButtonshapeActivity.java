@@ -1,9 +1,15 @@
 package com.example.titancalculator;
 
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.ShapeDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -18,6 +24,7 @@ import androidx.preference.PreferenceManager;
 
 import com.example.titancalculator.helper.ButtonShapeCustomAdapter;
 import com.example.titancalculator.helper.ButtonShapeImageModel;
+import com.example.titancalculator.helper.MainDisplay.DesignApplier;
 import com.example.titancalculator.helper.MainDisplay.SettingsApplier;
 
 import java.util.ArrayList;
@@ -35,8 +42,8 @@ public class ButtonshapeActivity extends AppCompatActivity {
     private com.example.titancalculator.helper.ButtonShapeCustomAdapter ButtonFillingCustomAdapter;
     private ArrayList<ButtonShapeImageModel> ButtonFillingImageModelArrayList;
 
-    private int[] formList = new int[]{R.drawable.buttonshape_round, R.drawable.buttonshape_square, R.drawable.buttonshape_circel,R.drawable.buttonshape_ring};
-    private String[] formNameList = new String[]{"Round", "Square","Circle","Ring"};
+    private int[] formList = new int[]{R.drawable.buttonshape_round, R.drawable.buttonshape_square, R.drawable.buttonshape_circel};
+    private String[] formNameList = new String[]{"Round", "Square","Circle"};
     private int[] füllungList = new int[]{R.drawable.buttonshape_voll, R.drawable.buttonshape_leer};
     private String[] füllungNameList = new String[]{"voll", "leer"};
 
@@ -119,12 +126,39 @@ public class ButtonshapeActivity extends AppCompatActivity {
     }
 
     private Drawable generateDrawable(int form, String füllung){
-        Drawable d = getDrawable(R.drawable.buttonshape_square);
-        d = getDrawable(form);
-
-        SettingsApplier.setColor(ButtonshapeActivity.this,d,0xffc60aff,füllung,true);
+        Drawable d = getDrawable(form);
+        setColor(ButtonshapeActivity.this,d,0xffc60aff,füllung,true);
         return d;
+    }
 
+    public static void setColor(Context context, Drawable background, int color, String füllung, boolean stroke){
+        if (background instanceof ShapeDrawable) {
+            // cast to 'ShapeDrawable'
+            ShapeDrawable shapeDrawable = (ShapeDrawable) background;
+            shapeDrawable.getPaint().setColor(color);
+        } else if (background instanceof GradientDrawable) {
+            // cast to 'GradientDrawable'
+            GradientDrawable gradientDrawable = (GradientDrawable) background;
+
+            int farbe = 0; int rahmen_farbe = 0;
+            //wenn farbe zu dunkel
+            if(DesignApplier.getBrightness(DesignApplier.transToRGB(color)) < 20){
+                rahmen_farbe = SettingsApplier.manipulateColor(color, 1 / (3*SettingsApplier.darker_factor_font));;
+                farbe = color;
+            } else{
+                rahmen_farbe = SettingsApplier.manipulateColor(color,SettingsApplier.darker_factor_font);
+                farbe = color;
+            }
+
+            gradientDrawable.setColor(farbe);
+            if(füllung.equals("leer"))gradientDrawable.setColor(Color.WHITE);
+            if(stroke)gradientDrawable.setStroke(7, rahmen_farbe);
+        } else if (background instanceof ColorDrawable) {
+            // alpha value may need to be set again after this call
+            ColorDrawable colorDrawable = (ColorDrawable) background;
+            colorDrawable.setColor(color);
+        }
+        else Log.e("setColor Error","");
     }
 
     private void setPreviewImage(){
@@ -132,7 +166,6 @@ public class ButtonshapeActivity extends AppCompatActivity {
         String füllung = "voll";
         form =  SettingsApplier.getButtonshapeID();
         füllung = PreferenceManager.getDefaultSharedPreferences(ButtonshapeActivity.this).getString("buttonfüllung","voll");
-
 
         Rect imageBounds = iv_preview.getDrawable().getBounds();
 

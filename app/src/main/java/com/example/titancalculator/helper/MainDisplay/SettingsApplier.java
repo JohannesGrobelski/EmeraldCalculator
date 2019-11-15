@@ -385,23 +385,15 @@ public class SettingsApplier {
                 farbe = color;
             }
 
-
             gradientDrawable.setColor(farbe);
             if(füllung.equals("leer"))gradientDrawable.setColor(SettingsApplier.getColor_background(context));
             if(stroke)gradientDrawable.setStroke(7, rahmen_farbe);
-
-            //fix für circle
-            if(buttonshapeID == R.drawable.buttonshape_circel){
-                int mw = Math.max(background.getMinimumHeight(), background.getMinimumWidth());
-                gradientDrawable.setCornerRadius(mw);
-            }
         } else if (background instanceof ColorDrawable) {
             // alpha value may need to be set again after this call
             ColorDrawable colorDrawable = (ColorDrawable) background;
             colorDrawable.setColor(color);
         }
         else Log.e("setColor Error","");
-
     }
 
     public static Float getCurrentFontsize(Context c){

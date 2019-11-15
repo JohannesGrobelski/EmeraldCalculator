@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -113,6 +114,8 @@ public class FontSettingsActivity extends AppCompatActivity {
         });
     }
 
+
+
     public static void setAdapter(final Context context, View view, String[] array){
         float textsize = 20f;
 
@@ -122,7 +125,7 @@ public class FontSettingsActivity extends AppCompatActivity {
         ArrayAdapter<String> array_adaper = new ArrayAdapter<String>(context, R.layout.spinner_shift_style, array)
         {
             float factor_font = SettingsApplier.getDarker_factor_font(context);
-            int darker =SettingsApplier.manipulateColor(SettingsApplier.getColor_fops(context),factor_font);
+            int darker =SettingsApplier.manipulateColor(Color.GRAY,factor_font);
             public View getView(int position, View convertView, ViewGroup parent) {
                 View v = super.getView(position, convertView, parent);
                 //SettingsApplier.setViewDesign(context,v,color);
