@@ -6,14 +6,17 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
+import android.graphics.drawable.ScaleDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.util.Log;
 import android.util.TypedValue;
@@ -674,17 +677,44 @@ public class SettingsApplier {
     }
 
     public static void drawVectorImage(Context context, View v,  int vectorID, int color){
+
             int darker = SettingsApplier.manipulateColor(color,getDarker_factor_font(context));
             if(DesignApplier.getBrightness(DesignApplier.transToRGB(darker)) < 20){
                 darker = 0xffFFFFFF;
             }
+
+
+            int scale = Math.min(v.getHeight(),v.getWidth());
+            // Read your drawable from somewhere
             Drawable vector =  context.getResources().getDrawable(vectorID);
-            vector.setColorFilter(darker, PorterDuff.Mode.SRC_ATOP);
+            vector.setBounds(0,0,vector.getIntrinsicHeight(),vector.getIntrinsicHeight());
+            vector.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+
+
             Drawable background = context.getResources().getDrawable(buttonshapeID);
             SettingsApplier.setColor((context),background, color,buttonfüllung,true);
             SettingsApplier.setTextColor(v,darker);
-            v.setBackground( SettingsApplier.combineVectorBackground(vector,background));
             ((Button) v).setText("");
+            v.setBackground( SettingsApplier.combineVectorBackground(vector,background));
+
+            //vector.invalidateSelf();
+            //v.setBackground(vector);
+    }
+
+    public static Bitmap getBitmap(Drawable drawable){
+        try {
+            Bitmap bitmap;
+
+            bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+
+            Canvas canvas = new Canvas(bitmap);
+            drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+            drawable.draw(canvas);
+            return bitmap;
+        } catch (OutOfMemoryError e) {
+            // Handle the error
+            return null;
+        }
     }
 
     //inits settings if user starts calc for first time
