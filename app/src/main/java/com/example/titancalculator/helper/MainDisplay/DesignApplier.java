@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.media.audiofx.Equalizer;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.preference.PreferenceManager;
@@ -16,6 +17,8 @@ import com.example.titancalculator.CalcActivity_science;
 import com.example.titancalculator.FontSettingsActivity;
 import com.example.titancalculator.R;
 import com.example.titancalculator.helper.ArrayUtils;
+
+import java.util.ArrayList;
 
 public class DesignApplier {
     public static final String[] designs = {"light","dark","dawn","germany","bright"};
@@ -42,6 +45,38 @@ public class DesignApplier {
      color_displaytext
      color_background
      */
+
+    public static void bugfix_sameheight_ll(ArrayList<LinearLayout> input){
+        int max = 0;
+        for(int i=0; i<input.size(); i++){
+            if(input.get(i) != null){
+                if(((LinearLayout) input.get(i)).getHeight() > max){
+                    max = input.get(i).getHeight();
+                }
+            }
+        }
+        for(int i=0; i<input.size(); i++){
+            if(input.get(i) != null){
+               input.get(i).setMinimumHeight(max);
+            }
+        }
+    }
+
+    public static void bugfix_sameheight_buttons(ArrayList<Button> input){
+        int max = 0;
+        for(int i=0; i<input.size(); i++){
+            if(input.get(i) != null){
+                if(((Button) input.get(i)).getHeight() > max){
+                    max = input.get(i).getHeight();
+                }
+            }
+        }
+        for(int i=0; i<input.size(); i++){
+            if(input.get(i) != null){
+                input.get(i).setMinimumHeight(max);
+            }
+        }
+    }
 
     public static void apply_theme(Context c, String name){
         Toast.makeText(c,"Set Design to:"+name,Toast.LENGTH_SHORT).show();

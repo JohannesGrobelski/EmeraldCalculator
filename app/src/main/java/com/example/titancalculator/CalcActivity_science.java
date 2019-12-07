@@ -39,8 +39,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TableLayout;
-import android.widget.TableRow;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.RequiresApi;
@@ -85,7 +85,7 @@ public class CalcActivity_science extends AppCompatActivity {
 
     private Vibrator myVib;
 
-    TableLayout science_background;
+    LinearLayout science_background;
     static final int REQUEST_CODE_CONST = 1;  // The request code
     static final int REQUEST_CODE_CONV = 1;  // The request code
     static final int REQUEST_CODE_history = 1;  // The request code
@@ -97,7 +97,7 @@ public class CalcActivity_science extends AppCompatActivity {
     String language = "";
     String[] act_options;
     String[] mode_options;
-    TableRow display;
+    LinearLayout display;
     //L1
     Button btn_CONV;
     Button btn_CONST;
@@ -154,9 +154,9 @@ public class CalcActivity_science extends AppCompatActivity {
     boolean eT_eingabe_hasFocus=true;
     EditText eT_ausgabe;
     NavigatableString I;
-    TableRow LN2;
-    TableRow LN3;
-    TableRow LN4;
+    LinearLayout LN2;
+    LinearLayout LN3;
+    LinearLayout LN4;
     private Set<Button> VIEW_ACT;
     private Set<Button> VIEW_FKT;
     private Set<Button> VIEW_FOPS;
@@ -521,16 +521,8 @@ public class CalcActivity_science extends AppCompatActivity {
 
                 //Toast.makeText(CalcActivity_science.this,Arrays.toString(arrayhistory),Toast.LENGTH_LONG).show();
                 startActivityForResult(historyIntent, REQUEST_CODE_history);
-                
-
-
-
-
-
             }
         });
-
-
 
         btn_clear.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -592,7 +584,6 @@ public class CalcActivity_science extends AppCompatActivity {
                     Toast unknownMode = Toast.makeText(CalcActivity_science.this, display, Toast.LENGTH_LONG);
                     unknownMode.show();
                 }
-                
             }
         });
         btn_12.setOnClickListener(new View.OnClickListener() {
@@ -624,7 +615,6 @@ public class CalcActivity_science extends AppCompatActivity {
                     Toast unknownMode = Toast.makeText(CalcActivity_science.this, display, Toast.LENGTH_LONG);
                     unknownMode.show();
                 }
-                
             }
         });
         btn_13.setOnClickListener(new View.OnClickListener() {
@@ -656,7 +646,6 @@ public class CalcActivity_science extends AppCompatActivity {
                     Toast unknownMode = Toast.makeText(CalcActivity_science.this, display, Toast.LENGTH_LONG);
                     unknownMode.show();
                 }
-                
             }
         });
         btn_14.setOnClickListener(new View.OnClickListener() {
@@ -688,7 +677,6 @@ public class CalcActivity_science extends AppCompatActivity {
                     Toast unknownMode = Toast.makeText(CalcActivity_science.this, display, Toast.LENGTH_LONG);
                     unknownMode.show();
                 }
-                
             }
         });
         btn_15.setOnClickListener(new View.OnClickListener() {
@@ -720,7 +708,6 @@ public class CalcActivity_science extends AppCompatActivity {
                     Toast unknownMode = Toast.makeText(CalcActivity_science.this, display, Toast.LENGTH_LONG);
                     unknownMode.show();
                 }
-                
             }
         });
         btn_16.setOnClickListener(new View.OnClickListener() {
@@ -751,7 +738,6 @@ public class CalcActivity_science extends AppCompatActivity {
                     Toast unknownMode = Toast.makeText(CalcActivity_science.this, display, Toast.LENGTH_LONG);
                     unknownMode.show();
                 }
-                
             }
         });
         //L3
@@ -788,7 +774,6 @@ public class CalcActivity_science extends AppCompatActivity {
                     Toast unknownMode = Toast.makeText(CalcActivity_science.this, display, Toast.LENGTH_LONG);
                     unknownMode.show();
                 }
-                
             }
         });
         btn_22.setOnClickListener(new View.OnClickListener() {
@@ -818,7 +803,6 @@ public class CalcActivity_science extends AppCompatActivity {
                     Toast unknownMode = Toast.makeText(CalcActivity_science.this, display, Toast.LENGTH_LONG);
                     unknownMode.show();
                 }
-                
             }
         });
         btn_23.setOnClickListener(new View.OnClickListener() {
@@ -846,7 +830,6 @@ public class CalcActivity_science extends AppCompatActivity {
                     Toast unknownMode = Toast.makeText(CalcActivity_science.this, display, Toast.LENGTH_LONG);
                     unknownMode.show();
                 }
-                
             }
         });
         btn_24.setOnClickListener(new View.OnClickListener() {
@@ -874,7 +857,6 @@ public class CalcActivity_science extends AppCompatActivity {
                     Toast unknownMode = Toast.makeText(CalcActivity_science.this, display, Toast.LENGTH_LONG);
                     unknownMode.show();
                 }
-                
             }
         });
         btn_25.setOnClickListener(new View.OnClickListener() {
@@ -902,7 +884,6 @@ public class CalcActivity_science extends AppCompatActivity {
                     Toast unknownMode = Toast.makeText(CalcActivity_science.this, display, Toast.LENGTH_LONG);
                     unknownMode.show();
                 }
-                
             }
         });
         btn_26.setOnClickListener(new View.OnClickListener() {
@@ -929,7 +910,6 @@ public class CalcActivity_science extends AppCompatActivity {
                     Toast unknownMode = Toast.makeText(CalcActivity_science.this, display, Toast.LENGTH_LONG);
                     unknownMode.show();
                 }
-                
             }
         });
         setUp_spinner_base();
@@ -950,7 +930,6 @@ public class CalcActivity_science extends AppCompatActivity {
                 view.startAnimation(buttonClick);
                 int pos = eT_eingabe.getSelectionStart();
                 eT_eingabe.setSelection(Math.min(eT_eingabe.length(), pos + 1));
-                
             }
         });
         //G1
@@ -966,7 +945,6 @@ public class CalcActivity_science extends AppCompatActivity {
                 } else {
                     eingabeAddText(btn_1_text);
                 }
-                
             }
         });
         btn_2.setOnClickListener(new View.OnClickListener() {
@@ -981,7 +959,6 @@ public class CalcActivity_science extends AppCompatActivity {
                 } else {
                     eingabeAddText(btn_2_text);
                 }
-                
             }
         });
         btn_3.setOnClickListener(new View.OnClickListener() {
@@ -996,7 +973,6 @@ public class CalcActivity_science extends AppCompatActivity {
                 } else {
                     eingabeAddText(btn_3_text);
                 }
-                
             }
         });
         btn_4.setOnClickListener(new View.OnClickListener() {
@@ -1011,7 +987,6 @@ public class CalcActivity_science extends AppCompatActivity {
                 } else {
                     eingabeAddText(btn_4_text);
                 }
-                
             }
         });
         btn_5.setOnClickListener(new View.OnClickListener() {
@@ -1026,7 +1001,6 @@ public class CalcActivity_science extends AppCompatActivity {
                 } else {
                     eingabeAddText(btn_5_text);
                 }
-                
             }
         });
         btn_6.setOnClickListener(new View.OnClickListener() {
@@ -1041,7 +1015,6 @@ public class CalcActivity_science extends AppCompatActivity {
                 } else {
                     eingabeAddText(btn_6_text);
                 }
-                
             }
         });
         btn_7.setOnClickListener(new View.OnClickListener() {
@@ -1056,7 +1029,6 @@ public class CalcActivity_science extends AppCompatActivity {
                 } else {
                     eingabeAddText(btn_7_text);
                 }
-                
             }
         });
         btn_8.setOnClickListener(new View.OnClickListener() {
@@ -1071,7 +1043,6 @@ public class CalcActivity_science extends AppCompatActivity {
                 } else {
                     eingabeAddText(btn_8_text);
                 }
-                
             }
         });
         btn_9.setOnClickListener(new View.OnClickListener() {
@@ -1086,7 +1057,6 @@ public class CalcActivity_science extends AppCompatActivity {
                 } else {
                     eingabeAddText(btn_9_text);
                 }
-                
             }
         });
         btn_0.setOnClickListener(new View.OnClickListener() {
@@ -1095,7 +1065,6 @@ public class CalcActivity_science extends AppCompatActivity {
                 if(SettingsApplier.vibrate_on)myVib.vibrate(SettingsApplier.vibrate_length);
                 view.startAnimation(buttonClick);
                 eingabeAddText("0");
-                
             }
         });
         btn_com.setOnClickListener(new View.OnClickListener() {
@@ -1113,7 +1082,6 @@ public class CalcActivity_science extends AppCompatActivity {
                 if(SettingsApplier.vibrate_on)myVib.vibrate(SettingsApplier.vibrate_length);
                 view.startAnimation(buttonClick);
                 eingabeAddText(",");
-                
             }
         });
         btn_ans.setOnClickListener(new View.OnClickListener() {
@@ -1122,7 +1090,6 @@ public class CalcActivity_science extends AppCompatActivity {
                 if(SettingsApplier.vibrate_on)myVib.vibrate(SettingsApplier.vibrate_length);
                 view.startAnimation(buttonClick);
                 eingabeAddText("ANS");
-                
             }
         });
         //G2
@@ -1132,7 +1099,6 @@ public class CalcActivity_science extends AppCompatActivity {
                 if(SettingsApplier.vibrate_on)myVib.vibrate(SettingsApplier.vibrate_length);
                 view.startAnimation(buttonClick);
                 eingabeAddText("(");
-                
             }
         });
         btn_close_bracket.setOnClickListener(new View.OnClickListener() {
@@ -1141,7 +1107,6 @@ public class CalcActivity_science extends AppCompatActivity {
                 if(SettingsApplier.vibrate_on)myVib.vibrate(SettingsApplier.vibrate_length);
                 view.startAnimation(buttonClick);
                 eingabeAddText(")");
-                
             }
         });
         btn_add.setOnClickListener(new View.OnClickListener() {
@@ -1150,7 +1115,6 @@ public class CalcActivity_science extends AppCompatActivity {
                 if(SettingsApplier.vibrate_on)myVib.vibrate(SettingsApplier.vibrate_length);
                 view.startAnimation(buttonClick);
                 eingabeAddText("+");
-                
             }
         });
         btn_sub.setOnClickListener(new View.OnClickListener() {
@@ -1159,7 +1123,6 @@ public class CalcActivity_science extends AppCompatActivity {
                 if(SettingsApplier.vibrate_on)myVib.vibrate(SettingsApplier.vibrate_length);
                 view.startAnimation(buttonClick);
                 eingabeAddText("-");
-                
             }
         });
         btn_mul.setOnClickListener(new View.OnClickListener() {
@@ -1168,7 +1131,6 @@ public class CalcActivity_science extends AppCompatActivity {
                 if(SettingsApplier.vibrate_on)myVib.vibrate(SettingsApplier.vibrate_length);
                 view.startAnimation(buttonClick);
                 eingabeAddText("*");
-                
             }
         });
         btn_div.setOnClickListener(new View.OnClickListener() {
@@ -1177,7 +1139,6 @@ public class CalcActivity_science extends AppCompatActivity {
                 if(SettingsApplier.vibrate_on)myVib.vibrate(SettingsApplier.vibrate_length);
                 view.startAnimation(buttonClick);
                 eingabeAddText("/");
-                
             }
         });
         btn_eq.setOnClickListener(new View.OnClickListener() {
@@ -1185,11 +1146,9 @@ public class CalcActivity_science extends AppCompatActivity {
             public void onClick(View view) {
                 if(SettingsApplier.vibrate_on)myVib.vibrate(SettingsApplier.vibrate_length);
                 view.startAnimation(buttonClick);
-                {
-                    answer = I.getResult(getBase(CalcActivity_science.this));
-                    ausgabeSetText(answer);
-                    HistoryActivity.addHistory(CalcActivity_science.this,answer);
-                }
+                answer = I.getResult(getBase(CalcActivity_science.this));
+                ausgabeSetText(answer);
+                HistoryActivity.addHistory(CalcActivity_science.this,answer);
             }
         });
         
@@ -1203,6 +1162,8 @@ public class CalcActivity_science extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        //onCreate end
     }
 
 

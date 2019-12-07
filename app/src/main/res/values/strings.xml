@@ -138,7 +138,7 @@
 
     <string name="title_activity_constants">CONSTANTS</string>
 
-    <string name="app_name">TITAN CALC</string>
+    <string name="app_name">CUSTOM CALC</string>
     <string name="pref_summary_colors_default">Farbe wählen</string>
     <string name="pref_title_colors_default">Farbe wählen</string>
     <string name="save_settings_EN">SAVE SETTINGS</string>
