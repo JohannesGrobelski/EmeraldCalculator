@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/science_background"
@@ -8,71 +8,78 @@
     android:layout_weight="10"
     android:background="#FFFFFF"
     android:orientation="vertical"
-    tools:context=".MainActivity">    <TableRow
-    android:id="@+id/m_display"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginLeft="15dp"
-    android:layout_marginTop="20dp"
-    android:layout_marginRight="15dp"
-    android:layout_marginBottom="10dp"
-    android:layout_weight=".1"
-    android:background="@drawable/displayshape"
-    android:baselineAligned="false">        <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_weight=".9"
-    android:baselineAligned="false"
-    android:minHeight="120dp"
-    android:orientation="vertical">
-    <EditText
-        android:id="@+id/m_eT_Eingabe"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:id="@+id/m_display"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="5sp"
-        android:width="100dp"
-        android:background="#00464646"
-        android:fontFamily="monospace"
-        android:inputType="textNoSuggestions"
-        android:maxLines="1"
-        android:minHeight="55sp"
-        android:textSize="50sp"
+        android:layout_height="200dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="10dp"
+        android:layout_weight=".1"
+        android:background="@drawable/displayshape"
+        android:baselineAligned="false">
 
-        app:autoSizeMaxTextSize="100sp"
-        app:autoSizeMinTextSize="12sp"
-        app:autoSizeStepGranularity="1sp"
-        />            <EditText
-    android:id="@+id/m_eT_Ausgabe"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="20dp"
-    android:layout_marginTop="5sp"
-    android:width="100dp"
-    android:background="#00464646"
-    android:fontFamily="monospace"
-    android:inputType="textNoSuggestions"
-    android:maxLines="1"
-    android:minHeight="45sp"
-    android:textSize="60sp"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight=".9"
+            android:baselineAligned="false"
+            android:minHeight="120dp"
+            android:orientation="vertical">
 
-    app:autoSizeMaxTextSize="100sp"
-    app:autoSizeMinTextSize="12sp"
-    app:autoSizeStepGranularity="1sp"
-    />
-    <TextView
-        android:id="@+id/m_textView2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:visibility="invisible" />
-</LinearLayout>
-</TableRow>
+            <EditText
+                android:id="@+id/m_eT_Eingabe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="5sp"
+                android:width="100dp"
+                android:background="#00464646"
+                android:fontFamily="monospace"
+                android:inputType="textNoSuggestions"
+                android:maxLines="1"
+                android:minHeight="55sp"
+                android:textSize="50sp"
 
-    <TableRow
+                app:autoSizeMaxTextSize="100sp"
+                app:autoSizeMinTextSize="12sp"
+                app:autoSizeStepGranularity="1sp" />
+
+            <EditText
+                android:id="@+id/m_eT_Ausgabe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="5sp"
+                android:width="100dp"
+                android:background="#00464646"
+                android:fontFamily="monospace"
+                android:inputType="textNoSuggestions"
+                android:maxLines="1"
+                android:minHeight="45sp"
+                android:textSize="60sp"
+
+                app:autoSizeMaxTextSize="100sp"
+                app:autoSizeMinTextSize="12sp"
+                app:autoSizeStepGranularity="1sp" />
+
+            <TextView
+                android:id="@+id/m_textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:visibility="invisible" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight=".1">
-        <TableRow
+        android:layout_weight="1">
+
+        <LinearLayout
             android:id="@+id/m_LN6"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -99,6 +106,46 @@
 
 
                 />
+
+            <Spinner
+                android:id="@+id/m_spinner_SHIFT"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/buttonshape_square"
+                android:entries="@array/modes_DE"
+                android:outlineAmbientShadowColor="#00000000"
+                android:outlineSpotShadowColor="#00000000"
+                android:popupBackground="@drawable/buttonshape_square"
+                android:shadowColor="#00000000"
+                android:shadowDx="20"
+                android:shadowDy="20"
+                android:shadowRadius="30"
+                android:spinnerMode="dropdown"
+                android:text="BASIC"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/m_btn_24"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/buttonshape_square"
+                android:maxLines="1"
+                android:shadowRadius="30"
+                android:text="0"
+                android:visibility="visible"
+
+
+                app:autoSizeStepGranularity="1sp"
+                app:autoSizeTextType="uniform" />
 
             <Button
                 android:id="@+id/m_btn_11"
@@ -212,14 +259,16 @@
 
 
                 app:autoSizeStepGranularity="1sp" />
-        </TableRow>
+        </LinearLayout>
 
-    </TableRow>
-    <TableRow
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight=".1">
-        <TableRow
+        android:layout_weight="1">
+
+        <LinearLayout
             android:id="@+id/m_LN7"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -246,6 +295,24 @@
 
 
                 />
+
+            <Button
+                android:id="@+id/m_btn_25"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/buttonshape_square"
+                android:maxLines="1"
+                android:shadowRadius="30"
+                android:text="."
+                android:visibility="visible"
+
+
+                app:autoSizeStepGranularity="1sp"
+                app:autoSizeTextType="uniform" />
 
             <Button
                 android:id="@+id/m_btn_14"
@@ -338,6 +405,26 @@
                 app:autoSizeTextType="uniform" />
 
             <Button
+                android:id="@+id/m_btn_ans"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:width="186dp"
+                android:background="@drawable/buttonshape_square"
+                android:maxLines="1"
+                android:minWidth="186dp"
+                android:shadowRadius="30"
+                android:text="@string/ANS"
+                android:visibility="visible"
+
+
+                app:autoSizeStepGranularity="1sp"
+                app:autoSizeTextType="uniform" />
+
+            <Button
                 android:id="@+id/m_btn_clear"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -357,296 +444,203 @@
 
                 app:autoSizeStepGranularity="1sp" />
 
-        </TableRow>
-    </TableRow>
+        </LinearLayout>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1.3">
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
 
-        <LinearLayout
-            android:id="@+id/LL34"
+        <Button
+            android:id="@+id/m_btn_Verlauf"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight=".161"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_weight="1.2"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/m_btn_Verlauf"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_weight=".8"
-                    android:background="@drawable/buttonshape_square"
-                    android:elevation="16dp"
-                    android:maxLines="1"
-                    android:shadowRadius="30"
-                    android:text="@string/VERLAUFDE"
-                    android:textSize="15sp"
-                    android:textStyle="normal"
-                    android:visibility="visible"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/buttonshape_square"
+            android:elevation="16dp"
+            android:maxLines="1"
+            android:shadowRadius="30"
+            android:text="@string/VERLAUFDE"
+            android:textSize="15sp"
+            android:textStyle="normal"
+            android:visibility="visible"
 
 
-                    />
+            />
 
-                <Button
-                    android:id="@+id/m_btn_21"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_weight=".8"
-                    android:background="@drawable/buttonshape_square"
-                    android:maxLines="1"
-                    android:shadowRadius="30"
-                    android:text="1"
-                    android:visibility="visible"
-
-
-                    app:autoSizeStepGranularity="1sp"
-                    app:autoSizeTextType="uniform" />
-
-                <Button
-                    android:id="@+id/m_btn_22"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_weight=".8"
-                    android:background="@drawable/buttonshape_square"
-                    android:maxLines="1"
-                    android:shadowRadius="30"
-                    android:text="2"
-                    android:visibility="visible"
+        <Button
+            android:id="@+id/m_btn_26"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/buttonshape_square"
+            android:maxLines="1"
+            android:shadowRadius="30"
+            android:text=","
+            android:visibility="visible"
 
 
-                    app:autoSizeStepGranularity="1sp"
-                    app:autoSizeTextType="uniform" />
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform" />
 
-                <Button
-                    android:id="@+id/m_btn_23"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_weight=".8"
-                    android:background="@drawable/buttonshape_square"
-                    android:maxLines="1"
-                    android:shadowRadius="30"
-                    android:text="3"
-                    android:visibility="visible"
-
-
-                    app:autoSizeStepGranularity="1sp"
-                    app:autoSizeTextType="uniform" />
-
-                <Button
-                    android:id="@+id/m_btn_sub"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_weight=".8"
-                    android:background="@drawable/buttonshape_square"
-                    android:maxLines="1"
-                    android:shadowRadius="30"
-                    android:text="@string/SUB"
-                    android:visibility="visible"
+        <Button
+            android:id="@+id/m_btn_21"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/buttonshape_square"
+            android:maxLines="1"
+            android:shadowRadius="30"
+            android:text="1"
+            android:visibility="visible"
 
 
-                    app:autoSizeStepGranularity="1sp"
-                    app:autoSizeTextType="uniform" />
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform" />
 
-                <Button
-                    android:id="@+id/m_btn_add"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_weight=".8"
-                    android:background="@drawable/buttonshape_square"
-                    android:maxLines="1"
-                    android:shadowRadius="30"
-                    android:text="@string/ADD"
-                    android:visibility="visible"
-
-
-                    app:autoSizeStepGranularity="1sp"
-                    app:autoSizeTextType="uniform" />
-
-                <Spinner
-                    android:id="@+id/m_spinner_base"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_weight=".8"
-                    android:background="@drawable/buttonshape_square"
-                    android:maxLines="1"
-                    android:shadowRadius="30"
-                    android:text="@string/ADD"
-                    android:visibility="visible"
+        <Button
+            android:id="@+id/m_btn_22"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/buttonshape_square"
+            android:maxLines="1"
+            android:shadowRadius="30"
+            android:text="2"
+            android:visibility="visible"
 
 
-                    app:autoSizeStepGranularity="1sp"
-                    app:autoSizeTextType="uniform" />
-            </LinearLayout>
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/m_btn_menu"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/buttonshape_square"
-                    android:text="@string/MENU_DE" />
-
-                <Button
-                    android:id="@+id/m_btn_24"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/buttonshape_square"
-                    android:maxLines="1"
-                    android:shadowRadius="30"
-                    android:text="0"
-                    android:visibility="visible"
+        <Button
+            android:id="@+id/m_btn_23"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/buttonshape_square"
+            android:maxLines="1"
+            android:shadowRadius="30"
+            android:text="3"
+            android:visibility="visible"
 
 
-                    app:autoSizeStepGranularity="1sp"
-                    app:autoSizeTextType="uniform" />
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform" />
 
-                <Button
-                    android:id="@+id/m_btn_25"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/buttonshape_square"
-                    android:maxLines="1"
-                    android:shadowRadius="30"
-                    android:text="."
-                    android:visibility="visible"
+        <Button
+            android:id="@+id/m_btn_menu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/buttonshape_square"
+            android:text="@string/MENU_DE" />
 
-
-                    app:autoSizeStepGranularity="1sp"
-                    app:autoSizeTextType="uniform" />
-
-                <Button
-                    android:id="@+id/m_btn_26"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/buttonshape_square"
-                    android:maxLines="1"
-                    android:shadowRadius="30"
-                    android:text=","
-                    android:visibility="visible"
+        <Button
+            android:id="@+id/m_btn_sub"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/buttonshape_square"
+            android:maxLines="1"
+            android:shadowRadius="30"
+            android:text="@string/SUB"
+            android:visibility="visible"
 
 
-                    app:autoSizeStepGranularity="1sp"
-                    app:autoSizeTextType="uniform" />
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform" />
 
-                <Spinner
-                    android:id="@+id/m_spinner_SHIFT"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/buttonshape_square"
-                    android:entries="@array/modes_DE"
-                    android:outlineAmbientShadowColor="#00000000"
-                    android:outlineSpotShadowColor="#00000000"
-                    android:popupBackground="@drawable/buttonshape_square"
-                    android:shadowColor="#00000000"
-                    android:shadowDx="20"
-                    android:shadowDy="20"
-                    android:shadowRadius="30"
-                    android:spinnerMode="dropdown"
-                    android:text="BASIC"
-                    android:textSize="30sp"
-                    android:textStyle="bold" />
-
-                <Button
-                    android:id="@+id/m_btn_ans"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_weight="1"
-                    android:width="186dp"
-                    android:background="@drawable/buttonshape_square"
-                    android:maxLines="1"
-                    android:minWidth="186dp"
-                    android:shadowRadius="30"
-                    android:text="@string/ANS"
-                    android:visibility="visible"
+        <Button
+            android:id="@+id/m_btn_add"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/buttonshape_square"
+            android:maxLines="1"
+            android:shadowRadius="30"
+            android:text="@string/ADD"
+            android:visibility="visible"
 
 
-                    app:autoSizeStepGranularity="1sp"
-                    app:autoSizeTextType="uniform" />
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform" />
 
-                <Button
-                    android:id="@+id/m_btn_eq"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/buttonshape_square"
-                    android:maxLines="1"
-                    android:shadowRadius="30"
-                    android:text="="
-                    android:visibility="visible"
+        <Spinner
+            android:id="@+id/m_spinner_base"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/buttonshape_square"
+            android:maxLines="1"
+            android:shadowRadius="30"
+            android:text="@string/ADD"
+            android:visibility="gone"
 
 
-                    app:autoSizeStepGranularity="1sp"
-                    app:autoSizeTextType="uniform" />
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform" />
 
-            </LinearLayout>
+        <Button
+            android:id="@+id/m_btn_eq"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/buttonshape_square"
+            android:maxLines="1"
+            android:shadowRadius="30"
+            android:text="="
+            android:visibility="visible"
 
-        </LinearLayout>
+
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:visibility="gone">
 
     </LinearLayout>
 
 
-</TableLayout>
+</LinearLayout>

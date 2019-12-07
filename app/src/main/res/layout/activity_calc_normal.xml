@@ -210,7 +210,7 @@
                 android:shadowRadius="30"
                 android:text="@string/CLEAR"
                 android:textAllCaps="false"
-                android:visibility="visible"
+                android:visibility="gone"
 
 
                 app:autoSizeStepGranularity="1sp" />

@@ -1339,6 +1339,8 @@ public class CalcActivity_normal extends AppCompatActivity {
 
         int height = VIEW_eq.getHeight();
         for(Button b: VIEW_ALL){
+            //TODO: quickfix für: science -> land
+                if(b == null)continue;
             b.setHeight(height);
             if(VIEW_ACT.contains(b))SettingsApplier.setViewDesign(CalcActivity_normal.this,b,SettingsApplier.getColor_act(CalcActivity_normal.this));
             if(VIEW_FKT.contains(b))SettingsApplier.setViewDesign(CalcActivity_normal.this,b,SettingsApplier.getColor_fkt(CalcActivity_normal.this));
