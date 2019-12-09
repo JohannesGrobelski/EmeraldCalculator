@@ -22,7 +22,10 @@ import android.graphics.drawable.VectorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.DragEvent;
 import android.view.Gravity;
 import android.view.Menu;
@@ -232,6 +235,12 @@ public class CalcActivity_science extends AppCompatActivity {
         SettingsApplier.setFonts(CalcActivity_science.this,list);
         eT_ausgabe.setOnFocusChangeListener(focusListener);
         eT_eingabe.setOnFocusChangeListener(focusListener);
+        eT_eingabe.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
+            @Override
+            public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
+
+            }
+        });
         //spinner_shift = findViewById(R.id.spinner_SHIFT);
         //spinner_shift.setSelection(0);
         mode = "BASIC";
@@ -1143,6 +1152,9 @@ public class CalcActivity_science extends AppCompatActivity {
         btn_eq.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(!eT_eingabe.getText().toString().equals(I.getDisplayableString())){
+                    I.setText(eT_eingabe.getText().toString());
+                }
                 if(SettingsApplier.vibrate_on)myVib.vibrate(SettingsApplier.vibrate_length);
                 view.startAnimation(buttonClick);
                 answer = I.getResult(getBase(CalcActivity_science.this));

@@ -175,6 +175,48 @@ public class SettingsApplier {
      * @param view
      * @param color
      */
+    public static View setETC_ADesign(Context context, View view, int color) {
+        if (current_font_family == null || current_fontstlye == null) applySettings(context);
+        Typeface tp_current = FontSettingsActivity.getTypeFace(current_font_family, current_fontstlye);
+        float textsize = 20f;
+        if (SettingsApplier.getCurrent_fontsize().matches("[0-9]+")) {
+            textsize = Float.valueOf(SettingsApplier.getCurrent_fontsize());
+        }
+        float factor_font = SettingsApplier.getDarker_factor_font(context);
+        int darker = SettingsApplier.manipulateColor(color, factor_font);
+        boolean stroke = true;
+
+        //TODO: Quickfix
+        if (DesignApplier.getBrightness(DesignApplier.transToRGB(darker)) == 0) {
+            darker = Color.WHITE;
+        }
+
+        //Toast.makeText(context,"SA aS buttonshape ("+view.getClass().getSimpleName()+"): "+context.getResources().getResourceEntryName(buttonshapeID),Toast.LENGTH_SHORT).show();
+        String simplename = view.getClass().getSimpleName();
+
+        if(view instanceof Button){
+            Drawable background = context.getResources().getDrawable(buttonshapeID);
+            //Toast.makeText(context,"SA aS buttonshape ("+view.getClass().getSimpleName()+"): "+context.getResources().getResourceEntryName(buttonshapeID),Toast.LENGTH_SHORT).show();
+            SettingsApplier.setColor((context),background, color,buttonfüllung,stroke);
+            SettingsApplier.setTextColor(view,darker);
+            ((Button) view).setTypeface(tp_current);
+            if(((Button) view).getText().equals("⌧") || ((Button) view).getText().equals("⌫")){
+                ((Button) view).setTextSize(TypedValue.COMPLEX_UNIT_SP, (float) (textsize));
+            }
+            else {
+                ((Button) view).setTextSize(textsize);
+            }
+            view.setBackground(background);
+        }
+        return view;
+    }
+
+    /**
+     * sets up views: font(family,style,size), background
+     * @param context
+     * @param view
+     * @param color
+     */
     public static View setViewDesign(Context context, View view, int color){
         if(current_font_family==null || current_fontstlye==null)applySettings(context);
         Typeface tp_current = FontSettingsActivity.getTypeFace(current_font_family,current_fontstlye);

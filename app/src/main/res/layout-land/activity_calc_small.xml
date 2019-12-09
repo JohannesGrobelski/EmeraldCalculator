@@ -84,7 +84,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginBottom="10dp"
-                android:layout_weight=".83"
+                android:layout_weight=".875"
                 android:background="@drawable/buttonshape_square"
                 android:text="@string/MENU_DE" />
 
@@ -95,7 +95,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginBottom="10dp"
-                android:layout_weight="1"
+                android:layout_weight=".95"
                 android:background="@drawable/buttonshape_square"
                 android:maxLines="1"
                 android:shadowRadius="30"
@@ -113,7 +113,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginBottom="10dp"
-                android:layout_weight="1"
+                android:layout_weight=".95"
                 android:background="@drawable/buttonshape_square"
                 android:maxLines="1"
                 android:shadowRadius="30"
@@ -131,7 +131,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginBottom="10dp"
-                android:layout_weight="1"
+                android:layout_weight=".95"
                 android:background="@drawable/buttonshape_square"
                 android:maxLines="1"
                 android:shadowRadius="30"
@@ -149,7 +149,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginBottom="10dp"
-                android:layout_weight="1"
+                android:layout_weight=".95"
                 android:background="@drawable/buttonshape_square"
                 android:maxLines="1"
                 android:shadowRadius="30"
@@ -167,7 +167,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginBottom="10dp"
-                android:layout_weight="1"
+                android:layout_weight=".95"
                 android:background="@drawable/buttonshape_square"
                 android:maxLines="1"
                 android:shadowRadius="30"
@@ -239,7 +239,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginBottom="10dp"
-                android:layout_weight="1"
+                android:layout_weight=".95"
                 android:background="@drawable/buttonshape_square"
                 android:maxLines="1"
                 android:shadowRadius="30"
@@ -257,7 +257,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginBottom="10dp"
-                android:layout_weight="1"
+                android:layout_weight=".95"
                 android:background="@drawable/buttonshape_square"
                 android:maxLines="1"
                 android:shadowRadius="30"
@@ -275,7 +275,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginBottom="10dp"
-                android:layout_weight="1"
+                android:layout_weight=".95"
                 android:background="@drawable/buttonshape_square"
                 android:maxLines="1"
                 android:shadowRadius="30"
@@ -293,7 +293,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginBottom="10dp"
-                android:layout_weight="1"
+                android:layout_weight=".95"
                 android:background="@drawable/buttonshape_square"
                 android:maxLines="1"
                 android:shadowRadius="30"
@@ -311,7 +311,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginBottom="10dp"
-                android:layout_weight="1"
+                android:layout_weight=".95"
                 android:background="@drawable/buttonshape_square"
                 android:maxLines="1"
                 android:shadowRadius="30"
@@ -324,9 +324,11 @@
 
         </TableRow>
     </TableRow>
+
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="10dp"
         android:layout_weight=".1">
 
         <TableRow
@@ -375,7 +377,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginBottom="10dp"
-                android:layout_weight="1"
+                android:layout_weight=".95"
                 android:background="@drawable/buttonshape_square"
                 android:maxLines="1"
                 android:shadowRadius="30"
@@ -393,7 +395,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginBottom="10dp"
-                android:layout_weight="1"
+                android:layout_weight=".95"
                 android:background="@drawable/buttonshape_square"
                 android:maxLines="1"
                 android:shadowRadius="30"
@@ -411,7 +413,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginBottom="10dp"
-                android:layout_weight="1"
+                android:layout_weight=".95"
                 android:background="@drawable/buttonshape_square"
                 android:maxLines="1"
                 android:shadowColor="#008B8B8B"
@@ -430,7 +432,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginBottom="10dp"
-                android:layout_weight="1"
+                android:layout_weight=".95"
                 android:background="@drawable/buttonshape_square"
                 android:maxHeight="100dp"
                 android:maxLines="1"
@@ -449,7 +451,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginBottom="10dp"
-                android:layout_weight="1"
+                android:layout_weight=".95"
                 android:autoText="false"
                 android:background="@drawable/buttonshape_square"
                 android:maxLines="1"
@@ -460,20 +462,6 @@
 
                 app:autoSizeStepGranularity="1sp"
                 app:autoSizeTextType="uniform" />
-
-        </TableRow>
-    </TableRow>
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight=".1">
-        <TableRow
-            android:id="@+id/s_LN9"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_weight=".9">
 
         </TableRow>
     </TableRow>

@@ -63,6 +63,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import static android.content.res.Configuration.ORIENTATION_LANDSCAPE;
+
 public class CalcActivity_normal extends AppCompatActivity {
     private boolean onPotraitReturnScience = false;
     int VIEW_digit_group_cnt = 0;
@@ -180,7 +182,7 @@ public class CalcActivity_normal extends AppCompatActivity {
         super.onConfigurationChanged(newConfig);
 
         // Checks the orientation of the screen
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+        if (newConfig.orientation == ORIENTATION_LANDSCAPE) {
 
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
             if(onPotraitReturnScience){
@@ -1354,8 +1356,13 @@ public class CalcActivity_normal extends AppCompatActivity {
         SettingsApplier.setViewDesign(CalcActivity_normal.this,display,SettingsApplier.getColor_numbers(CalcActivity_normal.this));
 
         //VIEW_clear.setTextSize(TypedValue.COMPLEX_UNIT_SP, 50);
-        SettingsApplier.setViewDesign(CalcActivity_normal.this,VIEW_clear,SettingsApplier.getColor_fkt(CalcActivity_normal.this));
-        SettingsApplier.setViewDesign(CalcActivity_normal.this,VIEW_clearall,SettingsApplier.getColor_fkt(CalcActivity_normal.this));
+        if(this.getResources().getConfiguration().orientation == ORIENTATION_LANDSCAPE){
+            SettingsApplier.setETC_ADesign(CalcActivity_normal.this,VIEW_clear,SettingsApplier.getColor_fkt(CalcActivity_normal.this));
+            SettingsApplier.setETC_ADesign(CalcActivity_normal.this,VIEW_clearall,SettingsApplier.getColor_fkt(CalcActivity_normal.this));
+        } else {
+            SettingsApplier.setViewDesign(CalcActivity_normal.this,VIEW_clear,SettingsApplier.getColor_fkt(CalcActivity_normal.this));
+            SettingsApplier.setViewDesign(CalcActivity_normal.this,VIEW_clearall,SettingsApplier.getColor_fkt(CalcActivity_normal.this));
+        }
 
         SettingsApplier.setViewDesign(CalcActivity_normal.this,display,SettingsApplier.getColor_display(CalcActivity_normal.this));
         SettingsApplier.setETDesign(CalcActivity_normal.this,eT_eingabe,SettingsApplier.getColor_displaytext(CalcActivity_normal.this));
