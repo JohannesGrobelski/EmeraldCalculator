@@ -1567,9 +1567,13 @@ public class CalcActivity_science extends AppCompatActivity {
         //Toast.makeText(CalcActivity_science.this,"Modes: "+Arrays.toString(mode_options),Toast.LENGTH_SHORT).show();
         UserFctGroups = new HashSet<>(Arrays.asList(FunctionGroupSettingsActivity.getUserGroups(CalcActivity_science.this)));
         //numbers
-        if (PreferenceManager.getDefaultSharedPreferences(CalcActivity_science.this).contains("pref_precision")) {
-            String prec = PreferenceManager.getDefaultSharedPreferences(CalcActivity_science.this).getString("pref_precision","10");
-            if(prec != null)NumberString.precision =  Integer.valueOf(prec) + 1;
+        if (PreferenceManager.getDefaultSharedPreferences(CalcActivity_science.this).contains("pre_decimal_places_pref")) {
+            String prec = PreferenceManager.getDefaultSharedPreferences(CalcActivity_science.this).getString("pre_decimal_places_pref","10");
+            if(prec != null)NumberString.predec_places =  Integer.valueOf(prec) + 1;
+        }
+        if (PreferenceManager.getDefaultSharedPreferences(CalcActivity_science.this).contains("decimal_places_pref")) {
+            String prec = PreferenceManager.getDefaultSharedPreferences(CalcActivity_science.this).getString("decimal_places_pref","10");
+            if(prec != null)NumberString.dec_places =  Integer.valueOf(prec) + 1;
         }
 
         //Fonts

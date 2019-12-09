@@ -2,6 +2,10 @@ package com.example.titancalculator.helper.Math_String;
 
 import android.util.Log;
 
+import androidx.preference.PreferenceManager;
+
+import com.example.titancalculator.CalcActivity_science;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,7 +17,8 @@ public class NumberString extends ContentString {
     static String mean_mode = "AriMit";
     static String var_mode = "AriVar";
 
-    public static int precision = 0;
+    public static int dec_places = 5;
+    public static int predec_places = 5;
 
     static String last_answer="";
     static String angle_unit = "";
@@ -194,7 +199,8 @@ public class NumberString extends ContentString {
     String getResult(int base){
         String i = getCalcuableString(content);
         Log.e("getRES input",i);
-        String c = MathEvaluator.evaluate(i,base);
+
+        String c = MathEvaluator.evaluate(i,predec_places,dec_places);
         Log.e("getRES output",c);
 
         return c;

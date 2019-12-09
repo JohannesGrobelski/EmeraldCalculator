@@ -43,8 +43,8 @@ public class MathEvaluator {
     public static HashMap<String,BigDecimal> base_digits_rl = initBase_digits_rl();
 
     //Math Settings
-    public static int pre_decimal_places_pref = 10;
-    public static int decimal_places_pref = 10;
+    public static int pre_decimal_places_pref = 5;
+    public static int decimal_places_pref = 5;
 
 	String contentString = "123";
 	int marker = 1;
@@ -53,8 +53,10 @@ public class MathEvaluator {
         //test_format();
         //test(100);
         //System.out.println(toDec(".a", 16 , 20));
-        System.out.println(MathEvaluator.evaluate("LOG(2,AriVAR(2,3))",10));
-        System.out.println(MathEvaluator.evaluate("AriVAR(2,3)",10));
+        //System.out.println(MathEvaluator.evaluate("LOG(2,AriVAR(2,3))",10));
+        //System.out.println(MathEvaluator.evaluate("AriVAR(2,3)",10));
+
+        //System.out.println(MathEvaluator.evaluate("78588558.2121",4,5));
 
         //System.out.println(MathEvaluator.evaluate("d^b",16));
         //System.out.println(toBase("1412432",16,20));
@@ -348,7 +350,7 @@ public class MathEvaluator {
         try {
             //System.out.println("1. "+expression.eval().toString());
             if(base == 10){
-                expression.setPrecision(decimal_places_pref);
+                expression.setPrecision(decimal_places_pref + 1);
                 String res = format(expression.eval()).toString();
                 return res;
             }
@@ -363,7 +365,25 @@ public class MathEvaluator {
         catch (Exception e) {
             return "Math Error";
         }
+    }
 
+    public static String evaluate(String input,int predec_places, int dec_places) {
+	    decimal_places_pref = dec_places; //TODO: ineffizient
+	    pre_decimal_places_pref = predec_places;
+
+        input = rootToSqrt(input);
+        input = logToLogb(input);
+        if(input.contains("!"))input = facCor(input);
+        Expression expression = new Expression(input);
+
+        try {
+            expression.setPrecision(100000);
+            String res = format(expression.eval()).toString();
+            return res;
+        }
+        catch (Exception e) {
+            return "Math Error";
+        }
     }
 
     private static String facCor(String input) {
@@ -459,23 +479,27 @@ public class MathEvaluator {
     public static String format(BigDecimal input){
 	    //1. problem: 150: 1.5E+2
 
+        int realDecPlaces = input.toString().substring(input.toPlainString().indexOf(".")+1).length();
+        input = input.setScale(Math.min(realDecPlaces,decimal_places_pref),BigDecimal.ROUND_HALF_UP);
 
-        //System.out.println("3.1  "+input);
+        DecimalFormatSymbols otherSymbols = new DecimalFormatSymbols(Locale.US);
+        otherSymbols.setDecimalSeparator('.');
+        otherSymbols.setGroupingSeparator(',');
 
+        if(input.toPlainString().length() <= pre_decimal_places_pref + decimal_places_pref){
+            String format = "#.#";
 
-            if(input.toPlainString().length() <= pre_decimal_places_pref){
-                DecimalFormatSymbols otherSymbols = new DecimalFormatSymbols(Locale.US);
-                otherSymbols.setDecimalSeparator('.');
-                otherSymbols.setGroupingSeparator(',');
-                String format = "#.#";
+            NumberFormat formatter = new DecimalFormat(format,otherSymbols);
+            formatter.setMaximumFractionDigits(decimal_places_pref);
+            return formatter.format(input).replaceAll("E0","");
+        } else {
 
-                NumberFormat formatter = new DecimalFormat(format,otherSymbols);
-                formatter.setMaximumFractionDigits(decimal_places_pref);
-                return formatter.format(input).replaceAll("E0","");
-            }
+            String format = "#.#E0";
 
-
-        return input.toString();
+            NumberFormat formatter = new DecimalFormat(format,otherSymbols);
+            formatter.setMaximumFractionDigits(decimal_places_pref);
+            return formatter.format(input).replaceAll("E0","");
+        }
     }
 	
 	

@@ -1535,9 +1535,14 @@ public class CalcActivity_normal extends AppCompatActivity {
         UserFctGroups = new HashSet<>(Arrays.asList(FunctionGroupSettingsActivity.getUserGroups(CalcActivity_normal.this)));
 
         //numbers
-        if (PreferenceManager.getDefaultSharedPreferences(CalcActivity_normal.this).contains("pref_precision")) {
-            String prec = PreferenceManager.getDefaultSharedPreferences(CalcActivity_normal.this).getString("pref_precision","10");
-            if(prec != null)NumberString.precision =  Integer.valueOf(prec) + 1;
+        //numbers
+        if (PreferenceManager.getDefaultSharedPreferences(CalcActivity_normal.this).contains("pre_decimal_places_pref")) {
+            String prec = PreferenceManager.getDefaultSharedPreferences(CalcActivity_normal.this).getString("pre_decimal_places_pref","10");
+            if(prec != null)NumberString.predec_places =  Integer.valueOf(prec) + 1;
+        }
+        if (PreferenceManager.getDefaultSharedPreferences(CalcActivity_normal.this).contains("decimal_places_pref")) {
+            String prec = PreferenceManager.getDefaultSharedPreferences(CalcActivity_normal.this).getString("decimal_places_pref","10");
+            if(prec != null)NumberString.dec_places =  Integer.valueOf(prec) + 1;
         }
 
         //Fonts
