@@ -57,6 +57,7 @@ public class MathEvaluator {
         //System.out.println(MathEvaluator.evaluate("AriVAR(2,3)",10));
 
         //System.out.println(MathEvaluator.evaluate("78588558.2121",4,5));
+        System.out.println(MathEvaluator.evaluate("AriVar(2,3)",4,5));
 
         //System.out.println(MathEvaluator.evaluate("d^b",16));
         //System.out.println(toBase("1412432",16,20));
@@ -366,6 +367,8 @@ public class MathEvaluator {
             return "Math Error";
         }
     }
+
+
 
     public static String evaluate(String input,int predec_places, int dec_places) {
 	    decimal_places_pref = dec_places; //TODO: ineffizient
