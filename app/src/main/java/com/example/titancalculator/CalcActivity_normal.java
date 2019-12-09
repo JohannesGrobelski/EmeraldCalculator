@@ -1136,6 +1136,9 @@ public class CalcActivity_normal extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 view.startAnimation(buttonClick);
+                if(!eT_eingabe.getText().toString().equals(I.getDisplayableString())){
+                    I.setText(eT_eingabe.getText().toString());
+                }
                 if (verlauf == null) verlauf = new ArrayList<>();
                 verlauf.add(I.getDisplayableString());
 
