@@ -370,9 +370,9 @@ public class CalcActivity_small extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 view.startAnimation(buttonClick);
-                eingabeSetText("");
-                ausgabe_setText("");
-
+                eT_eingabe.setText("");
+                eT_ausgabe.setText("");
+                I.setText(eT_eingabe.getText().toString());
             }
         });
 

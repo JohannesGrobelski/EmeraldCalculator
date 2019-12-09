@@ -556,9 +556,9 @@ public class CalcActivity_science extends AppCompatActivity {
             public void onClick(View view) {
                 if(SettingsApplier.vibrate_on)myVib.vibrate(SettingsApplier.vibrate_length);
                 view.startAnimation(buttonClick);
-                eingabeSetText("");
-                ausgabeSetText("");
-                
+                eT_eingabe.setText("");
+                eT_ausgabe.setText("");
+                I.setText(eT_eingabe.getText().toString());
             }
         });
         //L2
