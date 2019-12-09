@@ -2,10 +2,10 @@ package com.example.titancalculator.helper.MainDisplay;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.media.audiofx.Equalizer;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -17,12 +17,11 @@ import com.example.titancalculator.CalcActivity_science;
 import com.example.titancalculator.FontSettingsActivity;
 import com.example.titancalculator.R;
 import com.example.titancalculator.helper.ArrayUtils;
-
 import java.util.ArrayList;
 
 public class DesignApplier {
     public static final String[] designs = {"light","dark","dawn","germany","bright"};
-
+    public static final double contrast_thresh = 10;
     /* Design applies to:
      buttonshapeID
      buttonfüllung
@@ -45,6 +44,14 @@ public class DesignApplier {
      color_displaytext
      color_background
      */
+
+    public static int invertColorBrightness(int color){
+        if(color == 0)color = 0x00111111;
+        //while(getBrightness(transToRGB(color)) < contrast_thresh){
+            color = setBrightness(color,1.5);
+        //}
+        return color;
+    }
 
     public static void bugfix_sameheight_ll(ArrayList<LinearLayout> input){
         int max = 0;
@@ -93,6 +100,7 @@ public class DesignApplier {
 
                     SettingsApplier.setDefaultColors();
                     SettingsApplier.setColor_background(0xff000000);
+                    SettingsApplier.setColor_display(0xff000000);
                     SettingsApplier.setColor_displaytext(0xffFFFFFF);
                     SettingsApplier.setDarker_factor_font(0.99f);
                     break;
@@ -107,6 +115,8 @@ public class DesignApplier {
                     SettingsApplier.setCurrent_fontsize("normal");
 
                     SettingsApplier.setDefaultColors();
+                    SettingsApplier.setColor_display(0xffFFFFFF);
+                    SettingsApplier.setColor_displaytext(0xff000000);
                     SettingsApplier.setColor_background(0xffFFFFFF);
                     break;
                 } case "dawn":{
@@ -192,7 +202,7 @@ public class DesignApplier {
 
 
     public static int getBrightness(int[]RGB){
-        if(RGB.length != 3)return -1;
+        if(RGB.length != 4)return -1;
         return (299*RGB[0] + 587*RGB[1] + 114*RGB[2]) / 1000;
     }
 
@@ -201,15 +211,56 @@ public class DesignApplier {
         int g = (color>>8)&0xFF;
         int r = (color>>16)&0xFF;
         int a = (color>>24)&0xFF;
-        return new int[]{r,g,b};
+        return new int[]{r,g,b,a};
+    }
+
+    public static int transToColor(int[] RGBA){
+        if(RGBA.length != 4 || RGBA[0]<0 || RGBA[0] > 255 || RGBA[1]<0 || RGBA[1] > 255 || RGBA[2]<0 || RGBA[2] > 255 || RGBA[3]<0 || RGBA[3] > 255)return 0x00000000;
+        int color = 0x00;
+        String R = Integer.toHexString(RGBA[0]);
+        String G = Integer.toHexString(RGBA[1]);
+        String B = Integer.toHexString(RGBA[2]);
+        String A = Integer.toHexString(RGBA[3]);
+
+        String rgba = R+G+B;
+        return Integer.parseInt(rgba,16);
+    }
+
+    public static int setBrightness(int color, double factor){
+        int[] Color = transToRGB(color);
+
+        //check if factor valid
+        double maxFac = factor;
+        for(int i=0; i<3; i++){
+            if(Color[i] * factor > 255){
+                maxFac = 255 / Color[i];
+            }
+        }
+
+        //change brightness
+        for(int i=0; i<3; i++){
+            Color[i] *= maxFac;
+        }
+
+        //return color
+        return transToColor(Color);
     }
 
     public static int getContrast(int color1, int color2){
-        return getBrightness(transToRGB(color1)) / getBrightness(transToRGB(color2));
+        Log.d("brightnessC",getBrightness(transToRGB(color1)) +" "+getBrightness(transToRGB(color2)));
+        if(getBrightness(transToRGB(color1)) == 0){
+            return getBrightness(transToRGB(color2));
+        }
+        Log.d("brightnessC",String.valueOf(Math.abs(getBrightness(transToRGB(color2)) - getBrightness(transToRGB(color1)))));
+        return Math.abs(getBrightness(transToRGB(color2)) - getBrightness(transToRGB(color1)));
     }
 
     public static void main(String[] a){
-        System.out.println(DesignApplier.getBrightness(DesignApplier.transToRGB(0xffFFCC00)));
+       // System.out.println(DesignApplier.getBrightness(DesignApplier.transToRGB(0xffFFCC00)));
+        //System.out.println(DesignApplier.getContrast(DesignApplier.transToRGB(0xffFFCC00)));
+
+        System.out.println(transToColor(transToRGB(0x11345435)) == 0x11345435);
+
     }
 }
 

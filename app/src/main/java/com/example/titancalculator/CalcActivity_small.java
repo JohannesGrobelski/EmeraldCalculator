@@ -628,7 +628,10 @@ public class CalcActivity_small extends AppCompatActivity {
             if(BTN_FOPS.contains(b))SettingsApplier.setViewDesign(CalcActivity_small.this,b,SettingsApplier.getColor_fops(CalcActivity_small.this));
             if(BTN_NUMBERS.contains(b))SettingsApplier.setViewDesign(CalcActivity_small.this,b,SettingsApplier.getColor_numbers(CalcActivity_small.this));
         }
-        SettingsApplier.setViewDesign(CalcActivity_small.this,display,SettingsApplier.getColor_numbers(CalcActivity_small.this));
+
+        SettingsApplier.setViewDesign(CalcActivity_small.this,display,SettingsApplier.getColor_display(CalcActivity_small.this));
+        SettingsApplier.setETDesign(CalcActivity_small.this,eT_eingabe,SettingsApplier.getColor_displaytext(CalcActivity_small.this));
+        SettingsApplier.setETDesign(CalcActivity_small.this,eT_ausgabe,SettingsApplier.getColor_displaytext(CalcActivity_small.this));
     }
 
 

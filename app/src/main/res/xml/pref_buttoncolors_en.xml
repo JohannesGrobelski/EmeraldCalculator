@@ -65,6 +65,10 @@
         android:defaultValue="#FFFFFF"
         />
 
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="use_backgroundimage"
+        android:title="use background image" />
 
     <Preference
         android:icon="@drawable/ic_image_black_24dp"

@@ -382,8 +382,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             });
         }
 
-
-
         @Override
         public void onResume() {
             super.onResume();

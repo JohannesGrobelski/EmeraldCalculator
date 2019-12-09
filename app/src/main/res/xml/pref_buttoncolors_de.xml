@@ -48,6 +48,10 @@
         android:title="@string/BackgroundColorDE"
         android:defaultValue="#FFFFFF"
         />
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="use_backgroundimage"
+        android:title="Hintergrundbild einstellen" />
     <Preference
         android:icon="@drawable/ic_image_black_24dp"
         android:title="Hintergrundbild">

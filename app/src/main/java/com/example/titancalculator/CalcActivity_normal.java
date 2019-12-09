@@ -18,6 +18,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MotionEvent;
@@ -63,6 +64,7 @@ import java.util.List;
 import java.util.Set;
 
 public class CalcActivity_normal extends AppCompatActivity {
+    private boolean onPotraitReturnScience = false;
     int VIEW_digit_group_cnt = 0;
     String state_spinner_shift = "number_selection"; //number_selection, base_selection
     String VIEW_1_text="";String VIEW_2_text="";String VIEW_3_text="";String VIEW_4_text="";String VIEW_5_text="";String VIEW_6_text="";String VIEW_7_text="";String VIEW_8_text="";String VIEW_9_text="";
@@ -181,8 +183,8 @@ public class CalcActivity_normal extends AppCompatActivity {
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
 
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
-            if(getIntent().hasExtra("onPotraitReturn")){
-                Intent conversionIntent= new Intent(CalcActivity_normal.this, CalcActivity_normal.class);
+            if(onPotraitReturnScience){
+                Intent conversionIntent= new Intent(CalcActivity_normal.this, CalcActivity_science.class);
 
                 conversionIntent.putExtra("verlauf",ArrayUtils.listToString(new ArrayList<String>(verlauf)));
                 conversionIntent.putExtra("input",eT_eingabe.getText().toString());
@@ -258,7 +260,6 @@ public class CalcActivity_normal extends AppCompatActivity {
 
         eingabeAddText(current_Callback);
 
-        //TODO
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -268,7 +269,10 @@ public class CalcActivity_normal extends AppCompatActivity {
         setContentView(R.layout.activity_calc_normal);
         SettingsApplier.initSettings(CalcActivity_normal.this);
 
-        Toast.makeText(CalcActivity_normal.this,"mode: normal",Toast.LENGTH_SHORT).show();
+        if(getIntent().hasExtra("onPotraitReturnScience")){
+            Toast.makeText(CalcActivity_normal.this,"onPotraitReturnScience",Toast.LENGTH_SHORT).show();
+            onPotraitReturnScience = true;
+        }
         mode = "";
 
         SettingsApplier.setButtonshapeID("round");
@@ -1151,6 +1155,9 @@ public class CalcActivity_normal extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        //End onCreate
+
     }
 
 
@@ -1321,16 +1328,10 @@ public class CalcActivity_normal extends AppCompatActivity {
         SettingsApplier.setDefaultColors();
     }
 
-
-
-
-
-
-
     void setBackgrounds(){
         normal_background.setBackgroundColor(SettingsApplier.getColor_background(CalcActivity_normal.this));
-        SettingsApplier.drawVectorImage(CalcActivity_normal.this,VIEW_clear,R.drawable.ic_clear,SettingsApplier.getColor_fkt(CalcActivity_normal.this));
-        SettingsApplier.drawVectorImage(CalcActivity_normal.this,VIEW_clearall,R.drawable.ic_clear_all,SettingsApplier.getColor_fkt(CalcActivity_normal.this));
+        //SettingsApplier.drawVectorImage(CalcActivity_normal.this,VIEW_clear,R.drawable.ic_clear,SettingsApplier.getColor_fkt(CalcActivity_normal.this));
+        //SettingsApplier.drawVectorImage(CalcActivity_normal.this,VIEW_clearall,R.drawable.ic_clear_all,SettingsApplier.getColor_fkt(CalcActivity_normal.this));
 
         SettingsApplier.drawVectorImage(CalcActivity_normal.this,VIEW_menu,R.drawable.ic_menu_black_24dp,SettingsApplier.getColor_act(CalcActivity_normal.this));
         SettingsApplier.drawVectorImage(CalcActivity_normal.this,VIEW_CONST,R.drawable.ic_konstanten1,SettingsApplier.getColor_act(CalcActivity_normal.this));
@@ -1351,6 +1352,14 @@ public class CalcActivity_normal extends AppCompatActivity {
         SettingsApplier.setViewDesign(CalcActivity_normal.this,spinner_base,SettingsApplier.getColor_fops(CalcActivity_normal.this));
         SettingsApplier.setViewDesign(CalcActivity_normal.this,spinner_shift,SettingsApplier.getColor_fops(CalcActivity_normal.this));
         SettingsApplier.setViewDesign(CalcActivity_normal.this,display,SettingsApplier.getColor_numbers(CalcActivity_normal.this));
+
+        //VIEW_clear.setTextSize(TypedValue.COMPLEX_UNIT_SP, 50);
+        SettingsApplier.setViewDesign(CalcActivity_normal.this,VIEW_clear,SettingsApplier.getColor_fkt(CalcActivity_normal.this));
+        SettingsApplier.setViewDesign(CalcActivity_normal.this,VIEW_clearall,SettingsApplier.getColor_fkt(CalcActivity_normal.this));
+
+        SettingsApplier.setViewDesign(CalcActivity_normal.this,display,SettingsApplier.getColor_display(CalcActivity_normal.this));
+        SettingsApplier.setETDesign(CalcActivity_normal.this,eT_eingabe,SettingsApplier.getColor_displaytext(CalcActivity_normal.this));
+        SettingsApplier.setETDesign(CalcActivity_normal.this,eT_ausgabe,SettingsApplier.getColor_displaytext(CalcActivity_normal.this));
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

@@ -8,78 +8,69 @@
     android:layout_weight="10"
     android:background="#FFFFFF"
     android:orientation="vertical"
-    tools:context=".MainActivity">    <TableRow
-    android:id="@+id/s_display"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginLeft="15dp"
-    android:layout_marginTop="20dp"
-    android:layout_marginRight="15dp"
-    android:layout_marginBottom="10dp"
-    android:layout_weight=".1"
-    android:background="@drawable/displayshape"
-    android:baselineAligned="false">        <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_weight=".9"
-    android:baselineAligned="false"
-    android:minHeight="120dp"
-    android:orientation="vertical">
-    <EditText
-        android:id="@+id/s_eT_Eingabe"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="5sp"
-        android:width="100dp"
-        android:background="#00464646"
-        android:fontFamily="monospace"
-        android:inputType="textNoSuggestions"
-        android:maxLines="1"
-        android:minHeight="55sp"
-        android:textSize="50sp" />
+    tools:context=".MainActivity">
 
-    app:autoSizeMaxTextSize="100sp"
-    app:autoSizeMinTextSize="12sp"
-    app:autoSizeStepGranularity="1sp"
-
-    <EditText
-    android:id="@+id/s_eT_Ausgabe"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="20dp"
-    android:layout_marginTop="5sp"
-    android:width="100dp"
-    android:background="#00464646"
-    android:fontFamily="monospace"
-    android:inputType="textNoSuggestions"
-    android:maxLines="1"
-    android:minHeight="45sp"
-    android:textSize="60sp"
-
-        app:autoSizeMaxTextSize="100sp"
-        app:autoSizeMinTextSize="12sp"
-        app:autoSizeStepGranularity="1sp"
-        />
-
-    <TextView
-        android:id="@+id/s_textView2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone" />
-</LinearLayout>
-</TableRow>
     <TableRow
+        android:id="@+id/s_display"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight=".1">
-        <TableRow
-            android:id="@+id/s_LN1"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/displayshape"
+        android:baselineAligned="false">
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_weight=".9"/>
+            android:layout_height="wrap_content"
+            android:layout_weight=".9"
+            android:baselineAligned="false"
+            android:minHeight="120dp"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/s_eT_Eingabe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="5sp"
+                android:width="100dp"
+                android:background="#00464646"
+                android:fontFamily="monospace"
+                android:inputType="textNoSuggestions"
+                android:maxLines="1"
+                android:minHeight="70sp"
+                android:textSize="50sp" />
+
+            app:autoSizeMaxTextSize="100sp"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeStepGranularity="1sp"
+
+            <EditText
+                android:id="@+id/s_eT_Ausgabe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="5sp"
+                android:width="100dp"
+                android:background="#00464646"
+                android:fontFamily="monospace"
+                android:inputType="textNoSuggestions"
+                android:maxLines="1"
+                android:minHeight="80sp"
+                android:textSize="60sp"
+
+                app:autoSizeMaxTextSize="100sp"
+                app:autoSizeMinTextSize="12sp"
+                app:autoSizeStepGranularity="1sp" />
+
+            <TextView
+                android:id="@+id/s_textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
+        </LinearLayout>
     </TableRow>
 
     <TableRow

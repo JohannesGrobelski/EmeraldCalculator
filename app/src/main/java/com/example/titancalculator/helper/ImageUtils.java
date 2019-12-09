@@ -2,8 +2,10 @@ package com.example.titancalculator.helper;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.VectorDrawable;
@@ -14,6 +16,51 @@ public class ImageUtils {
     private static final int[] FROM_COLOR = new int[]{49, 179, 110};
     private static final int THRESHOLD = 3;
 
+    /** simply resizes a given drawable resource to the given width and height */
+    public static Drawable resizeImage(Context ctx, int resId, int iconWidth,
+                                       int iconHeight) {
+
+        // load the origial Bitmap
+        //Bitmap BitmapOrg = BitmapFactory.decodeResource(ctx.getResources(),resId);
+        Bitmap BitmapOrg = getBitmap(ctx,resId,iconWidth,iconHeight);
+
+        int width = BitmapOrg.getWidth();
+        int height = BitmapOrg.getHeight();
+        int newWidth = iconWidth;
+        int newHeight = iconHeight;
+
+        // calculate the scale
+        float scaleWidth = ((float) newWidth) / width;
+        float scaleHeight = ((float) newHeight) / height;
+
+        // create a matrix for the manipulation
+        Matrix matrix = new Matrix();
+        // resize the Bitmap
+        matrix.postScale(scaleWidth, scaleHeight);
+
+        // if you want to rotate the Bitmap
+        // matrix.postRotate(45);
+
+        // recreate the new Bitmap
+        Bitmap resizedBitmap = Bitmap.createBitmap(BitmapOrg, 0, 0, width,
+                height, matrix, true);
+
+        // make a Drawable from Bitmap to allow to set the Bitmap
+        // to the ImageView, ImageButton or what ever
+        return new BitmapDrawable(BitmapOrg);
+
+    }
+
+    private static Bitmap getBitmap(Context context,int drawableRes, int width, int height) {
+        Drawable drawable = context.getResources().getDrawable(drawableRes);
+        Canvas canvas = new Canvas();
+        Bitmap bitmap = Bitmap.createBitmap(width,height, Bitmap.Config.ARGB_8888);
+        canvas.setBitmap(bitmap);
+        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+        drawable.draw(canvas);
+
+        return bitmap;
+    }
 
     public static Drawable adjust(Context c, VectorDrawable d){
         int to = Color.RED;
