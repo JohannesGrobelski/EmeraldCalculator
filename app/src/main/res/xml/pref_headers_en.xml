@@ -13,17 +13,17 @@
         android:fragment="com.example.titancalculator.SettingsActivity$MathSettingsFragment" />
 
     <header
+        android:icon="@drawable/ic_layout_24dp"
+        android:title="Layout"
+        android:fragment="com.example.titancalculator.SettingsActivity$LayoutPreferenceFragment" />
+
+    <header
         android:icon="@drawable/ic_design"
         android:title="Design">
         <intent
             android:targetPackage="com.example.titancalculator"
             android:targetClass="com.example.titancalculator.DesignSettingsActivity" />
     </header>
-
-    <header
-        android:icon="@drawable/ic_layout_24dp"
-        android:title="Layout"
-        android:fragment="com.example.titancalculator.SettingsActivity$LayoutPreferenceFragment" />
 
     <header
         android:icon="@drawable/ic_colorpicker"
@@ -51,7 +51,6 @@
             android:targetPackage="com.example.titancalculator"
             android:targetClass="com.example.titancalculator.ButtonshapeActivity" />
     </header>
-
 
 
     <header
