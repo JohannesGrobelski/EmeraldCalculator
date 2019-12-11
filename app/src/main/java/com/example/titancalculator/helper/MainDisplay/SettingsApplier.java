@@ -83,6 +83,7 @@ public class SettingsApplier {
     private static int color_numbers=0;
     private static int color_saves=0;
     private static int color_specials=0;
+    private static String füllung_display="voll";
     private static int color_display=0;
     private static int color_displaytext=0;
     private static int color_background=0;
@@ -113,21 +114,37 @@ public class SettingsApplier {
         }
     }
 
+    /**
+     * @param b
+     * @param paddingfactor  determines padding: int p = b.getMeasuredHeight() / paddingfactor
+     */
+    public static void centerTextButton(Button b, int paddingfactor){
+        int p = b.getMeasuredHeight() / paddingfactor;
+        if(b.getText().equals("(") || b.getText().equals(")")){
+            b.setPadding(0,0,0,p);
+        } else if(b.getText().equals("*")){
+            b.setPadding(0,p,0,0);
+        }
+    }
+
     public static void setArrayAdapter(final Context context, View view, String[] array, final int color){
         float textsize = 20f;
         if(SettingsApplier.getCurrent_fontsize().matches("[0-9]+")){
             textsize = Float.valueOf(SettingsApplier.getCurrent_fontsize());
         } final float textsizefinal = textsize;
 
-        int darker =SettingsApplier.manipulateColor(SettingsApplier.getColor_fops(context),getDarker_factor_font(context));
+        int darker;
+        if(!buttonfüllung.equals("leer")) {
+            darker = SettingsApplier.manipulateColor(color,getDarker_factor_font(context));
+        } else {
+            darker = color;
+        }
+
         if(DesignApplier.getBrightness(DesignApplier.transToRGB(darker)) == 0){darker = Color.WHITE;}
 
         final int finalDarker = darker;
-        ArrayAdapter<String> array_adaper = new ArrayAdapter<String>(context, R.layout.spinner_shift_style, array)
-                {
+        ArrayAdapter<String> array_adaper = new ArrayAdapter<String>(context, R.layout.spinner_shift_style, array){
                     float factor_font = SettingsApplier.getDarker_factor_font(context);
-
-
                     public View getView(int position, View convertView, ViewGroup parent) {
                         View v = super.getView(position, convertView, parent);
                         //SettingsApplier.setViewDesign(context,v,color);
@@ -140,7 +157,7 @@ public class SettingsApplier {
                     }
                     public View getDropDownView(int position, View convertView, ViewGroup parent) {
                         View v = super.getDropDownView(position, convertView, parent);
-                        SettingsApplier.setViewDesign(context,v,color);
+                        SettingsApplier.setArrayElementDesign(context,(TextView) v,color);
                         ((TextView) v).setTextSize(textsizefinal);
                         ((TextView) v).setTextColor(finalDarker);
                         ((TextView) v).setTypeface(FontSettingsActivity.getTypeFace(current_font_family,current_fontstlye));
@@ -150,7 +167,6 @@ public class SettingsApplier {
                 };
         if(view instanceof  Spinner) ((Spinner) view).setAdapter(array_adaper);
         if(view instanceof  ListView) ((ListView) view).setAdapter(array_adaper);
-
     }
 
     /**
@@ -217,6 +233,46 @@ public class SettingsApplier {
      * @param view
      * @param color
      */
+    public static View setArrayElementDesign(Context context, TextView view, int color) {
+        if (current_font_family == null || current_fontstlye == null) applySettings(context);
+        Typeface tp_current = FontSettingsActivity.getTypeFace(current_font_family, current_fontstlye);
+        float textsize = 20f;
+        if (SettingsApplier.getCurrent_fontsize().matches("[0-9]+")) {
+            textsize = Float.valueOf(SettingsApplier.getCurrent_fontsize());
+        }
+        float factor_font = SettingsApplier.getDarker_factor_font(context);
+        int darker = SettingsApplier.manipulateColor(color, factor_font);
+        boolean stroke = true;
+
+        //TODO: Quickfix
+        if (DesignApplier.getBrightness(DesignApplier.transToRGB(darker)) == 0) {
+            darker = Color.WHITE;
+        }
+
+        //Toast.makeText(context,"SA aS buttonshape ("+view.getClass().getSimpleName()+"): "+context.getResources().getResourceEntryName(buttonshapeID),Toast.LENGTH_SHORT).show();
+        String simplename = view.getClass().getSimpleName();
+
+        if (view instanceof TextView) {
+            // Drawable background = DesignApplier.generateButtonDrawable(context.getDrawable(buttonshapeID),buttonfüllung);
+            Drawable background = context.getDrawable(R.drawable.buttonshape_square);
+            SettingsApplier.setColor((context), background, color, buttonfüllung, stroke);
+            SettingsApplier.setTextColor(view, darker);
+            ((TextView) view).setHintTextColor(SettingsApplier.manipulateColor(darker, darker_factor_font / 2));
+
+            ((TextView) view).setTypeface(tp_current);
+            ((TextView) view).setTextSize(textsize);
+            view.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            view.setBackground(background);
+        }
+        return view;
+    }
+
+    /**
+     * sets up views: font(family,style,size), background
+     * @param context
+     * @param view
+     * @param color
+     */
     public static View setViewDesign(Context context, View view, int color){
         if(current_font_family==null || current_fontstlye==null)applySettings(context);
         Typeface tp_current = FontSettingsActivity.getTypeFace(current_font_family,current_fontstlye);
@@ -225,7 +281,13 @@ public class SettingsApplier {
             textsize = Float.valueOf(SettingsApplier.getCurrent_fontsize());
         }
         float factor_font = SettingsApplier.getDarker_factor_font(context);
-        int darker = SettingsApplier.manipulateColor(color,factor_font);
+        int darker;
+        if(!buttonfüllung.equals("leer")) {
+            darker = SettingsApplier.manipulateColor(color, factor_font);
+        } else {
+            darker = color;
+        }
+
         boolean stroke = true;
 
         //TODO: Quickfix
@@ -333,12 +395,6 @@ public class SettingsApplier {
         setColor_displaytext(0xff000000); //schwarz
         setColor_background(0xffFFFFFF); //weiß
     }
-
-
-
-
-
-
 
     public static void applySettings(Context c){
         //language
@@ -469,6 +525,10 @@ public class SettingsApplier {
                 farbe = color;
             } else{
                 rahmen_farbe = manipulateColor(color,SettingsApplier.darker_factor_font);
+                farbe = color;
+            }
+            if(buttonfüllung.equals("leer")){
+                rahmen_farbe = color;
                 farbe = color;
             }
 
@@ -761,7 +821,12 @@ public class SettingsApplier {
     }
 
     public static void drawVectorImage(Context context, View v,  int vectorID, int color){
-            int darker = SettingsApplier.manipulateColor(color,getDarker_factor_font(context));
+            int darker;
+            if(!buttonfüllung.equals("leer")) {
+                darker = SettingsApplier.manipulateColor(color,getDarker_factor_font(context));
+            } else {
+                darker = color;
+            }
 
             //TODO: Quickfix
             //Log.d("bright",""+DesignApplier.getBrightness(DesignApplier.transToRGB(darker)));

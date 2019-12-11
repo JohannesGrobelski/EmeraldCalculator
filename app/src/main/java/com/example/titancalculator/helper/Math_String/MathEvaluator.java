@@ -57,7 +57,7 @@ public class MathEvaluator {
         //System.out.println(MathEvaluator.evaluate("AriVAR(2,3)",10));
 
         //System.out.println(MathEvaluator.evaluate("78588558.2121",4,5));
-        System.out.println(MathEvaluator.evaluate("AriVar(2,3)",4,5));
+        System.out.println(MathEvaluator.evaluate("LOG(LOG(2))",4,5));
 
         //System.out.println(MathEvaluator.evaluate("d^b",16));
         //System.out.println(toBase("1412432",16,20));
@@ -68,7 +68,7 @@ public class MathEvaluator {
 
     public static void test_format() {
         //Testfälle absolut große/kleine zahlen, ganze/bruchzahlen, negative/positive zahlen
-        System.out.println(MathEvaluator.evaluate("15.25*22! + 7.90^sin(22) + 3.12^23",10));
+        System.out.println(MathEvaluator.evaluate("15rootToSqrt.25*22! + 7.90^sin(22) + 3.12^23",10));
         System.out.println(MathEvaluator.evaluate("69.2*37122.44",10));
         System.out.println(MathEvaluator.evaluate("89*9*62.2",10));
         System.out.println(MathEvaluator.evaluate("MAX(1,2,3)",10));
@@ -377,6 +377,7 @@ public class MathEvaluator {
         input = rootToSqrt(input);
         input = logToLogb(input);
         if(input.contains("!"))input = facCor(input);
+        System.out.println(input);
         Expression expression = new Expression(input);
 
         try {
@@ -429,9 +430,12 @@ public class MathEvaluator {
 
     private static String rootToSqrt(String input) {
         List<String> allMatches = new ArrayList<String>();
-        Matcher m = Pattern.compile("ROOT\\([^,]+\\)").matcher(input);
+        Matcher m = Pattern.compile("ROOT\\(.+\\)").matcher(input);
         while (m.find()) {
-            allMatches.add(m.group());
+            String s = m.group();
+            if(getParameterNumber(s,0) == 1){
+                allMatches.add(s);
+            }
         }
         for(String s: allMatches.toArray(new String[allMatches.size()])) {
             String match = s.replace("ROOT","SQRT");
@@ -442,9 +446,12 @@ public class MathEvaluator {
 
     private static String logToLogb(String input) {
         List<String> allMatches = new ArrayList<String>();
-        Matcher m = Pattern.compile("LOG\\([^,]+\\)").matcher(input);
+        Matcher m = Pattern.compile("LOG\\(.+\\)").matcher(input); //TODO: problem mit verschachtelung?
         while (m.find()) {
-            allMatches.add(m.group());
+            String s = m.group();
+            if(getParameterNumber(s,0) == 1){
+                allMatches.add(s);
+            }
         }
         for(String s: allMatches.toArray(new String[allMatches.size()])) {
             String match = s.replace("LOG","LOG10");

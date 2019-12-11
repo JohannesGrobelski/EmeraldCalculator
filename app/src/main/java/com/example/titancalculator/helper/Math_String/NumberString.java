@@ -194,8 +194,6 @@ public class NumberString extends ContentString {
         }
     }
 
-
-
     String getResult(int base){
         String i = getCalcuableString(content);
         Log.e("getRES input",i);

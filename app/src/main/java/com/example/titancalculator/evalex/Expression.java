@@ -26,6 +26,8 @@
  */
 package com.example.titancalculator.evalex;
 
+import android.util.Log;
+
 import com.example.titancalculator.rjm_notused.BigDecimalMath;
 
 import java.math.BigDecimal;
@@ -1163,18 +1165,23 @@ public class Expression {
 				BigDecimal sum = BigDecimal.ZERO;
 				for (BigDecimal parameter : parameters) {
 					assertNotNull(parameter);
-					sum = sum.add(parameter);
+					sum = sum.add(parameter,mc);
 				}
-				BigDecimal ariMittel = sum.divide(BigDecimal.valueOf(parameters.size()));
+
+				System.out.println("AriVar: "+sum.toString());
+				BigDecimal ariMittel = sum.divide(BigDecimal.valueOf(parameters.size()),mc);
+				System.out.println("AriVar: "+ariMittel.toString());
 
 				sum = BigDecimal.ZERO;
+
 				for (BigDecimal parameter : parameters) {
-					assertNotNull(parameter);
 					BigDecimal square = parameter.subtract(ariMittel);
+
 					square = square.multiply(square,mc);
 					square = square.divide(size,mc);
-					sum = sum.add(square);
+					sum = sum.add(square,mc);
 				}
+
 				return sum;
 			}
 		});

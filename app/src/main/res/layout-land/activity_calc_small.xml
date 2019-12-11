@@ -242,11 +242,12 @@
                 android:layout_weight=".95"
                 android:background="@drawable/buttonshape_square"
                 android:maxLines="1"
+                android:paddingTop="10sp"
                 android:shadowRadius="30"
                 android:text="@string/MUL"
+
+
                 android:visibility="visible"
-
-
                 app:autoSizeStepGranularity="1sp"
                 app:autoSizeTextType="uniform" />
 

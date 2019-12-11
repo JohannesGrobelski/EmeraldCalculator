@@ -87,6 +87,7 @@ public class DesignApplier {
 
     public static void apply_theme(Context c, String name){
         Toast.makeText(c,"Set Design to:"+name,Toast.LENGTH_SHORT).show();
+        SettingsApplier.setDefaultColors();
         if(ArrayUtils.array_contains(designs,name)){
             switch(name){
                 case "dark":{
@@ -98,9 +99,8 @@ public class DesignApplier {
                     SettingsApplier.setCurrent_fontsize("30");
                     SettingsApplier.setCurrent_fontsize("normal");
 
-                    SettingsApplier.setDefaultColors();
                     SettingsApplier.setColor_background(0xff000000);
-                    SettingsApplier.setColor_display(0xff000000);
+                    SettingsApplier.setColor_display(0xffFFFFFF);
                     SettingsApplier.setColor_displaytext(0xffFFFFFF);
                     SettingsApplier.setDarker_factor_font(0.99f);
                     break;
@@ -114,9 +114,10 @@ public class DesignApplier {
                     SettingsApplier.setCurrent_fontsize("30");
                     SettingsApplier.setCurrent_fontsize("normal");
 
-                    SettingsApplier.setDefaultColors();
-                    SettingsApplier.setColor_display(0xffFFFFFF);
-                    SettingsApplier.setColor_displaytext(0xff000000);
+                    SettingsApplier.setColor_display(SettingsApplier.getColor_numbers(c));
+                    float factor_font = SettingsApplier.getDarker_factor_font(c);
+                    int darkerNumberTheme = SettingsApplier.manipulateColor(SettingsApplier.getColor_numbers(c),factor_font);
+                    SettingsApplier.setColor_displaytext(darkerNumberTheme);
                     SettingsApplier.setColor_background(0xffFFFFFF);
                     break;
                 } case "dawn":{
@@ -128,7 +129,6 @@ public class DesignApplier {
                     SettingsApplier.setCurrent_fontsize("30");
                     SettingsApplier.setCurrent_fontsize("normal");
 
-                    SettingsApplier.setDefaultColors();
                     SettingsApplier.setColor_fkt(0xfffe938c);
                     SettingsApplier.setColor_fops(0xffead2ac);
                     SettingsApplier.setColor_numbers(0xff9cafb7);
@@ -150,7 +150,6 @@ public class DesignApplier {
                     SettingsApplier.setCurrent_fontsize("30");
                     SettingsApplier.setCurrent_fontsize("normal");
 
-                    SettingsApplier.setDefaultColors();
                     SettingsApplier.setColor_display(0xff000000);
                     SettingsApplier.setColor_displaytext(0xffFFFFFF);
                     SettingsApplier.setColor_act(0xff000000);
@@ -174,7 +173,6 @@ public class DesignApplier {
                     SettingsApplier.setCurrent_fontsize("30");
                     SettingsApplier.setCurrent_fontsize("normal");
 
-                    SettingsApplier.setDefaultColors();
                     SettingsApplier.setColor_display(0xffa8d8ea);
                     SettingsApplier.setColor_displaytext(0xffFFFFFF);
                     SettingsApplier.setColor_act(0xffaa96da);

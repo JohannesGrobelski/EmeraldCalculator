@@ -59,19 +59,21 @@
         android:title="Language"
         android:fragment="com.example.titancalculator.SettingsActivity$LanguagePreferenceFragment" />
 
-    <header
-        android:icon="@drawable/ic_button_fct"
-        android:title="create Function groups">
-        <intent
-            android:targetPackage="com.example.titancalculator"
-            android:targetClass="com.example.titancalculator.FunctionGroupSettingsActivity" />
-    </header>
+    <!--
+   <header
+       android:icon="@drawable/ic_button_fct"
+       android:title="create Function groups">
+       <intent
+           android:targetPackage="com.example.titancalculator"
+           android:targetClass="com.example.titancalculator.FunctionGroupSettingsActivity" />
+   </header>
 
-    <header
-        android:icon="@drawable/ic_button_fct"
-        android:title="set Function groups">
-        <intent
-            android:targetPackage="com.example.titancalculator"
-            android:targetClass="com.example.titancalculator.ButtonSettingsActivity" />
-    </header>
+   <header
+       android:icon="@drawable/ic_button_fct"
+       android:title="set Function groups">
+       <intent
+           android:targetPackage="com.example.titancalculator"
+           android:targetClass="com.example.titancalculator.ButtonSettingsActivity" />
+   </header>
+   -->
 </preference-headers>

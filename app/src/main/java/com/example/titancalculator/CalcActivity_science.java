@@ -33,6 +33,8 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.inputmethod.InputMethodManager;
@@ -192,6 +194,23 @@ public class CalcActivity_science extends AppCompatActivity {
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
         }
     }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+            );
+        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -246,12 +265,10 @@ public class CalcActivity_science extends AppCompatActivity {
         mode = "BASIC";
         //ArrayAdapter adpt_modeoptions = new ArrayAdapter<String>(this, R.layout.lvitem_layout, mode_options);
 
-
-        setUp_spinner_base();
+        //setUp_spinner_base();
 
         try {
             SettingsApplier.setBackgroundImage(CalcActivity_science.this,science_background);
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -443,19 +460,7 @@ public class CalcActivity_science extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        //L1
-        SettingsApplier.setArrayAdapter(CalcActivity_science.this,spinner_shift,mode_options,SettingsApplier.getColor_fops(CalcActivity_science.this));
 
-        spinner_shift.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                ((TextView) parent.getChildAt(0)).setTextColor(SettingsApplier.getColor_fkt(CalcActivity_science.this));
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                ((TextView) parent.getChildAt(0)).setTextColor(SettingsApplier.getColor_fkt(CalcActivity_science.this));
-            }
-        });
         btn_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -473,7 +478,6 @@ public class CalcActivity_science extends AppCompatActivity {
                 view.startAnimation(buttonClick);
                 mode = spinner_shift.getSelectedItem().toString();
                 assignModeFct();
-                
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
@@ -920,7 +924,7 @@ public class CalcActivity_science extends AppCompatActivity {
                 }
             }
         });
-        setUp_spinner_base();
+        ////setUp_spinner_base();
         btn_LINKS.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -949,7 +953,7 @@ public class CalcActivity_science extends AppCompatActivity {
                 if(state_spinner_shift.equals("base_selection") && !btn_1_text.equals("1")){
                     base = Integer.valueOf(btn_1_text);
                     state_spinner_shift = "number_selection";
-                    setUp_spinner_base();
+                    //setUp_spinner_base();
                 } else {
                     eingabeAddText(btn_1_text);
                 }
@@ -963,7 +967,7 @@ public class CalcActivity_science extends AppCompatActivity {
                 if(state_spinner_shift.equals("base_selection")){
                     base = Integer.valueOf(btn_2_text);
                     state_spinner_shift = "number_selection";
-                    setUp_spinner_base();
+                    //setUp_spinner_base();
                 } else {
                     eingabeAddText(btn_2_text);
                 }
@@ -977,7 +981,7 @@ public class CalcActivity_science extends AppCompatActivity {
                 if(state_spinner_shift.equals("base_selection")){
                     base = Integer.valueOf(btn_3_text);
                     state_spinner_shift = "number_selection";
-                    setUp_spinner_base();
+                    //setUp_spinner_base();
                 } else {
                     eingabeAddText(btn_3_text);
                 }
@@ -991,7 +995,7 @@ public class CalcActivity_science extends AppCompatActivity {
                 if(state_spinner_shift.equals("base_selection")){
                     base = Integer.valueOf(btn_4_text);
                     state_spinner_shift = "number_selection";
-                    setUp_spinner_base();
+                    //setUp_spinner_base();
                 } else {
                     eingabeAddText(btn_4_text);
                 }
@@ -1005,7 +1009,7 @@ public class CalcActivity_science extends AppCompatActivity {
                 if(state_spinner_shift.equals("base_selection")){
                     base = Integer.valueOf(btn_5_text);
                     state_spinner_shift = "number_selection";
-                    setUp_spinner_base();
+                    //setUp_spinner_base();
                 } else {
                     eingabeAddText(btn_5_text);
                 }
@@ -1019,7 +1023,7 @@ public class CalcActivity_science extends AppCompatActivity {
                 if(state_spinner_shift.equals("base_selection")){
                     base = Integer.valueOf(btn_6_text);
                     state_spinner_shift = "number_selection";
-                    setUp_spinner_base();
+                    //setUp_spinner_base();
                 } else {
                     eingabeAddText(btn_6_text);
                 }
@@ -1033,7 +1037,7 @@ public class CalcActivity_science extends AppCompatActivity {
                 if(state_spinner_shift.equals("base_selection")){
                     base = Integer.valueOf(btn_7_text);
                     state_spinner_shift = "number_selection";
-                    setUp_spinner_base();
+                    //setUp_spinner_base();
                 } else {
                     eingabeAddText(btn_7_text);
                 }
@@ -1047,7 +1051,7 @@ public class CalcActivity_science extends AppCompatActivity {
                 if(state_spinner_shift.equals("base_selection")){
                     base = Integer.valueOf(btn_8_text);
                     state_spinner_shift = "number_selection";
-                    setUp_spinner_base();
+                    //setUp_spinner_base();
                 } else {
                     eingabeAddText(btn_8_text);
                 }
@@ -1061,7 +1065,7 @@ public class CalcActivity_science extends AppCompatActivity {
                 if(state_spinner_shift.equals("base_selection")){
                     base = Integer.valueOf(btn_9_text);
                     state_spinner_shift = "number_selection";
-                    setUp_spinner_base();
+                    //setUp_spinner_base();
                 } else {
                     eingabeAddText(btn_9_text);
                 }
@@ -1382,12 +1386,24 @@ public class CalcActivity_science extends AppCompatActivity {
             if(VIEW_SAVES.contains(b))SettingsApplier.setViewDesign(CalcActivity_science.this,b,SettingsApplier.getColor_saves(CalcActivity_science.this));
             if(VIEW_SPECIALS.contains(b))SettingsApplier.setViewDesign(CalcActivity_science.this,b,SettingsApplier.getColor_specials(CalcActivity_science.this));
         }
-        SettingsApplier.setViewDesign(CalcActivity_science.this,spinner_shift,SettingsApplier.getColor_fops(CalcActivity_science.this));
         SettingsApplier.setViewDesign(CalcActivity_science.this,spinner_Base,SettingsApplier.getColor_numbers(CalcActivity_science.this));
+        SettingsApplier.setArrayAdapter(CalcActivity_science.this,spinner_shift,mode_options,SettingsApplier.getColor_fops(CalcActivity_science.this));
+        SettingsApplier.setViewDesign(CalcActivity_science.this,spinner_shift,SettingsApplier.getColor_fops(CalcActivity_science.this));
 
         SettingsApplier.setViewDesign(CalcActivity_science.this,display,SettingsApplier.getColor_display(CalcActivity_science.this));
         SettingsApplier.setETDesign(CalcActivity_science.this,eT_eingabe,SettingsApplier.getColor_displaytext(CalcActivity_science.this));
         SettingsApplier.setETDesign(CalcActivity_science.this,eT_ausgabe,SettingsApplier.getColor_displaytext(CalcActivity_science.this));
+
+        //fires if layout drawn
+        btn_open_bracket.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                SettingsApplier.centerTextButton(btn_open_bracket,7);
+                SettingsApplier.centerTextButton(btn_close_bracket,7);
+                SettingsApplier.centerTextButton(btn_mul,7);
+            }
+        });
+
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -1692,7 +1708,7 @@ public class CalcActivity_science extends AppCompatActivity {
                     //Toast.makeText(CalcActivity_science.this, "spinner: "+adapterView.getItemAtPosition(i).toString(), Toast.LENGTH_SHORT).show();
                     if(adapterView.getItemAtPosition(i).equals("set base")){
                         state_spinner_shift = "base_selection";
-                        setUp_spinner_base();
+                        //setUp_spinner_base();
                     } else {
                         int new_btn_digit_group_cnt = ((i  % (MathEvaluator.digit_alphabet.length / 9)));
                         if(new_btn_digit_group_cnt*9 < base ){
@@ -1708,8 +1724,7 @@ public class CalcActivity_science extends AppCompatActivity {
             });
         } else if(state_spinner_shift.equals("base_selection")){
             SettingsApplier.setArrayAdapter(CalcActivity_science.this,spinner_Base,MathEvaluator.int_digit_alphabet_groups,SettingsApplier.getColor_fops(CalcActivity_science.this));
-
-
+            
             spinner_Base.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {

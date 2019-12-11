@@ -95,19 +95,14 @@
                 android:layout_marginRight="5dp"
                 android:layout_marginBottom="10dp"
                 android:layout_weight="1"
-                android:background="@drawable/buttonshape_square"
-                android:entries="@array/modes_DE"
-                android:outlineAmbientShadowColor="#00000000"
-                android:outlineSpotShadowColor="#00000000"
-                android:popupBackground="@drawable/buttonshape_square"
-                android:shadowColor="#00000000"
                 android:shadowDx="20"
                 android:shadowDy="20"
                 android:shadowRadius="30"
                 android:spinnerMode="dropdown"
                 android:text="BASIC"
+                android:textAlignment="center"
                 android:textSize="30sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"/>
 
             <Button
                 android:id="@+id/m_btn_CONST"
@@ -360,6 +355,7 @@
 
                 app:autoSizeStepGranularity="1sp"
                 app:autoSizeTextType="uniform" />
+
             <Button
                 android:id="@+id/m_btn_open_bracket"
                 android:layout_width="match_parent"
@@ -370,13 +366,15 @@
                 android:layout_weight="1"
                 android:background="@drawable/buttonshape_square"
                 android:maxLines="1"
+                android:paddingBottom="10sp"
                 android:shadowRadius="30"
                 android:text="@string/BRACKET_OPEN"
+
+
                 android:visibility="visible"
-
-
                 app:autoSizeStepGranularity="1sp"
                 app:autoSizeTextType="uniform" />
+
             <Button
                 android:id="@+id/m_btn_close_bracket"
                 android:layout_width="match_parent"
@@ -387,11 +385,12 @@
                 android:layout_weight="1"
                 android:background="@drawable/buttonshape_square"
                 android:maxLines="1"
+                android:paddingBottom="10sp"
                 android:shadowRadius="30"
                 android:text="@string/BRACKET_CLOSE"
+
+
                 android:visibility="visible"
-
-
                 app:autoSizeStepGranularity="1sp"
                 app:autoSizeTextType="uniform" />
         </LinearLayout>
@@ -458,6 +457,7 @@
 
                 app:autoSizeStepGranularity="1sp"
                 app:autoSizeTextType="uniform" />
+
             <Button
                 android:id="@+id/m_btn_mul"
                 android:layout_width="match_parent"
@@ -468,11 +468,12 @@
                 android:layout_weight="1"
                 android:background="@drawable/buttonshape_square"
                 android:maxLines="1"
+                android:paddingTop="10sp"
                 android:shadowRadius="30"
+
+
                 android:text="@string/MUL"
                 android:visibility="visible"
-
-
                 app:autoSizeStepGranularity="1sp"
                 app:autoSizeTextType="uniform" />
             <Button

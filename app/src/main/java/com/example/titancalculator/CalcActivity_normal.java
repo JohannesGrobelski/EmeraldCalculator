@@ -24,6 +24,8 @@ import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.inputmethod.InputMethodManager;
@@ -198,6 +200,22 @@ public class CalcActivity_normal extends AppCompatActivity {
                 return;
             }
 
+        }
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+            );
         }
     }
 
@@ -1370,6 +1388,16 @@ public class CalcActivity_normal extends AppCompatActivity {
         SettingsApplier.setViewDesign(CalcActivity_normal.this,display,SettingsApplier.getColor_display(CalcActivity_normal.this));
         SettingsApplier.setETDesign(CalcActivity_normal.this,eT_eingabe,SettingsApplier.getColor_displaytext(CalcActivity_normal.this));
         SettingsApplier.setETDesign(CalcActivity_normal.this,eT_ausgabe,SettingsApplier.getColor_displaytext(CalcActivity_normal.this));
+
+        //fires if layout drawn
+        VIEW_close_bracket.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                SettingsApplier.centerTextButton(VIEW_open_bracket,7);
+                SettingsApplier.centerTextButton(VIEW_close_bracket,7);
+                SettingsApplier.centerTextButton(VIEW_mul,7);
+            }
+        });
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

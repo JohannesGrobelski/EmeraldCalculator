@@ -58,6 +58,7 @@
         android:title="Sprache"
         android:fragment="com.example.titancalculator.SettingsActivity$LanguagePreferenceFragment" />
 
+    <!--
     <header
         android:icon="@drawable/ic_button_fct"
         android:title="Funktionsgruppen erstellen">
@@ -73,4 +74,5 @@
             android:targetPackage="com.example.titancalculator"
             android:targetClass="com.example.titancalculator.ButtonSettingsActivity" />
     </header>
+    -->
 </preference-headers>
