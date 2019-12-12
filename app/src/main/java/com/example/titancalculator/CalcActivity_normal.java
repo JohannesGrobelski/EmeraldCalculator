@@ -1162,7 +1162,7 @@ public class CalcActivity_normal extends AppCompatActivity {
 
                 answer = I.getResult(CalcActivity_science.getBase(CalcActivity_normal.this));
                 ausgabe_setText(answer);
-                HistoryActivity.addHistory(CalcActivity_normal.this,answer);
+                HistoryActivity.addHistory(CalcActivity_normal.this,eT_eingabe.getText().toString(),answer);
             }
         });
 

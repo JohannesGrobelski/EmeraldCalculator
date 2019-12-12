@@ -30,7 +30,7 @@ import java.util.Set;
 
 public class HistoryActivity extends AppCompatActivity {
     public static final String SAVEWORD_HITORY = "HISTORY";
-    public static final int CAPACITY_HISTORY = 10;
+    public static final int CAPACITY_HISTORY = 1000;
     private static ArrayList<String> history = new ArrayList<>();
 
     Button btn_save;
@@ -90,10 +90,15 @@ public class HistoryActivity extends AppCompatActivity {
         lv_verlauf.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+                Intent intent=new Intent();
+                intent.putExtra("RESULT_STRING", lv_verlauf.getItemAtPosition(position).toString().replace("=","").trim());
+                setResult(RESULT_OK, intent);
+                finish();
+                /*
                 item = lv_verlauf.getItemAtPosition(position).toString();
                 tV_selection.setText(item);
+                 */
             }
-
         });
 
         btn_save.setOnClickListener(new View.OnClickListener() {
@@ -149,10 +154,12 @@ public class HistoryActivity extends AppCompatActivity {
     }
 
 
-    public static void addHistory(Context context, String answer){
+    public static void addHistory(Context context, String term, String answer){
         if(history == null)init(context);
-        if(!history.isEmpty() && answer.equals(history.get(history.size()-1)))return;
-        history.add(answer);
+        //if(!history.isEmpty() && ("= "+answer).equals(history.get(history.size()-1)))return;
+        if(!history.isEmpty() && term.equals(history.get(history.size()-1)))return;
+        history.add(term);
+        //history.add("= "+answer);
         if(history.size() > CAPACITY_HISTORY){
             history = ArrayUtils.sublistLastN(history,CAPACITY_HISTORY);
         }

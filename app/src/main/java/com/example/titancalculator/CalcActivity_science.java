@@ -1163,7 +1163,7 @@ public class CalcActivity_science extends AppCompatActivity {
                 view.startAnimation(buttonClick);
                 answer = I.getResult(getBase(CalcActivity_science.this));
                 ausgabeSetText(answer);
-                HistoryActivity.addHistory(CalcActivity_science.this,answer);
+                HistoryActivity.addHistory(CalcActivity_science.this,eT_eingabe.getText().toString(),answer);
             }
         });
         

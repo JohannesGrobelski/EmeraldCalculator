@@ -607,7 +607,7 @@ public class CalcActivity_small extends AppCompatActivity {
 
                 answer = I.getResult(CalcActivity_science.getBase(CalcActivity_small.this));
                 ausgabe_setText(answer);
-                HistoryActivity.addHistory(CalcActivity_small.this,answer);
+                HistoryActivity.addHistory(CalcActivity_small.this,eT_eingabe.getText().toString(),answer);
 
             }
         });

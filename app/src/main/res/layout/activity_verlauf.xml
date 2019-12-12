@@ -17,10 +17,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight=".2"
-            app:autoSizeTextType="uniform"
+            android:textAlignment="viewStart"
             app:autoSizeMaxTextSize="100sp"
             app:autoSizeMinTextSize="12sp"
-            app:autoSizeStepGranularity="4sp">
+            app:autoSizeStepGranularity="4sp"
+            app:autoSizeTextType="uniform">
 
         </ListView>
 
@@ -28,7 +29,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight=".5"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/tV_selection"
@@ -44,8 +46,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight=".5"
+            android:layout_height="100dp"
             android:orientation="horizontal">
 
             <Button
@@ -58,7 +59,8 @@
                 android:layout_marginBottom="5dp"
                 android:layout_weight=".9"
                 android:text="@string/save_settings_DE"
-                android:textSize="40sp" />
+                android:textSize="40sp"
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/btn_clear"
@@ -68,7 +70,6 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="5dp"
                 android:layout_marginBottom="5dp"
-                android:layout_weight=".9"
                 android:text="clear history"
                 android:textSize="40sp" />
         </LinearLayout>

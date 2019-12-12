@@ -107,7 +107,7 @@ public class DesignSettingsActivity extends AppCompatActivity {
     }
 
     public void setBackgrounds(){
-        design_background.setBackgroundColor(SettingsApplier.getColor_background(DesignSettingsActivity.this));
+        design_background.setBackgroundColor(Color.WHITE);
         for(View b: VIEW_ALL){
             SettingsApplier.setViewDesign(DesignSettingsActivity.this,b, Color.GRAY);
         }
