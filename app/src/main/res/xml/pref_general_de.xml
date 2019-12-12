@@ -28,10 +28,5 @@
         android:selectAllOnFocus="true"
         android:singleLine="true"
         android:title="Length of vibration on buttonclick" />
-    <ListPreference
-        android:defaultValue="normal"
-        android:entries="@array/calc_modes_de"
-        android:entryValues="@array/calc_modes_val"
-        android:key="calc_mode"
-        android:title="Rechner Modus" />
+
 </PreferenceScreen>

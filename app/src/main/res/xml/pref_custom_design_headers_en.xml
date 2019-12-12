@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<preference-headers
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <header
+        android:icon="@drawable/ic_colorpicker"
+        android:title="Activity Colors"
+        android:fragment="com.example.titancalculator.SettingsActivity$ColorActFragment" />
+
+
+    <header
+        android:icon="@drawable/ic_colorpicker"
+        android:title="Colors"
+        android:fragment="com.example.titancalculator.SettingsActivity$ButtoncolorSettingsFragment" />
+
+    <header
+        android:icon="@drawable/ic_schriftart"
+        android:title="Font">
+        <intent
+            android:targetPackage="com.example.titancalculator"
+            android:targetClass="com.example.titancalculator.FontSettingsActivity" />
+    </header>
+
+    <header
+        android:icon="@drawable/ic_formen"
+        android:title="forms">
+        <intent
+            android:targetPackage="com.example.titancalculator"
+            android:targetClass="com.example.titancalculator.ButtonshapeActivity" />
+    </header>
+
+
+    <header
+        android:icon="@drawable/ic_language_black_24dp"
+        android:title="Language"
+        android:fragment="com.example.titancalculator.SettingsActivity$LanguagePreferenceFragment" />
+
+</preference-headers>

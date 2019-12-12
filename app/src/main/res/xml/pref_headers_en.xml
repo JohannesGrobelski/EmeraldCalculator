@@ -26,6 +26,22 @@
     </header>
 
     <header
+        android:icon="@drawable/ic_design"
+        android:title="custom Design">
+        <intent
+            android:targetPackage="com.example.titancalculator"
+            android:targetClass="com.example.titancalculator.CustomDesignSettings" />
+    </header>
+
+    <header
+        android:icon="@drawable/ic_language_black_24dp"
+        android:title="Language"
+        android:fragment="com.example.titancalculator.SettingsActivity$LanguagePreferenceFragment" />
+
+
+    <!--
+
+    <header
         android:icon="@drawable/ic_colorpicker"
         android:title="Activity Colors"
         android:fragment="com.example.titancalculator.SettingsActivity$ColorActFragment" />
@@ -52,13 +68,6 @@
             android:targetClass="com.example.titancalculator.ButtonshapeActivity" />
     </header>
 
-
-    <header
-        android:icon="@drawable/ic_language_black_24dp"
-        android:title="Language"
-        android:fragment="com.example.titancalculator.SettingsActivity$LanguagePreferenceFragment" />
-
-    <!--
    <header
        android:icon="@drawable/ic_button_fct"
        android:title="create Function groups">
