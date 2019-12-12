@@ -40,6 +40,7 @@ import androidx.preference.PreferenceManager;
 import com.example.titancalculator.ButtonSettingsActivity;
 import com.example.titancalculator.CalcActivity_science;
 import com.example.titancalculator.ConversionActivity;
+import com.example.titancalculator.DesignSettingsActivity;
 import com.example.titancalculator.FontSettingsActivity;
 import com.example.titancalculator.FunctionGroupSettingsActivity;
 import com.example.titancalculator.MainActivity;
@@ -358,9 +359,10 @@ public class SettingsApplier {
         editor.putInt("buttonshape", SettingsApplier.getButtonshapeID());
         editor.putString("buttonfüllung", SettingsApplier.getButtonfüllung());
 
-        editor.putString("current_font_family", SettingsApplier.getCurrent_font_family());
-        editor.putString("current_fontsize", SettingsApplier.getCurrent_fontsize());
-        editor.putString("current_fontstlye", SettingsApplier.getCurrent_fontstlye());
+
+        editor.putString("fontfamily", SettingsApplier.getCurrent_font_family());
+        editor.putString("fontsize", SettingsApplier.getCurrent_fontsize());
+        editor.putString("fontstyle", SettingsApplier.getCurrent_fontstlye());
 
         editor.putInt("ConvColor", SettingsApplier.getColor_conv(c));
         editor.putInt("ConstColor", SettingsApplier.getColor_const(c));
@@ -377,6 +379,17 @@ public class SettingsApplier {
         editor.putInt("BackgroundColor", SettingsApplier.getColor_background(c));
 
         editor.commit();
+    }
+
+    public static void setDefaultFont(){
+        setCurrent_font_family("monospace");
+        setCurrent_fontsize("30");
+        setCurrent_fontstlye("normal");
+    }
+
+    public static void setDefaultButtonShapeFilling(){
+        setButtonshapeID(R.drawable.buttonshape_square);
+        setButtonfüllung("voll");
     }
 
     public static void setDefaultColors(){
@@ -397,6 +410,7 @@ public class SettingsApplier {
     }
 
     public static void applySettings(Context c){
+
         //language
         language = PreferenceManager.getDefaultSharedPreferences(c).getString("pref_lang","english");
 
@@ -424,7 +438,6 @@ public class SettingsApplier {
         current_font_family = PreferenceManager.getDefaultSharedPreferences(c).getString("fontfamily", "monospace");
         setCurrent_fontsize(PreferenceManager.getDefaultSharedPreferences(c).getString("fontsize", "20"));
         current_fontstlye = PreferenceManager.getDefaultSharedPreferences(c).getString("fontstyle", "normal");
-
     }
 
     public static int manipulateColor(int color, float factor) {
@@ -544,7 +557,7 @@ public class SettingsApplier {
     }
 
     public static Float getCurrentFontsize(Context c){
-        String  current_fontstlye = PreferenceManager.getDefaultSharedPreferences(c).getString("fontstyle", "normal");
+        String current_fontstlye = PreferenceManager.getDefaultSharedPreferences(c).getString("fontstyle", "normal");
         Float f = 20f;
         if(!current_fontsize.isEmpty() && !current_fontsize.equals("automatic"))f = Float.valueOf(current_fontsize);
         return f;
@@ -632,7 +645,7 @@ public class SettingsApplier {
     }
 
     public static String getButtonfüllung() {
-        return buttonfüllung;
+        return SettingsApplier.buttonfüllung;
     }
 
     public static void setButtonfüllung(String buttonfüllung) {
@@ -640,7 +653,7 @@ public class SettingsApplier {
     }
 
     public static String getCurrent_font_family() {
-        return current_font_family;
+        return SettingsApplier.current_font_family;
     }
 
     public static void setCurrent_font_family(String current_font_family) {
@@ -648,7 +661,7 @@ public class SettingsApplier {
     }
 
     public static String getCurrent_fontsize() {
-        return current_fontsize;
+        return SettingsApplier.current_fontsize;
     }
 
     public static void setCurrent_fontsize(String current_fontsize) {
@@ -656,7 +669,7 @@ public class SettingsApplier {
     }
 
     public static String getCurrent_fontstlye() {
-        return current_fontstlye;
+        return SettingsApplier.current_fontstlye;
     }
 
     public static void setCurrent_fontstlye(String current_fontstlye) {

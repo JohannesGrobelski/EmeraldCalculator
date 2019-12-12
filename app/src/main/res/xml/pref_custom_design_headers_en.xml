@@ -6,7 +6,6 @@
         android:title="Activity Colors"
         android:fragment="com.example.titancalculator.SettingsActivity$ColorActFragment" />
 
-
     <header
         android:icon="@drawable/ic_colorpicker"
         android:title="Colors"
@@ -28,10 +27,5 @@
             android:targetClass="com.example.titancalculator.ButtonshapeActivity" />
     </header>
 
-
-    <header
-        android:icon="@drawable/ic_language_black_24dp"
-        android:title="Language"
-        android:fragment="com.example.titancalculator.SettingsActivity$LanguagePreferenceFragment" />
 
 </preference-headers>

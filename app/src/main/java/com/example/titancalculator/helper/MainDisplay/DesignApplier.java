@@ -85,19 +85,23 @@ public class DesignApplier {
         }
     }
 
-    public static void apply_theme(Context c, String name){
-        Toast.makeText(c,"Set Design to:"+name,Toast.LENGTH_SHORT).show();
+    /**
+     * bei design auswahl ALLES zurücksetzen (act color, colors, schrift(art,größe,style)buttonfüllung und buttonshape )
+     */
+    public static void setDefaultDesign(){
         SettingsApplier.setDefaultColors();
+        SettingsApplier.setDefaultFont();
+        SettingsApplier.setDefaultButtonShapeFilling();
+    }
+
+    public static void apply_theme(Context c, String name){
+        setDefaultDesign();
         if(ArrayUtils.array_contains(designs,name)){
             switch(name){
                 case "dark":{
                     SettingsApplier.darker_factor_font = 1f;
                     SettingsApplier.setButtonshapeID("Round");
                     SettingsApplier.setButtonfüllung("leer");
-
-                    SettingsApplier.setCurrent_font_family("monospace");
-                    SettingsApplier.setCurrent_fontsize("30");
-                    SettingsApplier.setCurrent_fontsize("normal");
 
                     SettingsApplier.setColor_background(0xff000000);
                     SettingsApplier.setColor_display(0xffFFFFFF);
@@ -110,10 +114,6 @@ public class DesignApplier {
                     SettingsApplier.setButtonshapeID("Square");
                     SettingsApplier.setButtonfüllung("voll");
 
-                    SettingsApplier.setCurrent_font_family("monospace");
-                    SettingsApplier.setCurrent_fontsize("30");
-                    SettingsApplier.setCurrent_fontsize("normal");
-
                     SettingsApplier.setColor_display(SettingsApplier.getColor_numbers(c));
                     float factor_font = SettingsApplier.getDarker_factor_font(c);
                     int darkerNumberTheme = SettingsApplier.manipulateColor(SettingsApplier.getColor_numbers(c),factor_font);
@@ -124,10 +124,6 @@ public class DesignApplier {
                     SettingsApplier.darker_factor_font = 0.5f;
                     SettingsApplier.setButtonshapeID("Round");
                     SettingsApplier.setButtonfüllung("voll");
-
-                    SettingsApplier.setCurrent_font_family("monospace");
-                    SettingsApplier.setCurrent_fontsize("30");
-                    SettingsApplier.setCurrent_fontsize("normal");
 
                     SettingsApplier.setColor_fkt(0xfffe938c);
                     SettingsApplier.setColor_fops(0xffead2ac);
@@ -145,10 +141,6 @@ public class DesignApplier {
                 } case "germany":{
                     SettingsApplier.setButtonshapeID("Round");
                     SettingsApplier.setButtonfüllung("voll");
-
-                    SettingsApplier.setCurrent_font_family("monospace");
-                    SettingsApplier.setCurrent_fontsize("30");
-                    SettingsApplier.setCurrent_fontsize("normal");
 
                     SettingsApplier.setColor_display(0xff000000);
                     SettingsApplier.setColor_displaytext(0xffFFFFFF);
@@ -169,10 +161,6 @@ public class DesignApplier {
                     SettingsApplier.setButtonshapeID("Round");
                     SettingsApplier.setButtonfüllung("voll");
 
-                    SettingsApplier.setCurrent_font_family("monospace");
-                    SettingsApplier.setCurrent_fontsize("30");
-                    SettingsApplier.setCurrent_fontsize("normal");
-
                     SettingsApplier.setColor_display(0xffa8d8ea);
                     SettingsApplier.setColor_displaytext(0xffFFFFFF);
                     SettingsApplier.setColor_act(0xffaa96da);
@@ -188,7 +176,6 @@ public class DesignApplier {
             }
             SettingsApplier.saveSettings(c);
             Toast.makeText(c,"Set Design to:"+name,Toast.LENGTH_SHORT).show();
-
         }
         return;
     }
