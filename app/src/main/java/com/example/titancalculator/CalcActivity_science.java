@@ -1180,6 +1180,9 @@ public class CalcActivity_science extends AppCompatActivity {
 
         //onCreate end
         setBackgrounds();
+        SettingsApplier.setETTextSize(CalcActivity_science.this,eT_eingabe,3);
+        SettingsApplier.setETTextSize(CalcActivity_science.this,eT_ausgabe,3);
+
     }
 
 
@@ -1391,8 +1394,8 @@ public class CalcActivity_science extends AppCompatActivity {
         SettingsApplier.setViewDesign(CalcActivity_science.this,spinner_shift,SettingsApplier.getColor_fops(CalcActivity_science.this));
 
         SettingsApplier.setViewDesign(CalcActivity_science.this,display,SettingsApplier.getColor_display(CalcActivity_science.this));
-        SettingsApplier.setETDesign(CalcActivity_science.this,eT_eingabe,3);
-        SettingsApplier.setETDesign(CalcActivity_science.this,eT_ausgabe,3);
+        SettingsApplier.setETDesign(CalcActivity_science.this,eT_eingabe,4);
+        SettingsApplier.setETDesign(CalcActivity_science.this,eT_ausgabe,4);
 
         //fires if layout drawn
         btn_open_bracket.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {

@@ -598,6 +598,10 @@ public class CalcActivity_small extends AppCompatActivity {
         eT_eingabe.setText( v.getStringExtra("input"));
         eT_ausgabe.setText( v.getStringExtra("output"));
         verlauf = ArrayUtils.stringToList(v.getStringExtra("verlauf"));
+
+        //end onCreate
+        SettingsApplier.setETTextSize(CalcActivity_small.this,eT_eingabe,4);
+        SettingsApplier.setETTextSize(CalcActivity_small.this,eT_ausgabe,4);
     }
 
 
@@ -630,13 +634,10 @@ public class CalcActivity_small extends AppCompatActivity {
         }
 
         SettingsApplier.setViewDesign(CalcActivity_small.this,display,SettingsApplier.getColor_display(CalcActivity_small.this));
-        SettingsApplier.setETDesign(CalcActivity_small.this,eT_eingabe,4);
-        SettingsApplier.setETDesign(CalcActivity_small.this,eT_ausgabe,4);
 
         //SettingsApplier.rescaleText(eT_ausgabe);
-
-
-
+        SettingsApplier.setETDesign(CalcActivity_small.this,eT_eingabe,4);
+        SettingsApplier.setETDesign(CalcActivity_small.this,eT_ausgabe,4);
     }
 
 

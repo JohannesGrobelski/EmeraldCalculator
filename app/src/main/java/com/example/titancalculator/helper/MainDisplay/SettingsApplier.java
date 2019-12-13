@@ -161,16 +161,25 @@ public class SettingsApplier {
 
         view.setTextColor(SettingsApplier.getColor_displaytext(context));
         view.setTypeface(tp_current);
+    }
 
+    /**
+     * sets up views: font(family,style,size), background
+     * @param context
+     * @param view
+     * @param invTextSizeFactor view.setTextSize(view.getHeight() / invTextSizeFactor);
+     */
+    public static void setETTextSize(Context context, final EditText view, final int invTextSizeFactor) {
         view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
                 view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                view.getHeight(); //height is ready
                 view.setTextSize(view.getHeight() / invTextSizeFactor);
             }
         });
     }
+
+
 
     /**
      * sets up views: font(family,style,size), background
