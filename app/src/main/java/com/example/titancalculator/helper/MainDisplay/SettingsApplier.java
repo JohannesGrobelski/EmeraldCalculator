@@ -1,6 +1,5 @@
 package com.example.titancalculator.helper.MainDisplay;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -9,59 +8,39 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
-import android.graphics.drawable.ScaleDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.core.content.ContextCompat;
-import androidx.preference.Preference;
 import androidx.preference.PreferenceManager;
 
-import com.example.titancalculator.ButtonSettingsActivity;
-import com.example.titancalculator.CalcActivity_science;
-import com.example.titancalculator.ConversionActivity;
-import com.example.titancalculator.DesignSettingsActivity;
 import com.example.titancalculator.FontSettingsActivity;
-import com.example.titancalculator.FunctionGroupSettingsActivity;
-import com.example.titancalculator.MainActivity;
 import com.example.titancalculator.R;
-import com.example.titancalculator.SettingsActivity;
-import com.example.titancalculator.helper.ImageUtils;
-import com.example.titancalculator.helper.Math_String.NumberString;
-import com.example.titancalculator.helper.ShakeListener;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.regex.Pattern;
 
 import static com.example.titancalculator.CalcActivity_science.checkPermissionForReadExtertalStorage;
 import static com.example.titancalculator.CalcActivity_science.requestPermissionForReadExtertalStorage;
 
 public class SettingsApplier {
-
     public static int haptic_feedback_duration=0;
 
     private static String language="german";
@@ -174,16 +153,23 @@ public class SettingsApplier {
      * sets up views: font(family,style,size), background
      * @param context
      * @param view
-     * @param textcolor
+     * @param invTextSizeFactor view.setTextSize(view.getHeight() / invTextSizeFactor);
      */
-    public static View setETDesign(Context context, EditText view, int textcolor) {
+    public static void setETDesign(Context context, final EditText view, final int invTextSizeFactor) {
         if (current_font_family == null || current_fontstlye == null) applySettings(context);
         Typeface tp_current = FontSettingsActivity.getTypeFace(current_font_family, current_fontstlye);
 
         view.setTextColor(SettingsApplier.getColor_displaytext(context));
         view.setTypeface(tp_current);
 
-        return view;
+        view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                view.getHeight(); //height is ready
+                view.setTextSize(view.getHeight() / invTextSizeFactor);
+            }
+        });
     }
 
     /**
@@ -266,6 +252,14 @@ public class SettingsApplier {
             view.setBackground(background);
         }
         return view;
+    }
+
+    public static void rescaleText(View v){
+        if(v instanceof TextView){
+            ((TextView) v).setTextSize(v.getHeight() / 3);
+        } else if(v instanceof EditText){
+            ((EditText) v).setTextSize(v.getHeight() / 3);
+        }
     }
 
     /**
@@ -410,11 +404,10 @@ public class SettingsApplier {
     }
 
     public static void applySettings(Context c){
-
         //language
         language = PreferenceManager.getDefaultSharedPreferences(c).getString("pref_lang","english");
 
-        //buttonshape
+        //buttonshapeö
         SettingsApplier.getButtonshapeID();
 
         //buttonfüllung
@@ -488,15 +481,10 @@ public class SettingsApplier {
                         x.setBackground(background);
                     }
 
-
                     if(background!=null)x.setBackground(background);
                 }
-
             }
-
-
         }
-
     }
 
 
@@ -514,13 +502,10 @@ public class SettingsApplier {
         }
     }
 
-
     public static Drawable combineVectorBackground(Drawable vector, Drawable background){
             LayerDrawable finalDrawable = new LayerDrawable(new Drawable[] {background, vector});
             return finalDrawable;
     }
-
-
 
     public static void setColor(Context context, Drawable background, int color, String füllung, boolean stroke){
         if (background instanceof ShapeDrawable) {

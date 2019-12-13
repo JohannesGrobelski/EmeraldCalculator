@@ -24,9 +24,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-
             android:baselineAligned="false"
             android:minHeight="120dp"
             android:orientation="vertical">
@@ -37,17 +36,17 @@
                 android:layout_height="match_parent"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="5sp"
+                android:layout_weight="1"
                 android:width="100dp"
                 android:background="#00464646"
                 android:fontFamily="monospace"
                 android:inputType="textNoSuggestions"
                 android:maxLines="1"
-                android:minHeight="55sp"
-                android:textSize="50sp"
 
+                android:minHeight="55sp"
                 app:autoSizeMaxTextSize="100sp"
                 app:autoSizeMinTextSize="12sp"
-                app:autoSizeStepGranularity="1sp"  />
+                app:autoSizeStepGranularity="1sp" />
 
             <EditText
                 android:id="@+id/m_eT_Ausgabe"
@@ -55,14 +54,14 @@
                 android:layout_height="match_parent"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="5sp"
+                android:layout_weight="1"
                 android:width="100dp"
                 android:background="#00464646"
                 android:fontFamily="monospace"
                 android:inputType="textNoSuggestions"
                 android:maxLines="1"
-                android:minHeight="55sp"
-                android:textSize="50sp"
 
+                android:minHeight="55sp"
                 app:autoSizeMaxTextSize="100sp"
                 app:autoSizeMinTextSize="12sp"
                 app:autoSizeStepGranularity="1sp" />

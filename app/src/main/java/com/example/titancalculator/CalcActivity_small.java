@@ -30,8 +30,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TableLayout;
-import android.widget.TableRow;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
@@ -58,7 +58,7 @@ import java.util.Set;
 
 
 public class CalcActivity_small extends AppCompatActivity {
-    TableLayout small_background;
+    LinearLayout small_background;
 
     static final int REQUEST_CODE_CONST = 1;  // The request code
     static final int REQUEST_CODE_CONV = 1;  // The request code
@@ -79,7 +79,7 @@ public class CalcActivity_small extends AppCompatActivity {
     String[] mode_options;
 
 
-    TableRow display;
+    LinearLayout display;
     //L1
     Button btn_menu;
     Button btn_verlauf;
@@ -133,21 +133,6 @@ public class CalcActivity_small extends AppCompatActivity {
         return true;
     }
 
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if (hasFocus) {
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-            getWindow().getDecorView().setSystemUiVisibility(
-                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-            );
-        }
-    }
 
 
     @Override
@@ -181,7 +166,6 @@ public class CalcActivity_small extends AppCompatActivity {
         ArrayList<View> list = new ArrayList<View>() {{addAll(BTN_ACT);addAll(BTN_ALL);}};
         SettingsApplier.setFonts(CalcActivity_small.this,list);
 
-
         eT_ausgabe.setOnFocusChangeListener(focusListener);
         eT_eingabe.setOnFocusChangeListener(focusListener);
 
@@ -195,8 +179,6 @@ public class CalcActivity_small extends AppCompatActivity {
         applySettings();
 
         eingabeAddText(current_Callback);
-
-        //TODO
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -612,9 +594,6 @@ public class CalcActivity_small extends AppCompatActivity {
             }
         });
 
-
-
-
         Intent v = getIntent();
         eT_eingabe.setText( v.getStringExtra("input"));
         eT_ausgabe.setText( v.getStringExtra("output"));
@@ -636,8 +615,8 @@ public class CalcActivity_small extends AppCompatActivity {
     void setBackgrounds(){
         small_background.setBackgroundColor(SettingsApplier.getColor_background(CalcActivity_small.this));
 
-        SettingsApplier.drawVectorImage(CalcActivity_small.this,btn_clear,R.drawable.ic_clear,SettingsApplier.getColor_act(CalcActivity_small.this));
-        SettingsApplier.drawVectorImage(CalcActivity_small.this,btn_clearall,R.drawable.ic_clear_all,SettingsApplier.getColor_act(CalcActivity_small.this));
+        SettingsApplier.drawVectorImage(CalcActivity_small.this,btn_clear,R.drawable.ic_clear,SettingsApplier.getColor_fkt(CalcActivity_small.this));
+        SettingsApplier.drawVectorImage(CalcActivity_small.this,btn_clearall,R.drawable.ic_clear_all,SettingsApplier.getColor_fkt(CalcActivity_small.this));
 
         SettingsApplier.drawVectorImage(CalcActivity_small.this,btn_menu,R.drawable.ic_menu_black_24dp,SettingsApplier.getColor_act(CalcActivity_small.this));
         SettingsApplier.drawVectorImage(CalcActivity_small.this,btn_verlauf,R.drawable.ic_verlauf,SettingsApplier.getColor_act(CalcActivity_small.this));
@@ -651,8 +630,11 @@ public class CalcActivity_small extends AppCompatActivity {
         }
 
         SettingsApplier.setViewDesign(CalcActivity_small.this,display,SettingsApplier.getColor_display(CalcActivity_small.this));
-        SettingsApplier.setETDesign(CalcActivity_small.this,eT_eingabe,SettingsApplier.getColor_displaytext(CalcActivity_small.this));
-        SettingsApplier.setETDesign(CalcActivity_small.this,eT_ausgabe,SettingsApplier.getColor_displaytext(CalcActivity_small.this));
+        SettingsApplier.setETDesign(CalcActivity_small.this,eT_eingabe,4);
+        SettingsApplier.setETDesign(CalcActivity_small.this,eT_ausgabe,4);
+
+        //SettingsApplier.rescaleText(eT_ausgabe);
+
 
 
     }

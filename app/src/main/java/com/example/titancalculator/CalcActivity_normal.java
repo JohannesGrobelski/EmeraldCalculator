@@ -1386,8 +1386,8 @@ public class CalcActivity_normal extends AppCompatActivity {
         }
 
         SettingsApplier.setViewDesign(CalcActivity_normal.this,display,SettingsApplier.getColor_display(CalcActivity_normal.this));
-        SettingsApplier.setETDesign(CalcActivity_normal.this,eT_eingabe,SettingsApplier.getColor_displaytext(CalcActivity_normal.this));
-        SettingsApplier.setETDesign(CalcActivity_normal.this,eT_ausgabe,SettingsApplier.getColor_displaytext(CalcActivity_normal.this));
+        SettingsApplier.setETDesign(CalcActivity_normal.this,eT_eingabe,3);
+        SettingsApplier.setETDesign(CalcActivity_normal.this,eT_ausgabe,3);
 
         //fires if layout drawn
         VIEW_close_bracket.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -1398,6 +1398,8 @@ public class CalcActivity_normal extends AppCompatActivity {
                 SettingsApplier.centerTextButton(VIEW_mul,7);
             }
         });
+
+
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
