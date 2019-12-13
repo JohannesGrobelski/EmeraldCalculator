@@ -44,7 +44,11 @@
             android:layout_marginBottom="10dp"
             android:layout_weight="1"
             android:background="@drawable/buttonshape_square"
-            android:text="zurück" />
+            android:text="zurück"
+            app:autoSizeTextType="uniform"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeMaxTextSize="100sp"
+            app:autoSizeStepGranularity="2sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -72,14 +76,21 @@
                     android:id="@+id/eT_cur_const_val1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
                     android:layout_marginBottom="10dp"
-                    android:layout_weight=".5"
+                    android:layout_weight="1"
                     android:background="@drawable/buttonshape_square"
                     android:hint="Maß1"
                     android:inputType="numberDecimal"
                     android:textSize="30sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight=".5"
+                android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/btn_maßeinheit1"
@@ -87,20 +98,49 @@
                     android:layout_height="match_parent"
                     android:layout_marginRight="10dp"
                     android:layout_marginBottom="10dp"
-                    android:layout_weight=".75"
+                    android:layout_weight="1"
                     android:background="@drawable/buttonshape_square"
-                    android:text="Einheit1" />
+                    android:text="Einheit1"
+                    android:maxLines="2"
+                    app:autoSizeTextType="uniform"
+                    app:autoSizeMinTextSize="12sp"
+                    app:autoSizeMaxTextSize="100sp"
+                    app:autoSizeStepGranularity="2sp" />
 
                 <Button
                     android:id="@+id/btn_me1_me2"
+                    android:layout_width="50sp"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/buttonshape_square"
+                    android:text="↓"
+                    android:textSize="60sp" />
+
+                <Button
+                    android:id="@+id/btn_maßeinheit2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginRight="10dp"
                     android:layout_marginBottom="10dp"
-                    android:layout_weight=".75"
+                    android:layout_weight="1"
                     android:background="@drawable/buttonshape_square"
-                    android:text="E1 -> E2" />
+                    android:text="Einheit2"
+                    android:maxLines="2"
+                    app:autoSizeTextType="uniform"
+                    app:autoSizeMinTextSize="12sp"
+                    app:autoSizeMaxTextSize="100sp"
+                    app:autoSizeStepGranularity="2sp" />
 
+                <Button
+                    android:id="@+id/btn_me2_me1"
+                    android:layout_width="50sp"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/buttonshape_square"
+                    android:text="↑"
+                    android:textSize="60sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -113,34 +153,13 @@
                     android:id="@+id/eT_cur_const_val2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
                     android:layout_marginBottom="10dp"
-                    android:layout_weight=".5"
+                    android:layout_weight="1"
                     android:background="@drawable/buttonshape_square"
                     android:hint="Maß2"
                     android:inputType="numberDecimal"
                     android:textSize="30sp" />
-
-                <Button
-                    android:id="@+id/btn_maßeinheit2"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_weight=".75"
-                    android:background="@drawable/buttonshape_square"
-                    android:text="Einheit2" />
-
-                <Button
-                    android:id="@+id/btn_me2_me1"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_weight=".75"
-                    android:background="@drawable/buttonshape_square"
-                    android:text="E2 -> E1" />
 
             </LinearLayout>
 
@@ -163,7 +182,11 @@
             android:layout_marginBottom="10dp"
             android:layout_weight="1"
             android:background="@drawable/buttonshape_square"
-            android:text="Speichern" />
+            android:text="Speichern"
+            app:autoSizeTextType="uniform"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeMaxTextSize="100sp"
+            app:autoSizeStepGranularity="2sp" />
     </LinearLayout>
 
 </LinearLayout>
