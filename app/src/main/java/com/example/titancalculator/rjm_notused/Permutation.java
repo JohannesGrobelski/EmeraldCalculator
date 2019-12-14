@@ -201,9 +201,9 @@ class Permutation implements Cloneable
         * Euclid's algorithm.
         * @param a The first positive integer.
         * @param b The second positive integer.
-        * @return gcd(a,b), the greatest common divisor of both. 
+        * @return GCD(a,b), the greatest common divisor of both.
         */
-        static int gcd(int a, int b)
+        static int GCD(int a, int b)
         {
                 while ( b > 0 )
                 {
@@ -212,21 +212,21 @@ class Permutation implements Cloneable
                         a = t ;
                 }
                 return a;
-        } /* gcd */
+        } /* GCD */
 
         /** Least common multiple of two positive integers.
         * Computed via Euclid's algorithm.
         * @param a The first positive integer.
         * @param b The second positive integer.
-        * @return lcm(a,b), the least common multiple of both. 
+        * @return LCM(a,b), the least common multiple of both.
         */
-        static int lcm(int a, int b)
+        static int LCM(int a, int b)
         {
-                return a/gcd(a,b)*b ;
-        } /* lcm */
+                return a/GCD(a,b)*b ;
+        } /* LCM */
 
         /** Calculate the order.
-        * This is computed as the lcm of the lengths of the cycles.
+        * This is computed as the LCM of the lengths of the cycles.
         * @return the order of the permutation. This is the smallest positive power 0 of the
         * permutation that yields the unit element.
         */
@@ -243,14 +243,14 @@ class Permutation implements Cloneable
                         {
                                 ord = cyc[0].length ;
                                 for(int c=1 ; c < cyc.length ; c++)
-                                        ord = lcm(ord,cyc[c].length) ;
+                                        ord = LCM(ord,cyc[c].length) ;
                         }
                 }
                 return ord;
         } /* orderByCycles */
 
         /** Calculate the order.
-        * This is computed by the lcm of the lengths of the cycles.
+        * This is computed by the LCM of the lengths of the cycles.
         * @param cyc The cycles. Complete in the sense that each moved element
         *   in the permutation appears exactly once in the array.
         * @return The order of the permutation. This is the smallest positive power 0 of the
@@ -267,7 +267,7 @@ class Permutation implements Cloneable
                 {
                         int ord = cyc[0].length ;
                         for(int c=1 ; c < cyc.length ; c++)
-                                ord = lcm(ord,cyc[c].length) ;
+                                ord = LCM(ord,cyc[c].length) ;
                         return ord ;
                 }
         } /* orderByCycles */

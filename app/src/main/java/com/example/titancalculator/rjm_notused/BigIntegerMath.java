@@ -528,11 +528,11 @@ public class BigIntegerMath
         /** The lowest common multiple
         * @param a The first argument
         * @param b The second argument
-        * @return lcm(|a|,|b|)
+        * @return LCM(|a|,|b|)
         * @since 2010-08-27
         * @author Richard J. Mathar
         */
-        static public BigInteger lcm(final BigInteger a, final BigInteger b)
+        static public BigInteger LCM(final BigInteger a, final BigInteger b)
         {
                 BigInteger g = a.gcd(b) ;
                 return a.multiply(b).abs().divide(g) ;

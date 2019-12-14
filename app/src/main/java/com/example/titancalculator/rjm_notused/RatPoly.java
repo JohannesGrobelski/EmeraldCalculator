@@ -925,19 +925,19 @@ class RatPoly
                         return res ;
                 }
 
-                /* multiply all coefs with the lcm() to get an integer polynomial
+                /* multiply all coefs with the LCM() to get an integer polynomial
                 * start with denominator of first non-zero coefficient.
                 */
-                BigInteger lcmDeno = a.elementAt(lowd).b ;
+                BigInteger LCMDeno = a.elementAt(lowd).b ;
                 for(int i=lowd+1; i < degree() ; i++)
-                        lcmDeno = BigIntegerMath.lcm(lcmDeno, a.elementAt(i).b ) ;
+                        LCMDeno = BigIntegerMath.LCM(LCMDeno, a.elementAt(i).b ) ;
 
                 /* and eventually get the integer polynomial by ignoring the denominators
                 */
                 Vector<BigInteger> ipo = new Vector<BigInteger>() ;
                 for(int i=0 ; i < a.size() ; i++)
                 {
-                        BigInteger d = a.elementAt(i).a.multiply( lcmDeno).divide( a.elementAt(i).b)  ;
+                        BigInteger d = a.elementAt(i).a.multiply( LCMDeno).divide( a.elementAt(i).b)  ;
                         ipo.add(d) ;
                 }
 

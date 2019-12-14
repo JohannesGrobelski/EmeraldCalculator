@@ -9,12 +9,17 @@ public class LeistungUmrechnung {
 
     private static HashMap<String, BigDecimal> Leistung = new LinkedHashMap<>();
 
-    private static String[] units;
+    private static String[] unitsDE,unitsEN;
 
 
-    public static String[] getUnits(){
-        if(units == null)init();
-        return units;
+    public static String[] getunitsDE(){
+        if(unitsDE == null)init();
+        return unitsDE;
+    }
+
+    public static String[] getunitsEN(){
+        if(unitsEN == null)init();
+        return unitsEN;
     }
 
     private static void init(){
@@ -26,7 +31,8 @@ public class LeistungUmrechnung {
         Leistung.put("Joule/Sekunde", new BigDecimal("1"));
         Leistung.put("Kilojoule/Sekunde", new BigDecimal("0.001"));
 
-        units = (String[]) Leistung.keySet().toArray(new String[Leistung.size()]);
+        unitsDE = (String[]) Leistung.keySet().toArray(new String[Leistung.size()]);
+        unitsEN = new String[]{"watt", "kilowatts", "millwatt", "horsepower", "volt ampere", "joule/second", "kilojoules/second"};
      }
 
     public static BigDecimal sourceToBase(BigDecimal a, String source){
@@ -41,11 +47,22 @@ public class LeistungUmrechnung {
     }
 
      public static String convert(BigDecimal a, String source, String target){
-        if(Leistung.keySet().size()==0)init();
+         source = translate(source); target = translate(target);
+         if(Leistung.keySet().size()==0)init();
         if(!Leistung.keySet().contains(source))return a.toString();
         if(!Leistung.keySet().contains(target))return a.toString();
         return baseToTarget(sourceToBase(a,source),target);
      }
+
+    public static String translate(String measure){
+        for(int i=0; i<unitsDE.length; i++){
+            if(unitsDE[i].equals(measure))return unitsDE[i];
+        }
+        for(int i=0; i<unitsEN.length; i++) {
+            if (unitsEN[i].equals(measure)) return unitsDE[i];
+        }
+        return "";
+    }
 
      public static void main(String[] a){
 

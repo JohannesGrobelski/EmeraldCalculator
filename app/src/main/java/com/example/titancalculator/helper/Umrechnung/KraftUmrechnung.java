@@ -9,13 +9,18 @@ public class KraftUmrechnung {
 
     private static HashMap<String, BigDecimal> Kraft = new LinkedHashMap<>();
 
-    private static String[] units;
+    private static String[] unitsDE,unitsEN;
 
 
-    public static String[] getUnits(){
-        if(units == null)init();
-        return units;
+    public static String[] getunitsDE(){
+        if(unitsDE == null)init();
+        return unitsDE;
     }
+    public static String[] getunitsEN(){
+        if(unitsEN == null)init();
+        return unitsEN;
+    }
+
 
     private static void init(){
         Kraft.put("Newton", new BigDecimal("1"));
@@ -26,7 +31,8 @@ public class KraftUmrechnung {
         Kraft.put("Pond", new BigDecimal("101.971621298"));
         Kraft.put("Kilopond", new BigDecimal("0.101971621"));
 
-        units = (String[]) Kraft.keySet().toArray(new String[Kraft.size()]);
+        unitsDE = (String[]) Kraft.keySet().toArray(new String[Kraft.size()]);
+        unitsEN = new String[]{"newton", "kilonewton", "millinewton", "dyne", "joule/meter", "pond", "kilopond"};
      }
 
     public static BigDecimal sourceToBase(BigDecimal a, String source){
@@ -41,11 +47,22 @@ public class KraftUmrechnung {
     }
 
      public static String convert(BigDecimal a, String source, String target){
+        source = translate(source); target = translate(target);
         if(Kraft.keySet().size()==0)init();
         if(!Kraft.keySet().contains(source))return a.toString();
         if(!Kraft.keySet().contains(target))return a.toString();
         return baseToTarget(sourceToBase(a,source),target);
      }
+
+    public static String translate(String measure){
+        for(int i=0; i<unitsDE.length; i++){
+            if(unitsDE[i].equals(measure))return unitsDE[i];
+        }
+        for(int i=0; i<unitsEN.length; i++) {
+            if (unitsEN[i].equals(measure)) return unitsDE[i];
+        }
+        return "";
+    }
 
      public static void main(String[] a){
 

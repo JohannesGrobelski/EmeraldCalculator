@@ -8,17 +8,33 @@ import java.util.Arrays;
 public class TemperaturUmrechnung {
 
 
-    private static String[] units = {"Celsius","Fahrenheit","Kelvin"};
+    private static String[] unitsDE = {"Celsius","Fahrenheit","Kelvin"};
+    private static String[] unitsEN = {"celsius","fahrenheit","celvin"};
 
 
-    public static String[] getUnits(){
-        return units;
+    public static String[] getunitsDE(){
+        return unitsDE;
+    }
+
+    public static String[] getunitsEN(){
+        return unitsEN;
     }
 
 
-     public static String convert(BigDecimal a, String source, String target){
-        if(!Arrays.asList(units).contains(source))return a.toString();
-        if(!Arrays.asList(units).contains(target))return a.toString();
+    public static String translate(String measure){
+        for(int i=0; i<unitsDE.length; i++){
+            if(unitsDE[i].equals(measure))return unitsDE[i];
+        }
+        for(int i=0; i<unitsEN.length; i++) {
+            if (unitsEN[i].equals(measure)) return unitsDE[i];
+        }
+        return "";
+    }
+
+    public static String convert(BigDecimal a, String source, String target){
+        source = translate(source); target = translate(target);
+        if(!Arrays.asList(unitsDE).contains(source))return a.toString();
+        if(!Arrays.asList(unitsDE).contains(target))return a.toString();
 
         if(source.equals("Celsius") && target.equals("Fahrenheit")){
             return MathEvaluator.evaluate("("+a.toString()+"*(9/5)) + 32",10);

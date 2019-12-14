@@ -9,12 +9,17 @@ public class VolumenUmrechnung {
 
     private static HashMap<String, BigDecimal> Volumen = new LinkedHashMap<>();
 
-    private static String[] units;
+    private static String[] unitsDE,unitsEN;
 
 
-    public static String[] getUnits(){
-        if(units == null)init();
-        return units;
+    public static String[] getunitsDE(){
+        if(unitsDE == null)init();
+        return unitsDE;
+    }
+
+    public static String[] getunitsEN(){
+        if(unitsEN == null)init();
+        return unitsEN;
     }
 
     private static void init(){
@@ -37,7 +42,8 @@ public class VolumenUmrechnung {
         Volumen.put("US tablespoon", new BigDecimal("67.628"));
         Volumen.put("US teaspoon", new BigDecimal("202.884"));
 
-        units = (String[]) Volumen.keySet().toArray(new String[Volumen.size()]);
+        unitsDE = (String[]) Volumen.keySet().toArray(new String[Volumen.size()]);
+        unitsEN = new String[]{"liter", "milliliter", "emperial gallon", "emperial quart,emperial pint", "emperial cup", "emperial fluid ounce", "emperial tablespoon emperial teaspoon", "kubischer foot", "kubischer inch", "US gallon", "US quart", "US pint", "US cup", "US fluid ounce", "US tablespoon", "US teaspoon"};
      }
 
     public static BigDecimal sourceToBase(BigDecimal a, String source){
@@ -52,11 +58,22 @@ public class VolumenUmrechnung {
     }
 
      public static String convert(BigDecimal a, String source, String target){
-        if(Volumen.keySet().size()==0)init();
+         source = translate(source); target = translate(target);
+         if(Volumen.keySet().size()==0)init();
         if(!Volumen.keySet().contains(source))return a.toString();
         if(!Volumen.keySet().contains(target))return a.toString();
         return baseToTarget(sourceToBase(a,source),target);
      }
+
+    public static String translate(String measure){
+        for(int i=0; i<unitsDE.length; i++){
+            if(unitsDE[i].equals(measure))return unitsDE[i];
+        }
+        for(int i=0; i<unitsEN.length; i++) {
+            if (unitsEN[i].equals(measure)) return unitsDE[i];
+        }
+        return "";
+    }
 
      public static void main(String[] a){
 

@@ -9,12 +9,17 @@ public class GeschwindigkeitUmrechnung {
 
     private static HashMap<String, BigDecimal> Geschwindigkeit = new LinkedHashMap<>();
 
-    private static String[] units;
+    private static String[] unitsDE,unitsEN;
 
 
-    public static String[] getUnits(){
-        if(units == null)init();
-        return units;
+    public static String[] getunitsDE(){
+        if(unitsDE == null)init();
+        return unitsDE;
+    }
+
+    public static String[] getunitsEN(){
+        if(unitsEN == null)init();
+        return unitsEN;
     }
 
     private static void init(){
@@ -27,7 +32,8 @@ public class GeschwindigkeitUmrechnung {
         Geschwindigkeit.put("Knoten [kt]", new BigDecimal("1.943844492"));
         Geschwindigkeit.put("Mach (SI Standard)", new BigDecimal("0.003389297"));
 
-        units = (String[]) Geschwindigkeit.keySet().toArray(new String[Geschwindigkeit.size()]);
+        unitsDE = (String[]) Geschwindigkeit.keySet().toArray(new String[Geschwindigkeit.size()]);
+        unitsEN = new String[]{"meter/second [m/s]","meter/hour [m/h]","kilometers/hour","foot/hour [ft/h]","yard/Stunde [yd/h]","mile/hour [mi/h]","Knot [kt]","Mach (SI Standard)"};
      }
 
     public static BigDecimal sourceToBase(BigDecimal a, String source){
@@ -42,10 +48,21 @@ public class GeschwindigkeitUmrechnung {
     }
 
      public static String convert(BigDecimal a, String source, String target){
+        source = translate(source); target = translate(target);
         if(Geschwindigkeit.keySet().size()==0)init();
         if(!Geschwindigkeit.keySet().contains(source))return a.toString();
         if(!Geschwindigkeit.keySet().contains(target))return a.toString();
         return baseToTarget(sourceToBase(a,source),target);
+     }
+
+     public static String translate(String measure){
+        for(int i=0; i<unitsDE.length; i++){
+            if(unitsDE[i].equals(measure))return unitsDE[i];
+        }
+        for(int i=0; i<unitsEN.length; i++) {
+            if (unitsEN[i].equals(measure)) return unitsDE[i];
+        }
+        return "";
      }
 
      public static void main(String[] a){

@@ -1,5 +1,6 @@
 package com.example.titancalculator;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -26,6 +27,7 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
@@ -52,7 +54,8 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class ConversionActivity extends AppCompatActivity {
-    String[] measAr = {"laenge","Zeit","Geschwindigkeit","Masse","Volumen","Fläche","Temperatur","Kraft","Leistung","Stromstärke","Datenspeicher","Datentransfer"};
+    String[] measArDE = {"Länge","Zeit","Geschwindigkeit","Masse","Volumen","Fläche","Temperatur","Kraft","Leistung","Stromstärke","Datenspeicher","Datentransfer"};
+    String[] measArEN = {"length","time","speed","mass","volume","area","temperature","force","power","current","data storage","data rate"};
     String language="";
     int precision=10;
     Float fontsize;
@@ -121,8 +124,7 @@ public class ConversionActivity extends AppCompatActivity {
     }
 
     private void setUpMeasure(String cat) {
-
-        if (cat.equals("laenge")) {
+        if(cat.equals("Länge") || cat.equals("length")) {
             currentSet = laenge;
         } else if (cat.equals("Zeit")) {
             currentSet = zeit;
@@ -133,7 +135,7 @@ public class ConversionActivity extends AppCompatActivity {
         } else if (cat.equals("Volumen")) {
             currentSet = volumen;
         } else if (cat.equals("Fläche")) {
-            currentSet = volumen;
+            currentSet = fläche;
         } else if (cat.equals("Temperatur")) {
             currentSet = temperatur;
         }else if (cat.equals("Kraft")) {
@@ -212,7 +214,6 @@ public class ConversionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conversion);
 
-        initMaps();
 
         conv_background = findViewById(R.id.conv_background);
         LV_Auswahl = findViewById(R.id.LV_Auswahl);
@@ -231,26 +232,15 @@ public class ConversionActivity extends AppCompatActivity {
         ArrayList<View> list = new ArrayList<View>() {{addAll(VIEW_CONV);}};
         SettingsApplier.setFonts(ConversionActivity.this,list);
 
+        applySettings();
 
+        //ArrayAdapter adapter_Meas = new ArrayAdapter<String>(this,R.layout.lvitem_layout, measArDE);
+        ArrayAdapter<String> adapter_Meas = getArrayAdapter(this,fontsize,measArDE);
+        if(language.equals("english") || language.equals("englisch")) adapter_Meas = getArrayAdapter(this,fontsize,measArEN);
+        initMaps();
 
-        //ArrayAdapter adapter_Meas = new ArrayAdapter<String>(this,R.layout.lvitem_layout, measAr);
-        ArrayAdapter<String> adapter_Meas = new ArrayAdapter<String>(this, R.layout.spinner_shift_style, measAr){
-            float factor_font = 0.5f;
-            int fontcolor = SettingsApplier.manipulateColor(SettingsApplier.getColor_conv(ConversionActivity.this),factor_font);
-            public View getView(int position, View convertView, ViewGroup parent) {
-                View v = super.getView(position, convertView, parent);
-                ((TextView) v).setTextSize(fontsize);
-                ((TextView) v).setBackgroundColor(SettingsApplier.getColor_background(ConversionActivity.this));
-                ((TextView) v).setTypeface(FontSettingsActivity.getTypeFace(SettingsApplier.current_font_family,SettingsApplier.current_fontstlye));
-                ((TextView) v).setTextColor(fontcolor);
-                return v;
-            }
-
-        };
         LV_Auswahl.setBackgroundColor(SettingsApplier.getColor_background(ConversionActivity.this));
         LV_Auswahl.setAdapter(adapter_Meas);
-
-        applySettings();
 
         btn_maßeinheit1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -268,7 +258,7 @@ public class ConversionActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
                 if(zustand.equals("kategorie")){
-                    setUpMeasure((String) LV_Auswahl.getItemAtPosition(position));
+                    setUpMeasure(measArDE[position]);
                     currentAuswahlKategorie = position;
                     zustand = "konstante";
                 } else if(zustand.equals("konstante")){
@@ -281,7 +271,6 @@ public class ConversionActivity extends AppCompatActivity {
                             selected.setText(LV_Auswahl.getItemAtPosition(position).toString());
                         }
                     }
-
                 }
             }
         });
@@ -292,27 +281,11 @@ public class ConversionActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(zustand.equals("kategorie")){
                 } else if(zustand.equals("konstante")){
-                    //ArrayAdapter adapter_uni = new ArrayAdapter<String>(ConversionActivity.this, R.layout.lvitem_layout, measAr);
-                    ArrayAdapter<String> adapter_uni = new ArrayAdapter<String>(ConversionActivity.this, R.layout.spinner_shift_style, measAr){
-                        float factor_font = 0.5f;
-                        int color_font = SettingsApplier.manipulateColor(SettingsApplier.getColor_conv(ConversionActivity.this),factor_font);
-                        public View getView(int position, View convertView, ViewGroup parent) {
-                            View v = super.getView(position, convertView, parent);
-                            ((TextView) v).setTextSize(fontsize);
-                            ((TextView) v).setBackgroundColor(SettingsApplier.getColor_background(ConversionActivity.this));
-                            ((TextView) v).setTypeface(FontSettingsActivity.getTypeFace(SettingsApplier.current_font_family,SettingsApplier.current_fontstlye));
-                            ((TextView) v).setTextColor(color_font);
-                            return v;
-                        }
-
-                    };
+                    //ArrayAdapter adapter_uni = new ArrayAdapter<String>(ConversionActivity.this, R.layout.lvitem_layout, measArDE);
+                    ArrayAdapter<String> adapter_uni = getArrayAdapter(ConversionActivity.this,fontsize,measArDE);
+                    if(language.equals("english") || language.equals("englisch")) adapter_uni = getArrayAdapter(ConversionActivity.this,fontsize,measArEN);
                     LV_Auswahl.setAdapter(adapter_uni);
-
                     zustand = "kategorie";
-
-                    //nur zur sicherheit ...
-
-
                 }
             }
         });
@@ -371,20 +344,51 @@ public class ConversionActivity extends AppCompatActivity {
         }
     }
 
-    private static void initMaps(){
-        laenge = new LinkedHashSet<>(Arrays.asList(LaengeUmrechnung.getUnits()));
-        zeit = new LinkedHashSet<>(Arrays.asList(ZeitUmrechnung.getUnits()));
-        geschwindigkeit = new LinkedHashSet<>(Arrays.asList(GeschwindigkeitUmrechnung.getUnits()));
-        masse = new LinkedHashSet<>(Arrays.asList(MasseUmrechnung.getUnits()));
-        volumen = new LinkedHashSet<>(Arrays.asList(VolumenUmrechnung.getUnits()));
-        fläche = new LinkedHashSet<>(Arrays.asList(FlächenUmrechnung.getUnits()));
-        temperatur = new LinkedHashSet<>(Arrays.asList(TemperaturUmrechnung.getUnits()));
-        kraft = new LinkedHashSet<>(Arrays.asList(KraftUmrechnung.getUnits()));
-        leistung = new LinkedHashSet<>(Arrays.asList(LeistungUmrechnung.getUnits()));
-        stromstärke = new LinkedHashSet<>(Arrays.asList(StromstärkeUmrechnung.getUnits()));
-        datenspeicher = new LinkedHashSet<>(Arrays.asList(DatenspeicherUmrechnung.getUnits()));
-        datentransfer = new LinkedHashSet<>(Arrays.asList(DatentransferUmrechnung.getUnits()));
+    private static ArrayAdapter<String> getArrayAdapter(final Context context, final float fontsize, String[] array){
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.spinner_shift_style, array){
+            float factor_font = 0.5f;
+            int fontcolor = SettingsApplier.manipulateColor(SettingsApplier.getColor_conv(context),factor_font);
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View v = super.getView(position, convertView, parent);
+                ((TextView) v).setTextSize(fontsize);
+                ((TextView) v).setBackgroundColor(SettingsApplier.getColor_background(context));
+                ((TextView) v).setTypeface(FontSettingsActivity.getTypeFace(SettingsApplier.current_font_family,SettingsApplier.current_fontstlye));
+                ((TextView) v).setTextColor(fontcolor);
+                return v;
+            }
+        };
+        return adapter;
+    }
 
+    private void initMaps(){
+        //ins englische übersetzen
+        if(language.equals("deutsch") || language.equals("german")){
+            laenge = new LinkedHashSet<>(Arrays.asList(LaengeUmrechnung.getunitsDE()));
+            zeit = new LinkedHashSet<>(Arrays.asList(ZeitUmrechnung.getunitsDE()));
+            geschwindigkeit = new LinkedHashSet<>(Arrays.asList(GeschwindigkeitUmrechnung.getunitsDE()));
+            masse = new LinkedHashSet<>(Arrays.asList(MasseUmrechnung.getunitsDE()));
+            volumen = new LinkedHashSet<>(Arrays.asList(VolumenUmrechnung.getunitsDE()));
+            fläche = new LinkedHashSet<>(Arrays.asList(FlächenUmrechnung.getunitsDE()));
+            temperatur = new LinkedHashSet<>(Arrays.asList(TemperaturUmrechnung.getunitsDE()));
+            kraft = new LinkedHashSet<>(Arrays.asList(KraftUmrechnung.getunitsDE()));
+            leistung = new LinkedHashSet<>(Arrays.asList(LeistungUmrechnung.getunitsDE()));
+            stromstärke = new LinkedHashSet<>(Arrays.asList(StromstärkeUmrechnung.getunitsDE()));
+            datenspeicher = new LinkedHashSet<>(Arrays.asList(DatenspeicherUmrechnung.getunitsDE()));
+            datentransfer = new LinkedHashSet<>(Arrays.asList(DatentransferUmrechnung.getunitsDE()));
+        } else{
+            laenge = new LinkedHashSet<>(Arrays.asList(LaengeUmrechnung.getunitsEN()));
+            zeit = new LinkedHashSet<>(Arrays.asList(ZeitUmrechnung.getunitsEN()));
+            geschwindigkeit = new LinkedHashSet<>(Arrays.asList(GeschwindigkeitUmrechnung.getunitsEN()));
+            masse = new LinkedHashSet<>(Arrays.asList(MasseUmrechnung.getunitsEN()));
+            volumen = new LinkedHashSet<>(Arrays.asList(VolumenUmrechnung.getunitsEN()));
+            fläche = new LinkedHashSet<>(Arrays.asList(FlächenUmrechnung.getunitsEN()));
+            temperatur = new LinkedHashSet<>(Arrays.asList(TemperaturUmrechnung.getunitsEN()));
+            kraft = new LinkedHashSet<>(Arrays.asList(KraftUmrechnung.getunitsEN()));
+            leistung = new LinkedHashSet<>(Arrays.asList(LeistungUmrechnung.getunitsEN()));
+            stromstärke = new LinkedHashSet<>(Arrays.asList(StromstärkeUmrechnung.getunitsEN()));
+            datenspeicher = new LinkedHashSet<>(Arrays.asList(DatenspeicherUmrechnung.getunitsEN()));
+            datentransfer = new LinkedHashSet<>(Arrays.asList(DatentransferUmrechnung.getunitsEN()));
+        }
     }
 
     private int checkValid(String me1, String me2, String e1val){
@@ -421,12 +425,13 @@ public class ConversionActivity extends AppCompatActivity {
         else if(geschwindigkeit.contains(source) && geschwindigkeit.contains(target))return "Geschwindigkeit";
         else if(masse.contains(source) && masse.contains(target))return "Masse";
         else if(volumen.contains(source) && volumen.contains(target))return "Volumen";
+        else if(fläche.contains(source) && fläche.contains(target))return "Fläche";
         else if(temperatur.contains(source) && temperatur.contains(target))return "Temperatur";
         else if(kraft.contains(source) && kraft.contains(target))return "Kraft";
         else if(leistung.contains(source) && leistung.contains(target))return "Leistung";
         else if(stromstärke.contains(source) && stromstärke.contains(target))return "Stromstärke";
         else if(datenspeicher.contains(source) && datenspeicher.contains(target))return "Datenspeicher";
-        else if(datenspeicher.contains(source) && datenspeicher.contains(target))return "Datentransfer";
+        else if(datentransfer.contains(source) && datentransfer.contains(target))return "Datentransfer";
         return "";
     }
 
@@ -437,7 +442,9 @@ public class ConversionActivity extends AppCompatActivity {
 
 
     private static String convert(BigDecimal quantS, String sourceM, String targetM){
-        if(quantS == null)return "";
+        if(quantS == null){
+            return "";
+        }
 
         String sys = getSystem(sourceM,targetM);
         try {
@@ -456,6 +463,9 @@ public class ConversionActivity extends AppCompatActivity {
                 }
                 case "Volumen": {
                     return VolumenUmrechnung.convert(quantS,sourceM,targetM).toString();
+                }
+                case "Fläche": {
+                    return FlächenUmrechnung.convert(quantS,sourceM,targetM).toString();
                 }
                 case "Temperatur": {
                     return TemperaturUmrechnung.convert(quantS,sourceM,targetM).toString();
@@ -493,16 +503,16 @@ public class ConversionActivity extends AppCompatActivity {
             btn_save.setText("SAVE");
             eT_cur_const_val1.setHint("Measure1");
             eT_cur_const_val2.setHint("Measure2");
-            btn_maßeinheit1.setText("Measure1");
-            btn_maßeinheit2.setText("Measure2");
+            btn_maßeinheit1.setHint("Measure1");
+            btn_maßeinheit2.setHint("Measure2");
         }
         else if(language.equals("german") || language.equals("deutsch")){
             btn_back.setText("zurück");
             btn_save.setText("speichern");
             eT_cur_const_val1.setHint("Maß1");
             eT_cur_const_val2.setHint("Maß2");
-            btn_maßeinheit1.setText("Maß1");
-            btn_maßeinheit2.setText("Maß2");
+            btn_maßeinheit1.setHint("Maß1");
+            btn_maßeinheit2.setHint("Maß2");
         }
 
         if (PreferenceManager.getDefaultSharedPreferences(ConversionActivity.this).contains("pref_precision")) {
@@ -539,7 +549,7 @@ public class ConversionActivity extends AppCompatActivity {
 
 
     public static void main(String[] a){
-        initMaps();
+        new ConversionActivity().initMaps();
         //System.out.println(convert(new BigDecimal("54"),"Meter","Meter"));
 
 

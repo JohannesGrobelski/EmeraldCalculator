@@ -606,7 +606,8 @@ public class CalcActivity_science extends AppCompatActivity {
                 if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
                     eingabeAddText("e");
                 } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
-                    eingabeAddText("ggt(,)");
+                    if(language.equals("german") || language.equals("deutsch")){eingabeAddText("GGT(,)");}
+                    else {eingabeAddText("GCD(,)");}
                 } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
                     eingabeAddText("COS");
                 } else if (mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))) {
@@ -637,7 +638,8 @@ public class CalcActivity_science extends AppCompatActivity {
                 if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
                     eingabeAddText("^");
                 } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
-                    eingabeAddText("kgv(,)");
+                    if(language.equals("german") || language.equals("deutsch")){eingabeAddText("KGV(,)");}
+                    else {eingabeAddText("LCM(,)");}
                 } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
                     eingabeAddText("TAN");
                 } else if (mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))) {
@@ -1333,8 +1335,10 @@ public class CalcActivity_science extends AppCompatActivity {
         }else if(mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))){
             //L1 normal: PI,E,->DEC,->BIN,->OCT
             btn_11.setText("PFZ");
-            btn_12.setText("GGT");
-            btn_13.setText("KGV");
+            if(language.equals("german") || language.equals("deutsch")){ btn_12.setText("GGT");}
+            else { btn_12.setText("GCD");}
+            if(language.equals("german") || language.equals("deutsch")){ btn_13.setText("KGV");}
+            else { btn_13.setText("LCM");}
             btn_14.setText(getResources().getString(R.string.SUME));
             btn_15.setText(getResources().getString(R.string.MULP));
             btn_16.setText("");

@@ -9,12 +9,17 @@ public class ZeitUmrechnung {
     private static LinkedHashMap<String, BigDecimal> toHigher = new LinkedHashMap<>();
     private static LinkedHashMap<String, BigDecimal> toLower = new LinkedHashMap<>();
 
-    private static String[] units;
+    private static String[] unitsDE,unitsEN;
 
 
-    public static String[] getUnits(){
-        if(units == null)init();
-        return units;
+    public static String[] getunitsDE(){
+        if(unitsDE == null)init();
+        return unitsDE;
+    }
+
+    public static String[] getunitsEN(){
+        if(unitsEN == null)init();
+        return unitsEN;
     }
 
     private static void init(){
@@ -46,13 +51,17 @@ public class ZeitUmrechnung {
          toLower.put("Jahrhunderte", new BigDecimal("10"));
          toLower.put("Jahrtausende", new BigDecimal("10"));
 
-         units = (String[]) toHigher.keySet().toArray(new String[toHigher.size()]);
+         unitsDE = (String[]) toHigher.keySet().toArray(new String[toHigher.size()]);
+         unitsEN = new String[]{"nanosecond","microsecond","millisecond","second","minute","hour","day","week","month","year","decade","century","millennial"};
      }
 
      private static int searchUnit(String s){
-        for(int i=0; i<units.length; i++){
-            if(s.equals(units[i]))return i;
+        for(int i=0; i<unitsDE.length; i++){
+            if(s.equals(unitsDE[i]))return i;
         }
+         for(int i=0; i<unitsEN.length; i++){
+             if(s.equals(unitsEN[i]))return i;
+         }
         return -1;
      }
 
@@ -60,21 +69,21 @@ public class ZeitUmrechnung {
         if(toLower.size() == 0)init();
         int sourceInd = searchUnit(source);
         int targetInd = searchUnit(target);
-        System.out.println(units[targetInd]);
+        System.out.println(unitsDE[targetInd]);
         System.out.println(sourceInd+" "+targetInd);
          if(sourceInd == -1 || targetInd == -1 )return a;
         else if(targetInd > sourceInd){
             int measInd = sourceInd;
             while(measInd != targetInd){
-                //System.out.println(units[measInd]);
+                //System.out.println(unitsDE[measInd]);
 
-                a = a.divide(toHigher.get(units[measInd]), MathContext.DECIMAL128);
+                a = a.divide(toHigher.get(unitsDE[measInd]), MathContext.DECIMAL128);
                 ++measInd;
             }
         } else if (targetInd < sourceInd){
             int measInd = sourceInd;
             while(measInd != targetInd){
-                a = a.multiply(toLower.get(units[measInd]), MathContext.DECIMAL128);
+                a = a.multiply(toLower.get(unitsDE[measInd]), MathContext.DECIMAL128);
                 --measInd;
             }
         }

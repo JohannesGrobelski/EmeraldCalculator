@@ -6,5 +6,5 @@
         android:entryValues="@array/LayoutModesEN"
         android:summary="%s"
         android:key="layout"
-        android:title="layout preference" />
+        android:title="Layout" />
 </PreferenceScreen>

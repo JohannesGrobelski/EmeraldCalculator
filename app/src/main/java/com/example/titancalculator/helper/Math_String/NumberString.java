@@ -199,6 +199,9 @@ public class NumberString extends ContentString {
 
 
     public static String getCalcuableString(String a){
+        //language settings
+        a = a.replaceAll("LCM","KGV");
+        a = a.replaceAll("GCD","GGT");
 
         if(a.contains("ANS")){
             if(last_answer.equals("Math Error")){

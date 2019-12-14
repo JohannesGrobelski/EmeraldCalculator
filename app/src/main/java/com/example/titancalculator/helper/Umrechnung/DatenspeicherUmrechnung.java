@@ -9,12 +9,17 @@ public class DatenspeicherUmrechnung {
 
     private static HashMap<String, BigDecimal> Datenspeicher = new LinkedHashMap<>();
 
-    private static String[] units;
+    private static String[] unitsDE,unitsEN;
 
 
-    public static String[] getUnits(){
-        if(units == null)init();
-        return units;
+    public static String[] getunitsDE(){
+        if(unitsDE == null)init();
+        return unitsDE;
+    }
+
+    public static String[] getunitsEN(){
+        if(unitsEN == null)init();
+        return unitsEN;
     }
 
     private static void init(){
@@ -38,9 +43,8 @@ public class DatenspeicherUmrechnung {
         Datenspeicher.put("Terabyte", new BigDecimal("1.25e-13"));
         Datenspeicher.put("Tebibyte", new BigDecimal("1.1369e-13"));
 
-
-
-        units = (String[]) Datenspeicher.keySet().toArray(new String[Datenspeicher.size()]);
+        unitsDE = (String[]) Datenspeicher.keySet().toArray(new String[Datenspeicher.size()]);
+        unitsEN = new String[]{"bit", "kilobit", "kibibit", "megabit", "mebibit", "gigabit", "gibibit", "terabit", "tebibit", "petabit", "pebibit", "byte", "kilobyte", "kibibyte", "megabyte", "mebibyte", "gigabyte", "gibibyte", "terabyte", "tebibyte"};
      }
 
     public static BigDecimal sourceToBase(BigDecimal a, String source){
@@ -55,11 +59,22 @@ public class DatenspeicherUmrechnung {
     }
 
      public static String convert(BigDecimal a, String source, String target){
-        if(Datenspeicher.keySet().size()==0)init();
+         source = translate(source); target = translate(target);
+         if(Datenspeicher.keySet().size()==0)init();
         if(!Datenspeicher.keySet().contains(source))return a.toString();
         if(!Datenspeicher.keySet().contains(target))return a.toString();
         return baseToTarget(sourceToBase(a,source),target);
      }
+
+    public static String translate(String measure){
+        for(int i=0; i<unitsDE.length; i++){
+            if(unitsDE[i].equals(measure))return unitsDE[i];
+        }
+        for(int i=0; i<unitsEN.length; i++) {
+            if (unitsEN[i].equals(measure)) return unitsDE[i];
+        }
+        return "";
+    }
 
      public static void main(String[] a){
 

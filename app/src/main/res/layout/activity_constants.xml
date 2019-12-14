@@ -89,7 +89,6 @@
                 android:layout_weight=".5"
                 android:background="@drawable/buttonshape_round"
                 android:inputType="numberDecimal"
-                android:text="Konstantenname"
                 android:textSize="30sp" />
 
             <EditText
@@ -101,7 +100,6 @@
                 android:layout_weight=".4"
                 android:background="@drawable/buttonshape_square"
                 android:inputType="numberDecimal"
-                android:text="Konstantenwert"
                 android:textSize="30sp" />
 
         </LinearLayout>

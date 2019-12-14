@@ -639,7 +639,7 @@ public class CalcActivity_normal extends AppCompatActivity {
                 } else if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
                     eingabeAddText("e");
                 } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
-                    eingabeAddText("ggt(,)");
+                    eingabeAddText("GGT(,)");
                 } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
                     eingabeAddText("COS");
                 } else if (mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))) {
@@ -679,7 +679,7 @@ public class CalcActivity_normal extends AppCompatActivity {
                 } else if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
                     eingabeAddText("^");
                 } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
-                    eingabeAddText("kgv(,)");
+                    eingabeAddText("KGV(,)");
                 } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
                     eingabeAddText("TAN");
                 } else if (mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))) {

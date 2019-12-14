@@ -1394,20 +1394,20 @@ public class Expression {
 				return sum;
 			}
 		});
-		addFunction(new Function("kgv", 2) {
+		addFunction(new Function("KGV", 2) {
 			@Override
 			public BigDecimal eval(List<BigDecimal> parameters) {
 				assertNotNull(parameters.get(0));
 				assertNotNull(parameters.get(1));
-				return kgv(parameters.get(0),parameters.get(1));
+				return KGV(parameters.get(0),parameters.get(1));
 			}
 		});
-		addFunction(new Function("ggt", 2) {
+		addFunction(new Function("GGT", 2) {
 			@Override
 			public BigDecimal eval(List<BigDecimal> parameters) {
 				assertNotNull(parameters.get(0));
 				assertNotNull(parameters.get(1));
-				return ggt(parameters.get(0),parameters.get(1));
+				return GGT(parameters.get(0),parameters.get(1));
 			}
 		});
 		addFunction(new Function("SQRT", 1) {
@@ -2284,15 +2284,15 @@ public class Expression {
 	}
 
 
-	private BigDecimal ggt(BigDecimal m,BigDecimal n){
+	private BigDecimal GGT(BigDecimal m,BigDecimal n){
 		if (n.equals(BigDecimal.ZERO))
 			return m;
 		else
-			return ggt(n, m.remainder(n));
+			return GGT(n, m.remainder(n));
 	}
 
-	private BigDecimal kgv(BigDecimal m,BigDecimal n){
-		BigDecimal o = ggt(m,n);
+	private BigDecimal KGV(BigDecimal m,BigDecimal n){
+		BigDecimal o = GGT(m,n);
 		BigDecimal p = (m.multiply(n)).divide(o);
 		return p;
 	}

@@ -207,44 +207,44 @@ public class Ifactor implements Cloneable, Comparable<Ifactor>
         */
         public Ifactor multiply(final Ifactor oth)
         {
-                /* This might be done similar to the lcm() implementation by adding
+                /* This might be done similar to the LCM() implementation by adding
                 * the powers of the components and calling the constructor with the
                 * list of exponents. This here is the simplest implementation, but slow because
                 * it calls another prime factorization of the product:
                 * return( new Ifactor(n.multiply(oth.n))) ;
                 */
-                return multGcdLcm(oth,0) ;
+                return multGCDLCM(oth,0) ;
         }
 
         /** Lowest common multiple of this with oth.
-        * @param oth the second parameter of lcm(this,oth)
+        * @param oth the second parameter of LCM(this,oth)
         * @return the lowest common multiple of both numbers. Returns zero
         *   if any of both arguments is zero.
         * @author Richard J. Mathar
         */
-        public Ifactor lcm(final Ifactor oth)
+        public Ifactor LCM(final Ifactor oth)
         {
-                return multGcdLcm(oth,2) ;
+                return multGCDLCM(oth,2) ;
         }
 
         /** Greatest common divisor of this and oth.
-        * @param oth the second parameter of gcd(this,oth)
+        * @param oth the second parameter of GCD(this,oth)
         * @return the lowest common multiple of both numbers. Returns zero
         *   if any of both arguments is zero.
         * @author Richard J. Mathar
         */
-        public Ifactor gcd(final Ifactor oth)
+        public Ifactor GCD(final Ifactor oth)
         {
-                return multGcdLcm(oth,1) ;
+                return multGCDLCM(oth,1) ;
         }
 
         /** Multiply with another positive integer.
         * @param oth the second factor.
-        * @param type 0 to multiply, 1 for gcd, 2 for lcm
-        * @return the product, gcd or lcm of both numbers.
+        * @param type 0 to multiply, 1 for GCD, 2 for LCM
+        * @return the product, GCD or LCM of both numbers.
         * @author Richard J. Mathar
         */
-        protected Ifactor multGcdLcm(final Ifactor oth, int type)
+        protected Ifactor multGCDLCM(final Ifactor oth, int type)
         {
                 Ifactor prod = new Ifactor(0) ;
                 /* skip the case where 0*something =0, falling thru to the empty representation for 0
@@ -252,8 +252,8 @@ public class Ifactor implements Cloneable, Comparable<Ifactor>
                 if( primeexp.size() != 0 && oth.primeexp.size() != 0)
                 {
                         /* Cases of 1 times something return something.
-                        * Cases of lcm(1, something) return something.
-                        * Cases of gcd(1, something) return 1.
+                        * Cases of LCM(1, something) return something.
+                        * Cases of GCD(1, something) return 1.
                         */
                         if ( primeexp.firstElement().intValue() == 1 && type == 0)
                                 return oth ;
@@ -280,7 +280,7 @@ public class Ifactor implements Cloneable, Comparable<Ifactor>
                                         prod.n = n.gcd(oth.n) ;
                                         break;
                                 case 2 :
-                                        /* the awkward way, lcm = product divided by gcd
+                                        /* the awkward way, LCM = product divided by GCD
                                         */
                                         prod.n = n.multiply(oth.n).divide( n.gcd(oth.n) ) ;
                                         break;
@@ -293,7 +293,7 @@ public class Ifactor implements Cloneable, Comparable<Ifactor>
                                         if ( idxOth >= oth.primeexp.size() )
                                         {
                                                 /* exhausted the list in oth.primeexp; copy over the remaining 'this'
-                                                * if multiplying or lcm, discard if gcd.
+                                                * if multiplying or LCM, discard if GCD.
                                                 */
                                                 if ( type == 0 || type == 2)
                                                 {
@@ -330,12 +330,12 @@ public class Ifactor implements Cloneable, Comparable<Ifactor>
                                                                         oth.primeexp.elementAt(idxOth+1).intValue() ;
                                                                 break;
                                                         case 1 :
-                                                                /* gcd means minimum of exponents */
+                                                                /* GCD means minimum of exponents */
                                                                 ex = Math.min( primeexp.elementAt(idxThis+1).intValue() ,
                                                                         oth.primeexp.elementAt(idxOth+1).intValue()) ;
                                                                 break;
                                                         default :
-                                                                /* lcm means maximum of exponents */
+                                                                /* LCM means maximum of exponents */
                                                                 ex = Math.max( primeexp.elementAt(idxThis+1).intValue() ,
                                                                         oth.primeexp.elementAt(idxOth+1).intValue()) ;
                                                                 break;
@@ -368,7 +368,7 @@ public class Ifactor implements Cloneable, Comparable<Ifactor>
                         }
                 }
                 return prod ;
-        } /* Ifactor.multGcdLcm */
+        } /* Ifactor.multGCDLCM */
 
         /** Integer division through  another positive integer.
         * @param oth the denominator.
@@ -377,7 +377,7 @@ public class Ifactor implements Cloneable, Comparable<Ifactor>
         */
         public Ifactor divide(final Ifactor oth)
         {
-                /* todo: it'd probably be faster to cancel the gcd(this,oth) first in the prime power
+                /* todo: it'd probably be faster to cancel the GCD(this,oth) first in the prime power
                 * representation, which would avoid a more strenous factorization of the integer ratio
                 */
                 return  new Ifactor(n.divide(oth.n)) ;

@@ -9,12 +9,17 @@ public class MasseUmrechnung {
 
     private static HashMap<String, BigDecimal> Masse = new LinkedHashMap<>();
 
-    private static String[] units;
+    private static String[] unitsDE,unitsEN;
 
 
-    public static String[] getUnits(){
-        if(units == null)init();
-        return units;
+    public static String[] getunitsDE(){
+        if(unitsDE == null)init();
+        return unitsDE;
+    }
+
+    public static String[] getunitsEN(){
+        if(unitsEN == null)init();
+        return unitsEN;
     }
 
     private static void init(){
@@ -31,7 +36,8 @@ public class MasseUmrechnung {
         Masse.put("Troypound", new BigDecimal("2.67922888071899837684"));
         Masse.put("Stone", new BigDecimal("0.15747304441776970051"));
 
-        units = (String[]) Masse.keySet().toArray(new String[Masse.size()]);
+        unitsDE = (String[]) Masse.keySet().toArray(new String[Masse.size()]);
+        unitsEN = new String[]{"kilogram", "gram", "milligram", "ton", "grain", "carat", "ounce", "fine ounce", "pound", "pound", "troypound", "stone"};
      }
 
     public static BigDecimal sourceToBase(BigDecimal a, String source){
@@ -46,11 +52,22 @@ public class MasseUmrechnung {
     }
 
      public static String convert(BigDecimal a, String source, String target){
-        if(Masse.keySet().size()==0)init();
+         source = translate(source); target = translate(target);
+         if(Masse.keySet().size()==0)init();
         if(!Masse.keySet().contains(source))return a.toString();
         if(!Masse.keySet().contains(target))return a.toString();
         return baseToTarget(sourceToBase(a,source),target);
      }
+
+    public static String translate(String measure){
+        for(int i=0; i<unitsDE.length; i++){
+            if(unitsDE[i].equals(measure))return unitsDE[i];
+        }
+        for(int i=0; i<unitsEN.length; i++) {
+            if (unitsEN[i].equals(measure)) return unitsDE[i];
+        }
+        return "";
+    }
 
      public static void main(String[] a){
 

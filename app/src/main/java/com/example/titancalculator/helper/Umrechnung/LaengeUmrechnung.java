@@ -2,6 +2,7 @@ package com.example.titancalculator.helper.Umrechnung;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 public class LaengeUmrechnung {
@@ -9,19 +10,24 @@ public class LaengeUmrechnung {
     private static LinkedHashMap<String, BigDecimal> toHigher = new LinkedHashMap<>();
     private static LinkedHashMap<String, BigDecimal> toLower = new LinkedHashMap<>();
 
-    private static String[] units;
+    private static String[] unitsDE,unitsEN;
 
 
-    public static String[] getUnits(){
-        if(units == null)init();
-        return units;
+    public static String[] getunitsDE(){
+        if(unitsDE == null)init();
+        return unitsDE;
+    }
+
+    public static String[] getunitsEN(){
+        if(unitsEN == null)init();
+        return unitsEN;
     }
 
     private static void init(){
-         toHigher.put("Nanometer", new BigDecimal("1000"));
-         toHigher.put("Mikrometer", new BigDecimal("1000"));
-         toHigher.put("Millimeter", new BigDecimal("10"));
-         toHigher.put("Centimeter", new BigDecimal("2.54"));
+        toHigher.put("Nanometer", new BigDecimal("1000"));
+        toHigher.put("Mikrometer", new BigDecimal("1000"));
+        toHigher.put("Millimeter", new BigDecimal("10"));
+        toHigher.put("Centimeter", new BigDecimal("2.54"));
          toHigher.put("Zoll",  new BigDecimal("3.937"));
          toHigher.put("Dezimeter",  new BigDecimal("3.048"));
          toHigher.put("Fuß",  new BigDecimal("3.281"));
@@ -43,13 +49,17 @@ public class LaengeUmrechnung {
         toLower.put("Seemeile",  new BigDecimal("2025.372"));
         toLower.put("Meile",  new BigDecimal("1.151"));
 
-         units = (String[]) toHigher.keySet().toArray(new String[toHigher.size()]);
+         unitsDE = (String[]) toHigher.keySet().toArray(new String[toHigher.size()]);
+         unitsEN = new String[]{"nanometer","micrometer","millimeter","centimeter","inch","decimeter","foot","meter","yard","seamile","mile"};
      }
 
      private static int searchUnit(String s){
-        for(int i=0; i<units.length; i++){
-            if(s.equals(units[i]))return i;
+        for(int i=0; i<unitsDE.length; i++){
+            if(s.equals(unitsDE[i]))return i;
         }
+         for(int i=0; i<unitsEN.length; i++){
+             if(s.equals(unitsEN[i]))return i;
+         }
         return -1;
      }
 
@@ -57,21 +67,19 @@ public class LaengeUmrechnung {
         if(toLower.size() == 0)init();
         int sourceInd = searchUnit(source);
         int targetInd = searchUnit(target);
-        System.out.println(units[targetInd]);
-        System.out.println(sourceInd+" "+targetInd);
          if(sourceInd == -1 || targetInd == -1 )return a;
         else if(targetInd > sourceInd){
             int measInd = sourceInd;
             while(measInd != targetInd){
-                //System.out.println(units[measInd]);
+                //System.out.println(unitsDE[measInd]);
 
-                a = a.divide(toHigher.get(units[measInd]), MathContext.DECIMAL128);
+                a = a.divide(toHigher.get(unitsDE[measInd]), MathContext.DECIMAL128);
                 ++measInd;
             }
         } else if (targetInd < sourceInd){
             int measInd = sourceInd;
             while(measInd != targetInd){
-                a = a.multiply(toLower.get(units[measInd]), MathContext.DECIMAL128);
+                a = a.multiply(toLower.get(unitsDE[measInd]), MathContext.DECIMAL128);
                 --measInd;
             }
         }

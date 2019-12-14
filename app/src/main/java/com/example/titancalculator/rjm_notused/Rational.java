@@ -815,19 +815,19 @@ public class Rational implements Cloneable, Comparable<Rational>
                 return cf ;
         } /* Rational.cfrac */
 
-        /** Common lcm of the denominators of a set of rational values.
+        /** Common LCM of the denominators of a set of rational values.
         * @param vals The list/set of the rational values.
         * @return LCM(denom of first, denom of second, ..,denom of last)
         * @since 2012-03-02
         * @author Richard J. Mathar
         */
-        static public BigInteger lcmDenom(final Rational[] vals)
+        static public BigInteger LCMDenom(final Rational[] vals)
         {
                 BigInteger l = BigInteger.ONE ;
                 for(int v= 0 ; v < vals.length ; v++)
-                        l = BigIntegerMath.lcm(l,vals[v].b) ;
+                        l = BigIntegerMath.LCM(l,vals[v].b) ;
                 return l ;
-        } /* Rational.lcmDenom */
+        } /* Rational.LCMDenom */
 
         /** The Harmonic number at the index specified.
         * @param n the index, non-negative.

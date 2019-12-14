@@ -27,6 +27,6 @@
         android:key="vibrate_length"
         android:selectAllOnFocus="true"
         android:singleLine="true"
-        android:title="Length of vibration on buttonclick" />
+        android:title="Länge der Vibration bei Buttonclick" />
 
 </PreferenceScreen>

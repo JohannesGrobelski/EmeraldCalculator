@@ -24,7 +24,7 @@ public class SequentialInfixEvaluator {
     public static String[] unaryOpsBefore = {"-", "LOG", "LN", "LB", "√", "³√", "10^",
             "SIN", "COS", "TAN", "COT", "ASIN", "ACOS", "ATAN", "ACOT", "SINH", "COSH", "TANH", "COTH", "ASINH", "ACOSH", "ATANH", "ACOTH",
             "NOT"};
-    public static String[] NaryOps = {"+", "-", "*", "/", "^", "LOG", "LN", "LB", "√", "ggt", "kgv", "MIN", "MAX", "AND", "OR", "XOR", "C", "P", "MEAN", "VAR", "E"};
+    public static String[] NaryOps = {"+", "-", "*", "/", "^", "LOG", "LN", "LB", "√", "GGT", "KGV", "MIN", "MAX", "AND", "OR", "XOR", "C", "P", "MEAN", "VAR", "E"};
 
     public static HashMap<String, String> equi = new HashMap<String, String>() {{
         put("∑", "+");

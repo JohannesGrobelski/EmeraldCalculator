@@ -9,12 +9,17 @@ public class FlächenUmrechnung {
 
     private static HashMap<String, BigDecimal> Fläche = new LinkedHashMap<>();
 
-    private static String[] units;
+    private static String[] unitsDE,unitsEN;
 
 
-    public static String[] getUnits(){
-        if(units == null)init();
-        return units;
+    public static String[] getunitsDE(){
+        if(unitsDE == null)init();
+        return unitsDE;
+    }
+
+    public static String[] getunitsEN(){
+        if(unitsEN == null)init();
+        return unitsEN;
     }
 
     private static void init(){
@@ -33,8 +38,9 @@ public class FlächenUmrechnung {
         Fläche.put("Rai", new BigDecimal("0.000625"));
         Fläche.put("Stremma", new BigDecimal("0.001"));
 
-        units = (String[]) Fläche.keySet().toArray(new String[Fläche.size()]);
-     }
+        unitsDE = (String[]) Fläche.keySet().toArray(new String[Fläche.size()]);
+        unitsEN = new String[]{"square meters", "square centimeters", "square decimeter", "ar", "acres", "square kilometers", "square inches", "square feet", "square yard", "acre", "square miles", "barn", "rai", "stremma"};
+    }
 
     public static BigDecimal sourceToBase(BigDecimal a, String source){
         if(!Fläche.keySet().contains(source))return null;
@@ -48,11 +54,22 @@ public class FlächenUmrechnung {
     }
 
      public static String convert(BigDecimal a, String source, String target){
-        if(Fläche.keySet().size()==0)init();
+         source = translate(source); target = translate(target);
+         if(Fläche.keySet().size()==0)init();
         if(!Fläche.keySet().contains(source))return a.toString();
         if(!Fläche.keySet().contains(target))return a.toString();
         return baseToTarget(sourceToBase(a,source),target);
      }
+
+    public static String translate(String measure){
+        for(int i=0; i<unitsDE.length; i++){
+            if(unitsDE[i].equals(measure))return unitsDE[i];
+        }
+        for(int i=0; i<unitsEN.length; i++) {
+            if (unitsEN[i].equals(measure)) return unitsDE[i];
+        }
+        return "";
+    }
 
      public static void main(String[] a){
 

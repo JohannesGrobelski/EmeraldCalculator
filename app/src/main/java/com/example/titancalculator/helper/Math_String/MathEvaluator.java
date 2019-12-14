@@ -62,7 +62,11 @@ public class MathEvaluator {
         //System.out.println(NumberString.findLongestParenthesisable("LOGLOG9"));
         System.out.println(NumberString.parenthesise("LOGLOG9"));
         System.out.println(NumberString.parenthesise("LOG(LOG(9))"));
+        System.out.println(NumberString.parenthesise("LOG(LOG(9*3))"));
         System.out.println(NumberString.parenthesise("LOG(LOG(9)) + LOGLN9"));
+        System.out.println(NumberString.parenthesise("LOG(LOG(9*3+LOGLN9))"));
+
+
 
 
 
@@ -296,10 +300,10 @@ public class MathEvaluator {
 			int B = (int) Double.parseDouble(bruch.substring(bruch.indexOf('/')+1));
 			bruch = A+"/"+B;
 
-			int ggT = ggT(A,B);
-			if(ggT==1)break;
-			A = A / ggT;
-			B = B / ggT;
+			int GGT = GGT(A,B);
+			if(GGT==1)break;
+			A = A / GGT;
+			B = B / GGT;
 			///System.out.println("k�rzen: "+A+"/"+B);
 			
 			bruch = A+"/"+B;
@@ -307,18 +311,18 @@ public class MathEvaluator {
 		return bruch;
 	}
 	
-	private static int ggT(double a, double b) {
+	private static int GGT(double a, double b) {
 		int A = (int) a;
 		int B = (int) b;
 
-		int ggT = 0;
+		int GGT = 0;
 		for(int i=1;i<=Math.max(A, B)/2;i++) {
 			if((A % i == 0) && (B % i == 0)) {
-				ggT = i;
+				GGT = i;
 			}
 		}
 		
-		return ggT;
+		return GGT;
 	}
 
     /**

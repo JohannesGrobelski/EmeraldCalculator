@@ -256,13 +256,13 @@ public class ConstantsActivity extends AppCompatActivity {
     }
 
     private void setUpMeasure(String cat) {
-        if (cat.equals("Universelle Konstanten") || cat.equals("universal constants")) {
+        if (cat.equals("universelle Konstanten") || cat.equals("universal constants")) {
             currentMap = uniKAr;
         } else if (cat.equals("mathematische Konstanten") || cat.equals("mathematical constants")) {
             currentMap = matKAr;
-        } else if (cat.equals("Physikalische Konstanten") || cat.equals("physical constants")) {
+        } else if (cat.equals("physikalische Konstanten") || cat.equals("physical constants")) {
             currentMap = phyKAr;
-        } else if (cat.equals("Chemische Konstanten") || cat.equals("chemical constants")) {
+        } else if (cat.equals("chemische Konstanten") || cat.equals("chemical constants")) {
             currentMap = chKAr;
         } else if (cat.equals("Favoriten Konstanten") || cat.equals("favorite constants")) {
             currentMap = favKAr;
@@ -421,6 +421,8 @@ public class ConstantsActivity extends AppCompatActivity {
             catAr = new String[]{"universal constants", "mathematical constants", "physical constants", "chemical constants", "favorite constants", "own constants"};
             btn_back.setText("back");
             copy.setText("COPY");
+            tV_cur_const.setHint("constants name");
+            tV_cur_const_val.setHint("constants value");
             save_fav.setText("SAVE FAV");
             del_fav.setText("DEL FAV");
             QCat = "category?";
@@ -428,9 +430,11 @@ public class ConstantsActivity extends AppCompatActivity {
             QPrec = "precision?";
         }
         else if(language.equals("german") || language.equals("deutsch")){
-            catAr = new String[]{"Universelle Konstanten","mathematische Konstanten","Physikalische Konstanten","Chemische Konstanten","Favoriten Konstanten","eigene Konstanten"};
+            catAr = new String[]{"universelle Konstanten","mathematische Konstanten","physikalische Konstanten","chemische Konstanten","Favoriten Konstanten","eigene Konstanten"};
             btn_back.setText("zurück");
             copy.setText("KOPIEREN");
+            tV_cur_const.setHint("Konstantenname");
+            tV_cur_const_val.setHint("Konstantenwert");
             save_fav.setText("FAV SPEICHERN");
             del_fav.setText("FAV LÖSCHEN");
             QCat = "Kategorie?";
