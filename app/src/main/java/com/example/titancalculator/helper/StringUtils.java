@@ -1,6 +1,8 @@
 package com.example.titancalculator.helper;
 
 import java.lang.reflect.Array;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class StringUtils {
     public static <T> T[] concatenate(T[] a, T[] b) {
@@ -13,6 +15,21 @@ public class StringUtils {
         System.arraycopy(b, 0, c, aLen, bLen);
 
         return c;
+    }
+
+    public static String findLongestMatch(String regex, String s) {
+        Pattern pattern = Pattern.compile("(" + regex + ")$");
+        Matcher matcher = pattern.matcher(s);
+        String longest = "";
+        int longestLength = -1;
+        for (int i = s.length(); i > longestLength; i--) {
+            matcher.region(0, i);
+            if (matcher.find() && longestLength < matcher.end() - matcher.start()) {
+                longest = matcher.group();
+                longestLength = longest.length();
+            }
+        }
+        return longest;
     }
 
     public static int occurences(String s, String sub){

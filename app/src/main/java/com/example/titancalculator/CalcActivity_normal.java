@@ -1607,6 +1607,7 @@ public class CalcActivity_normal extends AppCompatActivity {
     }
 
     String assignBtnNumberText(int i){
+        VIEW_digit_group_cnt = 0; //TODO: für basesel entfernen
         if(state_spinner_shift.equals("base_selection")){
             return String.valueOf(VIEW_digit_group_cnt*9 + i);
         }

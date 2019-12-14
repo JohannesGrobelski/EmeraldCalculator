@@ -5,15 +5,25 @@ import android.util.Log;
 import androidx.preference.PreferenceManager;
 
 import com.example.titancalculator.CalcActivity_science;
+import com.example.titancalculator.helper.StringUtils;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class NumberString extends ContentString {
+    private static HashMap<String, String> replacements = new HashMap<String, String>() {{
+        put("²","^2"); put("³","^3"); put("√","ROOT"); put("³√","3ROOT"); put("∏","MULP"); put("∑","SUME"); put("π","PI"); put("PI",String.valueOf(Math.PI));
+    }};
+    private static String[] functions_parentIn = {"ROOT","LN","LB","LOG","P","R","C",
+            "SIN","COS","TAN","COT","ASIN","ACOS","ATAN","ACOT","SINH","COSH","TANH","ASINH","ACOSH","ATANH",
+            "MEAN","ROOT"};
+    private static String[] functions_paraIn = {"ROOT","LOG","P","C","R"};
+
     static String mean_mode = "AriMit";
     static String var_mode = "AriVar";
 
@@ -108,6 +118,84 @@ public class NumberString extends ContentString {
         return input;
     }
 
+    /**
+     * replaces all X1X2...number with X1(X2(...number))
+     * @param input
+     * @return
+     */
+    public static String parenthesise(String input){
+        //check
+        if(input.isEmpty() || input.charAt(0) == '.' || input.charAt(input.length()-1) == '.'){return input;}
+        for(int i=1; i<input.length()-2; i++){
+            if(input.charAt(i) == '.'){
+                if(!String.valueOf(input.charAt(i-1)).matches("[0-9]") &&
+                   !String.valueOf(input.charAt(i+1)).matches("[0-9]")){
+                    return input;
+                }
+            }
+        }
+
+        //check for Strings like X1X2...number
+
+        String match = "";
+        do{
+            match = findLongestParenthesisable(input);
+            input = input.replace(match,parenthesiseSub(match));
+        }
+        while(!match.isEmpty());
+        return input;
+    }
+
+    public static String findLongestParenthesisable(String input){
+        String subpattern = "";
+        for(String s: functions_parentIn){subpattern+=s+"|";} subpattern = subpattern.substring(0,subpattern.length()-1);
+        String pattern1 = "("+subpattern+")+"+"[0-9]+\\\\.[0-9]+";
+        String pattern2 = "("+subpattern+")+"+"[0-9]+";
+        String match = StringUtils.findLongestMatch(pattern1,input);
+        if(match.isEmpty()){
+            match = StringUtils.findLongestMatch(pattern2,input);
+        }
+        return match;
+    }
+
+
+
+
+    private static String parenthesiseSub(String input){
+        if(input.isEmpty())return input;
+        int para = 0;
+        StringBuilder save =  new StringBuilder("");
+        boolean isnumber = false;
+
+        for(String s: functions_parentIn){
+            input = input.replace(s,s+"(");
+            input = input.replace("((","(");
+        }
+
+        for(int i=0; i<input.length(); i++){
+            if(input.charAt(i) == '('){
+                ++para; continue;
+            }
+
+            if(String.valueOf(input.charAt(i)).matches("[0-9]") || input.charAt(i) == '.'){
+                save.append(input.charAt(i)); isnumber = true; continue;
+            }
+            else { //Ende der Kette
+                if(isnumber){
+                    String insert = StringUtils.repeat(")",para);
+                    input = StringUtils.insertString(input,insert,i-1);
+                    save = new StringBuilder(); para = 0;
+                    isnumber = false;
+                }
+            }
+        }
+        if(para > 0){
+            String insert = StringUtils.repeat(")",para);
+            input = StringUtils.insertString(input,insert,input.length()-1);
+        }
+
+        return input;
+    }
 
 
     public static String getCalcuableString(String a){
@@ -122,51 +210,23 @@ public class NumberString extends ContentString {
         }
 
         //I: fix; sonst: PI -> P(I)
-        a = a.replace("π","PI");
 
-        a = a.replaceAll("PI", MathEvaluator.evaluate("PI",10));
+        a = NumberString.parenthesise(a);
 
-        a = a.replace("∑","SUME");
-        a = a.replace("∏","MULP");
+        /*
+        for(String f: functions_parentIn){
+            a = (a,f);
+        }
 
-        a = a.replace("³√","3ROOT");
-        a = a.replace("√","ROOT");
-
-        a = a.replace("³","^3");
-        a = a.replace("²","^2");
-
-
-        a = parenthesise(a,"ROOT");
-        a = parenthesise(a,"LN");
-        a = parenthesise(a,"LB");
-        a = parenthesise(a,"LOG");
-        a = parenthesise(a,"P");
-        a = parenthesise(a,"R");
-        a = parenthesise(a,"C");
-
-        a = parenthesise(a,"SIN");
-        a = parenthesise(a,"COS");
-        a = parenthesise(a,"TAN");
-        a = parenthesise(a,"COT");
-        a = parenthesise(a,"ASIN");
-        a = parenthesise(a,"ACOS");
-        a = parenthesise(a,"ATAN");
-        a = parenthesise(a,"ACOT");
-        a = parenthesise(a,"SINH");
-        a = parenthesise(a,"COSH");
-        a = parenthesise(a,"TANH");
-        a = parenthesise(a,"ASINH");
-        a = parenthesise(a,"ACOSH");
-        a = parenthesise(a,"ATANH");
-
-        a = parenthesise(a,"MEAN");
+         */
+        for(String f: functions_paraIn){
+            NumberString.paraIn(a,f);
+        }
+        for(String r: replacements.keySet()){
+            a = a.replace(r,replacements.get(r));
+        }
 
 
-        a = paraIn(a,"ROOT");
-        a = paraIn(a,"LOG");
-        a = paraIn(a,"P");
-        a = paraIn(a,"C");
-        a = paraIn(a,"R");
 
         //.e("calcString: ",a);
         if(!last_answer.equals("Math Error"))last_answer = a;
@@ -272,7 +332,7 @@ public class NumberString extends ContentString {
             Double a = Double.parseDouble(res);
             if((a == Math.floor(a)) && !Double.isInfinite(a)) {
                 Integer r = (int) Math.floor(a);
-                return Arrays.deepToString(PFZ(r).toArray());
+                return Arrays.deepToString(PFZ(r).toArray()).replace("[","(").replace("]",")").replace(" ","");
             }else return res;
         } catch (Exception ex){
             return res;

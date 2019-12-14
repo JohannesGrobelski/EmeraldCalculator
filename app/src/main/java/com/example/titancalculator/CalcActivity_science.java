@@ -1207,6 +1207,7 @@ public class CalcActivity_science extends AppCompatActivity {
     }
 
     String assignBtnNumberText(int i){
+        btn_digit_group_cnt = 0; //TODO: für basesel entfernen
         if(state_spinner_shift.equals("base_selection")){
             return String.valueOf(btn_digit_group_cnt*9 + i);
         }
@@ -1533,6 +1534,9 @@ public class CalcActivity_science extends AppCompatActivity {
         }
     }
     public void eingabeClear(){
+        if(!eT_eingabe.getText().toString().equals(I.getDisplayableString())){
+            I.setText(eT_eingabe.getText().toString());
+        }
         if(eT_eingabe_hasFocus) {
             int pos = eT_eingabe.getSelectionStart();
             I.clear(eT_eingabe.getSelectionStart());

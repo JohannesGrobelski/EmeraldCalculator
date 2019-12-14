@@ -57,7 +57,14 @@ public class MathEvaluator {
         //System.out.println(MathEvaluator.evaluate("AriVAR(2,3)",10));
 
         //System.out.println(MathEvaluator.evaluate("78588558.2121",4,5));
-        System.out.println(MathEvaluator.evaluate("LOG(LOG(2))",4,5));
+        //System.out.println(MathEvaluator.evaluate("LOG(LOG(2))",4,5));
+
+        //System.out.println(NumberString.findLongestParenthesisable("LOGLOG9"));
+        System.out.println(NumberString.parenthesise("LOGLOG9"));
+        System.out.println(NumberString.parenthesise("LOG(LOG(9))"));
+        System.out.println(NumberString.parenthesise("LOG(LOG(9)) + LOGLN9"));
+
+
 
         //System.out.println(MathEvaluator.evaluate("d^b",16));
         //System.out.println(toBase("1412432",16,20));
