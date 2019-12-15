@@ -60,13 +60,7 @@ public class MathEvaluator {
         //System.out.println(MathEvaluator.evaluate("LOG(LOG(2))",4,5));
 
         //System.out.println(NumberString.findLongestParenthesisable("LOGLOG9"));
-        System.out.println(NumberString.parenthesise("LOGLOG9"));
-        System.out.println(NumberString.parenthesise("LOG(LOG(9))"));
-        System.out.println(NumberString.parenthesise("LOG(LOG(9*3))"));
-        System.out.println(NumberString.parenthesise("LOG(LOG(9)) + LOGLN9"));
-        System.out.println(NumberString.parenthesise("LOG(LOG(9*3+LOGLN9))"));
-
-
+        System.out.println(MathEvaluator.evaluate("2.121^32",10));
 
 
 

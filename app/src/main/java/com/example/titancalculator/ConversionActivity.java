@@ -33,6 +33,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
 import com.example.titancalculator.helper.MainDisplay.SettingsApplier;
+import com.example.titancalculator.helper.Math_String.MathEvaluator;
 import com.example.titancalculator.helper.Umrechnung.DatenspeicherUmrechnung;
 import com.example.titancalculator.helper.Umrechnung.DatentransferUmrechnung;
 import com.example.titancalculator.helper.Umrechnung.FlächenUmrechnung;
@@ -286,6 +287,9 @@ public class ConversionActivity extends AppCompatActivity {
                     if(language.equals("english") || language.equals("englisch")) adapter_uni = getArrayAdapter(ConversionActivity.this,fontsize,measArEN);
                     LV_Auswahl.setAdapter(adapter_uni);
                     zustand = "kategorie";
+
+                    btn_maßeinheit1.setText(""); btn_maßeinheit2.setText("");
+                    eT_cur_const_val1.setText(""); eT_cur_const_val2.setText("");
                 }
             }
         });
@@ -297,7 +301,7 @@ public class ConversionActivity extends AppCompatActivity {
                 String me2 = btn_maßeinheit2.getText().toString();
                 String e1val = eT_cur_const_val1.getText().toString();
                 if(checkValid(me1,me2,e1val)>0){
-                    String target = convert(new BigDecimal(e1val),me1,me2);
+                    String target = MathEvaluator.evaluate(convert(new BigDecimal(e1val),me1,me2),10);
                     eT_cur_const_val2.setText(target);
                     currentConv = target;
                 }
