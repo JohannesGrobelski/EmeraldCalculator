@@ -247,6 +247,7 @@ public class CustomDesignSettings extends AppCompatPreferenceActivity {
      * Make sure to deny any unknown fragments here.
      */
     protected boolean isValidFragment(String fragmentName) {
+        Log.e("act name", this.getLocalClassName());
         return PreferenceFragment.class.getName().equals(fragmentName)
                 || ColorActFragment
                 .class.getName().equals(fragmentName)
