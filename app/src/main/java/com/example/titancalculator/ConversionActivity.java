@@ -153,8 +153,8 @@ public class ConversionActivity extends AppCompatActivity {
 
         String[] a = (String[]) currentSet.toArray(new String[currentSet.size()]);
         //ArrayAdapter adapter_cat = new ArrayAdapter<String>(this, R.layout.lvitem_layout, a);
-        SettingsApplier.setArrayAdapter(ConversionActivity.this,LV_Auswahl,a,SettingsApplier.getColor_background(ConversionActivity.this));
-
+        SettingsApplier.setArrayAdapter(ConversionActivity.this,LV_Auswahl,a,SettingsApplier.getColor_conv(ConversionActivity.this));
+        LV_Auswahl.setBackgroundColor(SettingsApplier.getColor_background(ConversionActivity.this));
     }
 
     void select(Button x){
@@ -188,8 +188,6 @@ public class ConversionActivity extends AppCompatActivity {
 
         x.setBackground(background_fkt);
     }
-
-
 
     void setBackgrounds(){
         conv_background.setBackgroundColor(SettingsApplier.getColor_background(ConversionActivity.this));
@@ -285,6 +283,7 @@ public class ConversionActivity extends AppCompatActivity {
                     //ArrayAdapter adapter_uni = new ArrayAdapter<String>(ConversionActivity.this, R.layout.lvitem_layout, measArDE);
                     ArrayAdapter<String> adapter_uni = getArrayAdapter(ConversionActivity.this,fontsize,measArDE);
                     if(language.equals("english") || language.equals("englisch")) adapter_uni = getArrayAdapter(ConversionActivity.this,fontsize,measArEN);
+                    LV_Auswahl.setBackgroundColor(SettingsApplier.getColor_background(ConversionActivity.this));
                     LV_Auswahl.setAdapter(adapter_uni);
                     zustand = "kategorie";
 
@@ -523,8 +522,6 @@ public class ConversionActivity extends AppCompatActivity {
             String prec = PreferenceManager.getDefaultSharedPreferences(ConversionActivity.this).getString("pref_precision","10");
             if(prec != null)precision =  Integer.valueOf(prec) + 1;
         }
-
-
 
         setBackgrounds();
         fontsize = SettingsApplier.getCurrentFontsize(this);

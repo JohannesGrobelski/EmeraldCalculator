@@ -37,7 +37,7 @@ import java.util.Set;
 public class DesignSettingsActivity extends AppCompatActivity {
 
 
-    ArrayList<View> VIEW_ALL;
+    ArrayList<View> VIEW_ALL = new ArrayList<>();
     LinearLayout design_background;
     ListView lv_design;
     TextView tv_selected_design;
@@ -58,6 +58,12 @@ public class DesignSettingsActivity extends AppCompatActivity {
         btn_delete = findViewById(R.id.btn_delete);
         btn_rename = findViewById(R.id.btn_rename);
         btn_set = findViewById(R.id.btn_set);
+
+        VIEW_ALL.add(tv_selected_design);
+        VIEW_ALL.add(btn_save);
+        VIEW_ALL.add(btn_delete);
+        VIEW_ALL.add(btn_rename);
+        VIEW_ALL.add(btn_set);
 
         //ArrayAdapter<String> adapter = new ArrayAdapter<String>(DesignSettingsActivity.this, R.layout.spinner_shift_style, DesignApplier.designs);
         ArrayAdapter<String> adapter =

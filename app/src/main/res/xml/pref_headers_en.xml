@@ -52,13 +52,7 @@
             android:targetClass="com.example.titancalculator.ButtonshapeActivity" />
     </header>
 
-   <header
-       android:icon="@drawable/ic_button_fct"
-       android:title="create Function groups">
-       <intent
-           android:targetPackage="com.example.titancalculator"
-           android:targetClass="com.example.titancalculator.FunctionGroupSettingsActivity" />
-   </header>
+
 
     <header
         android:icon="@drawable/ic_language_black_24dp"
@@ -73,6 +67,14 @@
                 android:targetPackage="com.example.titancalculator"
                 android:targetClass="com.example.titancalculator.CustomDesignSettings" />
         </header>
+
+         <header
+       android:icon="@drawable/ic_button_fct"
+       android:title="create Function groups">
+       <intent
+           android:targetPackage="com.example.titancalculator"
+           android:targetClass="com.example.titancalculator.FunctionGroupSettingsActivity" />
+   </header>
 
        <header
            android:icon="@drawable/ic_button_fct"

@@ -306,7 +306,7 @@ public class SettingsApplier {
             Drawable background = context.getDrawable(buttonshapeID);
             SettingsApplier.setColor((context),background, color,buttonfüllung,stroke);
             SettingsApplier.setTextColor(view,darker);
-            ((TextView) view).setHintTextColor(SettingsApplier.manipulateColor(darker,darker_factor_font/2));
+            ((TextView) view).setHintTextColor(darker);
 
             ((TextView) view).setTypeface(tp_current);
             //((TextView) view).setTextSize(textsize);
@@ -317,7 +317,7 @@ public class SettingsApplier {
             Drawable background = context.getDrawable(buttonshapeID);
             SettingsApplier.setColor((context),background, color,buttonfüllung,stroke);
             SettingsApplier.setTextColor(view,darker);
-            ((EditText) view).setHintTextColor(SettingsApplier.manipulateColor(darker,darker_factor_font/2));
+            ((EditText) view).setHintTextColor(darker);
 
             ((EditText) view).setTypeface(tp_current);
             view.setBackground(background);
