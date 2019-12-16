@@ -163,8 +163,7 @@ public class CalcActivity_small extends AppCompatActivity {
         SettingsApplier.setColors(CalcActivity_small.this);
         applySettings();
         setBackgrounds();
-        ArrayList<View> list = new ArrayList<View>() {{addAll(BTN_ACT);addAll(BTN_ALL);}};
-        SettingsApplier.setFonts(CalcActivity_small.this,list);
+
 
         eT_ausgabe.setOnFocusChangeListener(focusListener);
         eT_eingabe.setOnFocusChangeListener(focusListener);
@@ -309,8 +308,7 @@ public class CalcActivity_small extends AppCompatActivity {
         applySettings();
         SettingsApplier.setColors(CalcActivity_small.this);
         setBackgrounds();
-        ArrayList<View> list = new ArrayList<View>() {{addAll(BTN_ALL);}};
-        SettingsApplier.setFonts(CalcActivity_small.this,list);
+
 
         try {
             SettingsApplier.setBackgroundImage(CalcActivity_small.this,small_background);
@@ -626,6 +624,7 @@ public class CalcActivity_small extends AppCompatActivity {
         SettingsApplier.drawVectorImage(CalcActivity_small.this,btn_verlauf,R.drawable.ic_verlauf,SettingsApplier.getColor_act(CalcActivity_small.this));
 
         for(Button b: BTN_ALL){
+            SettingsApplier.setFonts(CalcActivity_small.this,b);
             if(BTN_ACT.contains(b))SettingsApplier.setViewDesign(CalcActivity_small.this,b,SettingsApplier.getColor_act(CalcActivity_small.this));
             if(BTN_FKT.contains(b))SettingsApplier.setViewDesign(CalcActivity_small.this,b,SettingsApplier.getColor_fkt(CalcActivity_small.this));
             if(BTN_SAVES.contains(b))SettingsApplier.setViewDesign(CalcActivity_small.this,b,SettingsApplier.getColor_saves(CalcActivity_small.this));

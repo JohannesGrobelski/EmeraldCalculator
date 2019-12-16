@@ -254,8 +254,7 @@ public class CalcActivity_normal extends AppCompatActivity {
         SettingsApplier.setColors(CalcActivity_normal.this);
         applySettings();
         setBackgrounds();
-        ArrayList<View> list = new ArrayList<View>() {{addAll(VIEW_ALL);}};
-        SettingsApplier.setFonts(CalcActivity_normal.this,list);
+
 
 
         eT_ausgabe.setOnFocusChangeListener(focusListener);
@@ -445,8 +444,7 @@ public class CalcActivity_normal extends AppCompatActivity {
         setBackgrounds();
         SettingsApplier.setColors(CalcActivity_normal.this);
 
-        ArrayList<View> list = new ArrayList<View>() {{addAll(VIEW_ALL);}};
-        SettingsApplier.setFonts(CalcActivity_normal.this,list);
+
 
         try {
 
@@ -1366,6 +1364,9 @@ public class CalcActivity_normal extends AppCompatActivity {
         for(Button b: VIEW_ALL){
             //TODO: quickfix für: science -> land
                 if(b == null)continue;
+            if(!VIEW_FOPS.contains(b)){
+                SettingsApplier.setFonts(CalcActivity_normal.this,b);
+            }
             b.setHeight(height);
             if(VIEW_ACT.contains(b))SettingsApplier.setViewDesign(CalcActivity_normal.this,b,SettingsApplier.getColor_act(CalcActivity_normal.this));
             if(VIEW_FKT.contains(b))SettingsApplier.setViewDesign(CalcActivity_normal.this,b,SettingsApplier.getColor_fkt(CalcActivity_normal.this));

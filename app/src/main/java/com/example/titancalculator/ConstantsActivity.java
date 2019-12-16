@@ -109,8 +109,7 @@ public class ConstantsActivity extends AppCompatActivity {
         del_fav = findViewById(R.id.btn_del_fav);
 
         VIEW_CONST = new HashSet<View>(Arrays.asList(tV_Pfad,tV_cur_const,tV_cur_const_val,btn_back,copy,save_fav,del_fav));
-        ArrayList<View> list = new ArrayList<View>() {{addAll(VIEW_CONST);add(tV_Pfad);add(tV_cur_const);add(tV_cur_const_val);add(LV_Auswahl);}};
-        SettingsApplier.setFonts(ConstantsActivity.this,list);
+
 
         LV_Auswahl.setBackgroundColor(SettingsApplier.getColor_background(ConstantsActivity.this));
         applySettings();
@@ -456,6 +455,7 @@ public class ConstantsActivity extends AppCompatActivity {
         tV_Pfad.setTextColor(SettingsApplier.getColor_const(ConstantsActivity.this));
         const_background.setBackgroundColor(SettingsApplier.getColor_background(ConstantsActivity.this));
         for(View v: VIEW_CONST){
+            SettingsApplier.setFonts(ConstantsActivity.this,v);
             SettingsApplier.setViewDesign(ConstantsActivity.this,v,SettingsApplier.getColor_const(ConstantsActivity.this));
         }
     }

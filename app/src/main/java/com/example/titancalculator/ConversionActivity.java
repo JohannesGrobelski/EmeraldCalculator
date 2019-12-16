@@ -194,6 +194,7 @@ public class ConversionActivity extends AppCompatActivity {
     void setBackgrounds(){
         conv_background.setBackgroundColor(SettingsApplier.getColor_background(ConversionActivity.this));
         for(View v: VIEW_CONV){
+            SettingsApplier.setFonts(ConversionActivity.this,v);
             SettingsApplier.setViewDesign(ConversionActivity.this,v,SettingsApplier.getColor_conv(ConversionActivity.this));
         }
     }
@@ -230,8 +231,7 @@ public class ConversionActivity extends AppCompatActivity {
         btn_me2_me1 = findViewById(R.id.btn_me2_me1);
 
         VIEW_CONV = new HashSet<View>(Arrays.asList(btn_back,eT_cur_const_val1,eT_cur_const_val2,btn_maßeinheit1,btn_maßeinheit2,btn_me1_me2,btn_me2_me1,btn_save));
-        ArrayList<View> list = new ArrayList<View>() {{addAll(VIEW_CONV);}};
-        SettingsApplier.setFonts(ConversionActivity.this,list);
+
 
         applySettings();
 

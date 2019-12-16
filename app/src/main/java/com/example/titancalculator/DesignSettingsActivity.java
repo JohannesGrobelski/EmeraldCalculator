@@ -59,9 +59,6 @@ public class DesignSettingsActivity extends AppCompatActivity {
         btn_rename = findViewById(R.id.btn_rename);
         btn_set = findViewById(R.id.btn_set);
 
-        VIEW_ALL = new ArrayList<>(Arrays.asList(new View[]{tv_selected_design,btn_save,btn_delete,btn_rename,btn_set}));
-        SettingsApplier.setFonts(this, VIEW_ALL);
-
         //ArrayAdapter<String> adapter = new ArrayAdapter<String>(DesignSettingsActivity.this, R.layout.spinner_shift_style, DesignApplier.designs);
         ArrayAdapter<String> adapter =
                 new ArrayAdapter<String>(DesignSettingsActivity.this, R.layout.spinner_shift_style, DesignApplier.designs)
@@ -109,6 +106,7 @@ public class DesignSettingsActivity extends AppCompatActivity {
     public void setBackgrounds(){
         design_background.setBackgroundColor(Color.WHITE);
         for(View b: VIEW_ALL){
+            SettingsApplier.setFonts(DesignSettingsActivity.this,b);
             SettingsApplier.setViewDesign(DesignSettingsActivity.this,b, Color.GRAY);
         }
     }

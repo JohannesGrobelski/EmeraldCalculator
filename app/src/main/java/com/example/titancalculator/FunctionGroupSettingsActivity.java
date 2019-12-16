@@ -316,9 +316,7 @@ public class FunctionGroupSettingsActivity extends AppCompatActivity {
 
         //Fonts
         //Typeface font = Typeface.createFromAsset(getAssets(), "Crashed Scoreboard.ttf");
-        ArrayList<View> list = new ArrayList<View>() {{add(btn_new);add(btn_delete);add(btn_rename);add(btn_default);add(btn_moveUp);add(btn_moveDown);}};
 
-        SettingsApplier.setFonts(FunctionGroupSettingsActivity.this,list);
         setBackgrounds();
     }
 
@@ -334,6 +332,9 @@ public class FunctionGroupSettingsActivity extends AppCompatActivity {
         SettingsApplier.setViewDesign(FunctionGroupSettingsActivity.this,btn_default, Color.GRAY);
         SettingsApplier.setViewDesign(FunctionGroupSettingsActivity.this,btn_moveUp, Color.GRAY);
         SettingsApplier.setViewDesign(FunctionGroupSettingsActivity.this,btn_moveDown, Color.GRAY);
+
+        ArrayList<View> list = new ArrayList<View>() {{add(btn_new);add(btn_delete);add(btn_rename);add(btn_default);add(btn_moveUp);add(btn_moveDown);}};
+        for(View v: list)SettingsApplier.setFonts(FunctionGroupSettingsActivity.this,v);
     }
 
     private void newGroup(String name){

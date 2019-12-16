@@ -31,6 +31,7 @@ import android.widget.TextView;
 
 import androidx.preference.PreferenceManager;
 
+import com.example.titancalculator.CalcActivity_science;
 import com.example.titancalculator.FontSettingsActivity;
 import com.example.titancalculator.R;
 
@@ -280,9 +281,9 @@ public class SettingsApplier {
     public static View setViewDesign(Context context, View view, int color){
         if(current_font_family==null || current_fontstlye==null)applySettings(context);
         Typeface tp_current = FontSettingsActivity.getTypeFace(current_font_family,current_fontstlye);
-        float textsize = 20f;
+        //float textsize = 15f;
         if(SettingsApplier.getCurrent_fontsize().matches("[0-9]+")){
-            textsize = Float.valueOf(SettingsApplier.getCurrent_fontsize());
+            //textsize = Float.valueOf(SettingsApplier.getCurrent_fontsize());
         }
         float factor_font = SettingsApplier.getDarker_factor_font(context);
         int darker;
@@ -308,7 +309,7 @@ public class SettingsApplier {
             ((TextView) view).setHintTextColor(SettingsApplier.manipulateColor(darker,darker_factor_font/2));
 
             ((TextView) view).setTypeface(tp_current);
-            ((TextView) view).setTextSize(textsize);
+            //((TextView) view).setTextSize(textsize);
             view.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
             view.setBackground(background);
         }
@@ -327,12 +328,21 @@ public class SettingsApplier {
             SettingsApplier.setColor((context),background, color,buttonfüllung,stroke);
             SettingsApplier.setTextColor(view,darker);
             ((Button) view).setTypeface(tp_current);
+            /*
             if(((Button) view).getText().equals("⌧") || ((Button) view).getText().equals("⌫")){
                 ((Button) view).setTextSize(TypedValue.COMPLEX_UNIT_SP, (float) (textsize*1.7));
             }
+
             else {
-                ((Button) view).setTextSize(textsize);
+
+                if(color == SettingsApplier.getColor_fops(context)){
+                    textsize = Math.min(15,textsize);
+                }
+
+                //((Button) view).setTextSize(textsize);
             }
+
+             */
             view.setBackground(background);
         }
         if(view instanceof LinearLayout){
@@ -557,38 +567,36 @@ public class SettingsApplier {
         return f;
     }
 
-    public static void setFonts(Context c, ArrayList<View> BTN_ALL){
+    public static void setFonts(Context c, View view){
         current_font_family = PreferenceManager.getDefaultSharedPreferences(c).getString("fontfamily", "monospace");
         current_fontsize = PreferenceManager.getDefaultSharedPreferences(c).getString("fontsize", "20");
         current_fontstlye = PreferenceManager.getDefaultSharedPreferences(c).getString("fontstyle", "normal");
 
         if(current_fontstlye == null || current_fontstlye.equals("") || current_font_family == null || current_font_family.equals("") || current_fontsize == null || current_fontsize.equals(""))return;
 
-        for(View v: BTN_ALL){
-            Float shrink_factor=1f;
-            Float f = 10f;
-            if(!current_fontsize.isEmpty() && !current_fontsize.equals("automatic"))f = Float.valueOf(current_fontsize);
-            if(current_fontsize.equals("automatic")){
-                f = DisplaySetupHelper.getDefaultTextSize(c);
-            }
-            if(v instanceof Button){
-                //shrink_factor = (float) (Math.ceil(((Button)v).getText().length() / 4) + 1);
-                //Log.e("SHRINK",c.getResources().getResourceEntryName(v.getId())+" "+shrink_factor);
-                ((Button)v).setTextSize(TypedValue.COMPLEX_UNIT_SP, f / shrink_factor);
-                ((Button)v).setTypeface(FontSettingsActivity.getTypeFace(current_font_family,current_fontstlye));
-                if(!current_fontsize.equals("automatic"))((Button)v).setTextSize(f / shrink_factor);
-            }
-            if(v instanceof EditText){
-                ((EditText)v).setTextSize(TypedValue.COMPLEX_UNIT_SP, DisplaySetupHelper.getDefaultTextSize(c));
-                ((EditText)v).setTypeface(FontSettingsActivity.getTypeFace(current_font_family,current_fontstlye));
-                if(!current_fontsize.equals("automatic"))((EditText)v).setTextSize(f);
-            }
-            if(v instanceof TextView){
-                ((TextView)v).setTextSize(TypedValue.COMPLEX_UNIT_SP, DisplaySetupHelper.getDefaultTextSize(c));
-                ((TextView)v).setTypeface(FontSettingsActivity.getTypeFace(current_font_family,current_fontstlye));
-                if(!current_fontsize.equals("automatic"))((TextView)v).setTextSize(f);
-            }
 
+        Float shrink_factor=1f;
+        Float f = 10f;
+        if(!current_fontsize.isEmpty() && !current_fontsize.equals("automatic"))f = Float.valueOf(current_fontsize);
+        if(current_fontsize.equals("automatic")){
+            f = DisplaySetupHelper.getDefaultTextSize(c);
+        }
+        if(view instanceof Button){
+            //shrink_factor = (float) (Math.ceil(((Button)v).getText().length() / 4) + 1);
+            //Log.e("SHRINK",c.getResources().getResourceEntryName(v.getId())+" "+shrink_factor);
+            ((Button)view).setTextSize(TypedValue.COMPLEX_UNIT_SP, f / shrink_factor);
+            ((Button)view).setTypeface(FontSettingsActivity.getTypeFace(current_font_family,current_fontstlye));
+            if(!current_fontsize.equals("automatic"))((Button)view).setTextSize(f / shrink_factor);
+        }
+        if(view instanceof EditText){
+            ((EditText)view).setTextSize(TypedValue.COMPLEX_UNIT_SP, DisplaySetupHelper.getDefaultTextSize(c));
+            ((EditText)view).setTypeface(FontSettingsActivity.getTypeFace(current_font_family,current_fontstlye));
+            if(!current_fontsize.equals("automatic"))((EditText)view).setTextSize(f);
+        }
+        if(view instanceof TextView){
+            ((TextView)view).setTextSize(TypedValue.COMPLEX_UNIT_SP, DisplaySetupHelper.getDefaultTextSize(c));
+            ((TextView)view).setTypeface(FontSettingsActivity.getTypeFace(current_font_family,current_fontstlye));
+            if(!current_fontsize.equals("automatic"))((TextView)view).setTextSize(f);
         }
     }
 

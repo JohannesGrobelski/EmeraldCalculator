@@ -62,8 +62,7 @@ public class HistoryActivity extends AppCompatActivity {
         applySettings();
 
 
-        ArrayList<View> list = new ArrayList<View>() {{add(btn_save);add(btn_clear);}};
-        SettingsApplier.setFonts(HistoryActivity.this,list);
+
 
         Intent myIntent = getIntent(); // gets the previously created intent
         //Toast.makeText(HistoryActivity.this, Arrays.toString(arrayVerlauf), Toast.LENGTH_LONG).show();
@@ -186,6 +185,9 @@ public class HistoryActivity extends AppCompatActivity {
         visual_unselect = SettingsApplier.manipulateColor(SettingsApplier.getColor_hist(HistoryActivity.this),factor_font);
         if(btn_save instanceof Button) ((Button) btn_save).setTextColor(visual_unselect);
         if(btn_clear instanceof Button) ((Button) btn_clear).setTextColor(visual_unselect);
+
+        SettingsApplier.setFonts(HistoryActivity.this,btn_clear);
+        SettingsApplier.setFonts(HistoryActivity.this,btn_save);
 
         btn_clear.setBackground(background);
         btn_save.setBackground(background);

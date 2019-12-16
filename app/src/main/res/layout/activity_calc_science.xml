@@ -107,7 +107,7 @@
             android:shadowRadius="30"
             android:text="@string/CONSTEN"
             android:textAlignment="center"
-            android:textSize="15sp"
+            android:textSize="10sp"
             android:textStyle="normal"
 
 
@@ -127,7 +127,7 @@
             android:shadowRadius="30"
             android:text="@string/CONVEN"
             android:textAlignment="center"
-            android:textSize="15sp"
+            android:textSize="10sp"
             android:textStyle="normal"
 
 
@@ -147,7 +147,7 @@
             android:shadowRadius="30"
             android:text="@string/VERLAUFDE"
             android:textAlignment="center"
-            android:textSize="15sp"
+            android:textSize="10sp"
             android:textStyle="normal"
 
 
@@ -190,14 +190,15 @@
             android:shadowRadius="30"
             android:text="@string/PI"
             android:textAlignment="center"
-            android:textSize="20sp"
-            android:visibility="visible" />
+            android:visibility="visible"
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform"
+            />
 
         <Button
             android:id="@+id/btn_12"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_marginBottom="10dp"
@@ -208,7 +209,8 @@
             android:shadowRadius="30"
             android:text="@string/e"
             android:textAlignment="center"
-            android:textSize="20sp"
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform"
             android:visibility="visible" />
 
         <Button
@@ -226,7 +228,8 @@
             android:shadowRadius="30"
             android:text="@string/SQUR"
             android:textAlignment="center"
-            android:textSize="20sp"
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform"
             android:visibility="visible" />
 
         <Button
@@ -244,7 +247,8 @@
             android:shadowRadius="30"
             android:text="@string/DECLOG"
             android:textAlignment="center"
-            android:textSize="20sp"
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform"
             android:visibility="visible" />
 
         <Button
@@ -262,7 +266,8 @@
             android:shadowRadius="30"
             android:text="@string/LN"
             android:textAlignment="center"
-            android:textSize="20sp"
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform"
             android:visibility="visible" />
 
         <Button
@@ -280,7 +285,8 @@
             android:shadowRadius="30"
             android:text="@string/LB"
             android:textAlignment="center"
-            android:textSize="20sp"
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform"
             android:visibility="visible" />
     </LinearLayout>
 
@@ -308,7 +314,8 @@
             android:shadowRadius="30"
             android:text="%"
             android:textAlignment="center"
-            android:textSize="20sp"
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform"
             android:visibility="visible" />
 
         <Button
@@ -326,7 +333,8 @@
             android:shadowRadius="30"
             android:text="n!"
             android:textAlignment="center"
-            android:textSize="20sp"
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform"
             android:visibility="visible" />
 
         <Button
@@ -344,7 +352,8 @@
             android:shadowRadius="30"
             android:text="^"
             android:textAlignment="center"
-            android:textSize="20sp"
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform"
             android:visibility="visible" />
 
         <Button
@@ -362,7 +371,8 @@
             android:shadowRadius="30"
             android:text="@string/bruch"
             android:textAlignment="center"
-            android:textSize="20sp"
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform"
             android:visibility="visible" />
 
         <Button
@@ -380,7 +390,8 @@
             android:shadowRadius="30"
             android:text="@string/x_h_one"
             android:textAlignment="center"
-            android:textSize="20sp"
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform"
             android:visibility="visible" />
 
         <Button
@@ -398,7 +409,8 @@
             android:shadowRadius="30"
             android:text="+/-"
             android:textAlignment="center"
-            android:textSize="20sp"
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform"
             android:visibility="visible" />
     </LinearLayout>
 

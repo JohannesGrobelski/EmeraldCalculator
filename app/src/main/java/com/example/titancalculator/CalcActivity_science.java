@@ -1,6 +1,7 @@
 package com.example.titancalculator;
 import android.Manifest;
 import android.app.Activity;
+import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -250,8 +251,6 @@ public class CalcActivity_science extends AppCompatActivity {
         applySettings();
         setBackgrounds();
 
-        ArrayList<View> list = new ArrayList<View>() {{addAll(VIEW_ALL);}};
-        SettingsApplier.setFonts(CalcActivity_science.this,list);
         eT_ausgabe.setOnFocusChangeListener(focusListener);
         eT_eingabe.setOnFocusChangeListener(focusListener);
         eT_eingabe.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
@@ -453,8 +452,7 @@ public class CalcActivity_science extends AppCompatActivity {
         applySettings();
         SettingsApplier.setColors(CalcActivity_science.this);
 
-        ArrayList<View> list = new ArrayList<View>() {{addAll(VIEW_ALL);}};
-        SettingsApplier.setFonts(CalcActivity_science.this,list);
+
         try {
             SettingsApplier.setBackgroundImage(CalcActivity_science.this,science_background);
         } catch (Exception e) {
@@ -1387,6 +1385,9 @@ public class CalcActivity_science extends AppCompatActivity {
         SettingsApplier.drawVectorImage(CalcActivity_science.this,btn_menu,R.drawable.ic_menu_black_24dp,SettingsApplier.getColor_act(CalcActivity_science.this));
 
         for(Button b: VIEW_ALL){
+            if(!VIEW_FOPS.contains(b)){
+                SettingsApplier.setFonts(CalcActivity_science.this,b);
+            }
             if(VIEW_ACT.contains(b))SettingsApplier.setViewDesign(CalcActivity_science.this,b,SettingsApplier.getColor_act(CalcActivity_science.this));
             if(VIEW_FKT.contains(b))SettingsApplier.setViewDesign(CalcActivity_science.this,b,SettingsApplier.getColor_fkt(CalcActivity_science.this));
             if(VIEW_FOPS.contains(b))SettingsApplier.setViewDesign(CalcActivity_science.this,b,SettingsApplier.getColor_fops(CalcActivity_science.this));
