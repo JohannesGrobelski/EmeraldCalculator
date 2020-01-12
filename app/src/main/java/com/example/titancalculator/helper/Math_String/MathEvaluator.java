@@ -50,53 +50,15 @@ public class MathEvaluator {
 	int marker = 1;
 	
 	public static void main(String[] args) {
-        //test_format();
-        //test(100);
-        //System.out.println(toDec(".a", 16 , 20));
-        //System.out.println(MathEvaluator.evaluate("LOG(2,AriVAR(2,3))",10));
-        //System.out.println(MathEvaluator.evaluate("AriVAR(2,3)",10));
 
-        //System.out.println(MathEvaluator.evaluate("78588558.2121",4,5));
-        //System.out.println(MathEvaluator.evaluate("LOG(LOG(2))",4,5));
-
-        //System.out.println(NumberString.findLongestParenthesisable("LOGLOG9"));
-        System.out.println(MathEvaluator.evaluate("2.121^32",10));
-
-
-
-        //System.out.println(MathEvaluator.evaluate("d^b",16));
-        //System.out.println(toBase("1412432",16,20));
     }
 
 
 
 
-    public static void test_format() {
-        //Testfälle absolut große/kleine zahlen, ganze/bruchzahlen, negative/positive zahlen
-        System.out.println(MathEvaluator.evaluate("15rootToSqrt.25*22! + 7.90^sin(22) + 3.12^23",10));
-        System.out.println(MathEvaluator.evaluate("69.2*37122.44",10));
-        System.out.println(MathEvaluator.evaluate("89*9*62.2",10));
-        System.out.println(MathEvaluator.evaluate("MAX(1,2,3)",10));
-        System.out.println("ARI: "+MathEvaluator.evaluate("AriVar(1,2,3,4,5,6)",10));
-        System.out.println(MathEvaluator.evaluate("AriMit(1,2,3,4,5,6)",10));
 
 
-        System.out.println(MathEvaluator.evaluate("10000!",10));
-
-        System.out.println(MathEvaluator.evaluate("-8^32",10));
-        System.out.println(MathEvaluator.evaluate("8^32",10));
-
-        System.out.println(MathEvaluator.evaluate("-8^32 + 0.123456789",10));
-        System.out.println(MathEvaluator.evaluate("8^32 - 0.123456789",10));
-
-        System.out.println(MathEvaluator.evaluate("-150",10));
-        System.out.println(MathEvaluator.evaluate("150",10));
-
-        System.out.println(MathEvaluator.evaluate("-150 + 0.123456789",10));
-        System.out.println(MathEvaluator.evaluate("150 - 0.123456789",10));
-    }
-
-        public static String toRAD(String dec) {
+    public static String toRAD(String dec) {
 		dec = dec.replace(',','.');
 		return String.valueOf(Math.toRadians(Double.valueOf(dec)));
 	}
