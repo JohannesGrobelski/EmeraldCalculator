@@ -2,15 +2,10 @@ package com.example.titancalculator.helper.Math_String;
 
 import android.content.Context;
 
-import androidx.preference.PreferenceManager;
-
-import com.example.titancalculator.CalcActivity_science;
-import com.example.titancalculator.MainActivity;
 import com.example.titancalculator.evalex.Expression;
 import com.example.titancalculator.helper.StringUtils;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.math.MathContext;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -21,7 +16,6 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
-import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -54,10 +48,6 @@ public class MathEvaluator {
     }
 
 
-
-
-
-
     public static String toRAD(String dec) {
 		dec = dec.replace(',','.');
 		return String.valueOf(Math.toRadians(Double.valueOf(dec)));
@@ -75,14 +65,14 @@ public class MathEvaluator {
 
         while(input.contains("E+")){
             int places = Integer.valueOf(input.substring(input.indexOf("E+")+2));
-            String search = "E\\+"+String.valueOf(places);
+            String search = "E\\+"+ places;
             input = input.replaceFirst(search,StringUtils.repeat("0",places));
             input = input.replace(".","");
             input = StringUtils.insertString(input,".",places);
         }
         while(input.contains("E-")){
             int places = Integer.valueOf(input.substring(input.indexOf("E-")+2));
-            String search = "E-"+String.valueOf(places);
+            String search = "E-"+ places;
             input = input.replaceFirst(search,"");
 
             input = input.replace(".","");
@@ -111,8 +101,6 @@ public class MathEvaluator {
         }
         return input;
     }
-
-
 
 
     public static String toDec(String input, int base, int decimal_places_pref){
@@ -213,7 +201,6 @@ public class MathEvaluator {
     }
 
 
-
     public static String toBruch(String dec) {
 		dec = dec.replace(',','.');
 
@@ -229,12 +216,12 @@ public class MathEvaluator {
 		else {beforeCom = dec;}
 		int exp = beforeCom.length();
 		for(char c: beforeCom.toCharArray()) {
-			String b = String.valueOf(Character.digit(c, 10)*Math.pow(10,exp-1))+"/"+"1";
+			String b = Character.digit(c, 10) * Math.pow(10, exp - 1) +"/"+"1";
 			brueche.add(b);
 			--exp;
 		}
 		for(char c: afterCom.toCharArray()) {
-			String b = Character.digit(c, 10)+"/"+String.valueOf(Math.pow(10,exp+1));
+			String b = Character.digit(c, 10)+"/"+ Math.pow(10, exp + 1);
 			brueche.add(b);
 			++exp;
 		}
@@ -245,7 +232,7 @@ public class MathEvaluator {
 			n += Double.parseDouble(bruch.substring(0,bruch.indexOf('/')))*div / Double.parseDouble(bruch.substring(bruch.indexOf('/')+1));
 		}
 		
-		gesamtbruch = String.valueOf(n)+"/"+String.valueOf(div);
+		gesamtbruch = n +"/"+ div;
 		gesamtbruch = kuerzen(gesamtbruch);
 		return gesamtbruch;
 	}
@@ -335,8 +322,6 @@ public class MathEvaluator {
         }
     }
 
-
-
     public static String evaluate(String input,int predec_places, int dec_places) {
 	    decimal_places_pref = dec_places; //TODO: ineffizient
 	    pre_decimal_places_pref = predec_places;
@@ -384,11 +369,11 @@ public class MathEvaluator {
             } else {
                 String newnumber = "";
                 for(int i=1; i<=Math.floor(number); i++) {
-                    newnumber += String.valueOf(i)+"*";
+                    newnumber += i +"*";
                 }
                 newnumber = newnumber.substring(0,newnumber.length()-1);
                 Integer i =(int) Math.floor(number);
-                input = input.replace(String.valueOf(i)+"!",newnumber);
+                input = input.replace(i +"!",newnumber);
             }
 
         }
@@ -411,6 +396,9 @@ public class MathEvaluator {
         return input;
     }
 
+    /**
+     wandelt log in LOGB um
+     */
     private static String logToLogb(String input) {
         List<String> allMatches = new ArrayList<String>();
         Matcher m = Pattern.compile("LOG\\(.+\\)").matcher(input); //TODO: problem mit verschachtelung?
@@ -426,9 +414,6 @@ public class MathEvaluator {
         }
         return input;
     }
-
-
-	
 	
 	void clear(){
         String c = contentString;
@@ -451,7 +436,6 @@ public class MathEvaluator {
             }
         }
     }
-
 
     public static String format(BigDecimal input){
 	    //1. problem: 150: 1.5E+2
@@ -478,9 +462,7 @@ public class MathEvaluator {
             return formatter.format(input).replaceAll("E0","");
         }
     }
-	
-	
-	
+
 	public static void applySettings(Context c){
         //Math Settings
         /*
@@ -579,7 +561,7 @@ public class MathEvaluator {
             //E+
             pre_decimal_places_pref = 10;
             if(pre_decimal_places.length() > pre_decimal_places_pref){
-                scientific_notation = "E+"+String.valueOf(pre_decimal_places.length() - pre_decimal_places_pref);
+                scientific_notation = "E+"+ (pre_decimal_places.length() - pre_decimal_places_pref);
                 //round
                 String last_decimal_place = pre_decimal_places.substring(pre_decimal_places_pref-1,pre_decimal_places_pref);
                 //lookup

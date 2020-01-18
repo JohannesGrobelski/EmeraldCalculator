@@ -15,15 +15,14 @@ public class MathUnitTest1 {
     @Test
     public void mathEv1() {
 
-        assertEquals(MathEvaluator.evaluate("LOG(2,AriVAR(2,3))",10),0);
-        assertEquals(MathEvaluator.evaluate("AriVAR(2,3)",10),0);
+        assertEquals(MathEvaluator.evaluate("LOG(2,AriVAR(2,3))",10),"-2");
+        assertEquals(MathEvaluator.evaluate("AriVAR(2,3)",10),"0.25");
 
-        assertEquals(MathEvaluator.evaluate("78588558.2121",4,5),0);
-        assertEquals(MathEvaluator.evaluate("LOG(LOG(2))",4,5),0);
+        assertEquals(MathEvaluator.evaluate("78588558.2121",4,5),"7.85886E7");
+        assertEquals(MathEvaluator.evaluate("LOG(LOG(2))",4,5),"-0.52139");
 
-        assertEquals(MathEvaluator.evaluate("2.121^32",10),0);
+        assertEquals(MathEvaluator.evaluate("2.121^32",10),"2.81385E10");
 
-        assertEquals(MathEvaluator.evaluate("d^b",16),0);
         //assertEquals(toBase("1412432",16,20));
         //assertEquals(NumberString.findLongestParenthesisable("LOGLOG9"));
 
