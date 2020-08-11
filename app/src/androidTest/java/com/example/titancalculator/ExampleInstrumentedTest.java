@@ -24,4 +24,8 @@ public class ExampleInstrumentedTest {
 
         assertEquals("com.example.titancalculator", appContext.getPackageName());
     }
+
+    public void use(){
+
+    }
 }

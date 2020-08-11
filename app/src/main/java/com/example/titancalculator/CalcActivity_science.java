@@ -1563,9 +1563,9 @@ public class CalcActivity_science extends AppCompatActivity {
     public void eingabeAddText(String i) {
         if (eT_eingabe_hasFocus) {
             eT_eingabe.clearFocus();
-            eT_eingabe.getText().insert(eT_eingabe.getSelectionStart(), i);
-            I.setText(eT_eingabe.getText().toString());
         }
+        eT_eingabe.getText().insert(eT_eingabe.getSelectionStart(), i);
+        I.setText(eT_eingabe.getText().toString());
         if (solve_inst_pref) {
             if (!noImmidiateOps.contains(i.trim())) {
                 answer = I.getResult(getBase(CalcActivity_science.this));
