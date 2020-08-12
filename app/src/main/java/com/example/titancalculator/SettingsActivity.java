@@ -66,7 +66,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
 
 
-    static String language = "english";
+    static String language = "deutsch";
     static Typeface current_typeface;
     static String current_fontsize;
 
@@ -251,7 +251,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
     private void applySettings(){
         //language
-        language = androidx.preference.PreferenceManager.getDefaultSharedPreferences(SettingsActivity.this).getString("pref_lang","english");
+        language = androidx.preference.PreferenceManager.getDefaultSharedPreferences(SettingsActivity.this).getString("pref_lang","deutsch");
 
         current_fontsize = androidx.preference.PreferenceManager.getDefaultSharedPreferences(SettingsActivity.this).getString("fontsize", "20");
         String current_font_family = androidx.preference.PreferenceManager.getDefaultSharedPreferences(SettingsActivity.this).getString("fontfamily", "monospace");

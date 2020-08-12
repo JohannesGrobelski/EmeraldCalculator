@@ -8,183 +8,105 @@
     android:orientation="vertical"
     tools:context=".ConversionActivity">
 
-    <LinearLayout
+    <Button
+        android:id="@+id/btn_Auswahl"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight=".35"
-        android:orientation="horizontal">
-
-        <ListView
-            android:id="@+id/LV_Auswahl"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginBottom="10dp"
-            android:layout_weight=".3"
-            android:background="@drawable/buttonshape_square" />
-
-    </LinearLayout>
+        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="2.5"
+        android:background="@drawable/buttonshape_square"
+        android:hint="Kategorie" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight=".66"
-        android:orientation="horizontal">
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="5dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
 
         <Button
-            android:id="@+id/btn_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
+            android:id="@+id/btn_maßeinheit1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/buttonshape_square"
+            android:hint="Einheit1"
+            android:maxLines="2"
+            android:textAlignment="center"
+            app:autoSizeMaxTextSize="100sp"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeStepGranularity="2sp"
+            app:autoSizeTextType="uniform" />
+
+        <EditText
+            android:id="@+id/eT_cur_const_val1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
             android:layout_weight="1"
             android:background="@drawable/buttonshape_square"
-            android:text="zurück"
-            app:autoSizeTextType="uniform"
-            app:autoSizeMinTextSize="12sp"
-            app:autoSizeMaxTextSize="100sp"
-            app:autoSizeStepGranularity="2sp" />
-    </LinearLayout>
+            android:hint="Maß1"
+            android:inputType="numberDecimal"
+            android:textAlignment="center"
+            android:textSize="30sp" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight=".45"
-        android:orientation="horizontal">
-
-        <LinearLayout
+        <Button
+            android:id="@+id/btn_maßeinheit2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginBottom="5dp"
-            android:layout_weight=".3"
-            android:orientation="vertical">
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/buttonshape_square"
+            android:maxLines="2"
+            app:autoSizeMaxTextSize="100sp"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeStepGranularity="2sp"
+            app:autoSizeTextType="uniform" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight=".5"
-                android:orientation="horizontal">
-
-                <EditText
-                    android:id="@+id/eT_cur_const_val1"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/buttonshape_square"
-                    android:hint="Maß1"
-                    android:inputType="numberDecimal"
-                    android:textSize="30sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight=".5"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/btn_maßeinheit1"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/buttonshape_square"
-                    android:maxLines="2"
-                    app:autoSizeTextType="uniform"
-                    app:autoSizeMinTextSize="12sp"
-                    app:autoSizeMaxTextSize="100sp"
-                    app:autoSizeStepGranularity="2sp" />
-
-                <Button
-                    android:id="@+id/btn_me1_me2"
-                    android:layout_width="50sp"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:background="@drawable/buttonshape_square"
-                    android:text="↓"
-                    android:textSize="60sp" />
-
-                <Button
-                    android:id="@+id/btn_maßeinheit2"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/buttonshape_square"
-                    android:maxLines="2"
-                    app:autoSizeTextType="uniform"
-                    app:autoSizeMinTextSize="12sp"
-                    app:autoSizeMaxTextSize="100sp"
-                    app:autoSizeStepGranularity="2sp" />
-
-                <Button
-                    android:id="@+id/btn_me2_me1"
-                    android:layout_width="50sp"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:background="@drawable/buttonshape_square"
-                    android:text="↑"
-                    android:textSize="60sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight=".5"
-                android:orientation="horizontal">
-
-                <EditText
-                    android:id="@+id/eT_cur_const_val2"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/buttonshape_square"
-                    android:hint="Maß2"
-                    android:inputType="numberDecimal"
-                    android:textSize="30sp" />
-
-            </LinearLayout>
-
-        </LinearLayout>
+        <EditText
+            android:id="@+id/eT_cur_const_val2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/buttonshape_square"
+            android:hint="Maß2"
+            android:inputType="numberDecimal"
+            android:textAlignment="center"
+            android:textSize="30sp" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight=".66"
+        android:layout_weight="2.5"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/btn_save"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
             android:layout_weight="1"
             android:background="@drawable/buttonshape_square"
             android:text="Speichern"
-            app:autoSizeTextType="uniform"
-            app:autoSizeMinTextSize="12sp"
             app:autoSizeMaxTextSize="100sp"
-            app:autoSizeStepGranularity="2sp" />
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeStepGranularity="2sp"
+            app:autoSizeTextType="uniform" />
     </LinearLayout>
 
 </LinearLayout>

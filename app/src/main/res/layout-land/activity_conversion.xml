@@ -15,7 +15,7 @@
         android:orientation="horizontal">
 
         <ListView
-            android:id="@+id/LV_Auswahl"
+            android:id="@+id/btn_Auswahl"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="10dp"

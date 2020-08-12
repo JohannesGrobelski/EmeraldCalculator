@@ -2,34 +2,30 @@ package com.example.titancalculator;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.preference.PreferenceManager;
 
 import com.example.titancalculator.helper.MainDisplay.SettingsApplier;
@@ -52,9 +48,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
-public class ConversionActivity extends AppCompatActivity {
+public class ConversionActivity extends AppCompatActivity implements  PopupMenu.OnMenuItemClickListener {
     String[] measArDE = {"Länge","Zeit","Geschwindigkeit","Masse","Volumen","Fläche","Temperatur","Kraft","Leistung","Stromstärke","Datenspeicher","Datentransfer"};
     String[] measArEN = {"length","time","speed","mass","volume","area","temperature","force","power","current","data storage","data rate"};
     String language="";
@@ -79,7 +76,7 @@ public class ConversionActivity extends AppCompatActivity {
 
     LinkedHashSet<String> currentSet = new LinkedHashSet<>();
     
-    String zustand = "kategorie";
+    String zustand = "kategorie"; String lastInput = "";
 
 
     int currentAuswahlKategorie = 0;
@@ -88,12 +85,10 @@ public class ConversionActivity extends AppCompatActivity {
     String currentConv="";
 
     View conv_background;
-    ListView LV_Auswahl;
-    Button btn_back;
+    Button btn_auswahl;
 
     EditText eT_cur_const_val1,eT_cur_const_val2;
-    Button btn_maßeinheit1, btn_me1_me2;
-    Button btn_maßeinheit2, btn_me2_me1;
+    Button btn_maßeinheit1, btn_maßeinheit2;
 
     Button selected;
     Button btn_save;
@@ -153,8 +148,9 @@ public class ConversionActivity extends AppCompatActivity {
 
         String[] a = (String[]) currentSet.toArray(new String[currentSet.size()]);
         //ArrayAdapter adapter_cat = new ArrayAdapter<String>(this, R.layout.lvitem_layout, a);
-        SettingsApplier.setArrayAdapter(ConversionActivity.this,LV_Auswahl,a,SettingsApplier.getColor_conv(ConversionActivity.this));
-        LV_Auswahl.setBackgroundColor(SettingsApplier.getColor_background(ConversionActivity.this));
+        SettingsApplier.setArrayAdapter(ConversionActivity.this,btn_auswahl,a,SettingsApplier.getColor_conv(ConversionActivity.this));
+        btn_auswahl.setBackgroundColor(SettingsApplier.getColor_background(ConversionActivity.this));
+        setBackgrounds();
     }
 
     void select(Button x){
@@ -197,6 +193,128 @@ public class ConversionActivity extends AppCompatActivity {
         }
     }
 
+    public void convert(){
+        //Toast.makeText(ConversionActivity.this,lastInput,Toast.LENGTH_SHORT).show();
+        EditText eTtarget;
+        if(lastInput.equals("em1"))eTtarget = eT_cur_const_val2;
+        else if(lastInput.equals("em2"))eTtarget = eT_cur_const_val1;
+        else return;
+        String me1 = btn_maßeinheit1.getText().toString();
+        String me2 = btn_maßeinheit2.getText().toString();
+        String e1val = eT_cur_const_val1.getText().toString();
+        if(checkValid(me1,me2,e1val)>0){
+            String target = MathEvaluator.evaluate(convert(new BigDecimal(e1val),me1,me2),10);
+            eTtarget.setText(target);
+            currentConv = target;
+        }
+        lastInput = "";
+    }
+
+    public void showMenuKategorien(View v) {
+        PopupMenu popup = new PopupMenu(this, v);
+        popup.setOnMenuItemClickListener(this);
+        if(language.equals("deutsch") || language.equals("german")) {
+            popup.inflate(R.menu.menu_conversion_kategorien);
+        } else {
+            popup.inflate(R.menu.menu_conversion_categories);
+        }
+        popup.show();
+        setBackgrounds();
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        Toast.makeText(this,item.getItemId(),Toast.LENGTH_SHORT).show();
+        switch (item.getItemId()) {
+            case R.id.Länge:
+                if(language.equals("deutsch"))btn_auswahl.setText("Länge");
+                else btn_auswahl.setText("length");
+                setUpMeasure("Länge");
+                return true;
+            case R.id.Zeit:
+                if(language.equals("deutsch"))btn_auswahl.setText("Zeit");
+                else btn_auswahl.setText("time");
+                setUpMeasure("Zeit");
+                return true;
+            case R.id.Geschwindigkeit:
+                if(language.equals("deutsch"))btn_auswahl.setText("Geschwindigkeit");
+                else btn_auswahl.setText("speed");
+                setUpMeasure("Geschwindigkeit");
+                return true;
+            case R.id.Masse:
+                if(language.equals("deutsch"))btn_auswahl.setText("Masse");
+                else btn_auswahl.setText("mass");
+                setUpMeasure("Masse");
+                return true;
+            case R.id.Volumen:
+                if(language.equals("deutsch"))btn_auswahl.setText("Volumen");
+                else btn_auswahl.setText("volume");
+                setUpMeasure("Volumen");
+                return true;
+            case R.id.Fläche:
+                if(language.equals("deutsch"))btn_auswahl.setText("Fläche");
+                else btn_auswahl.setText("area");
+                setUpMeasure("Fläche");
+                return true;
+            case R.id.Temperatur:
+                if(language.equals("deutsch"))btn_auswahl.setText("Temperatur");
+                else btn_auswahl.setText("temperature");
+                setUpMeasure("Temperatur");
+                return true;
+            case R.id.Kraft:
+                if(language.equals("deutsch"))btn_auswahl.setText("Kraft");
+                else btn_auswahl.setText("force");
+                setUpMeasure("Kraft");
+                return true;
+            case R.id.Leistung:
+                if(language.equals("deutsch"))btn_auswahl.setText("Leistung");
+                else btn_auswahl.setText("performance");
+                setUpMeasure("Leistung");
+                return true;
+            case R.id.Stromstärke:
+                if(language.equals("deutsch"))btn_auswahl.setText("Stromstärke");
+                else btn_auswahl.setText("current");
+                setUpMeasure("Stromstärke");
+                return true;
+            case R.id.Datenspeicher:
+                if(language.equals("deutsch"))btn_auswahl.setText("Datenspeicher");
+                else btn_auswahl.setText("datamemory");
+                setUpMeasure("Datenspeicher");
+                return true;
+            case R.id.Datentransfer:
+                if(language.equals("deutsch"))btn_auswahl.setText("Datentransfer");
+                else btn_auswahl.setText("datatransfer");
+                setUpMeasure("Datentransfer");
+                return true;
+            default:
+                return false;
+        }
+    }
+
+
+    public void showMenuMeasurements(final int  id, View v) {
+        PopupMenu popup = new PopupMenu(this, v);
+        popup.setOnMenuItemClickListener(this);
+        final List<String> currentSetList = new ArrayList<String>(currentSet);
+        for(int i=0; i<currentSet.size(); i++){
+            popup.getMenu().add(Menu.NONE,i,i,currentSetList.get(i));
+        }
+        popup.show();
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                int i = item.getItemId();
+                if(id==1)btn_maßeinheit1.setText(currentSetList.get(i));
+                else btn_maßeinheit2.setText(currentSetList.get(i));
+                return false;
+            }
+
+        });
+        setBackgrounds();
+    }
+
+
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -216,116 +334,88 @@ public class ConversionActivity extends AppCompatActivity {
 
 
         conv_background = findViewById(R.id.conv_background);
-        LV_Auswahl = findViewById(R.id.LV_Auswahl);
-        btn_back = findViewById(R.id.btn_back);
+        btn_auswahl = findViewById(R.id.btn_Auswahl);
         btn_save = findViewById(R.id.btn_save);
 
 
         eT_cur_const_val1 = findViewById(R.id.eT_cur_const_val1);
         eT_cur_const_val2 = findViewById(R.id.eT_cur_const_val2);
         btn_maßeinheit1 = findViewById(R.id.btn_maßeinheit1);
-        btn_me1_me2 = findViewById(R.id.btn_me1_me2);
         btn_maßeinheit2 = findViewById(R.id.btn_maßeinheit2);
-        btn_me2_me1 = findViewById(R.id.btn_me2_me1);
 
-        VIEW_CONV = new HashSet<View>(Arrays.asList(btn_back,eT_cur_const_val1,eT_cur_const_val2,btn_maßeinheit1,btn_maßeinheit2,btn_me1_me2,btn_me2_me1,btn_save));
+        VIEW_CONV = new HashSet<View>(Arrays.asList(btn_auswahl,eT_cur_const_val1,eT_cur_const_val2,btn_maßeinheit1,btn_maßeinheit2,btn_save));
 
 
         applySettings();
 
         //ArrayAdapter adapter_Meas = new ArrayAdapter<String>(this,R.layout.lvitem_layout, measArDE);
-        ArrayAdapter<String> adapter_Meas = getArrayAdapter(this,fontsize,measArDE);
-        if(language.equals("english") || language.equals("englisch")) adapter_Meas = getArrayAdapter(this,fontsize,measArEN);
         initMaps();
 
-        LV_Auswahl.setBackgroundColor(SettingsApplier.getColor_background(ConversionActivity.this));
-        LV_Auswahl.setAdapter(adapter_Meas);
+        btn_auswahl.setBackgroundColor(SettingsApplier.getColor_background(ConversionActivity.this));
+
+
+        eT_cur_const_val1.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if(hasFocus){
+                    if(eT_cur_const_val1.getText().toString().length() > 0 && eT_cur_const_val2.getText().toString().length() > 0 ){
+                        eT_cur_const_val1.setText(""); eT_cur_const_val2.setText("");
+                    } else {
+                        convert();
+                    }
+                }
+            }
+        });
+        eT_cur_const_val1.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                lastInput = "em1";
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {}
+        });
+
+        eT_cur_const_val2.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if(hasFocus){
+                    if(eT_cur_const_val1.getText().toString().length() > 0 && eT_cur_const_val2.getText().toString().length() > 0 ){
+                        eT_cur_const_val1.setText(""); eT_cur_const_val2.setText("");
+                    } else {
+                        convert();
+                    }
+                }
+            }
+        });
+        eT_cur_const_val2.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                lastInput = "em2";
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {}
+        });
+
+
 
         btn_maßeinheit1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                select(btn_maßeinheit1);
+                showMenuMeasurements(1,view);
             }
         });
         btn_maßeinheit2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                select(btn_maßeinheit2);
-            }
-        });
-        LV_Auswahl.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-                if(zustand.equals("kategorie")){
-                    setUpMeasure(measArDE[position]);
-                    currentAuswahlKategorie = position;
-                    zustand = "konstante";
-                } else if(zustand.equals("konstante")){
-
-                    //currentAuswahlKonstante=position;
-                    //result = currentSet.get(LV_Auswahl.getItemAtPosition(position));
-
-                    if(selected != null){
-                        if(selected.equals(btn_maßeinheit1) || selected.equals(btn_maßeinheit2)) {
-                            selected.setText(LV_Auswahl.getItemAtPosition(position).toString());
-                        }
-                    }
-                }
-            }
-        });
-
-
-        btn_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(zustand.equals("kategorie")){
-                } else if(zustand.equals("konstante")){
-                    //ArrayAdapter adapter_uni = new ArrayAdapter<String>(ConversionActivity.this, R.layout.lvitem_layout, measArDE);
-                    ArrayAdapter<String> adapter_uni = getArrayAdapter(ConversionActivity.this,fontsize,measArDE);
-                    if(language.equals("english") || language.equals("englisch")) adapter_uni = getArrayAdapter(ConversionActivity.this,fontsize,measArEN);
-                    LV_Auswahl.setBackgroundColor(SettingsApplier.getColor_background(ConversionActivity.this));
-                    LV_Auswahl.setAdapter(adapter_uni);
-                    zustand = "kategorie";
-
-                    btn_maßeinheit1.setText(""); btn_maßeinheit2.setText("");
-                    eT_cur_const_val1.setText(""); eT_cur_const_val2.setText("");
-                }
-            }
-        });
-
-        btn_me1_me2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String me1 = btn_maßeinheit1.getText().toString();
-                String me2 = btn_maßeinheit2.getText().toString();
-                String e1val = eT_cur_const_val1.getText().toString();
-                if(checkValid(me1,me2,e1val)>0){
-                    String target = MathEvaluator.evaluate(convert(new BigDecimal(e1val),me1,me2),10);
-                    eT_cur_const_val2.setText(target);
-                    currentConv = target;
-                }
-            }
-        });
-        btn_me2_me1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String me1 = btn_maßeinheit1.getText().toString();
-                String me2 = btn_maßeinheit2.getText().toString();
-                String e2val = eT_cur_const_val2.getText().toString();
-                if(checkValid(me1,me2,e2val)>0){
-                    String target = convert(new BigDecimal(e2val),me2,me1);
-
-                    com.example.titancalculator.evalex.Expression e = new com.example.titancalculator.evalex.Expression(target);
-                    e.setPrecision(precision);
-                    try{
-                        target = e.eval().toString();
-                    } catch (Exception ex){
-                    }
-
-
-                    eT_cur_const_val1.setText(target);
-                    currentConv = target;
-                }
+                showMenuMeasurements(2,view);
             }
         });
 
@@ -339,12 +429,18 @@ public class ConversionActivity extends AppCompatActivity {
             }
         });
 
-
         try {
             SettingsApplier.setBackgroundImage(ConversionActivity.this,conv_background);
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        btn_auswahl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showMenuKategorien(view);
+            }
+        });
     }
 
     private static ArrayAdapter<String> getArrayAdapter(final Context context, final float fontsize, String[] array){
@@ -502,7 +598,6 @@ public class ConversionActivity extends AppCompatActivity {
         //Toast t =  Toast.makeText(SettingsActivity.this,"Lang: "+language,Toast.LENGTH_LONG);
         //t.show();
         if(language.equals("english") || language.equals("englisch")){
-            btn_back.setText("back");
             btn_save.setText("SAVE");
             eT_cur_const_val1.setHint("Measure1");
             eT_cur_const_val2.setHint("Measure2");
@@ -510,7 +605,6 @@ public class ConversionActivity extends AppCompatActivity {
             btn_maßeinheit2.setHint("Measure2");
         }
         else if(language.equals("german") || language.equals("deutsch")){
-            btn_back.setText("zurück");
             btn_save.setText("speichern");
             eT_cur_const_val1.setHint("Maß1");
             eT_cur_const_val2.setHint("Maß2");

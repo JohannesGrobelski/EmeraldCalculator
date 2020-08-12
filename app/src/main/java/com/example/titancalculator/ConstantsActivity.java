@@ -2,17 +2,12 @@ package com.example.titancalculator;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -27,7 +22,6 @@ import com.example.titancalculator.helper.InitConstMapEN;
 import com.example.titancalculator.helper.MainDisplay.SettingsApplier;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -95,7 +89,7 @@ public class ConstantsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_constants);
 
         const_background = findViewById(R.id.const_background);
-        LV_Auswahl = (ListView) findViewById(R.id.LV_Auswahl);
+        LV_Auswahl = (ListView) findViewById(R.id.btn_Auswahl);
         btn_back = (Button) findViewById(R.id.btn_back);
 
         tV_Pfad = findViewById(R.id.tV_Pfad);
