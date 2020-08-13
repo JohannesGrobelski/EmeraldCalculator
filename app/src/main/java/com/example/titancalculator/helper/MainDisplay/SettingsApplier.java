@@ -162,6 +162,11 @@ public class SettingsApplier {
 
         view.setTextColor(SettingsApplier.getColor_displaytext(context));
         view.setTypeface(tp_current);
+        view.setLines(1);
+        view.setMaxLines(1);
+        view.setSingleLine(true);
+        view.setHorizontallyScrolling(true);
+        view.setGravity(Gravity.CENTER_VERTICAL);
     }
 
     /**

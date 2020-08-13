@@ -265,12 +265,7 @@ public class CalcActivity_science extends AppCompatActivity {
 
         eT_ausgabe.setOnFocusChangeListener(focusListener);
         eT_eingabe.setOnFocusChangeListener(focusListener);
-        eT_eingabe.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
-            @Override
-            public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
 
-            }
-        });
         //spinner_shift = findViewById(R.id.spinner_SHIFT);
         //spinner_shift.setSelection(0);
         mode = "BASIC";

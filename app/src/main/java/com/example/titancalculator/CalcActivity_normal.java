@@ -254,7 +254,8 @@ public class CalcActivity_normal extends AppCompatActivity {
         SettingsApplier.setColors(CalcActivity_normal.this);
         applySettings();
         setBackgrounds();
-
+        SettingsApplier.setETTextSize(CalcActivity_normal.this, eT_eingabe, 3);
+        SettingsApplier.setETTextSize(CalcActivity_normal.this, eT_ausgabe, 3);
 
 
         eT_ausgabe.setOnFocusChangeListener(focusListener);
@@ -1180,6 +1181,9 @@ public class CalcActivity_normal extends AppCompatActivity {
         //End onCreate
         SettingsApplier.setETTextSize(CalcActivity_normal.this,eT_eingabe,3);
         SettingsApplier.setETTextSize(CalcActivity_normal.this,eT_ausgabe,3);
+
+        SettingsApplier.setETDesign(CalcActivity_normal.this,eT_eingabe,4);
+        SettingsApplier.setETDesign(CalcActivity_normal.this,eT_ausgabe,4);
     }
 
 

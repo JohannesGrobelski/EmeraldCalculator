@@ -13,18 +13,17 @@
     <LinearLayout
         android:id="@+id/m_display"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="150dp"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="20dp"
         android:layout_marginRight="15dp"
         android:layout_marginBottom="10dp"
-        android:layout_weight=".085"
         android:background="@drawable/displayshape"
         android:baselineAligned="false">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:baselineAligned="false"
             android:minHeight="120dp"
@@ -42,8 +41,9 @@
                 android:fontFamily="monospace"
                 android:inputType="textNoSuggestions"
                 android:maxLines="1"
-
                 android:minHeight="55sp"
+
+                android:scrollbars="horizontal"
                 app:autoSizeMaxTextSize="100sp"
                 app:autoSizeMinTextSize="12sp"
                 app:autoSizeStepGranularity="1sp" />
@@ -60,8 +60,10 @@
                 android:fontFamily="monospace"
                 android:inputType="textNoSuggestions"
                 android:maxLines="1"
-
                 android:minHeight="55sp"
+
+                android:scrollbars="horizontal"
+                android:scrollHorizontally="true"
                 app:autoSizeMaxTextSize="100sp"
                 app:autoSizeMinTextSize="12sp"
                 app:autoSizeStepGranularity="1sp" />
