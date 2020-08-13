@@ -149,7 +149,7 @@ public class ConstantsActivity extends AppCompatActivity {
 
                     result = currentMap.get(currentMap.keySet().toArray()[currentAuswahlKonstante]);
                     result = getStringNumberTrimed(result,currentNachkommastellen);
-                    tV_cur_const_val.setText(result);
+                    tV_cur_const_val.setText(result.replace(",","."));
 
                 }
             }
@@ -186,7 +186,7 @@ public class ConstantsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent();
-                intent.putExtra("RESULT_STRING", result);
+                intent.putExtra("RESULT_STRING", result.replace(",","."));
                 setResult(RESULT_OK, intent);
                 finish();
             }
