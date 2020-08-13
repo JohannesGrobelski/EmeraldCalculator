@@ -1477,16 +1477,15 @@ public class CalcActivity_normal extends AppCompatActivity {
     }
 
     public void eingabeAddText(String i){
-        if(eT_eingabe_hasFocus){
+        if (eT_eingabe_hasFocus) {
             eT_eingabe.clearFocus();
-
-            eT_eingabe.getText().insert(eT_eingabe.getSelectionStart(), i);
-            I.setText(eT_eingabe.getText().toString());
         }
-        if(solve_inst_pref){
-            if(!CalcActivity_science.noImmidiateOps.contains(i.trim())){
+        eT_eingabe.getText().insert(eT_eingabe.getSelectionStart(), i);
+        I.setText(eT_eingabe.getText().toString());
+        if (solve_inst_pref) {
+            if (!CalcActivity_science.noImmidiateOps.contains(i.trim())) {
                 answer = I.getResult(CalcActivity_science.getBase(CalcActivity_normal.this));
-                if(!answer.equals("Math Error"))ausgabe_setText(answer);
+                if (!answer.equals("Math Error")) ausgabe_setText(answer);
             }
         }
     }
