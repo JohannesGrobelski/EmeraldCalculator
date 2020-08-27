@@ -290,7 +290,8 @@ public class MathEvaluator {
     }
 
 	public static String evaluate(String input,int base) {
-	    input = rootToSqrt(input);
+
+        input = rootToSqrt(input);
         input = logToLogb(input);
 
         if(input.contains("!"))input = facCor(input);

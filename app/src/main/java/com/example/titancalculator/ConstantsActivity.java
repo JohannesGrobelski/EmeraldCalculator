@@ -115,7 +115,6 @@ public class ConstantsActivity extends AppCompatActivity {
         //ArrayAdapter adpt_modeoptions = new ArrayAdapter<String>(this, R.layout.lvitem_layout, mode_options);
         SettingsApplier.setArrayAdapter(ConstantsActivity.this,LV_Auswahl,catAr,SettingsApplier.getColor_const(ConstantsActivity.this));
 
-
         tV_Pfad.setText(QCat);
 
         LV_Auswahl.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -150,7 +149,6 @@ public class ConstantsActivity extends AppCompatActivity {
                     result = currentMap.get(currentMap.keySet().toArray()[currentAuswahlKonstante]);
                     result = getStringNumberTrimed(result,currentNachkommastellen);
                     tV_cur_const_val.setText(result.replace(",","."));
-
                 }
             }
         });

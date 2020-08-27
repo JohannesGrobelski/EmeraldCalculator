@@ -17,15 +17,13 @@ import java.util.regex.Pattern;
 
 public class NumberString extends ContentString {
     private static HashMap<String, String> replacements = new HashMap<String, String>() {{
-        put("²","^2"); put("³","^3"); put("√","ROOT"); put("³√","3ROOT"); put("∏","MULP"); put("∑","SUME"); put("π","PI"); put("PI",String.valueOf(Math.PI));
+        put("²","^2");  put("√","ROOT"); put("³","^3"); put("∏","MULP"); put("∑","SUME"); put("π","PI"); put("PI",String.valueOf(Math.PI));
     }};
-    private static String[] functions_parentIn = {"ROOT","LN","LB","LOG","P","R","C",
-            "SIN","COS","TAN","COT","ASIN","ACOS","ATAN","ACOT","SINH","COSH","TANH","ASINH","ACOSH","ATANH",
-            "MEAN","ROOT"};
-    private static String[] functions_paraIn = {"ROOT","LOG","P","C","R"};
+    public static String[] functions_parentIn = {"ASINH","ACOSH","ATANH","ASIN","ACOS","ATAN","ACOT","SINH","COSH","TANH","SIN","COS","TAN","COT","MEAN","ROOT","LN","LB","LOG","P","R","C"};
+    public static String[] functions_paraIn = {"ROOT","LOG","P","C","R"};
 
-    static String mean_mode = "AriMit";
-    static String var_mode = "AriVar";
+    public static String mean_mode = "AriMit";
+    public static String var_mode = "AriVar";
 
     public static int dec_places = 5;
     public static int predec_places = 5;
@@ -61,39 +59,26 @@ public class NumberString extends ContentString {
         return a;
     }
 
-    public static String paraIn(String input, String fct){
-        String res="";
-        while(input.contains(fct)) {
-            int i = input.indexOf(fct);
-            int j = i+fct.length()-1;
 
-            int k;
-            for(k=i; k>0; ) {
-                if(input.substring(k-1,i).matches("(\\.)[0-9]+")) {
-                    --k;
-                    continue;
+
+    public static String paraIn2(String input, String fct){
+        Matcher matcherFct = Pattern.compile(fct).matcher(input);
+        while(matcherFct.find()){
+            String PatternNumber = "[0-9]*(\\.)?[0-9]+";
+            Matcher matcherInput = Pattern.compile(PatternNumber+fct+PatternNumber).matcher(input);
+            while (matcherInput.find()){
+                String instance = matcherInput.group();
+                ArrayList<String> numbers = new ArrayList<>();
+                Matcher matcherInstance = Pattern.compile(PatternNumber).matcher(instance);
+                while(matcherInstance.find()){
+                    numbers.add(matcherInstance.group());
                 }
-                if(!(input.substring(k-1,i).matches("[0-9]+") || input.substring(k-1,i).matches("[E|PI]") || input.substring(k-1,i).matches("[0-9]+(\\.)[0-9]+")))break;
-                else {
-                    --k;
+                if(numbers.size() == 2){
+                    input = input.replace(matcherInput.group(),fct.toLowerCase()+"("+numbers.get(0)+","+numbers.get(1)+")");
                 }
-
             }
-            if(k!=i) {
-
-                String b = input.substring(i,j+2);
-                b += input.substring(Math.max(0,k),i)+",";
-                b += input.substring(j+2,input.indexOf(')', j+2)+1);
-
-                input = input.replace(input.substring(Math.max(0,k),input.indexOf(')', i)+1),b);
-
-            }
-            input = input.replaceFirst(fct, fct.toLowerCase());
         }
-        input = input.replace(fct.toLowerCase(),fct);
-        input = input.replace("( ","(");
-        input = input.replace("(,","(");
-
+        input = input.replace(fct,fct.toLowerCase());
         return input;
     }
 
@@ -143,16 +128,21 @@ public class NumberString extends ContentString {
             input = input.replace(match,parenthesiseSub(match));
         }
         while(!match.isEmpty());
+
+        for(String s: functions_parentIn){
+            input = input.replaceAll(s.toLowerCase(), s);
+        }
+
         return input;
     }
 
     public static String findLongestParenthesisable(String input){
         String subpattern = "";
         for(String s: functions_parentIn){subpattern+=s+"|";} subpattern = subpattern.substring(0,subpattern.length()-1);
-        String pattern1 = "("+subpattern+")+"+"[0-9]+\\\\.[0-9]+";
+        String pattern1 = "("+subpattern+")+"+"[0-9]+\\.[0-9]+";
         String pattern2 = "("+subpattern+")+"+"[0-9]+";
         String match = StringUtils.findLongestMatch(pattern1,input);
-        if(match.isEmpty()){
+        if(match.length() == 0){
             match = StringUtils.findLongestMatch(pattern2,input);
         }
         return match;
@@ -170,6 +160,7 @@ public class NumberString extends ContentString {
         for(String s: functions_parentIn){
             input = input.replace(s,s+"(");
             input = input.replace("((","(");
+            input = input.replaceAll(s, s.toLowerCase());
         }
 
         for(int i=0; i<input.length(); i++){
@@ -212,22 +203,23 @@ public class NumberString extends ContentString {
             }
         }
 
-        //I: fix; sonst: PI -> P(I)
-
-        a = NumberString.parenthesise(a);
-
-        /*
-        for(String f: functions_parentIn){
-            a = (a,f);
-        }
-
-         */
-        for(String f: functions_paraIn){
-            NumberString.paraIn(a,f);
-        }
+        a = a.replace("³√","3ROOT");
         for(String r: replacements.keySet()){
             a = a.replace(r,replacements.get(r));
         }
+
+
+        //I: fix; sonst: PI -> P(I)
+        for(String f: functions_paraIn){
+            a = NumberString.paraIn2(a,f);
+        }
+
+        for(String f: functions_paraIn){
+            a = a.replace(f.toLowerCase(),f);
+        }
+
+        a = NumberString.parenthesise(a);
+
 
 
 

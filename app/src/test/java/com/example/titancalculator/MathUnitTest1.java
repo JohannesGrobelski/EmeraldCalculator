@@ -1,10 +1,12 @@
 package com.example.titancalculator;
 
 import com.example.titancalculator.helper.Math_String.MathEvaluator;
+import com.example.titancalculator.helper.Math_String.NumberString;
 
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -29,6 +31,14 @@ public class MathUnitTest1 {
         //assertEquals(NumberString.findLongestParenthesisable("LOGLOG9"));
 
         assertEquals(4, 2 + 2);
+    }
+
+
+
+    @Test
+    public void mathEv3(){
+        assertEquals(MathEvaluator.evaluate(NumberString.getCalcuableString("√4"),10),"2");
+
     }
 
     @Test
