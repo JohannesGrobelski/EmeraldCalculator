@@ -36,9 +36,11 @@ public class MathUnitTest1 {
 
 
     @Test
-    public void mathEv3(){
-        assertEquals(MathEvaluator.evaluate(NumberString.getCalcuableString("√4"),10),"2");
-
+    public void mathEvTime(){
+        //assertEquals(MathEvaluator.evaluate(NumberString.getCalcuableString("√4"),10),"2");
+        long start,end; start = System.currentTimeMillis();
+        MathEvaluator.evaluate(NumberString.getCalcuableString("√√√5"),10);
+        System.out.println("time: "+String.valueOf(System.currentTimeMillis() - start));
     }
 
     @Test

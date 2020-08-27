@@ -190,16 +190,23 @@ public class NumberString extends ContentString {
 
 
     public static String getCalcuableString(String a){
+
         //language settings
         a = a.replaceAll("LCM","KGV");
         a = a.replaceAll("GCD","GGT");
 
-        if(a.contains("ANS")){
-            if(last_answer.equals("Math Error")){
-                a = a.replace("ANS","");
-                last_answer = "";
-            } else{
-                a = a.replace("ANS",last_answer);
+        Matcher matcherANS = Pattern.compile("ANS^((A-Z)*)").matcher(a);
+        while(matcherANS.find()){
+            if(matcherANS.group().matches("[^A-Z]*ANS[^A-Z]*")){ //excludes inputs like "atANSinh57.860802"
+                if(last_answer.equals("Math Error")){
+                    a = a.replace("ANS","");
+                    last_answer = "";
+                } else{
+                    a = a.replace("ANS",last_answer);
+                }
+            }
+            else {
+                System.out.println(a);
             }
         }
 
@@ -219,9 +226,6 @@ public class NumberString extends ContentString {
         }
 
         a = NumberString.parenthesise(a);
-
-
-
 
         //.e("calcString: ",a);
         if(!last_answer.equals("Math Error"))last_answer = a;
