@@ -60,8 +60,60 @@ public class NumberString extends ContentString {
     }
 
 
+    /**
+     * transform String like numberX1numberX2...XNnumber
+     * to X1(number,X2(number,...(XN(number,number)...)
+     * with Xi element of functions_parentIn (ROOT, LOG etc.)
+     * @param input
+     * @return
+     */
+    public static String paraInComplex(String input){
+        String patternFct = "("; for(String s: functions_parentIn){patternFct+=s+"|";} patternFct = patternFct.substring(0,patternFct.length()-1); patternFct += ")";
+        String patternNumber = "[0-9]*(\\.)?[0-9]+";
+        String patternAtomic = patternNumber+patternFct+patternNumber;
+        String patternComplex = "("+patternNumber+patternFct+")+"+patternNumber;
 
-    public static String paraIn2(String input, String fct){
+        if(input.matches(patternAtomic)){
+            return patternAtomic;
+        } else {
+            Matcher matcherComplex = Pattern.compile(patternComplex).matcher(input);
+            while(matcherComplex.find()){
+                String originalComplex = matcherComplex.group();
+                List<String> allMatches = new ArrayList<String>();
+                Matcher matcherAtomic = Pattern.compile("(?=(" + patternAtomic + ")).").matcher(input);
+                while (matcherAtomic.find()) {
+                    allMatches.add(matcherAtomic.group(1));
+                }
+                //for(String s: allMatches)System.out.println(s);
+                String last = paraInAtomic(allMatches.get(allMatches.size()-1),patternFct);
+                //System.out.println("last: "+last);
+                allMatches.remove(allMatches.size()-1); allMatches.add(last);
+                for(int i=allMatches.size()-2; i>=0; i--){
+                    String original = allMatches.get(i);
+                    Matcher prefixNumberMatcher = Pattern.compile(patternNumber).matcher(original);
+                    prefixNumberMatcher.find(); String prefixNumber = prefixNumberMatcher.group();
+                    Matcher fctMatcher = Pattern.compile(patternFct).matcher(original);
+                    fctMatcher.find(); String FCT = fctMatcher.group();
+                    String transformed = FCT+"("+prefixNumber+","+allMatches.get(i+1)+")";
+                    allMatches.remove(i);
+                    allMatches.add(i,transformed);
+                    //System.out.println("transformed: "+allMatches.get(i));
+                    //System.out.println("--------------------------------");
+                }
+                input = input.replace(originalComplex,allMatches.get(0));
+            }
+            return input;
+        }
+    }
+
+    /**
+     * Transforms numberXnumber to X(number,number)
+     * with X element of functions_parentIn (ROOT, LOG etc.)
+     * @param input Inputstring with form like numberXnumber
+     * @param fct regex presenting an element of function_parentIn
+     * @return Outputstring with form like X(number,number)
+     */
+    public static String paraInAtomic(String input, String fct){
         Matcher matcherFct = Pattern.compile(fct).matcher(input);
         while(matcherFct.find()){
             String PatternNumber = "[0-9]*(\\.)?[0-9]+";
@@ -70,11 +122,13 @@ public class NumberString extends ContentString {
                 String instance = matcherInput.group();
                 ArrayList<String> numbers = new ArrayList<>();
                 Matcher matcherInstance = Pattern.compile(PatternNumber).matcher(instance);
+                Matcher fctMatcher = Pattern.compile(fct).matcher(instance);
+                fctMatcher.find(); String FCT = fctMatcher.group();
                 while(matcherInstance.find()){
                     numbers.add(matcherInstance.group());
                 }
                 if(numbers.size() == 2){
-                    input = input.replace(matcherInput.group(),fct.toLowerCase()+"("+numbers.get(0)+","+numbers.get(1)+")");
+                    input = input.replace(matcherInput.group(),FCT+"("+numbers.get(0)+","+numbers.get(1)+")");
                 }
             }
         }
@@ -217,9 +271,8 @@ public class NumberString extends ContentString {
 
 
         //I: fix; sonst: PI -> P(I)
-        for(String f: functions_paraIn){
-            a = NumberString.paraIn2(a,f);
-        }
+
+        a = NumberString.paraInComplex(a);
 
         for(String f: functions_paraIn){
             a = a.replace(f.toLowerCase(),f);

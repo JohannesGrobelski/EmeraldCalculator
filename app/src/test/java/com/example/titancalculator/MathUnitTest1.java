@@ -16,11 +16,14 @@ import static org.junit.Assert.assertTrue;
 public class MathUnitTest1 {
     @Test
     public void mathEv1() {
-        assertEquals(MathEvaluator.evaluate("2^31",4,5),"2147483648");
 
 
         assertEquals(MathEvaluator.evaluate("LOG(2,AriVAR(2,3))",10),"-2");
         assertEquals(MathEvaluator.evaluate("AriVAR(2,3)",10),"0.25");
+
+        assertEquals(4, 2 + 2);
+        assertEquals(MathEvaluator.evaluate(NumberString.getCalcuableString("2√2√2√256"),10),"2");
+        //assertEquals(MathEvaluator.evaluate(NumberString.getCalcuableString("3√3√(3^3^3)"),10),"3");
 
         assertEquals(MathEvaluator.evaluate("78588558.2121",4,5),"7.85886E7");
         assertEquals(MathEvaluator.evaluate("LOG(LOG(2))",4,5),"-0.52139");
@@ -30,7 +33,8 @@ public class MathUnitTest1 {
         //assertEquals(toBase("1412432",16,20));
         //assertEquals(NumberString.findLongestParenthesisable("LOGLOG9"));
 
-        assertEquals(4, 2 + 2);
+
+
     }
 
 
@@ -67,6 +71,7 @@ public class MathUnitTest1 {
 
         System.out.println(MathEvaluator.evaluate("-150 + 0.123456789",10));
         System.out.println(MathEvaluator.evaluate("150 - 0.123456789",10));
+
     }
 
 
