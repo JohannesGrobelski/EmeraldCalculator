@@ -28,8 +28,6 @@ package com.example.titancalculator.evalex;
 
 import android.util.Log;
 
-import com.example.titancalculator.rjm_notused.BigDecimalMath;
-
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;

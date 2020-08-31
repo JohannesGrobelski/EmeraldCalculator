@@ -69,22 +69,28 @@ public class NumberString extends ContentString {
      */
     public static String paraInComplex(String input){
         String patternFct = "("; for(String s: functions_parentIn){patternFct+=s+"|";} patternFct = patternFct.substring(0,patternFct.length()-1); patternFct += ")";
+        Matcher matcherFct = Pattern.compile(patternFct).matcher(input);
         String patternNumber = "[0-9]*(\\.)?[0-9]+";
         String patternAtomic = patternNumber+patternFct+patternNumber;
         String patternComplex = "("+patternNumber+patternFct+")+"+patternNumber;
 
         if(input.matches(patternAtomic)){
-            return patternAtomic;
+            return paraInAtomic(input,patternFct);
         } else {
             Matcher matcherComplex = Pattern.compile(patternComplex).matcher(input);
             while(matcherComplex.find()){
                 String originalComplex = matcherComplex.group();
                 List<String> allMatches = new ArrayList<String>();
                 Matcher matcherAtomic = Pattern.compile("(?=(" + patternAtomic + ")).").matcher(input);
-                while (matcherAtomic.find()) {
-                    allMatches.add(matcherAtomic.group(1));
+                int lastOperator = 0;
+                while (matcherAtomic.find(lastOperator)) {
+                    String atomic = matcherAtomic.group(1);
+                    if(matcherFct.find(lastOperator)){
+                        lastOperator = matcherFct.start() + 1;
+                    }
+                    allMatches.add(atomic);
                 }
-                //for(String s: allMatches)System.out.println(s);
+                //for(String s: allMatches)System.out.println("allmatches: "+s);
                 String last = paraInAtomic(allMatches.get(allMatches.size()-1),patternFct);
                 //System.out.println("last: "+last);
                 allMatches.remove(allMatches.size()-1); allMatches.add(last);
@@ -436,6 +442,15 @@ public class NumberString extends ContentString {
             return false;
         }
         return true;
+    }
+
+    public static boolean sameOpeningClosingBrackets(String input){
+        int closing = 0; int opening = 0;
+        for(int i = 0; i<input.length(); i++){
+            if(input.charAt(i) == '(' || input.charAt(i) == '[' || input.charAt(i) == '{')++opening;
+            if(input.charAt(i) == ')' || input.charAt(i) == ']' || input.charAt(i) == '}')++closing;
+        }
+        return opening == closing;
     }
 
 }
