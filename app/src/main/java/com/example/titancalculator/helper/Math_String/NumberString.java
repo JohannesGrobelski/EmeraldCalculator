@@ -68,11 +68,12 @@ public class NumberString extends ContentString {
      * @return
      */
     public static String paraInComplex(String input){
+        //TODO: 3ROOT(3ROOT(8 wird auch als richtig erkannt weil schließende klammern nicht gezählt werden. Fehler oder Nutzerfreundlich?
         String patternFct = "("; for(String s: functions_parentIn){patternFct+=s+"|";} patternFct = patternFct.substring(0,patternFct.length()-1); patternFct += ")";
         Matcher matcherFct = Pattern.compile(patternFct).matcher(input);
         String patternNumber = "[0-9]*(\\.)?[0-9]+";
-        String patternAtomic = patternNumber+patternFct+patternNumber;
-        String patternComplex = "("+patternNumber+patternFct+")+"+patternNumber;
+        String patternAtomic = patternNumber+patternFct+"\\(?"+patternNumber+"\\)?";
+        String patternComplex = "("+patternNumber+patternFct+"\\(?"+")+"+patternNumber+"\\)*";
 
         if(input.matches(patternAtomic)){
             return paraInAtomic(input,patternFct);
@@ -123,7 +124,7 @@ public class NumberString extends ContentString {
         Matcher matcherFct = Pattern.compile(fct).matcher(input);
         while(matcherFct.find()){
             String PatternNumber = "[0-9]*(\\.)?[0-9]+";
-            Matcher matcherInput = Pattern.compile(PatternNumber+fct+PatternNumber).matcher(input);
+            Matcher matcherInput = Pattern.compile(PatternNumber+fct+"\\(?"+PatternNumber+"\\)?").matcher(input);
             while (matcherInput.find()){
                 String instance = matcherInput.group();
                 ArrayList<String> numbers = new ArrayList<>();

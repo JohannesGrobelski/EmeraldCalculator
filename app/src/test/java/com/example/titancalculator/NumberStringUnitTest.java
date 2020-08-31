@@ -1,5 +1,6 @@
 package com.example.titancalculator;
 
+import org.junit.Assert;
 import org.junit.Test;
 import androidx.fragment.app.testing.*;
 
@@ -41,7 +42,6 @@ public class NumberStringUnitTest {
     public void paraIn2ComplexTest(){
         //String input = "650.271701ROOT828.584434R292LOG36LOG270LOG163.295501"; //
         //System.out.println(NumberString.paraInComplex(input));
-
 
         //produces a String like this
         String patternFct = "("; for(String s: NumberString.functions_parentIn){patternFct+=s+"|";} patternFct = patternFct.substring(0,patternFct.length()-1); patternFct += ")";
@@ -103,9 +103,18 @@ public class NumberStringUnitTest {
                 }
             }
         }
+    }
 
+    @Test
+    public void parathentiseSimpleTestPreBrackets(){
+        String patternFct = "("; for(String s: NumberString.functions_parentIn){patternFct+=s+"|";} patternFct = patternFct.substring(0,patternFct.length()-1); patternFct += ")";
+        String patternNumber = "[0-9]*(\\.)?[0-9]+";
+        String groupPattern = "("+patternFct+"\\("+patternNumber+",)+"+patternNumber+"\\)+";
 
-
+        assertTrue(NumberString.paraInComplex("3ROOT(8)").matches(groupPattern));
+        assertTrue(NumberString.paraInComplex("3ROOT3ROOT(8)").matches(groupPattern));
+        assertTrue(NumberString.paraInComplex("3ROOT(3ROOT(8))").matches(groupPattern));
+        System.out.println(NumberString.paraInComplex("3ROOT(3ROOT(8))"));
     }
 
     public String numbergenerator(){
