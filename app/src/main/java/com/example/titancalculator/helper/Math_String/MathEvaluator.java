@@ -334,7 +334,7 @@ public class MathEvaluator {
         Expression expression = new Expression(input);
 
         try {
-            expression.setPrecision(100000);
+            expression.setPrecision(100);
             String res = format(expression.eval()).toString();
             return res;
         }
