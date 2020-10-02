@@ -39,6 +39,13 @@ public class NumberStringUnitTest {
     }
 
     @Test
+    public void paraIn2SimpleEncapsulation(){
+        assertTrue("wrong: ³√³√9",NumberString.getCalcuableString("³√³√9").equals("ROOT(3,ROOT(3,9))"));
+        //assertTrue("wrong: 1.2ROOT3ROOT4",NumberString.getCalcuableString("1.2ROOT3ROOT4").equals("ROOT(1.2,ROOT(3,4))"));
+
+    }
+
+    @Test
     public void paraIn2ComplexTest(){
         //String input = "650.271701ROOT828.584434R292LOG36LOG270LOG163.295501"; //
         //System.out.println(NumberString.paraInComplex(input));
