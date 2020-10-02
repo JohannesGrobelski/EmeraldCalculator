@@ -323,6 +323,26 @@ public class NumberString extends ContentString {
         return c;
     }
 
+    String normalToScientific(int base){
+        String i = getCalcuableString(content);
+        Log.e("normToSci input",i);
+
+        String c = MathEvaluator.evaluate(i,predec_places,7);
+        Log.e("normToSci output",c);
+
+        return c;
+    }
+
+    String scientificToNormal(int base){
+        String i = getCalcuableString(content);
+        Log.e("sciToNormal input",i);
+
+        String c = MathEvaluator.evaluate(i,predec_places,1000);
+        Log.e("sciToNormal output",c);
+
+        return c;
+    }
+
 
     String getPercent(int base){
         String res = getResult(base);

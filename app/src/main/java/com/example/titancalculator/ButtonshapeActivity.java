@@ -30,6 +30,7 @@ import com.example.titancalculator.helper.MainDisplay.SettingsApplier;
 import java.util.ArrayList;
 
 
+
 public class ButtonshapeActivity extends AppCompatActivity {
 
     private ListView lv_form;

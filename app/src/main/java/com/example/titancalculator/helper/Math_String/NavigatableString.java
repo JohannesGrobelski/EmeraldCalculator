@@ -1,5 +1,7 @@
 package com.example.titancalculator.helper.Math_String;
 
+import android.util.Log;
+
 public class NavigatableString{
 
     private ContentString contentString;
@@ -66,6 +68,14 @@ public class NavigatableString{
 
     public String getResult(int base){
         return ((NumberString) contentString).getResult(base);
+    }
+
+    public String normalToScientific(int base){
+        return ((NumberString) contentString).normalToScientific(base);
+    }
+
+    public String scientificToNormal(int base){
+        return ((NumberString) contentString).scientificToNormal(base);
     }
 
     public String getPercent(int base){

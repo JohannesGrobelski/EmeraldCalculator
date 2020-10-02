@@ -25,6 +25,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.text.Editable;
+import android.text.TextPaint;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -167,6 +168,7 @@ public class CalcActivity_science extends AppCompatActivity {
     Button btn_sep;
     Button btn_ans;
     Button btn_eq;
+    boolean scientificNotation = false;
     boolean eT_eingabe_hasFocus = true;
     EditText eT_eingabe;
     EditText eT_ausgabe;
@@ -288,6 +290,10 @@ public class CalcActivity_science extends AppCompatActivity {
         eT_ausgabe.setText(res);
     }
 
+    private void toogleScientificNotation(){
+        scientificNotation = !scientificNotation;
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -328,6 +334,8 @@ public class CalcActivity_science extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 hideKeyboard(CalcActivity_science.this);
                 //v.performClick();
+                Toast.makeText(getBaseContext(),"eingabeChanged",Toast.LENGTH_SHORT);
+
                 return false;
             }
         });
@@ -1180,8 +1188,23 @@ public class CalcActivity_science extends AppCompatActivity {
                 if (SettingsApplier.vibrate_on) myVib.vibrate(SettingsApplier.vibrate_length);
                 view.startAnimation(buttonClick);
                 answer = I.getResult(getBase(CalcActivity_science.this));
+
+                if(scientificNotation){
+                    answer = I.normalToScientific(getBase(CalcActivity_science.this));
+                } else {
+                    answer = I.scientificToNormal(getBase(CalcActivity_science.this));
+                }
+
                 ausgabeSetText(answer);
                 HistoryActivity.addHistory(CalcActivity_science.this, eT_eingabe.getText().toString(), answer);
+            }
+        });
+        btn_eq.setLongClickable(true);
+        btn_eq.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                toogleScientificNotation();
+                return false;
             }
         });
 
