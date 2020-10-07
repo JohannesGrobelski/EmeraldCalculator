@@ -33,7 +33,9 @@ import com.example.titancalculator.helper.Math_String.NavigatableString;
 import com.example.titancalculator.helper.StringUtils;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
@@ -43,10 +45,9 @@ public class MainActivity extends AppCompatActivity {
     String state_spinner_shift = "number_selection"; //number_selection, base_selection
     private static String[] MEMORY = new String[6];
     boolean eT_eingabe_hasFocus = true;
-    String mode = "BASIC";
+    String mode = "BASIC"; String englishMode = "BASIC";
 
     //setting variables
-    Set<String> UserFctGroups = new HashSet<>();
     String current_Callback = "";
     String answer = "";
     boolean solve_inst_pref = true;
@@ -148,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         SettingsApplier.applySettings(MainActivity.this);
-        setTitle("Rechner");
+        setTitle("Calculator");
         SettingsApplier.setColors(MainActivity.this);
         eT_ausgabe.setOnFocusChangeListener(focusListener);
         eT_eingabe.setOnFocusChangeListener(focusListener);
@@ -166,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         SettingsApplier.applySettings(MainActivity.this);
         setContentView(R.layout.activity_calc_science);
-        setTitle("TITAN CALC");
+        setTitle("Calculator");
 
         mode = "BASIC";
         MEMORY = new String[6];
@@ -242,6 +243,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 mode = spinner_shift.getSelectedItem().toString();
+                englishMode = returnEnglishMode(mode);
                 assignModeFct();
             }
             @Override public void onNothingSelected(AdapterView<?> adapterView) {}
@@ -268,188 +270,120 @@ public class MainActivity extends AppCompatActivity {
                 I.setText(eT_eingabe.getText().toString());
             }
         });
+
+        //auxilary Constants
+        abstract class Foo {
+
+            public final String basicDE = getResources().getString(R.string.BASIC_DE);
+            public static final String BAZ="";
+
+
+        }
+
         //L2
         //normal: PI,E,CONST,CONV
         btn_11.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
-                    eingabeAddText("π");
-                } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
-                    ausgabeSetText(I.getPFZ(getBase(MainActivity.this)));
-                } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
-                    eingabeAddText("SIN");
-                } else if (mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))) {
-                    transBtnFct("btn_11");
-                } else if (mode.equals(getResources().getString(R.string.STATS_EN)) || mode.equals(getResources().getString(R.string.STATS_DE))) {
-                    eingabeAddText("Zn()");
-                } else if (mode.equals("HYPER")) {
-                    eingabeAddText("SINH");
-                } else if (mode.equals("LOGIC") || mode.equals("LOGISCH")) {
-                    eingabeAddText("AND(,)");
-                } else if (mode.equals("MEMORY") || mode.equals("SPEICHER")) {
-                    MEMORY[0] = getSelection();
-                    saveMemory(MainActivity.this, MEMORY);
-                } else if (UserFctGroups.contains(mode)) {
-                    transBtnFct(btn_11.getText().toString());
-                } else {
-                    String display = "Unknown Mode: " + mode;
-                    Toast unknownMode = Toast.makeText(MainActivity.this, display, Toast.LENGTH_LONG);
-                    unknownMode.show();
+                switch(englishMode){
+                    case "BASIC": {eingabeAddText("π"); break;}
+                    case "BASIC2": {ausgabeSetText(I.getPFZ(getBase(MainActivity.this))); break;}
+                    case "TRIGO":  {eingabeAddText("SIN"); break;}
+                    case "USER":  {transBtnFct("btn_11"); break;}
+                    case "STATISTIC":  {eingabeAddText("Zn()"); break;}
+                    case "HYPER":  {eingabeAddText("SINH"); break;}
+                    case "LOGIC":  {eingabeAddText("AND(,)"); break;}
+                    case "MEMORY":  {MEMORY[0] = getSelection(); saveMemory(MainActivity.this, MEMORY); break;}
+                    default:  {Toast.makeText(MainActivity.this, "Unknown Mode: ", Toast.LENGTH_LONG).show(); break;}
                 }
             }
         });
         btn_12.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
-                    eingabeAddText("e");
-                } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
-                    if (language.equals("german") || language.equals("deutsch")) {
-                        eingabeAddText("GGT(,)");
-                    } else {
-                        eingabeAddText("GCD(,)");
-                    }
-                } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
-                    eingabeAddText("COS");
-                } else if (mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))) {
-                    transBtnFct("btn_12");
-                } else if (mode.equals(getResources().getString(R.string.STATS_EN)) || mode.equals(getResources().getString(R.string.STATS_DE))) {
-                    eingabeAddText("Zb(,)");
-                } else if (mode.equals("HYPER")) {
-                    eingabeAddText("COSH");
-                } else if (mode.equals("LOGIC") || mode.equals("LOGISCH")) {
-                    eingabeAddText("OR(,)");
-                } else if (mode.equals("MEMORY") || mode.equals("SPEICHER")) {
-                    MEMORY[1] = getSelection();
-                    saveMemory(MainActivity.this, MEMORY);
-                } else if (UserFctGroups.contains(mode)) {
-                    transBtnFct(btn_12.getText().toString());
-                } else {
-                    String display = "Unknown Mode: " + mode;
-                    Toast unknownMode = Toast.makeText(MainActivity.this, display, Toast.LENGTH_LONG);
-                    unknownMode.show();
+                switch(englishMode){
+                    case "BASIC": {eingabeAddText("e"); break;}
+                    case "BASIC2": {
+                        if (language.equals("german") || language.equals("deutsch")) {
+                            eingabeAddText("GGT(,)");
+                        } else {
+                            eingabeAddText("GCD(,)");
+                        }   break;}
+                    case "TRIGO":  {eingabeAddText("COS"); break;}
+                    case "USER":  {transBtnFct("btn_12"); break;}
+                    case "STATISTIC":  {eingabeAddText("Zb(,)"); break;}
+                    case "HYPER":  {eingabeAddText("COSH"); break;}
+                    case "LOGIC":  {eingabeAddText("OR(,)"); break;}
+                    case "MEMORY":  {MEMORY[1] = getSelection(); saveMemory(MainActivity.this, MEMORY);break;}
+                    default:  {Toast.makeText(MainActivity.this, "Unknown Mode: ", Toast.LENGTH_LONG).show(); break;}
                 }
             }
         });
         btn_13.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
-                    eingabeAddText("^");
-                } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
-                    if (language.equals("german") || language.equals("deutsch")) {
-                        eingabeAddText("KGV(,)");
-                    } else {
-                        eingabeAddText("LCM(,)");
-                    }
-                } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
-                    eingabeAddText("TAN");
-                } else if (mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))) {
-                    transBtnFct("btn_13");
-                } else if (mode.equals(getResources().getString(R.string.STATS_EN)) || mode.equals(getResources().getString(R.string.STATS_DE))) {
-                    eingabeAddText("C");
-                } else if (mode.equals("HYPER")) {
-                    eingabeAddText("TANH");
-                } else if (mode.equals("LOGIC") || mode.equals("LOGISCH")) {
-                    eingabeAddText("XOR(,)");
-                } else if (mode.equals("MEMORY") || mode.equals("SPEICHER")) {
-                    MEMORY[2] = getSelection();
-                    saveMemory(MainActivity.this, MEMORY);
-                } else if (UserFctGroups.contains(mode)) {
-                    transBtnFct(btn_13.getText().toString());
-                } else {
-                    String display = "Unknown Mode: " + mode;
-                    Toast unknownMode = Toast.makeText(MainActivity.this, display, Toast.LENGTH_LONG);
-                    unknownMode.show();
+                switch(englishMode){
+                    case "BASIC": {eingabeAddText("^");break;}
+                    case "BASIC2": {if (language.equals("german") || language.equals("deutsch")) {
+                                        eingabeAddText("KGV(,)");
+                                    } else {
+                                        eingabeAddText("LCM(,)");
+                                    } break;}
+                    case "TRIGO":  {eingabeAddText("TAN"); break;}
+                    case "USER":  {transBtnFct("btn_13"); break;}
+                    case "STATISTIC":  {eingabeAddText("C"); break;}
+                    case "HYPER":  {eingabeAddText("TANH"); break;}
+                    case "LOGIC":  {eingabeAddText("XOR(,)"); break;}
+                    case "MEMORY":  {MEMORY[2] = getSelection(); saveMemory(MainActivity.this, MEMORY);break;}
+                    default:  {Toast.makeText(MainActivity.this, "Unknown Mode: ", Toast.LENGTH_LONG).show(); break;}
                 }
             }
         });
         btn_14.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
-                    eingabeAddText("LOG");
-                } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
-                    eingabeAddText(getResources().getString(R.string.SUME) + "(,)");
-                } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
-                    eingabeAddText("COT");
-                } else if (mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))) {
-                    transBtnFct("btn_14");
-                } else if (mode.equals(getResources().getString(R.string.STATS_EN)) || mode.equals(getResources().getString(R.string.STATS_DE))) {
-                    eingabeAddText("P");
-                } else if (mode.equals("HYPER")) {
-                    eingabeAddText("ASINH");
-                } else if (mode.equals("LOGIC") || mode.equals("LOGISCH")) {
-                    eingabeAddText("NOT()");
-                } else if (mode.equals("MEMORY") || mode.equals("SPEICHER")) {
-                    MEMORY[3] = getSelection();
-                    saveMemory(MainActivity.this, MEMORY);
-                } else if (UserFctGroups.contains(mode)) {
-                    transBtnFct(btn_14.getText().toString());
-                } else {
-                    String display = "Unknown Mode: " + mode;
-                    Toast unknownMode = Toast.makeText(MainActivity.this, display, Toast.LENGTH_LONG);
-                    unknownMode.show();
+                switch(englishMode){
+                    case "BASIC": {eingabeAddText("LOG"); break;}
+                    case "BASIC2": {eingabeAddText(getResources().getString(R.string.SUME) + "(,)"); break;}
+                    case "TRIGO":  {eingabeAddText("COT"); break;}
+                    case "USER":  {transBtnFct("btn_14"); break;}
+                    case "STATISTIC":  {eingabeAddText("P"); break;}
+                    case "HYPER":  {eingabeAddText("ASINH"); break;}
+                    case "LOGIC":  {eingabeAddText("NOT()"); break;}
+                    case "MEMORY":  {MEMORY[3] = getSelection(); saveMemory(MainActivity.this, MEMORY);break;}
+                    default:  {Toast.makeText(MainActivity.this, "Unknown Mode: ", Toast.LENGTH_LONG).show(); break;}
                 }
             }
         });
         btn_15.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
-                if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
-                    eingabeAddText("LN");
-                } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
-                    eingabeAddText(getResources().getString(R.string.MULP) + "(,)");
-                } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
-                    eingabeAddText("ASIN");
-                } else if (mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))) {
-                    transBtnFct("btn_15");
-                } else if (mode.equals(getResources().getString(R.string.STATS_EN)) || mode.equals(getResources().getString(R.string.STATS_DE))) {
-                    eingabeAddText("MEAN()");
-                } else if (mode.equals("HYPER")) {
-                    eingabeAddText("ACOSH");
-                } else if (mode.equals("LOGIC") || mode.equals("LOGISCH")) {
-                    ausgabeSetText(I.getBIN(getBase(MainActivity.this)));
-                } else if (mode.equals("MEMORY") || mode.equals("SPEICHER")) {
-                    MEMORY[4] = getSelection();
-                    saveMemory(MainActivity.this, MEMORY);
-                } else if (UserFctGroups.contains(mode)) {
-                    transBtnFct(btn_15.getText().toString());
-                } else {
-                    String display = "Unknown Mode: " + mode;
-                    Toast unknownMode = Toast.makeText(MainActivity.this, display, Toast.LENGTH_LONG);
-                    unknownMode.show();
+                switch(englishMode){
+                    case "BASIC": {eingabeAddText("LN"); break;}
+                    case "BASIC2": {eingabeAddText(getResources().getString(R.string.MULP) + "(,)"); break;}
+                    case "TRIGO":  {eingabeAddText("ASIN"); break;}
+                    case "USER":  {transBtnFct("btn_15"); break;}
+                    case "STATISTIC":  {eingabeAddText("MEAN()"); break;}
+                    case "HYPER":  {eingabeAddText("ACOSH"); break;}
+                    case "LOGIC":  {ausgabeSetText(I.getBIN(getBase(MainActivity.this))); break;}
+                    case "MEMORY":  {MEMORY[4] = getSelection(); saveMemory(MainActivity.this, MEMORY);break;}
+                    default:  {Toast.makeText(MainActivity.this, "Unknown Mode: ", Toast.LENGTH_LONG).show(); break;}
                 }
             }
         });
         btn_16.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
-                    eingabeAddText("LB");
-                } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
-                } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
-                    eingabeAddText("ACOS");
-                } else if (mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))) {
-                    transBtnFct("btn_16");
-                } else if (mode.equals(getResources().getString(R.string.STATS_EN)) || mode.equals(getResources().getString(R.string.STATS_DE))) {
-                    eingabeAddText("VAR()");
-                } else if (mode.equals("HYPER")) {
-                    eingabeAddText("ATANH");
-                } else if (mode.equals("LOGIC") || mode.equals("LOGISCH")) {
-                    ausgabeSetText(I.getOCT(getBase(MainActivity.this)));
-                } else if (mode.equals("MEMORY") || mode.equals("SPEICHER")) {
-                    MEMORY[5] = getSelection();
-                    saveMemory(MainActivity.this, MEMORY);
-                } else if (UserFctGroups.contains(mode)) {
-                    transBtnFct(btn_16.getText().toString());
-                } else {
-                    String display = "Unknown Mode: " + mode;
-                    Toast unknownMode = Toast.makeText(MainActivity.this, display, Toast.LENGTH_LONG);
-                    unknownMode.show();
+                switch(englishMode){
+                    case "BASIC": {eingabeAddText("LB"); break;}
+                    case "BASIC2": {break;}
+                    case "TRIGO":  {eingabeAddText("ACOS"); break;}
+                    case "USER":  {transBtnFct("btn_16"); break;}
+                    case "STATISTIC":  {eingabeAddText("VAR()"); break;}
+                    case "HYPER":  {eingabeAddText("ATANH"); break;}
+                    case "LOGIC":  {ausgabeSetText(I.getOCT(getBase(MainActivity.this))); break;}
+                    case "MEMORY":  {MEMORY[5] = getSelection(); saveMemory(MainActivity.this, MEMORY);break;}
+                    default:  {Toast.makeText(MainActivity.this, "Unknown Mode: ", Toast.LENGTH_LONG).show(); break;}
                 }
             }
         });
@@ -459,263 +393,177 @@ public class MainActivity extends AppCompatActivity {
         btn_21.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
-                if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
-                    eingabeAddText("³√");
-                } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
-                    ausgabeSetText(I.getPercent(getBase(MainActivity.this)));
-                    answer = I.getPercent(getBase(MainActivity.this));
-                    ausgabeSetText(answer);
-                } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
-                    eingabeAddText("ATAN");
-                } else if (mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))) {
-                    transBtnFct("btn_21");
-                } else if (mode.equals(getResources().getString(R.string.STATS_EN)) || mode.equals(getResources().getString(R.string.STATS_DE))) {
-                    eingabeAddText("E()");
-                } else if (mode.equals("HYPER")) {
-                } else if (mode.equals("LOGIC") || mode.equals("LOGISCH")) {
-                    ausgabeSetText(I.getDEC(getBase(MainActivity.this)));
-                } else if (mode.equals("MEMORY") || mode.equals("SPEICHER")) {
-                    replaceSelection(MEMORY[0]);
-                } else if (UserFctGroups.contains(mode)) {
-                    transBtnFct(btn_21.getText().toString());
-                } else {
-                    String display = "Unknown Mode: " + mode;
-                    Toast unknownMode = Toast.makeText(MainActivity.this, display, Toast.LENGTH_LONG);
-                    unknownMode.show();
+                switch(englishMode){
+                    case "BASIC": {eingabeAddText("³√"); break;}
+                    case "BASIC2": {ausgabeSetText(I.getPercent(getBase(MainActivity.this)));
+                                    answer = I.getPercent(getBase(MainActivity.this));
+                                    ausgabeSetText(answer); break;}
+                    case "TRIGO":  {eingabeAddText("ATAN"); break;}
+                    case "USER":  {transBtnFct("btn_21"); break;}
+                    case "STATISTIC":  {eingabeAddText("E()"); break;}
+                    case "HYPER":  {break;}
+                    case "LOGIC":  {ausgabeSetText(I.getDEC(getBase(MainActivity.this))); break;}
+                    case "MEMORY":  {replaceSelection(MEMORY[0]); break;}
+                    default:  {Toast.makeText(MainActivity.this, "Unknown Mode: ", Toast.LENGTH_LONG).show(); break;}
                 }
             }
         });
         btn_22.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
-                if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
-                    eingabeAddText("√");
-                } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
-                    ausgabeSetText(I.getBruch(getBase(MainActivity.this)));
-                } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
-                    eingabeAddText("ACOT");
-                } else if (mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))) {
-                    transBtnFct("btn_22");
-                } else if (mode.equals(getResources().getString(R.string.STATS_EN)) || mode.equals(getResources().getString(R.string.STATS_DE))) {
-                    eingabeAddText("2√(VAR())");
-                } else if (mode.equals("HYPER")) {
-                } else if (mode.equals("LOGIC") || mode.equals("LOGISCH")) {
-                    ausgabeSetText(I.getHEX(getBase(MainActivity.this)));
-                } else if (mode.equals("MEMORY") || mode.equals("SPEICHER")) {
-                    replaceSelection(MEMORY[1]);
-                } else if (UserFctGroups.contains(mode)) {
-                    transBtnFct(btn_22.getText().toString());
-                } else {
-                    String display = "Unknown Mode: " + mode;
-                    Toast unknownMode = Toast.makeText(MainActivity.this, display, Toast.LENGTH_LONG);
-                    unknownMode.show();
+                switch(englishMode){
+                    case "BASIC": {eingabeAddText("√"); break;}
+                    case "BASIC2": {ausgabeSetText(I.getBruch(getBase(MainActivity.this))); break;}
+                    case "TRIGO":  {eingabeAddText("ACOT"); break;}
+                    case "USER":  {transBtnFct("btn_22"); break;}
+                    case "STATISTIC":  {eingabeAddText("2√(VAR())"); break;}
+                    case "HYPER":  {break;}
+                    case "LOGIC":  {ausgabeSetText(I.getHEX(getBase(MainActivity.this))); break;}
+                    case "MEMORY":  {replaceSelection(MEMORY[1]); break;}
+                    default:  {Toast.makeText(MainActivity.this, "Unknown Mode: ", Toast.LENGTH_LONG).show(); break;}
                 }
             }
         });
         btn_23.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
-                    eingabeAddText("³");
-                } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
-                    ausgabeSetText(I.getReciproke(getBase(MainActivity.this)));
-                } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
-                    ausgabeSetText(I.getDEG(getBase(MainActivity.this)));
-                } else if (mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))) {
-                    transBtnFct("btn_23");
-                } else if (mode.equals(getResources().getString(R.string.STATS_EN)) || mode.equals(getResources().getString(R.string.STATS_DE))) {
-                } else if (mode.equals("HYPER")) {
-                } else if (mode.equals("LOGIC") || mode.equals("LOGISCH")) {
-                } else if (mode.equals("MEMORY") || mode.equals("SPEICHER")) {
-                    replaceSelection(MEMORY[2]);
-                } else if (UserFctGroups.contains(mode)) {
-                    transBtnFct(btn_23.getText().toString());
-                } else {
-                    String display = "Unknown Mode: " + mode;
-                    Toast unknownMode = Toast.makeText(MainActivity.this, display, Toast.LENGTH_LONG);
-                    unknownMode.show();
+                switch(englishMode){
+                    case "BASIC": {eingabeAddText("³"); break;}
+                    case "BASIC2": {ausgabeSetText(I.getReciproke(getBase(MainActivity.this))); break;}
+                    case "TRIGO":  {ausgabeSetText(I.getDEG(getBase(MainActivity.this))); break;}
+                    case "USER":  {transBtnFct("btn_23"); break;}
+                    case "STATISTIC":  { break;}
+                    case "HYPER":  {break;}
+                    case "LOGIC":  {break;}
+                    case "MEMORY":  {replaceSelection(MEMORY[2]); break;}
+                    default:  {Toast.makeText(MainActivity.this, "Unknown Mode: ", Toast.LENGTH_LONG).show(); break;}
                 }
             }
         });
         btn_24.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
-                    eingabeAddText("²");
-                } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
-                    ausgabeSetText(I.getInvert(getBase(MainActivity.this)));
-                } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
-                    ausgabeSetText(I.getRAD(getBase(MainActivity.this)));
-                } else if (mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))) {
-                    transBtnFct("btn_24");
-                } else if (mode.equals(getResources().getString(R.string.STATS_EN)) || mode.equals(getResources().getString(R.string.STATS_DE))) {
-                } else if (mode.equals("HYPER")) {
-                } else if (mode.equals("LOGIC") || mode.equals("LOGISCH")) {
-                } else if (mode.equals("MEMORY") || mode.equals("SPEICHER")) {
-                    replaceSelection(MEMORY[3]);
-                } else if (UserFctGroups.contains(mode)) {
-                    transBtnFct(btn_24.getText().toString());
-                } else {
-                    String display = "Unknown Mode: " + mode;
-                    Toast unknownMode = Toast.makeText(MainActivity.this, display, Toast.LENGTH_LONG);
-                    unknownMode.show();
+                switch(englishMode){
+                    case "BASIC": {eingabeAddText("²"); break;}
+                    case "BASIC2": {ausgabeSetText(I.getInvert(getBase(MainActivity.this))); break;}
+                    case "TRIGO":  {ausgabeSetText(I.getRAD(getBase(MainActivity.this))); break;}
+                    case "USER":  {transBtnFct("btn_24"); break;}
+                    case "STATISTIC":  { break;}
+                    case "HYPER":  {break;}
+                    case "LOGIC":  {break;}
+                    case "MEMORY":  {replaceSelection(MEMORY[3]); break;}
+                    default:  {Toast.makeText(MainActivity.this, "Unknown Mode: ", Toast.LENGTH_LONG).show(); break;}
                 }
             }
         });
         btn_25.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
-                if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
-                    eingabeAddText("10^");
-                } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
-                    eingabeAddText("MIN()");
-                } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
-                    eingabeAddText("toPolar(,)");
-                } else if (mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))) {
-                    transBtnFct("btn_25");
-                } else if (mode.equals(getResources().getString(R.string.STATS_EN)) || mode.equals(getResources().getString(R.string.STATS_DE))) {
-                } else if (mode.equals("HYPER")) {
-                } else if (mode.equals("LOGIC") || mode.equals("LOGISCH")) {
-                } else if (mode.equals("MEMORY") || mode.equals("SPEICHER")) {
-                    replaceSelection(MEMORY[4]);
-                } else if (UserFctGroups.contains(mode)) {
-                    transBtnFct(btn_25.getText().toString());
-                } else {
-                    String display = "Unknown Mode: " + mode;
-                    Toast unknownMode = Toast.makeText(MainActivity.this, display, Toast.LENGTH_LONG);
-                    unknownMode.show();
+                switch(englishMode){
+                    case "BASIC": {eingabeAddText("10^"); break;}
+                    case "BASIC2": {eingabeAddText("MIN()"); break;}
+                    case "TRIGO":  {eingabeAddText("toPolar(,)"); break;}
+                    case "USER":  {transBtnFct("btn_25"); break;}
+                    case "STATISTIC":  { break;}
+                    case "HYPER":  {break;}
+                    case "LOGIC":  {break;}
+                    case "MEMORY":  {replaceSelection(MEMORY[4]); break;}
+                    default:  {Toast.makeText(MainActivity.this, "Unknown Mode: ", Toast.LENGTH_LONG).show(); break;}
                 }
             }
         });
         btn_26.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
-                if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
-                    eingabeAddText("!");
-                } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
-                    eingabeAddText("MAX()");
-                } else if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
-                    eingabeAddText("toCart(,)");
-                } else if (mode.equals(getResources().getString(R.string.USER_DE)) || mode.equals(getResources().getString(R.string.USER_EN))) {
-                    transBtnFct("btn_26");
-                } else if (mode.equals(getResources().getString(R.string.STATS_EN)) || mode.equals(getResources().getString(R.string.STATS_DE))) {
-                } else if (mode.equals("HYPER")) {
-                } else if (mode.equals("MEMORY") || mode.equals("SPEICHER")) {
-                    replaceSelection(MEMORY[5]);
-                } else if (UserFctGroups.contains(mode)) {
-                    transBtnFct(btn_26.getText().toString());
-                } else {
-                    String display = "Unknown Mode: " + mode;
-                    Toast unknownMode = Toast.makeText(MainActivity.this, display, Toast.LENGTH_LONG);
-                    unknownMode.show();
+                switch(englishMode){
+                    case "BASIC": {eingabeAddText("!"); break;}
+                    case "BASIC2": {eingabeAddText("MAX()"); break;}
+                    case "TRIGO":  {eingabeAddText("toCart(,)"); break;}
+                    case "USER":  {transBtnFct("btn_26"); break;}
+                    case "STATISTIC":  { break;}
+                    case "HYPER":  {break;}
+                    case "LOGIC":  {break;}
+                    case "MEMORY":  {replaceSelection(MEMORY[5]); break;}
+                    default:  {Toast.makeText(MainActivity.this, "Unknown Mode: ", Toast.LENGTH_LONG).show(); break;}
                 }
             }
         });
-        ////setUp_spinner_base();
         btn_LINKS.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
-                int pos = eT_eingabe.getSelectionStart();
-                eT_eingabe.setSelection(Math.max(0, pos - 1));
-
+                eT_eingabe.setSelection(Math.max(0, eT_eingabe.getSelectionStart() - 1));
             }
         });
         btn_RECHTS.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
-                int pos = eT_eingabe.getSelectionStart();
-                eT_eingabe.setSelection(Math.min(eT_eingabe.length(), pos + 1));
+                eT_eingabe.setSelection(Math.min(eT_eingabe.length(), eT_eingabe.getSelectionStart() + 1));
             }
         });
         //G1
         btn_1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                eingabeAddText("");
+                eingabeAddText("1");
             }
         });
         btn_2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 eingabeAddText("2");
             }
         });
         btn_3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 eingabeAddText("3");
             }
         });
         btn_4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 eingabeAddText("4");
             }
         });
         btn_5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 eingabeAddText("5");
             }
         });
         btn_6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 eingabeAddText("6");
             }
         });
         btn_7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 eingabeAddText("7");
             }
         });
         btn_8.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 eingabeAddText("8");
             }
         });
         btn_9.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 eingabeAddText("9");
             }
         });
         btn_0.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 eingabeAddText("0");
             }
         });
         btn_com.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 eingabeAddText(".");
 
             }
@@ -723,14 +571,12 @@ public class MainActivity extends AppCompatActivity {
         btn_sep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 eingabeAddText(",");
             }
         });
         btn_ans.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 eingabeAddText("ANS");
             }
         });
@@ -738,42 +584,36 @@ public class MainActivity extends AppCompatActivity {
         btn_open_bracket.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 eingabeAddText("(");
             }
         });
         btn_close_bracket.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 eingabeAddText(")");
             }
         });
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 eingabeAddText("+");
             }
         });
         btn_sub.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 eingabeAddText("-");
             }
         });
         btn_mul.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 eingabeAddText("*");
             }
         });
         btn_div.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 eingabeAddText("/");
             }
         });
@@ -783,16 +623,12 @@ public class MainActivity extends AppCompatActivity {
                 if (!eT_eingabe.getText().toString().equals(I.getDisplayableString())) {
                     I.setText(eT_eingabe.getText().toString());
                 }
-
-
                 answer = I.getResult(getBase(MainActivity.this));
-
                 if(scientificNotation){
                     answer = I.normalToScientific(getBase(MainActivity.this));
                 } else {
                     answer = I.scientificToNormal(getBase(MainActivity.this));
                 }
-
                 ausgabeSetText(answer);
             }
         });
@@ -804,17 +640,6 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-
-
-        Intent v = getIntent();
-        eT_eingabe.setText(v.getStringExtra("input"));
-        eT_ausgabe.setText(v.getStringExtra("output"));
-
-        try {
-            SettingsApplier.setBackgroundImage(MainActivity.this, science_background);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     private void ausgabeSetText(String res) {
@@ -825,119 +650,26 @@ public class MainActivity extends AppCompatActivity {
         scientificNotation = !scientificNotation;
     }
 
-    private void setUpButtons(String group) {
-        //L1
-        setUpButton(btn_11, group + "_btn11");
-        setUpButton(btn_12, group + "_btn12");
-        setUpButton(btn_13, group + "_btn13");
-        setUpButton(btn_14, group + "_btn14");
-        setUpButton(btn_15, group + "_btn15");
-        setUpButton(btn_16, group + "_btn16");
-        //L2
-        setUpButton(btn_21, group + "_btn21");
-        setUpButton(btn_22, group + "_btn22");
-        setUpButton(btn_23, group + "_btn23");
-        setUpButton(btn_24, group + "_btn24");
-        setUpButton(btn_25, group + "_btn25");
-        setUpButton(btn_26, group + "_btn26");
-    }
-
-    private void setUpButton(Button x, String name) {
-        x.setText(PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getString(name, name));
-    }
-
     private void assignModeFct() {
         if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
-            //L1 normal: SIN,COS,TAN,ASIN,ACOS,ATAN
-            btn_11.setText("SIN");
-            btn_12.setText("COS");
-            btn_13.setText("TAN");
-            btn_14.setText("COT");
-            btn_15.setText("ASIN");
-            btn_16.setText("ACOS");
-            //L3 normal: >DEG/>RAD/>Polar/>Cart
-            btn_21.setText("ATAN");
-            btn_22.setText("ACOT");
-            btn_23.setText(">DEG");
-            btn_24.setText(">RAD");
-            btn_25.setText(">Polar");
-            btn_26.setText(">Cart");
+            btn_11.setText("SIN"); btn_12.setText("COS"); btn_13.setText("TAN"); btn_14.setText("COT"); btn_15.setText("ASIN"); btn_16.setText("ACOS");
+            btn_21.setText("ATAN"); btn_22.setText("ACOT"); btn_23.setText(">DEG"); btn_24.setText(">RAD"); btn_25.setText(">Polar"); btn_26.setText(">Cart");
         }
         if (mode.equals("HYPER")) {
-            //L1 normal: SIN,COS,TAN,ASIN,ACOS,ATAN
-            btn_11.setText("SINH");
-            btn_12.setText("COSH");
-            btn_13.setText("TANH");
-            btn_14.setText("ASINH");
-            btn_15.setText("ASINH");
-            btn_16.setText("ASINH");
-            //L3 normal: ASINH,ACOSH,ATANH,SINH,COSH,TANH
-            btn_21.setText("");
-            btn_22.setText("");
-            btn_23.setText("");
-            btn_24.setText("");
-            btn_25.setText("");
-            btn_26.setText("");
+            btn_11.setText("SINH"); btn_12.setText("COSH"); btn_13.setText("TANH"); btn_14.setText("ASINH"); btn_15.setText("ASINH"); btn_16.setText("ASINH");
+            btn_21.setText("");  btn_22.setText("");  btn_23.setText("");  btn_24.setText("");  btn_25.setText("");  btn_26.setText("");
         } else if (mode.equals(getResources().getString(R.string.STATS_EN)) || mode.equals(getResources().getString(R.string.STATS_DE))) {
-            //L1 normal: SIN,COS,TAN,ASIN,ACOS,ATAN
-            btn_11.setText("ZN(N)");
-            btn_12.setText("ZB(X;Y)");
-            btn_13.setText("NCR");
-            btn_14.setText("NPR");
-            btn_15.setText("MEAN");
-            btn_16.setText("VAR");
-            //L3 normal: ASINH,ACOSH,ATANH,SINH,COSH,TANH
-            btn_21.setText("E");
-            btn_22.setText("S");
-            btn_23.setText("");
-            btn_24.setText("");
-            btn_25.setText("");
-            btn_26.setText("");
+            btn_11.setText("ZN(N)"); btn_12.setText("ZB(X;Y)"); btn_13.setText("NCR"); btn_14.setText("NPR"); btn_15.setText("MEAN"); btn_16.setText("VAR");
+            btn_21.setText("E"); btn_22.setText("S"); btn_23.setText(""); btn_24.setText(""); btn_25.setText(""); btn_26.setText("");
         } else if (mode.equals("LOGIC") || mode.equals("LOGISCH")) {
-            //L1
-            btn_11.setText("AND");
-            btn_12.setText("OR");
-            btn_13.setText("XOR");
-            btn_14.setText("NOT");
-            btn_15.setText(">BIN");
-            btn_16.setText(">OCT");
-            //L2
-            btn_21.setText(">DEC");
-            btn_22.setText(">HEX");
-            btn_23.setText("");
-            btn_24.setText("");
-            btn_25.setText("");
-            btn_26.setText("");
+            btn_11.setText("AND"); btn_12.setText("OR"); btn_13.setText("XOR"); btn_14.setText("NOT"); btn_15.setText(">BIN"); btn_16.setText(">OCT");
+            btn_21.setText(">DEC"); btn_22.setText(">HEX"); btn_23.setText(""); btn_24.setText(""); btn_25.setText(""); btn_26.setText("");
         } else if (mode.equals("MEMORY") || mode.equals("SPEICHER")) {
-            //L1
-            btn_11.setText("M1");
-            btn_12.setText("M2");
-            btn_13.setText("M3");
-            btn_14.setText("M4");
-            btn_15.setText("M5");
-            btn_16.setText("M6");
-            //L2
-            btn_21.setText(">M1");
-            btn_22.setText(">M2");
-            btn_23.setText(">M3");
-            btn_24.setText(">M4");
-            btn_25.setText(">M5");
-            btn_26.setText(">M6");
+            btn_11.setText("M1"); btn_12.setText("M2"); btn_13.setText("M3"); btn_14.setText("M4"); btn_15.setText("M5"); btn_16.setText("M6");
+            btn_21.setText(">M1"); btn_22.setText(">M2"); btn_23.setText(">M3"); btn_24.setText(">M4"); btn_25.setText(">M5"); btn_26.setText(">M6");
         } else if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
-            //L1 normal: PI,E,->DEC,->BIN,->OCT
-            btn_11.setText(R.string.PI);
-            btn_12.setText(R.string.E);
-            btn_13.setText("^");
-            btn_14.setText("LOG");
-            btn_15.setText("LN");
-            btn_16.setText("LB");
-            //L3 normal: %,!,^,a/b,x^-1,+/-
-            btn_21.setText("³√");
-            btn_22.setText("√");
-            btn_23.setText("x³");
-            btn_24.setText("x²");
-            btn_25.setText("10^x");
-            btn_26.setText("!");
+            btn_11.setText(R.string.PI); btn_12.setText(R.string.E); btn_13.setText("^"); btn_14.setText("LOG"); btn_15.setText("LN"); btn_16.setText("LB");
+            btn_21.setText("³√"); btn_22.setText("√"); btn_23.setText("x³"); btn_24.setText("x²"); btn_25.setText("10^x"); btn_26.setText("!");
         } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
             //L1 normal: PI,E,->DEC,->BIN,->OCT
             btn_11.setText("PFZ");
@@ -951,37 +683,13 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 btn_13.setText("LCM");
             }
-            btn_14.setText(getResources().getString(R.string.SUME));
-            btn_15.setText(getResources().getString(R.string.MULP));
-            btn_16.setText("");
+            btn_14.setText(getResources().getString(R.string.SUME)); btn_15.setText(getResources().getString(R.string.MULP)); btn_16.setText("");
             //L3 normal: %,!,^,a/b,x^-1,+/-
-            btn_21.setText(">%");
-            btn_22.setText("A/B");
-            btn_23.setText(R.string.x_h_one);
-            btn_24.setText("+/-");
-            btn_25.setText("MIN");
-            btn_26.setText("MAX");
+            btn_21.setText(">%"); btn_22.setText("A/B"); btn_23.setText(R.string.x_h_one); btn_24.setText("+/-"); btn_25.setText("MIN"); btn_26.setText("MAX");
         }
         if (mode.equals("PROGRAM") || mode.equals("PROGRAMM")) {
-            //L1 normal: SIN,COS,TAN,ASIN,ACOS,ATAN
-            btn_11.setText("P1");
-            btn_12.setText("P2");
-            btn_13.setText("P3");
-            btn_14.setText("P4");
-            btn_15.setText("P5");
-            btn_16.setText("P6");
-            //L3 normal: >DEG/>RAD/>Polar/>Cart
-            btn_21.setText(">P1");
-            btn_22.setText(">P1");
-            btn_23.setText(">P3");
-            btn_24.setText(">P4");
-            btn_25.setText(">P5");
-            btn_26.setText(">P6");
-        } else {
-            if (UserFctGroups.contains(mode)) {
-                //NutzerFct
-                setUpButtons(mode);
-            }
+            btn_11.setText("P1"); btn_12.setText("P2"); btn_13.setText("P3"); btn_14.setText("P4"); btn_15.setText("P5"); btn_16.setText("P6");
+            btn_21.setText(">P1"); btn_22.setText(">P1"); btn_23.setText(">P3"); btn_24.setText(">P4"); btn_25.setText(">P5"); btn_26.setText(">P6");
         }
     }
 
@@ -1157,4 +865,15 @@ public class MainActivity extends AppCompatActivity {
         return res;
     }
 
+    private static String returnEnglishMode(String mode){
+        switch(mode){
+            case "STANDART": {return "BASIC";}
+            case "STANDART2": {return "BASIC2";}
+            case "STATISTIK": {return "STATISTIC";}
+            case "NUTZER": {return "USER";}
+            case "LOGISCH": {return "LOGIC";}
+            case "SPEICHER": {return "MEMORY";}
+            default: return mode;
+        }
+    }
 }
