@@ -31,7 +31,7 @@
             android:orientation="vertical">
 
             <EditText
-                android:id="@+id/eT_input"
+                android:id="@+id/eT_eingabe"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="20dp"
@@ -50,7 +50,7 @@
                 app:autoSizeStepGranularity="1sp" />
 
             <EditText
-                android:id="@+id/eT_output"
+                android:id="@+id/eT_ausgabe"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="20dp"

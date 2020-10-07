@@ -1,6 +1,7 @@
 package com.example.titancalculator.helper.Math_String;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.titancalculator.helper.StringUtils;
 
@@ -253,7 +254,7 @@ public class NumberString extends ContentString {
         a = a.replaceAll("LCM","KGV");
         a = a.replaceAll("GCD","GGT");
 
-        Matcher matcherANS = Pattern.compile("ANS^((A-Z)*)").matcher(a);
+        Matcher matcherANS = Pattern.compile("ANS").matcher(a);
         while(matcherANS.find()){
             if(matcherANS.group().matches("[^A-Z]*ANS[^A-Z]*")){ //excludes inputs like "atANSinh57.860802"
                 if(last_answer.equals("Math Error")){
@@ -284,9 +285,6 @@ public class NumberString extends ContentString {
 
         a = NumberString.parenthesise(a);
 
-        //.e("calcString: ",a);
-        if(!last_answer.equals("Math Error"))last_answer = a;
-
         //settings
         a = a.replaceAll("MEAN",mean_mode);
         a = a.replaceAll("VAR",var_mode);
@@ -315,6 +313,8 @@ public class NumberString extends ContentString {
         Log.e("getRES input",i);
 
         String c = MathEvaluator.evaluate(i,predec_places,dec_places);
+        if(!c.equals("Math Error"))last_answer = c;
+
         Log.e("getRES output",c);
 
         return c;

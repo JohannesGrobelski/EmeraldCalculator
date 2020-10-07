@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     //setting variables
     String current_Callback = "";
     String answer = "";
-    boolean solve_inst_pref = true;
+    boolean solve_inst_pref = false;
     public static Set<String> noImmidiateOps = new HashSet<>(Arrays.asList("³√", "ROOT", "√", "LOG", "P", "C", "%"));
     String language = "";
     boolean scientificNotation = false;
@@ -166,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SettingsApplier.applySettings(MainActivity.this);
-        setContentView(R.layout.activity_calc_science);
+        setContentView(R.layout.activity_main);
         setTitle("Calculator");
 
         mode = "BASIC";
@@ -270,18 +270,7 @@ public class MainActivity extends AppCompatActivity {
                 I.setText(eT_eingabe.getText().toString());
             }
         });
-
-        //auxilary Constants
-        abstract class Foo {
-
-            public final String basicDE = getResources().getString(R.string.BASIC_DE);
-            public static final String BAZ="";
-
-
-        }
-
         //L2
-        //normal: PI,E,CONST,CONV
         btn_11.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -388,8 +377,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         //L3
-        //normal: %,!,^,a/b,x^-1,+/-
-        //TRIGO: ASINH,ACOSH,ATANH,SINH,COSH,TANH
         btn_21.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -577,6 +564,7 @@ public class MainActivity extends AppCompatActivity {
         btn_ans.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Toast.makeText(MainActivity.this,answer,Toast.LENGTH_SHORT).show();
                 eingabeAddText("ANS");
             }
         });
