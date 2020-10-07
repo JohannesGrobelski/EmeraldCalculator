@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -234,7 +235,8 @@ public class MainActivity extends AppCompatActivity {
         eingabeSetText("");
         eT_ausgabe.setOnFocusChangeListener(focusListener);
         eT_eingabe.setOnFocusChangeListener(focusListener);
-        eT_eingabe.setShowSoftInputOnFocus(false);
+        disableSoftInputFromAppearing(eT_eingabe);
+        disableSoftInputFromAppearing(eT_ausgabe);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.modes_DE, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -862,6 +864,21 @@ public class MainActivity extends AppCompatActivity {
             case "LOGISCH": {return "LOGIC";}
             case "SPEICHER": {return "MEMORY";}
             default: return mode;
+        }
+    }
+
+    /**
+     * Disable soft keyboard from appearing, use in conjunction with android:windowSoftInputMode="stateAlwaysHidden|adjustNothing"
+     * @param editText
+     */
+    public static void disableSoftInputFromAppearing(EditText editText) {
+        if (Build.VERSION.SDK_INT >= 11) {
+            editText.setRawInputType(InputType.TYPE_CLASS_TEXT);
+            editText.setTextIsSelectable(true);
+            editText.setShowSoftInputOnFocus(false);
+        } else {
+            editText.setRawInputType(InputType.TYPE_NULL);
+            editText.setFocusable(true);
         }
     }
 }
