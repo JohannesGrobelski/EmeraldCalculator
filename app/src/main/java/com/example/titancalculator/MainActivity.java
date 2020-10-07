@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.preference.PreferenceManager;
 
@@ -56,11 +57,11 @@ public class MainActivity extends AppCompatActivity {
     String language = "";
     boolean scientificNotation = false;
 
+    Toolbar toolbar;
     //VIEWS
     LinearLayout science_background;
     LinearLayout display;
     //L1
-    Spinner spinner_shift;
     Button btn_clear;
     Button btn_clearall;
     //L2
@@ -113,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
+        getMenuInflater().inflate(R.menu.menu_modes, menu);
         return true;
     }
 
@@ -140,10 +141,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.taschenrechner: return true;
-            default: return super.onContextItemSelected(item);
-        }
+        mode = item.toString();
+        englishMode = returnEnglishMode(mode);
+        assignModeFct();
+        toolbar.setTitle(mode);
+        return true;
     }
 
     @Override
@@ -169,6 +171,8 @@ public class MainActivity extends AppCompatActivity {
         SettingsApplier.applySettings(MainActivity.this);
         setContentView(R.layout.activity_main);
         setTitle("Calculator");
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         mode = "BASIC";
         MEMORY = new String[6];
@@ -183,7 +187,6 @@ public class MainActivity extends AppCompatActivity {
         display = findViewById(R.id.display);
         science_background = findViewById(R.id.science_background);
         //L1
-        spinner_shift = findViewById(R.id.spinner_SHIFT);
         btn_clear = findViewById(R.id.btn_clear);
         btn_clearall = findViewById(R.id.btn_clearall);
         //L2 normal: PI,E,->DEC,->BIN,->OCT
@@ -240,16 +243,7 @@ public class MainActivity extends AppCompatActivity {
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.modes_DE, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner_shift.setAdapter(adapter);
-        spinner_shift.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                mode = spinner_shift.getSelectedItem().toString();
-                englishMode = returnEnglishMode(mode);
-                assignModeFct();
-            }
-            @Override public void onNothingSelected(AdapterView<?> adapterView) {}
-        });
+
 
         btn_clear.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -10,8 +10,19 @@
     <string name="TRIGO_DE">TRIGO</string>
     <string name="STATS_EN">STATISTIC</string>
     <string name="STATS_DE">STATISTIK</string>
+    <string name="HYPER_DE">HYPER</string>
+    <string name="HYPER_EN">HYPER</string>
+    <string name="LOGIC_EN">LOGIC</string>
+    <string name="LOGIC_DE">LOGISCH</string>
+    <string name="MEMORY_EN">MEMORY</string>
+    <string name="MEMORY_DE">SPEICHER</string>
+
+
+
+
     <string name="USER_EN">USER</string>
     <string name="USER_DE">NUTZER</string>
+
     <string name="app_nameDE">Rechner</string>
     <string name="app_nameEN">Calculator</string>
 

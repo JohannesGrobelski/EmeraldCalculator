@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/basic"
+        android:title="@string/BASIC_DE" />
+    <item android:id="@+id/basic2"
+        android:title="@string/BASIC2_DE" />
+    <item android:id="@+id/trigo"
+        android:title="@string/TRIGO_DE" />
+    <item android:id="@+id/hyper"
+        android:title="@string/HYPER_DE" />
+    <item android:id="@+id/stats"
+        android:title="@string/STATS_DE" />
+    <item android:id="@+id/memory"
+        android:title="@string/MEMORY_DE" />
+</menu>
