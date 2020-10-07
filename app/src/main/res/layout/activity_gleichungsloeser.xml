@@ -7,7 +7,7 @@
     android:layout_weight="10"
     android:background="#D5D5D5"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".geplanteFeatures.ChooserActivity">
 
 
     <TableRow

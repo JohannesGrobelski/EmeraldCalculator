@@ -7,7 +7,7 @@
 
     <activity
         android:id="@+id/calcActivity_normal"
-        android:name="com.example.titancalculator.CalcActivity_normal"
+        android:name="com.example.titancalculator.geplanteFeatures.CalcActivity_normal"
         android:label="CalcActivity_normal" >
         <action
             android:id="@+id/action_calcActivity_normal_to_settingsActivity4"
@@ -19,7 +19,7 @@
     </activity>
     <activity
         android:id="@+id/calcActivity_science"
-        android:name="com.example.titancalculator.CalcActivity_science"
+        android:name="com.example.titancalculator.geplanteFeatures.CalcActivity_science"
         android:label="CalcActivity_science" >
         <action
             android:id="@+id/action_calcActivity_science_to_settingsActivity"
@@ -31,7 +31,7 @@
     </activity>
     <activity
         android:id="@+id/calcActivity_small"
-        android:name="com.example.titancalculator.CalcActivity_small"
+        android:name="com.example.titancalculator.geplanteFeatures.CalcActivity_small"
         android:label="CalcActivity_small" >
         <action
             android:id="@+id/action_calcActivity_small_to_settingsActivity"
@@ -46,17 +46,17 @@
         app:startDestination="@id/settingsActivity" >
         <activity
             android:id="@+id/functionGroupSettingsActivity"
-            android:name="com.example.titancalculator.FunctionGroupSettingsActivity"
+            android:name="com.example.titancalculator.geplanteFeatures.FunctionGroupSettingsActivity"
             android:label="activity_function_group_settings"
             tools:layout="@layout/activity_function_group_settings" />
         <activity
             android:id="@+id/buttonSettingsActivity"
-            android:name="com.example.titancalculator.ButtonSettingsActivity"
+            android:name="com.example.titancalculator.geplanteFeatures.ButtonSettingsActivity"
             android:label="activity_button_settings"
             tools:layout="@layout/activity_button_settings" />
         <activity
             android:id="@+id/settingsActivity"
-            android:name="com.example.titancalculator.SettingsActivity"
+            android:name="com.example.titancalculator.geplanteFeatures.SettingsActivity"
             android:label="activity_settings"
             tools:layout="@layout/activity_settings">
             <action
@@ -77,17 +77,17 @@
         </activity>
         <activity
             android:id="@+id/designSettingsActivity"
-            android:name="com.example.titancalculator.DesignSettingsActivity"
+            android:name="com.example.titancalculator.geplanteFeatures.DesignSettingsActivity"
             android:label="activity_design_settings"
             tools:layout="@layout/activity_design_settings" />
         <activity
             android:id="@+id/customDesignSettings"
-            android:name="com.example.titancalculator.CustomDesignSettings"
+            android:name="com.example.titancalculator.geplanteFeatures.CustomDesignSettings"
             android:label="activity_custom_design_settings"
             tools:layout="@layout/activity_custom_design_settings" />
         <activity
             android:id="@+id/fontSettingsActivity"
-            android:name="com.example.titancalculator.FontSettingsActivity"
+            android:name="com.example.titancalculator.geplanteFeatures.FontSettingsActivity"
             android:label="activity_font_settings"
             tools:layout="@layout/activity_font_settings" />
     </navigation>

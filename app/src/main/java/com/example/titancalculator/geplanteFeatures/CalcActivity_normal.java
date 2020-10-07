@@ -1,4 +1,4 @@
-package com.example.titancalculator;
+package com.example.titancalculator.geplanteFeatures;
 
 import android.Manifest;
 import android.app.Activity;
@@ -34,6 +34,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.preference.PreferenceManager;
 
+import com.example.titancalculator.R;
 import com.example.titancalculator.helper.ArrayUtils;
 import com.example.titancalculator.helper.MainDisplay.OnSwipeTouchListener;
 import com.example.titancalculator.helper.MainDisplay.SettingsApplier;
@@ -211,7 +212,7 @@ public class CalcActivity_normal extends AppCompatActivity {
         SettingsApplier.applySettings(CalcActivity_normal.this);
 
         String mode = PreferenceManager.getDefaultSharedPreferences(this).getString("layout","");
-        if(!mode.isEmpty()  && MainActivity.modes.contains(mode) && !mode.equals("normal")){
+        if(!mode.isEmpty()  && ChooserActivity.modes.contains(mode) && !mode.equals("normal")){
             Intent conversionIntent=null;
             if(mode.equals("small")){
                 conversionIntent = new Intent(CalcActivity_normal.this, CalcActivity_small.class);
@@ -329,7 +330,7 @@ public class CalcActivity_normal extends AppCompatActivity {
             }
             public void onSwipeRight() {
                 Toast.makeText(CalcActivity_normal.this, "right", Toast.LENGTH_SHORT).show();
-                Intent conversionIntent = new Intent(CalcActivity_normal.this, MainActivity.class);
+                Intent conversionIntent = new Intent(CalcActivity_normal.this, ChooserActivity.class);
                 conversionIntent.putExtra("verlauf",ArrayUtils.listToString(new ArrayList<String>(verlauf)));
                 conversionIntent.putExtra("input",eT_eingabe.getText().toString());
                 conversionIntent.putExtra("output",eT_ausgabe.getText().toString());
@@ -341,7 +342,7 @@ public class CalcActivity_normal extends AppCompatActivity {
             }
             public void onSwipeLeft() {
                 Toast.makeText(CalcActivity_normal.this, "left", Toast.LENGTH_SHORT).show();
-                Intent conversionIntent = new Intent(CalcActivity_normal.this, MainActivity.class);
+                Intent conversionIntent = new Intent(CalcActivity_normal.this, ChooserActivity.class);
                 conversionIntent.putExtra("verlauf",ArrayUtils.listToString( new ArrayList<String>(verlauf)));
                 conversionIntent.putExtra("input",eT_eingabe.getText().toString());
                 conversionIntent.putExtra("output",eT_ausgabe.getText().toString());

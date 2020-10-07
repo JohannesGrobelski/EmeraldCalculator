@@ -2,12 +2,8 @@ package com.example.titancalculator.helper.Math_String;
 
 import android.util.Log;
 
-import com.example.titancalculator.FunctionGroupSettingsActivity;
-import com.example.titancalculator.evalex.Expression;
 import com.example.titancalculator.helper.ArrayUtils;
-import com.example.titancalculator.helper.MainDisplay.DesignApplier;
 
-import java.math.BigDecimal;
 import java.util.HashMap;
 
 

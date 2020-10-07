@@ -5,12 +5,12 @@
     <header
         android:icon="@drawable/ic_colorpicker"
         android:title="color settings constants, conversion and history"
-        android:fragment="com.example.titancalculator.SettingsActivity$ColorActFragment" />
+        android:fragment="com.example.titancalculator.geplanteFeatures.SettingsActivity$ColorActFragment" />
 
     <header
         android:icon="@drawable/ic_colorpicker"
         android:title="color settings calculator"
-        android:fragment="com.example.titancalculator.SettingsActivity$ButtoncolorSettingsFragment" />
+        android:fragment="com.example.titancalculator.geplanteFeatures.SettingsActivity$ButtoncolorSettingsFragment" />
 
     <header
         android:icon="@drawable/ic_schriftart"

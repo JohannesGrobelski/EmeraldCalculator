@@ -5,17 +5,17 @@
     <header
         android:icon="@drawable/ic_info_outline_black_24dp"
         android:title="General"
-        android:fragment="com.example.titancalculator.SettingsActivity$GeneralPreferenceFragment" />
+        android:fragment="com.example.titancalculator.geplanteFeatures.SettingsActivity$GeneralPreferenceFragment" />
 
     <header
         android:icon="@drawable/ic_filter_1_black_24dp"
         android:title="Math settings"
-        android:fragment="com.example.titancalculator.SettingsActivity$MathSettingsFragment" />
+        android:fragment="com.example.titancalculator.geplanteFeatures.SettingsActivity$MathSettingsFragment" />
 
     <header
         android:icon="@drawable/ic_layout_24dp"
         android:title="Layout"
-        android:fragment="com.example.titancalculator.SettingsActivity$LayoutPreferenceFragment" />
+        android:fragment="com.example.titancalculator.geplanteFeatures.SettingsActivity$LayoutPreferenceFragment" />
 
     <header
         android:icon="@drawable/ic_design"
@@ -28,13 +28,13 @@
     <header
         android:icon="@drawable/ic_colorpicker"
         android:title="Activity Colors"
-        android:fragment="com.example.titancalculator.SettingsActivity$ColorActFragment" />
+        android:fragment="com.example.titancalculator.geplanteFeatures.SettingsActivity$ColorActFragment" />
 
 
     <header
         android:icon="@drawable/ic_colorpicker"
         android:title="Colors"
-        android:fragment="com.example.titancalculator.SettingsActivity$ButtoncolorSettingsFragment" />
+        android:fragment="com.example.titancalculator.geplanteFeatures.SettingsActivity$ButtoncolorSettingsFragment" />
 
     <header
         android:icon="@drawable/ic_schriftart"
@@ -57,7 +57,7 @@
     <header
         android:icon="@drawable/ic_language_black_24dp"
         android:title="Language"
-        android:fragment="com.example.titancalculator.SettingsActivity$LanguagePreferenceFragment" />
+        android:fragment="com.example.titancalculator.geplanteFeatures.SettingsActivity$LanguagePreferenceFragment" />
 
     <!--
         <header
@@ -65,7 +65,7 @@
             android:title="custom Design">
             <intent
                 android:targetPackage="com.example.titancalculator"
-                android:targetClass="com.example.titancalculator.CustomDesignSettings" />
+                android:targetClass="com.example.titancalculator.geplanteFeatures.CustomDesignSettings" />
         </header>
 
          <header
@@ -73,7 +73,7 @@
        android:title="create Function groups">
        <intent
            android:targetPackage="com.example.titancalculator"
-           android:targetClass="com.example.titancalculator.FunctionGroupSettingsActivity" />
+           android:targetClass="com.example.titancalculator.geplanteFeatures.FunctionGroupSettingsActivity" />
    </header>
 
        <header
@@ -81,7 +81,7 @@
            android:title="set Function groups">
            <intent
                android:targetPackage="com.example.titancalculator"
-               android:targetClass="com.example.titancalculator.ButtonSettingsActivity" />
+               android:targetClass="com.example.titancalculator.geplanteFeatures.ButtonSettingsActivity" />
        </header>
        -->
 </preference-headers>

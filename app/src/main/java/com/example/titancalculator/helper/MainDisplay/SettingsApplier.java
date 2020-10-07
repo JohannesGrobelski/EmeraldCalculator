@@ -31,15 +31,14 @@ import android.widget.TextView;
 
 import androidx.preference.PreferenceManager;
 
-import com.example.titancalculator.CalcActivity_science;
-import com.example.titancalculator.FontSettingsActivity;
+import com.example.titancalculator.geplanteFeatures.FontSettingsActivity;
 import com.example.titancalculator.R;
 
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
-import static com.example.titancalculator.CalcActivity_science.checkPermissionForReadExtertalStorage;
-import static com.example.titancalculator.CalcActivity_science.requestPermissionForReadExtertalStorage;
+import static com.example.titancalculator.geplanteFeatures.CalcActivity_science.checkPermissionForReadExtertalStorage;
+import static com.example.titancalculator.geplanteFeatures.CalcActivity_science.requestPermissionForReadExtertalStorage;
 
 public class SettingsApplier {
     public static int haptic_feedback_duration=0;

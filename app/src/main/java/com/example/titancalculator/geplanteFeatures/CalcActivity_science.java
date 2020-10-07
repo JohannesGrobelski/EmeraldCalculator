@@ -1,55 +1,31 @@
-package com.example.titancalculator;
+package com.example.titancalculator.geplanteFeatures;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.VectorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
-import android.text.Editable;
-import android.text.TextPaint;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.view.ContextMenu;
-import android.view.DragEvent;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.LinearLayout;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
@@ -57,6 +33,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.preference.PreferenceManager;
 
+import com.example.titancalculator.R;
 import com.example.titancalculator.helper.ArrayUtils;
 import com.example.titancalculator.helper.MainDisplay.DesignApplier;
 import com.example.titancalculator.helper.MainDisplay.OnSwipeTouchListener;
@@ -64,23 +41,13 @@ import com.example.titancalculator.helper.MainDisplay.SettingsApplier;
 import com.example.titancalculator.helper.Math_String.MathEvaluator;
 import com.example.titancalculator.helper.Math_String.NavigatableString;
 import com.example.titancalculator.helper.Math_String.NumberString;
-import com.example.titancalculator.helper.Math_String.SequentialInfixEvaluator;
 import com.example.titancalculator.helper.ShakeListener;
 import com.example.titancalculator.helper.StringUtils;
-import com.google.common.base.MoreObjects;
 
-import java.lang.reflect.Array;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.AbstractQueue;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Set;
-import java.util.stream.IntStream;
 
 public class CalcActivity_science extends AppCompatActivity {
     int btn_digit_group_cnt = 0;
@@ -246,7 +213,7 @@ public class CalcActivity_science extends AppCompatActivity {
         super.onResume();
         SettingsApplier.applySettings(CalcActivity_science.this);
         String mode = PreferenceManager.getDefaultSharedPreferences(this).getString("layout", "");
-        if (!mode.isEmpty() && MainActivity.modes.contains(mode) && !mode.equals("science")) {
+        if (!mode.isEmpty() && ChooserActivity.modes.contains(mode) && !mode.equals("science")) {
             Intent conversionIntent = null;
             if (mode.equals("normal")) {
                 conversionIntent = new Intent(CalcActivity_science.this, CalcActivity_normal.class);
@@ -360,7 +327,7 @@ public class CalcActivity_science extends AppCompatActivity {
 
             public void onSwipeRight() {
                 Toast.makeText(CalcActivity_science.this, "right", Toast.LENGTH_SHORT).show();
-                Intent conversionIntent = new Intent(CalcActivity_science.this, MainActivity.class);
+                Intent conversionIntent = new Intent(CalcActivity_science.this, ChooserActivity.class);
                 conversionIntent.putExtra("input", eT_eingabe.getText().toString());
                 conversionIntent.putExtra("output", eT_ausgabe.getText().toString());
                 conversionIntent.putExtra("swipeDir", "right");
@@ -371,7 +338,7 @@ public class CalcActivity_science extends AppCompatActivity {
 
             public void onSwipeLeft() {
                 Toast.makeText(CalcActivity_science.this, "left", Toast.LENGTH_SHORT).show();
-                Intent conversionIntent = new Intent(CalcActivity_science.this, MainActivity.class);
+                Intent conversionIntent = new Intent(CalcActivity_science.this, ChooserActivity.class);
                 conversionIntent.putExtra("input", eT_eingabe.getText().toString());
                 conversionIntent.putExtra("output", eT_ausgabe.getText().toString());
                 conversionIntent.putExtra("swipeDir", "left");

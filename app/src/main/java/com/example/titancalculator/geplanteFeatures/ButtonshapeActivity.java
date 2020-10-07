@@ -1,4 +1,4 @@
-package com.example.titancalculator;
+package com.example.titancalculator.geplanteFeatures;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -11,17 +11,15 @@ import android.graphics.drawable.ShapeDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
+import com.example.titancalculator.R;
 import com.example.titancalculator.helper.ButtonShapeCustomAdapter;
 import com.example.titancalculator.helper.ButtonShapeImageModel;
 import com.example.titancalculator.helper.MainDisplay.DesignApplier;

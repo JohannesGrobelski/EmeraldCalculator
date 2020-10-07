@@ -1,4 +1,4 @@
-package com.example.titancalculator;
+package com.example.titancalculator.geplanteFeatures;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,16 +11,12 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +24,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.preference.PreferenceManager;
 
+import com.example.titancalculator.R;
 import com.example.titancalculator.helper.MainDisplay.SettingsApplier;
 import com.example.titancalculator.helper.Math_String.MathEvaluator;
 import com.example.titancalculator.helper.Umrechnung.DatenspeicherUmrechnung;
@@ -112,7 +109,7 @@ public class ConversionActivity extends AppCompatActivity implements  PopupMenu.
                 startActivity(settingsIntent);
             case R.id.taschenrechner:
                 Intent mainIntent = new Intent(this,
-                        MainActivity.class);
+                        ChooserActivity.class);
                 startActivity(mainIntent);
             default:
                 return super.onContextItemSelected(item);

@@ -15,25 +15,36 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CustomDesignSettings"></activity>
-        <activity android:name=".DesignSettingsActivity" />
-        <activity android:name=".CalcActivity_small" />
-        <activity android:name=".CalcActivity_normal" />
-        <activity android:name=".CalcActivity_science" />
-        <activity android:name=".FunctionGroupSettingsActivity" />
-        <activity android:name=".FontSettingsActivity" />
-        <activity android:name=".ButtonshapeActivity" />
-        <activity android:name=".ButtonSettingsActivity" />
-        <activity android:name=".SettingBackgroundimageActivity" />
-        <activity android:name=".SettingsActivity" />
-        <activity android:name=".HistoryActivity" />
+
         <activity
-            android:name=".ConstantsActivity"
+            android:name="com.example.titancalculator.MainActivity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- geplante Features
+        <activity android:name=".geplanteFeatures.CustomDesignSettings" />
+        <activity android:name=".geplanteFeatures.DesignSettingsActivity" />
+        <activity android:name=".geplanteFeatures.CalcActivity_small" />
+        <activity android:name=".geplanteFeatures.CalcActivity_normal" />
+        <activity android:name=".geplanteFeatures.CalcActivity_science" />
+        <activity android:name=".geplanteFeatures.FunctionGroupSettingsActivity" />
+        <activity android:name=".geplanteFeatures.FontSettingsActivity" />
+        <activity android:name=".geplanteFeatures.ButtonshapeActivity" />
+        <activity android:name=".geplanteFeatures.ButtonSettingsActivity" />
+        <activity android:name=".geplanteFeatures.SettingBackgroundimageActivity" />
+        <activity android:name=".geplanteFeatures.SettingsActivity" />
+        <activity android:name=".geplanteFeatures.HistoryActivity" />
+        <activity
+            android:name=".geplanteFeatures.ConstantsActivity"
             android:label="@string/title_activity_constants"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ConversionActivity" />
+        <activity android:name=".geplanteFeatures.ConversionActivity" />
         <activity
-            android:name=".MainActivity"
+            android:name=".geplanteFeatures.ChooserActivity"
             android:windowSoftInputMode="stateAlwaysHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -41,6 +52,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        -->
+
     </application>
 
 </manifest>

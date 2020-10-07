@@ -5,7 +5,7 @@
     android:id="@+id/hist_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HistoryActivity">
+    tools:context=".geplanteFeatures.HistoryActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -8,7 +8,7 @@
     android:layout_weight="10"
     android:background="#FFFFFF"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".geplanteFeatures.ChooserActivity">
 
     <LinearLayout
         android:id="@+id/s_display"

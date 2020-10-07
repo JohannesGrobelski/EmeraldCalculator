@@ -1,7 +1,5 @@
-package com.example.titancalculator;
+package com.example.titancalculator.geplanteFeatures;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -10,8 +8,6 @@ import android.graphics.drawable.ShapeDrawable;
 import android.os.Bundle;
 
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -19,6 +15,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
+import com.example.titancalculator.R;
 import com.example.titancalculator.helper.MainDisplay.SettingsApplier;
 
 import java.util.Arrays;

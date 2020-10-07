@@ -2,15 +2,12 @@ package com.example.titancalculator.helper;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.VectorDrawable;
-
-import com.example.titancalculator.CalcActivity_science;
 
 public class ImageUtils {
     private static final int[] FROM_COLOR = new int[]{49, 179, 110};

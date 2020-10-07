@@ -2,9 +2,6 @@ package com.example.titancalculator.helper.Math_String;
 
 import android.util.Log;
 
-import androidx.preference.PreferenceManager;
-
-import com.example.titancalculator.CalcActivity_science;
 import com.example.titancalculator.helper.StringUtils;
 
 import java.math.BigDecimal;
