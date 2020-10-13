@@ -14,338 +14,302 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:minHeight="?attr/actionBarSize"
+        app:title="STANDART"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:titleTextColor="@android:color/white"
-        android:background="?attr/colorPrimary">
+        android:background="@color/gray600">
     </androidx.appcompat.widget.Toolbar>
 
     <LinearLayout
         android:id="@+id/display"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="10sp"
-        android:layout_marginRight="15dp"
-        android:layout_marginBottom="0dp"
-        android:baselineAligned="false"
-        android:elevation="1sp">
+        android:background="@color/primary"
 
-        <LinearLayout
+        android:baselineAligned="false"
+        android:elevation="1sp"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <EditText
+            android:id="@+id/eT_eingabe"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="0dp"
+
+            android:layout_weight="1"
+            android:background="#00464646"
+            android:fontFamily="monospace"
+            android:inputType="textNoSuggestions"
+            android:maxLines="1"
+            android:paddingLeft="5sp"
+
+
+            android:textAlignment="textStart"
+            android:textSize="80sp"
+            android:visibility="visible"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustNothing" />
+
+        <EditText
+            android:id="@+id/eT_ausgabe"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="0dp"
             android:layout_weight="1"
 
-            android:baselineAligned="false"
-            android:minHeight="120dp"
-            android:orientation="vertical">
+            android:background="#00464646"
+            android:fontFamily="monospace"
+            android:inputType="textNoSuggestions"
+            android:maxLines="1"
+            android:paddingLeft="5sp"
+            android:textAlignment="textStart"
 
-            <EditText
-                android:id="@+id/eT_eingabe"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="0dp"
-                android:layout_marginTop="5sp"
-                android:width="100dp"
-                android:background="#00464646"
-                android:fontFamily="monospace"
-                android:inputType="textNoSuggestions"
-                android:maxLines="1"
-                android:minHeight="55sp"
-                android:paddingLeft="5sp"
-                android:textAlignment="textStart"
+            android:textSize="80sp"
+            android:visibility="visible"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustNothing" />
 
-                android:textSize="40sp"
-                android:windowSoftInputMode="stateAlwaysHidden|adjustNothing"
-                app:autoSizeMaxTextSize="100sp"
-                app:autoSizeMinTextSize="12sp"
-                app:autoSizeStepGranularity="1sp"
-                app:autoSizeTextType="uniform"></EditText>
-
-            <EditText
-                android:id="@+id/eT_ausgabe"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="0dp"
-                android:layout_marginTop="5sp"
-                android:width="100dp"
-                android:background="#00464646"
-                android:fontFamily="monospace"
-                android:inputType="textNoSuggestions"
-                android:maxLines="1"
-                android:minHeight="55sp"
-                android:paddingLeft="5sp"
-                android:textAlignment="textStart"
-
-                android:textSize="40sp"
-                android:windowSoftInputMode="stateAlwaysHidden|adjustNothing"
-                app:autoSizeMaxTextSize="100sp"
-                app:autoSizeMinTextSize="12sp"
-                app:autoSizeStepGranularity="1sp"
-                app:autoSizeTextType="uniform"></EditText>
-
-
-        </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/LN1"
-        android:layout_width="match_parent"
-        android:layout_height="20sp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:measureWithLargestChild="true"
-        android:theme="@style/AppTheme.NoActionBar"/>
 
     <LinearLayout
         android:id="@+id/LN2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
+
         android:layout_weight="1"
-        android:measureWithLargestChild="true">
+        android:measureWithLargestChild="true"
+        android:visibility="visible">
 
         <Button
             android:id="@+id/btn_11"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/PI"
 
-            android:layout_marginLeft="2sp"
-            android:layout_marginRight="2sp"
-            android:layout_marginBottom="4sp"
+
             android:layout_weight="1"
+            android:background="@color/primary_dark"
             android:elevation="1sp"
             android:maxLines="1"
             android:shadowRadius="30"
+            android:text="@string/PI"
             android:textAlignment="center"
-            app:autoSizeStepGranularity="1sp"
-            app:autoSizeTextType="uniform"
             android:visibility="visible"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform" />
 
         <Button
             android:id="@+id/btn_12"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/e"
 
-            android:layout_marginLeft="2sp"
-            android:layout_marginRight="2sp"
-            android:layout_marginBottom="4sp"
+
             android:layout_weight="1"
+            android:background="@color/primary_dark"
             android:elevation="1sp"
             android:maxLines="1"
             android:shadowRadius="30"
+            android:text="@string/e"
             android:textAlignment="center"
-            app:autoSizeStepGranularity="1sp"
-            app:autoSizeTextType="uniform"
             android:visibility="visible"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform" />
 
         <Button
             android:id="@+id/btn_13"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/SQUR"
 
-            android:layout_marginLeft="2sp"
-            android:layout_marginRight="2sp"
-            android:layout_marginBottom="4sp"
+
             android:layout_weight="1"
+            android:background="@color/primary_dark"
             android:elevation="1sp"
             android:maxLines="1"
             android:shadowRadius="30"
+            android:text="@string/POT"
             android:textAlignment="center"
-            app:autoSizeStepGranularity="1sp"
-            app:autoSizeTextType="uniform"
             android:visibility="visible"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform" />
 
         <Button
             android:id="@+id/btn_14"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/DECLOG"
 
-            android:layout_marginLeft="2sp"
-            android:layout_marginRight="2sp"
-            android:layout_marginBottom="4sp"
+
             android:layout_weight="1"
+            android:background="@color/primary_dark"
             android:elevation="1sp"
             android:maxLines="1"
             android:shadowRadius="30"
+            android:text="@string/DECLOG"
             android:textAlignment="center"
-            app:autoSizeStepGranularity="1sp"
-            app:autoSizeTextType="uniform"
             android:visibility="visible"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform" />
 
         <Button
             android:id="@+id/btn_15"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/LN"
 
-            android:layout_marginLeft="2sp"
-            android:layout_marginRight="2sp"
-            android:layout_marginBottom="4sp"
+
             android:layout_weight="1"
+            android:background="@color/primary_dark"
             android:elevation="1sp"
             android:maxLines="1"
             android:shadowRadius="30"
+            android:text="@string/LN"
             android:textAlignment="center"
-            app:autoSizeStepGranularity="1sp"
-            app:autoSizeTextType="uniform"
             android:visibility="visible"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform" />
 
         <Button
             android:id="@+id/btn_16"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/LB"
 
-            android:layout_marginLeft="2sp"
-            android:layout_marginRight="2sp"
-            android:layout_marginBottom="4sp"
+
             android:layout_weight="1"
+            android:background="@color/primary_dark"
             android:elevation="1sp"
             android:maxLines="1"
             android:shadowRadius="30"
+            android:text="@string/LB"
             android:textAlignment="center"
-            app:autoSizeStepGranularity="1sp"
-            app:autoSizeTextType="uniform"
             android:visibility="visible"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/LN3"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
+
         android:layout_weight="1"
-        android:measureWithLargestChild="true">
+        android:measureWithLargestChild="true"
+        android:visibility="visible">
 
         <Button
             android:id="@+id/btn_21"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="%"
 
-            android:layout_marginLeft="2sp"
-            android:layout_marginRight="2sp"
-            android:layout_marginBottom="4sp"
+
             android:layout_weight="1"
+            android:background="@color/primary_dark"
             android:elevation="1sp"
             android:maxLines="1"
             android:shadowRadius="30"
+            android:text="@string/ROOT3"
             android:textAlignment="center"
-            app:autoSizeStepGranularity="1sp"
-            app:autoSizeTextType="uniform"
             android:visibility="visible"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform" />
 
         <Button
             android:id="@+id/btn_22"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="n!"
 
-            android:layout_marginLeft="2sp"
-            android:layout_marginRight="2sp"
-            android:layout_marginBottom="4sp"
+
             android:layout_weight="1"
+            android:background="@color/primary_dark"
             android:elevation="1sp"
             android:maxLines="1"
             android:shadowRadius="30"
+            android:text="@string/ROOT"
             android:textAlignment="center"
-            app:autoSizeStepGranularity="1sp"
-            app:autoSizeTextType="uniform"
             android:visibility="visible"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform" />
 
         <Button
             android:id="@+id/btn_23"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="^"
 
-            android:layout_marginLeft="2sp"
-            android:layout_marginRight="2sp"
-            android:layout_marginBottom="4sp"
+
+            android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@color/primary_dark"
             android:elevation="1sp"
             android:maxLines="1"
             android:shadowRadius="30"
+            android:text="x³"
             android:textAlignment="center"
-            app:autoSizeStepGranularity="1sp"
-            app:autoSizeTextType="uniform"
             android:visibility="visible"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform" />
 
         <Button
             android:id="@+id/btn_24"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/bruch"
 
-            android:layout_marginLeft="2sp"
-            android:layout_marginRight="2sp"
-            android:layout_marginBottom="4sp"
+
             android:layout_weight="1"
+            android:background="@color/primary_dark"
             android:elevation="1sp"
             android:maxLines="1"
             android:shadowRadius="30"
+            android:text="x²"
             android:textAlignment="center"
-            app:autoSizeStepGranularity="1sp"
-            app:autoSizeTextType="uniform"
             android:visibility="visible"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform" />
 
         <Button
             android:id="@+id/btn_25"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/x_h_one"
 
-            android:layout_marginLeft="2sp"
-            android:layout_marginRight="2sp"
-            android:layout_marginBottom="4sp"
+
             android:layout_weight="1"
+            android:background="@color/primary_dark"
             android:elevation="1sp"
             android:maxLines="1"
             android:shadowRadius="30"
+            android:text="10^x"
             android:textAlignment="center"
-            app:autoSizeStepGranularity="1sp"
-            app:autoSizeTextType="uniform"
             android:visibility="visible"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform" />
 
 
         <Button
             android:id="@+id/btn_26"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="+/-"
 
-            android:layout_marginLeft="2sp"
-            android:layout_marginRight="2sp"
-            android:layout_marginBottom="4sp"
+
             android:layout_weight="1"
+            android:background="@color/primary_dark"
             android:elevation="1sp"
             android:maxLines="1"
             android:shadowRadius="30"
+            android:text="!"
             android:textAlignment="center"
-            app:autoSizeStepGranularity="1sp"
-            app:autoSizeTextType="uniform"
             android:visibility="visible"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform" />
 
     </LinearLayout>
 
@@ -353,122 +317,113 @@
         android:id="@+id/LN5"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
+        
         android:layout_weight="1"
         android:measureWithLargestChild="true">
 
-        <Spinner
-            android:id="@+id/spinner_Base"
+
+        <Button
+            android:id="@+id/btn_NumberFct"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="2sp"
-            android:layout_marginTop="0dp"
-            android:layout_marginRight="2sp"
-            android:layout_marginBottom="4sp"
+
+
             android:layout_weight="1"
+            android:autoSizeTextType="uniform"
+            android:background="@color/primary"
             android:elevation="1sp"
             android:maxLines="1"
             android:shadowRadius="30"
-            android:text="++base"
+            android:text="NF"
+            android:textAlignment="center"
             android:textAllCaps="false"
-            android:visibility="gone"
 
-
-            app:autoSizeStepGranularity="1sp"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
-
+            android:visibility="visible"
+            app:autoSizeStepGranularity="1sp" />
 
         <Button
             android:id="@+id/btn_clearall"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/CLEAR_ALL"
 
-            android:layout_marginLeft="2sp"
-            android:layout_marginTop="0dp"
-            android:layout_marginRight="2sp"
-            android:layout_marginBottom="4sp"
+
             android:layout_weight="1"
+            android:autoSizeTextType="uniform"
+            android:background="@color/primary"
             android:elevation="1sp"
             android:maxLines="1"
             android:shadowRadius="30"
+            android:text="@string/CLEAR_ALL"
             android:textAlignment="center"
             android:textAllCaps="false"
-            android:visibility="visible"
-            app:autoSizeStepGranularity="1sp"
-            android:autoSizeTextType="uniform"
 
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
+            android:visibility="visible"
+            app:autoSizeStepGranularity="1sp" />
 
 
         <Button
             android:id="@+id/btn_clear"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/CLEAR"
 
-            android:layout_marginLeft="2sp"
-            android:layout_marginTop="0dp"
-            android:layout_marginRight="2sp"
-            android:layout_marginBottom="4sp"
+
             android:layout_weight="1"
+            android:autoSizeTextType="uniform"
+            android:background="@color/primary"
             android:elevation="1sp"
             android:maxLines="1"
             android:shadowRadius="30"
+
+
+            android:text="@string/CLEAR"
             android:textAlignment="center"
             android:textAllCaps="false"
-
-
             android:visibility="visible"
-            app:autoSizeStepGranularity="1sp"
-            android:autoSizeTextType="uniform"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
+            app:autoSizeStepGranularity="1sp" />
 
 
         <Button
             android:id="@+id/btn_LINKS"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/LEFTARROW"
 
-            android:layout_marginLeft="2sp"
-            android:layout_marginTop="0dp"
-            android:layout_marginRight="2sp"
-            android:layout_marginBottom="4sp"
+
             android:layout_weight="1"
-            android:maxLines="1"
+            android:background="@color/primary"
             android:elevation="1sp"
+            android:maxLines="1"
             android:shadowRadius="30"
-            android:textAlignment="center"
 
+            android:text="@string/LEFTARROW"
+            android:textAlignment="center"
             android:visibility="visible"
             app:autoSizeStepGranularity="1sp"
-            app:autoSizeTextType="uniform"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
+            app:autoSizeTextType="uniform" />
 
 
         <Button
             android:id="@+id/btn_RECHTS"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/RIGHTARROW"
 
-            android:layout_marginLeft="2sp"
-            android:layout_marginTop="0dp"
-            android:layout_marginRight="2sp"
-            android:layout_marginBottom="4sp"
+
             android:layout_weight="1"
-            android:maxLines="1"
+            android:background="@color/primary"
             android:elevation="1sp"
+            android:maxLines="1"
             android:shadowRadius="30"
+
+
+            android:text="@string/RIGHTARROW"
             android:textAlignment="center"
-
-
             android:visibility="visible"
             app:autoSizeStepGranularity="1sp"
-            app:autoSizeTextType="uniform"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
+            app:autoSizeTextType="uniform" />
 
     </LinearLayout>
 
@@ -476,118 +431,112 @@
         android:id="@+id/LN6"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
+        
         android:layout_weight="1"
         android:measureWithLargestChild="true">
 
         <Button
             android:id="@+id/btn_7"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="7"
 
-            android:layout_marginLeft="2sp"
-            android:layout_marginRight="2sp"
-            android:layout_marginBottom="4sp"
+
             android:layout_weight="1"
-            android:maxLines="1"
+            android:background="@color/primary"
             android:elevation="1sp"
+            android:maxLines="1"
             android:shadowColor="#008B8B8B"
             android:shadowRadius="30"
+
+
+            android:text="7"
             android:textAlignment="center"
-
-
             android:visibility="visible"
             app:autoSizeStepGranularity="1sp"
-            app:autoSizeTextType="uniform"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
+            app:autoSizeTextType="uniform" />
 
 
         <Button
             android:id="@+id/btn_8"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="8"
 
-            android:layout_marginLeft="2sp"
-            android:layout_marginRight="2sp"
-            android:layout_marginBottom="4sp"
+
             android:layout_weight="1"
+            android:background="@color/primary"
+            android:elevation="1sp"
             android:maxHeight="100dp"
             android:maxLines="1"
-            android:elevation="1sp"
             android:shadowRadius="30"
+
+
+            android:text="8"
             android:textAlignment="center"
-
-
             android:visibility="visible"
             app:autoSizeStepGranularity="1sp"
-            app:autoSizeTextType="uniform"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
+            app:autoSizeTextType="uniform" />
 
         <Button
             android:id="@+id/btn_9"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="9"
 
-            android:layout_marginLeft="2sp"
-            android:layout_marginRight="2sp"
-            android:layout_marginBottom="4sp"
+
             android:layout_weight="1"
             android:autoText="false"
-            android:maxLines="1"
+            android:background="@color/primary"
             android:elevation="1sp"
+            android:maxLines="1"
             android:shadowRadius="30"
-            android:textAlignment="center"
 
+            android:text="9"
+            android:textAlignment="center"
             android:visibility="visible"
             app:autoSizeStepGranularity="1sp"
-            app:autoSizeTextType="uniform"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
+            app:autoSizeTextType="uniform" />
 
         <Button
             android:id="@+id/btn_open_bracket"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/BRACKET_OPEN"
 
-            android:layout_marginLeft="2sp"
-            android:layout_marginRight="2sp"
-            android:layout_marginBottom="4sp"
+
             android:layout_weight="1"
+            android:background="@color/primary"
+            android:elevation="1sp"
             android:gravity="center|center_horizontal|center_vertical"
             android:maxLines="1"
-            android:elevation="1sp"
             android:paddingBottom="10sp"
             android:shadowRadius="30"
+            android:text="@string/BRACKET_OPEN"
             android:textAlignment="center"
             android:visibility="visible"
             app:autoSizeStepGranularity="1sp"
-            app:autoSizeTextType="uniform"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
+            app:autoSizeTextType="uniform" />
 
 
         <Button
             android:id="@+id/btn_close_bracket"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/BRACKET_CLOSE"
 
-            android:layout_marginLeft="2sp"
-            android:layout_marginRight="2sp"
-            android:layout_marginBottom="4sp"
+
             android:layout_weight="1"
-            android:maxLines="1"
+            android:background="@color/primary"
             android:elevation="1sp"
+            android:maxLines="1"
             android:paddingBottom="10sp"
             android:shadowRadius="30"
+            android:text="@string/BRACKET_CLOSE"
             android:textAlignment="center"
             android:visibility="visible"
             app:autoSizeStepGranularity="1sp"
-            app:autoSizeTextType="uniform"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
+            app:autoSizeTextType="uniform" />
 
     </LinearLayout>
 
@@ -595,343 +544,324 @@
         android:id="@+id/LN7"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
+        
         android:layout_weight="1">
 
         <Button
             android:id="@+id/btn_4"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="4"
 
-            android:layout_marginLeft="2sp"
-            android:layout_marginRight="2sp"
-            android:layout_marginBottom="4sp"
+
             android:layout_weight="1"
-            android:maxLines="1"
+            android:background="@color/primary"
             android:elevation="1sp"
+            android:maxLines="1"
             android:shadowRadius="30"
+
+
+            android:text="4"
             android:textAlignment="center"
-
-
             android:visibility="visible"
             app:autoSizeStepGranularity="1sp"
-            app:autoSizeTextType="uniform"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
+            app:autoSizeTextType="uniform" />
 
         <Button
             android:id="@+id/btn_5"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:layout_width="match_parent"
+
             android:layout_height="match_parent"
-            android:layout_marginLeft="2sp"
-            android:layout_marginRight="2sp"
-            android:layout_marginBottom="4sp"
             android:layout_weight="1"
-            android:maxLines="1"
+            android:background="@color/primary"
             android:elevation="1sp"
+            android:maxLines="1"
             android:shadowRadius="30"
+
+
             android:text="5"
             android:textAlignment="center"
-
-
             android:visibility="visible"
             app:autoSizeStepGranularity="1sp"
-            app:autoSizeTextType="uniform"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
+            app:autoSizeTextType="uniform" />
 
         <Button
             android:id="@+id/btn_6"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="6"
 
-            android:layout_marginLeft="2sp"
-            android:layout_marginRight="2sp"
-            android:layout_marginBottom="4sp"
+
             android:layout_weight="1"
-            android:maxLines="1"
+            android:background="@color/primary"
             android:elevation="1sp"
+            android:maxLines="1"
             android:shadowRadius="30"
+
+
+            android:text="6"
             android:textAlignment="center"
-
-
             android:visibility="visible"
             app:autoSizeStepGranularity="1sp"
-            app:autoSizeTextType="uniform"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
+            app:autoSizeTextType="uniform" />
 
         <Button
             android:id="@+id/btn_mul"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/MUL"
 
-            android:layout_marginLeft="2sp"
-            android:layout_marginRight="2sp"
-            android:layout_marginBottom="4sp"
+
             android:layout_weight="1"
-            android:maxLines="1"
+            android:background="@color/primary"
             android:elevation="1sp"
+            android:maxLines="1"
             android:paddingTop="10sp"
             android:shadowRadius="30"
+            android:text="@string/MUL"
             android:textAlignment="center"
             android:visibility="visible"
             app:autoSizeStepGranularity="1sp"
-            app:autoSizeTextType="uniform"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
+            app:autoSizeTextType="uniform" />
 
         <Button
             android:id="@+id/btn_div"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/DIV"
 
-            android:layout_marginLeft="2sp"
-            android:layout_marginRight="2sp"
-            android:layout_marginBottom="4sp"
+
             android:layout_weight="1"
-            android:maxLines="1"
+            android:background="@color/primary"
             android:elevation="1sp"
+            android:maxLines="1"
             android:shadowRadius="30"
+
+
+            android:text="@string/DIV"
             android:textAlignment="center"
-
-
             android:visibility="visible"
             app:autoSizeStepGranularity="1sp"
-            app:autoSizeTextType="uniform"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
+            app:autoSizeTextType="uniform" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/LN8"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
+        
         android:layout_weight="1">
 
         <Button
             android:id="@+id/btn_1"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="1"
 
-            android:layout_marginLeft="2sp"
-            android:layout_marginRight="2sp"
-            android:layout_marginBottom="4sp"
+
             android:layout_weight=".2"
-            android:maxLines="1"
+            android:background="@color/primary"
             android:elevation="1sp"
+            android:maxLines="1"
             android:shadowRadius="30"
+
+
+            android:text="1"
             android:textAlignment="center"
-
-
             android:visibility="visible"
             app:autoSizeStepGranularity="1sp"
-            app:autoSizeTextType="uniform"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
+            app:autoSizeTextType="uniform" />
 
         <Button
             android:id="@+id/btn_2"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="2"
 
-            android:layout_marginLeft="2sp"
-            android:layout_marginRight="2sp"
-            android:layout_marginBottom="4sp"
+
             android:layout_weight=".2"
-            android:maxLines="1"
+            android:background="@color/primary"
             android:elevation="1sp"
+            android:maxLines="1"
             android:shadowRadius="30"
+
+
+            android:text="2"
             android:textAlignment="center"
-
-
             android:visibility="visible"
             app:autoSizeStepGranularity="1sp"
-            app:autoSizeTextType="uniform"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
+            app:autoSizeTextType="uniform" />
 
         <Button
             android:id="@+id/btn_3"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="3"
 
-            android:layout_marginLeft="2sp"
-            android:layout_marginRight="2sp"
-            android:layout_marginBottom="4sp"
+
             android:layout_weight=".2"
-            android:maxLines="1"
+            android:background="@color/primary"
             android:elevation="1sp"
+            android:maxLines="1"
             android:shadowRadius="30"
+
+
+            android:text="3"
             android:textAlignment="center"
-
-
             android:visibility="visible"
             app:autoSizeStepGranularity="1sp"
-            app:autoSizeTextType="uniform"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
+            app:autoSizeTextType="uniform" />
 
         <Button
             android:id="@+id/btn_sub"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/SUB"
 
-            android:layout_marginLeft="2sp"
-            android:layout_marginRight="2sp"
-            android:layout_marginBottom="4sp"
+
             android:layout_weight=".2"
-            android:maxLines="1"
+            android:background="@color/primary"
             android:elevation="1sp"
+            android:maxLines="1"
             android:shadowRadius="30"
+
+
+            android:text="@string/SUB"
             android:textAlignment="center"
-
-
             android:visibility="visible"
             app:autoSizeStepGranularity="1sp"
-            app:autoSizeTextType="uniform"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
+            app:autoSizeTextType="uniform" />
 
         <Button
             android:id="@+id/btn_add"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/ADD"
 
-            android:layout_marginLeft="2sp"
-            android:layout_marginRight="2sp"
-            android:layout_marginBottom="4sp"
+
             android:layout_weight=".2"
-            android:maxLines="1"
+            android:background="@color/primary"
             android:elevation="1sp"
+            android:maxLines="1"
             android:shadowRadius="30"
+
+
+            android:text="@string/ADD"
             android:textAlignment="center"
-
-
             android:visibility="visible"
             app:autoSizeStepGranularity="1sp"
-            app:autoSizeTextType="uniform"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
+            app:autoSizeTextType="uniform" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/LN9"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
+        
         android:layout_weight="1">
 
         <Button
             android:id="@+id/btn_0"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="0"
 
-            android:layout_marginLeft="2sp"
-            android:layout_marginRight="2sp"
-            android:layout_marginBottom="4sp"
             android:layout_weight="1"
-            android:maxLines="1"
+            android:background="@color/primary"
             android:elevation="1sp"
+            android:maxLines="1"
             android:shadowRadius="30"
+
+
+            android:text="0"
             android:textAlignment="center"
-
-
             android:visibility="visible"
             app:autoSizeStepGranularity="1sp"
-            app:autoSizeTextType="uniform"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
+            app:autoSizeTextType="uniform" />
 
         <Button
             android:id="@+id/btn_com"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="."
 
-            android:layout_marginLeft="2sp"
-            android:layout_marginRight="2sp"
-            android:layout_marginBottom="4sp"
+
             android:layout_weight="1"
-            android:maxLines="1"
+            android:background="@color/primary"
             android:elevation="1sp"
+            android:maxLines="1"
             android:shadowRadius="30"
+
+
+            android:text="."
             android:textAlignment="center"
-
-
             android:visibility="visible"
             app:autoSizeStepGranularity="1sp"
-            app:autoSizeTextType="uniform"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
+            app:autoSizeTextType="uniform" />
 
         <Button
             android:id="@+id/btn_sep"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text=","
 
-            android:layout_marginLeft="2sp"
-            android:layout_marginRight="2sp"
-            android:layout_marginBottom="4sp"
+
             android:layout_weight="1"
             android:width="186dp"
-            android:maxLines="1"
+            android:background="@color/primary"
             android:elevation="1sp"
+            android:maxLines="1"
             android:minWidth="186dp"
             android:shadowRadius="30"
+
+
+            android:text=","
             android:textAlignment="center"
-
-
             android:visibility="visible"
             app:autoSizeStepGranularity="1sp"
-            app:autoSizeTextType="uniform"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
+            app:autoSizeTextType="uniform" />
 
         <Button
             android:id="@+id/btn_ANS"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/ANS"
 
-            android:layout_marginLeft="2sp"
-            android:layout_marginRight="2sp"
-            android:layout_marginBottom="4sp"
+
             android:layout_weight="1"
-            android:maxLines="1"
+            android:background="@color/primary"
             android:elevation="1sp"
+            android:maxLines="1"
             android:shadowRadius="30"
+
+
+            android:text="@string/ANS"
             android:textAlignment="center"
-
-
             android:visibility="visible"
             app:autoSizeStepGranularity="1sp"
-            app:autoSizeTextType="uniform"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
+            app:autoSizeTextType="uniform" />
 
         <Button
             android:id="@+id/btn_eq"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="="
 
-            android:layout_marginLeft="2sp"
-            android:layout_marginRight="2sp"
-            android:layout_marginBottom="4sp"
+
             android:layout_weight="1"
             android:width="186dp"
-            android:maxLines="1"
+            android:background="@color/primary"
             android:elevation="1sp"
+            android:maxLines="1"
             android:minWidth="186dp"
             android:shadowRadius="30"
+
+
+            android:text="="
             android:textAlignment="center"
-
-
             android:visibility="visible"
             app:autoSizeStepGranularity="1sp"
-            app:autoSizeTextType="uniform"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
+            app:autoSizeTextType="uniform" />
     </LinearLayout>
 </LinearLayout>

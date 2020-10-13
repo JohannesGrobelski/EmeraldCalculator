@@ -38,7 +38,7 @@
     <string name="CLEAR_ALL">⌧</string>
     <string name="BRACKET_OPEN">(</string>
     <string name="BRACKET_CLOSE">)</string>
-    <string name="DECLOG">log</string>
+    <string name="DECLOG">LOG</string>
     <string name="SQUR">√</string>
 
     <string name="COS">COS</string>
