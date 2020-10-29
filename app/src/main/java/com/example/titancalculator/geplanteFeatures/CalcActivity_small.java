@@ -347,7 +347,7 @@ public class CalcActivity_small extends AppCompatActivity {
 
                 if(!CalcActivity_science.noImmidiateOps.contains(I.getDisplayableString().trim())){
                     if(solve_inst_pref){
-                        answer = I.getResult(CalcActivity_science.getBase(CalcActivity_small.this));
+                        answer = I.getResult();
                         if(!answer.equals("Math Error")) ausgabeSetText(answer);
                     }
                 }
@@ -374,7 +374,7 @@ public class CalcActivity_small extends AppCompatActivity {
                 eingabeAddText("1");
 
                 if(solve_inst_pref){
-                    answer = I.getResult(CalcActivity_science.getBase(CalcActivity_small.this));
+                    answer = I.getResult();
                     if(!answer.equals("Math Error")) ausgabeSetText(answer);
                 }
 
@@ -388,7 +388,7 @@ public class CalcActivity_small extends AppCompatActivity {
                 eingabeAddText("2");
 
                 if(solve_inst_pref){
-                    answer = I.getResult(CalcActivity_science.getBase(CalcActivity_small.this));
+                    answer = I.getResult();
                     if(!answer.equals("Math Error")) ausgabeSetText(answer);
                 }
             }
@@ -401,7 +401,7 @@ public class CalcActivity_small extends AppCompatActivity {
                 eingabeAddText("3");
 
                 if(solve_inst_pref){
-                    answer = I.getResult(CalcActivity_science.getBase(CalcActivity_small.this));
+                    answer = I.getResult();
                     if(!answer.equals("Math Error")) ausgabeSetText(answer);
                 }
             }
@@ -414,7 +414,7 @@ public class CalcActivity_small extends AppCompatActivity {
                 eingabeAddText("4");
 
                 if(solve_inst_pref){
-                    answer = I.getResult(CalcActivity_science.getBase(CalcActivity_small.this));
+                    answer = I.getResult();
                     if(!answer.equals("Math Error")) ausgabeSetText(answer);
                 }
             }
@@ -427,7 +427,7 @@ public class CalcActivity_small extends AppCompatActivity {
                 eingabeAddText("5");
 
                 if(solve_inst_pref){
-                    answer = I.getResult(CalcActivity_science.getBase(CalcActivity_small.this));
+                    answer = I.getResult();
                     if(!answer.equals("Math Error")) ausgabeSetText(answer);
                 }
             }
@@ -440,7 +440,7 @@ public class CalcActivity_small extends AppCompatActivity {
                 eingabeAddText("6");
 
                 if(solve_inst_pref){
-                    answer = I.getResult(CalcActivity_science.getBase(CalcActivity_small.this));
+                    answer = I.getResult();
                     if(!answer.equals("Math Error")) ausgabeSetText(answer);
                 }
             }
@@ -453,7 +453,7 @@ public class CalcActivity_small extends AppCompatActivity {
                 eingabeAddText("7");
 
                 if(solve_inst_pref){
-                    answer = I.getResult(CalcActivity_science.getBase(CalcActivity_small.this));
+                    answer = I.getResult();
                     if(!answer.equals("Math Error")) ausgabeSetText(answer);
                 }
             }
@@ -466,7 +466,7 @@ public class CalcActivity_small extends AppCompatActivity {
                 eingabeAddText("8");
 
                 if(solve_inst_pref){
-                    answer = I.getResult(CalcActivity_science.getBase(CalcActivity_small.this));
+                    answer = I.getResult();
                     if(!answer.equals("Math Error")) ausgabeSetText(answer);
                 }
             }
@@ -479,7 +479,7 @@ public class CalcActivity_small extends AppCompatActivity {
                 eingabeAddText("9");
 
                 if(solve_inst_pref){
-                    answer = I.getResult(CalcActivity_science.getBase(CalcActivity_small.this));
+                    answer = I.getResult();
                     if(!answer.equals("Math Error")) ausgabeSetText(answer);
                 }
             }
@@ -492,7 +492,7 @@ public class CalcActivity_small extends AppCompatActivity {
                 eingabeAddText("0");
 
                 if(solve_inst_pref){
-                    answer = I.getResult(CalcActivity_science.getBase(CalcActivity_small.this));
+                    answer = I.getResult();
                     if(!answer.equals("Math Error")) ausgabeSetText(answer);
                 }
             }
@@ -505,7 +505,7 @@ public class CalcActivity_small extends AppCompatActivity {
                 eingabeAddText(".");
 
                 if(solve_inst_pref){
-                    answer = I.getResult(CalcActivity_science.getBase(CalcActivity_small.this));
+                    answer = I.getResult();
                     if(!answer.equals("Math Error")) ausgabeSetText(answer);
                 }
             }
@@ -520,7 +520,7 @@ public class CalcActivity_small extends AppCompatActivity {
                 eingabeAddText("+");
 
                 if(solve_inst_pref){
-                    answer = I.getResult(CalcActivity_science.getBase(CalcActivity_small.this));
+                    answer = I.getResult();
                     if(!answer.equals("Math Error")) ausgabeSetText(answer);
                 }
             }
@@ -533,7 +533,7 @@ public class CalcActivity_small extends AppCompatActivity {
                 eingabeAddText("-");
 
                 if(solve_inst_pref){
-                    answer = I.getResult(CalcActivity_science.getBase(CalcActivity_small.this));
+                    answer = I.getResult();
                     if(!answer.equals("Math Error")) ausgabeSetText(answer);
                 }
             }
@@ -546,7 +546,7 @@ public class CalcActivity_small extends AppCompatActivity {
                 eingabeAddText("*");
 
                 if(solve_inst_pref){
-                    answer = I.getResult(CalcActivity_science.getBase(CalcActivity_small.this));
+                    answer = I.getResult();
                     if(!answer.equals("Math Error")) ausgabeSetText(answer);
                 }
             }
@@ -559,7 +559,7 @@ public class CalcActivity_small extends AppCompatActivity {
                 eingabeAddText("/");
 
                 if(solve_inst_pref){
-                    answer = I.getResult(CalcActivity_science.getBase(CalcActivity_small.this));
+                    answer = I.getResult();
                     if(!answer.equals("Math Error")) ausgabeSetText(answer);
                 }
             }
@@ -572,12 +572,12 @@ public class CalcActivity_small extends AppCompatActivity {
                 }
                 if (SettingsApplier.vibrate_on) myVib.vibrate(SettingsApplier.vibrate_length);
                 view.startAnimation(buttonClick);
-                answer = I.getResult(CalcActivity_science.getBase(CalcActivity_small.this));
+                answer = I.getResult();
 
                 if(scientificNotation){
-                    answer = I.normalToScientific(CalcActivity_science.getBase(CalcActivity_small.this));
+                    answer = I.normalToScientific();
                 } else {
-                    answer = I.scientificToNormal(CalcActivity_science.getBase(CalcActivity_small.this));
+                    answer = I.scientificToNormal();
                 }
 
                 ausgabeSetText(answer);
@@ -678,19 +678,19 @@ public class CalcActivity_small extends AppCompatActivity {
 
         //"PI","E","NCR","NPR","%","!N","^","A/B","x\u207B\u00B9","+/-","√","\u00B3√","LOG","LN","LB","SIN","COS","TAN","ASIN","ATAN","ASINH","ACOSH","ATANH","SINH","COSH","TANH"};
         if(fct.equals("%")){
-            ausgabeSetText(I.getPercent(CalcActivity_science.getBase(CalcActivity_small.this)));
+            ausgabeSetText(I.getPercent());
             return;
         }
         else if(fct.equals("A/B")){
-            ausgabeSetText(I.getBruch(CalcActivity_science.getBase(CalcActivity_small.this)));
+            ausgabeSetText(I.getBruch());
             return;
         }
         else if(fct.equals("x\u207B\u00B9")){
-            ausgabeSetText(I.getReciproke(CalcActivity_science.getBase(CalcActivity_small.this)));
+            ausgabeSetText(I.getReciproke());
             return;
         }
         else if(fct.equals("+/-")){
-            ausgabeSetText(I.getInvert(CalcActivity_science.getBase(CalcActivity_small.this)));
+            ausgabeSetText(I.getInvert());
             return;
         }
 
@@ -728,7 +728,7 @@ public class CalcActivity_small extends AppCompatActivity {
         I.setText(eT_eingabe.getText().toString());
         if (solve_inst_pref) {
             if (!CalcActivity_science.noImmidiateOps.contains(i.trim())) {
-                answer = I.getResult(CalcActivity_science.getBase(CalcActivity_small.this));
+                answer = I.getResult();
                 if (!answer.equals("Math Error")) ausgabeSetText(answer);
             }
         }

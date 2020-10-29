@@ -43,25 +43,18 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class MainActivity extends AppCompatActivity {
+/** View implemented by Activity, will contain a reference to the presenter.
+  * The only thing that the view will do is to call a method from the Presenter every time there is an interface action.
+  */
+public class MainActivity extends AppCompatActivity implements Presenter.View {
+    Presenter presenter;
+
     //auxiliary variables
-    int btn_digit_group_cnt = 0;
-    private static int base = 0;
-    String state_spinner_shift = "number_selection"; //number_selection, base_selection
-    private static String[] MEMORY = new String[6];
     boolean eT_eingabe_hasFocus = true;
-    String mode = "BASIC"; String englishMode = "BASIC";
 
-    //setting variables
-    String current_Callback = "";
-    String answer = "";
-    boolean solve_inst_pref = false;
-    public static Set<String> noImmidiateOps = new HashSet<>(Arrays.asList("³√", "ROOT", "√", "LOG", "P", "C", "%"));
-    String language = "";
-    boolean scientificNotation = false;
 
-    Toolbar toolbar;
     //VIEWS
+    Toolbar toolbar;
     LinearLayout science_background;
     LinearLayout display;
     //L1
@@ -110,10 +103,11 @@ public class MainActivity extends AppCompatActivity {
     Button btn_eq;
     EditText eT_eingabe;
     EditText eT_ausgabe;
-    NavigatableString I;
     LinearLayout LN2;
     LinearLayout LN3;
     LinearLayout LN4;
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -144,10 +138,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        mode = item.toString();
-        englishMode = returnEnglishMode(mode);
-        assignModeFct();
-        toolbar.setTitle(mode);
+        presenter.setMode(item.toString());
+        presenter.assignModeFct();
+        toolbar.setTitle(presenter.getMode());
         return true;
     }
 
@@ -164,25 +157,23 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        eingabeAddText(current_Callback);
+        //presenter.eingabeAddText(current_Callback); TODO
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        presenter = new Presenter(this);
         SettingsApplier.applySettings(MainActivity.this);
         setContentView(R.layout.activity_main);
         setTitle("Calculator");
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mode = "BASIC";
-        MEMORY = new String[6];
-        MEMORY = loadMemory(MainActivity.this);
+        presenter.setMode("BASIC");
+        presenter.resetMemory();
         //setzt hintergrundbild
-        I = new NavigatableString("content");
-
 
         science_background = findViewById(R.id.science_background);
         eT_eingabe = findViewById(R.id.eT_eingabe);
@@ -239,7 +230,6 @@ public class MainActivity extends AppCompatActivity {
         LN3 = findViewById(R.id.LN3);
         LN4 = findViewById(R.id.LN4);
 
-        eingabeSetText("");
         eT_ausgabe.setOnFocusChangeListener(focusListener);
         eT_eingabe.setOnFocusChangeListener(focusListener);
         disableSoftInputFromAppearing(eT_eingabe);
@@ -281,14 +271,7 @@ public class MainActivity extends AppCompatActivity {
         btn_clear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                eingabeClear();
-                ausgabeSetText("");
-                if (!noImmidiateOps.contains(I.getDisplayableString().trim())) {
-                    if (solve_inst_pref) {
-                        answer = I.getResult(getBase(MainActivity.this));
-                        if (!answer.equals("Math Error")) ausgabeSetText(answer);
-                    }
-                }
+                presenter.inputClear();
             }
         });
         btn_clearall.setOnClickListener(new View.OnClickListener() {
@@ -296,212 +279,81 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 eT_eingabe.setText("");
                 eT_ausgabe.setText("");
-                I.setText(eT_eingabe.getText().toString());
+                presenter.setNavI(eT_eingabe.getText().toString());
             }
         });
         //L2
         btn_11.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                switch(englishMode){
-                    case "BASIC": {eingabeAddText("π"); break;}
-                    case "BASIC2": {ausgabeSetText(I.getPFZ(getBase(MainActivity.this))); break;}
-                    case "TRIGO":  {eingabeAddText("SIN"); break;}
-                    case "USER":  {transBtnFct("btn_11"); break;}
-                    case "STATISTIC":  {eingabeAddText("Zn()"); break;}
-                    case "HYPER":  {eingabeAddText("SINH"); break;}
-                    case "LOGIC":  {eingabeAddText("AND(,)"); break;}
-                    case "MEMORY":  {MEMORY[0] = getSelection(); saveMemory(MainActivity.this, MEMORY); break;}
-                    default:  {Toast.makeText(MainActivity.this, "Unknown Mode: ", Toast.LENGTH_LONG).show(); break;}
-                }
+                presenter.inputBtn11();
             }
         });
         btn_12.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                switch(englishMode){
-                    case "BASIC": {eingabeAddText("e"); break;}
-                    case "BASIC2": {
-                        if (language.equals("german") || language.equals("deutsch")) {
-                            eingabeAddText("GGT(,)");
-                        } else {
-                            eingabeAddText("GCD(,)");
-                        }   break;}
-                    case "TRIGO":  {eingabeAddText("COS"); break;}
-                    case "USER":  {transBtnFct("btn_12"); break;}
-                    case "STATISTIC":  {eingabeAddText("Zb(,)"); break;}
-                    case "HYPER":  {eingabeAddText("COSH"); break;}
-                    case "LOGIC":  {eingabeAddText("OR(,)"); break;}
-                    case "MEMORY":  {MEMORY[1] = getSelection(); saveMemory(MainActivity.this, MEMORY);break;}
-                    default:  {Toast.makeText(MainActivity.this, "Unknown Mode: ", Toast.LENGTH_LONG).show(); break;}
-                }
+               presenter.inputBtn12();
             }
         });
         btn_13.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                switch(englishMode){
-                    case "BASIC": {eingabeAddText("^");break;}
-                    case "BASIC2": {if (language.equals("german") || language.equals("deutsch")) {
-                                        eingabeAddText("KGV(,)");
-                                    } else {
-                                        eingabeAddText("LCM(,)");
-                                    } break;}
-                    case "TRIGO":  {eingabeAddText("TAN"); break;}
-                    case "USER":  {transBtnFct("btn_13"); break;}
-                    case "STATISTIC":  {eingabeAddText("C"); break;}
-                    case "HYPER":  {eingabeAddText("TANH"); break;}
-                    case "LOGIC":  {eingabeAddText("XOR(,)"); break;}
-                    case "MEMORY":  {MEMORY[2] = getSelection(); saveMemory(MainActivity.this, MEMORY);break;}
-                    default:  {Toast.makeText(MainActivity.this, "Unknown Mode: ", Toast.LENGTH_LONG).show(); break;}
-                }
+                presenter.inputBtn13();
             }
         });
         btn_14.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                switch(englishMode){
-                    case "BASIC": {eingabeAddText("LOG"); break;}
-                    case "BASIC2": {eingabeAddText(getResources().getString(R.string.SUME) + "(,)"); break;}
-                    case "TRIGO":  {eingabeAddText("COT"); break;}
-                    case "USER":  {transBtnFct("btn_14"); break;}
-                    case "STATISTIC":  {eingabeAddText("P"); break;}
-                    case "HYPER":  {eingabeAddText("ASINH"); break;}
-                    case "LOGIC":  {eingabeAddText("NOT()"); break;}
-                    case "MEMORY":  {MEMORY[3] = getSelection(); saveMemory(MainActivity.this, MEMORY);break;}
-                    default:  {Toast.makeText(MainActivity.this, "Unknown Mode: ", Toast.LENGTH_LONG).show(); break;}
-                }
+                presenter.inputBtn14();
             }
         });
         btn_15.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                switch(englishMode){
-                    case "BASIC": {eingabeAddText("LN"); break;}
-                    case "BASIC2": {eingabeAddText(getResources().getString(R.string.MULP) + "(,)"); break;}
-                    case "TRIGO":  {eingabeAddText("ASIN"); break;}
-                    case "USER":  {transBtnFct("btn_15"); break;}
-                    case "STATISTIC":  {eingabeAddText("MEAN()"); break;}
-                    case "HYPER":  {eingabeAddText("ACOSH"); break;}
-                    case "LOGIC":  {ausgabeSetText(I.getBIN(getBase(MainActivity.this))); break;}
-                    case "MEMORY":  {MEMORY[4] = getSelection(); saveMemory(MainActivity.this, MEMORY);break;}
-                    default:  {Toast.makeText(MainActivity.this, "Unknown Mode: ", Toast.LENGTH_LONG).show(); break;}
-                }
+                presenter.inputBtn15();
             }
         });
         btn_16.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                switch(englishMode){
-                    case "BASIC": {eingabeAddText("LB"); break;}
-                    case "BASIC2": {break;}
-                    case "TRIGO":  {eingabeAddText("ACOS"); break;}
-                    case "USER":  {transBtnFct("btn_16"); break;}
-                    case "STATISTIC":  {eingabeAddText("VAR()"); break;}
-                    case "HYPER":  {eingabeAddText("ATANH"); break;}
-                    case "LOGIC":  {ausgabeSetText(I.getOCT(getBase(MainActivity.this))); break;}
-                    case "MEMORY":  {MEMORY[5] = getSelection(); saveMemory(MainActivity.this, MEMORY);break;}
-                    default:  {Toast.makeText(MainActivity.this, "Unknown Mode: ", Toast.LENGTH_LONG).show(); break;}
-                }
+                presenter.inputBtn16();
             }
         });
         //L3
         btn_21.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                switch(englishMode){
-                    case "BASIC": {eingabeAddText("³√"); break;}
-                    case "BASIC2": {ausgabeSetText(I.getPercent(getBase(MainActivity.this)));
-                                    answer = I.getPercent(getBase(MainActivity.this));
-                                    ausgabeSetText(answer); break;}
-                    case "TRIGO":  {eingabeAddText("ATAN"); break;}
-                    case "USER":  {transBtnFct("btn_21"); break;}
-                    case "STATISTIC":  {eingabeAddText("E()"); break;}
-                    case "HYPER":  {break;}
-                    case "LOGIC":  {ausgabeSetText(I.getDEC(getBase(MainActivity.this))); break;}
-                    case "MEMORY":  {replaceSelection(MEMORY[0]); break;}
-                    default:  {Toast.makeText(MainActivity.this, "Unknown Mode: ", Toast.LENGTH_LONG).show(); break;}
-                }
+                presenter.inputBtn21();
             }
         });
         btn_22.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                switch(englishMode){
-                    case "BASIC": {eingabeAddText("√"); break;}
-                    case "BASIC2": {ausgabeSetText(I.getBruch(getBase(MainActivity.this))); break;}
-                    case "TRIGO":  {eingabeAddText("ACOT"); break;}
-                    case "USER":  {transBtnFct("btn_22"); break;}
-                    case "STATISTIC":  {eingabeAddText("2√(VAR())"); break;}
-                    case "HYPER":  {break;}
-                    case "LOGIC":  {ausgabeSetText(I.getHEX(getBase(MainActivity.this))); break;}
-                    case "MEMORY":  {replaceSelection(MEMORY[1]); break;}
-                    default:  {Toast.makeText(MainActivity.this, "Unknown Mode: ", Toast.LENGTH_LONG).show(); break;}
-                }
+                presenter.inputBtn22();
             }
         });
         btn_23.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                switch(englishMode){
-                    case "BASIC": {eingabeAddText("³"); break;}
-                    case "BASIC2": {ausgabeSetText(I.getReciproke(getBase(MainActivity.this))); break;}
-                    case "TRIGO":  {ausgabeSetText(I.getDEG(getBase(MainActivity.this))); break;}
-                    case "USER":  {transBtnFct("btn_23"); break;}
-                    case "STATISTIC":  { break;}
-                    case "HYPER":  {break;}
-                    case "LOGIC":  {break;}
-                    case "MEMORY":  {replaceSelection(MEMORY[2]); break;}
-                    default:  {Toast.makeText(MainActivity.this, "Unknown Mode: ", Toast.LENGTH_LONG).show(); break;}
-                }
+                presenter.inputBtn23();
             }
         });
         btn_24.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                switch(englishMode){
-                    case "BASIC": {eingabeAddText("²"); break;}
-                    case "BASIC2": {ausgabeSetText(I.getInvert(getBase(MainActivity.this))); break;}
-                    case "TRIGO":  {ausgabeSetText(I.getRAD(getBase(MainActivity.this))); break;}
-                    case "USER":  {transBtnFct("btn_24"); break;}
-                    case "STATISTIC":  { break;}
-                    case "HYPER":  {break;}
-                    case "LOGIC":  {break;}
-                    case "MEMORY":  {replaceSelection(MEMORY[3]); break;}
-                    default:  {Toast.makeText(MainActivity.this, "Unknown Mode: ", Toast.LENGTH_LONG).show(); break;}
-                }
+                presenter.inputBtn24();
             }
         });
         btn_25.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                switch(englishMode){
-                    case "BASIC": {eingabeAddText("10^"); break;}
-                    case "BASIC2": {eingabeAddText("MIN()"); break;}
-                    case "TRIGO":  {eingabeAddText("toPolar(,)"); break;}
-                    case "USER":  {transBtnFct("btn_25"); break;}
-                    case "STATISTIC":  { break;}
-                    case "HYPER":  {break;}
-                    case "LOGIC":  {break;}
-                    case "MEMORY":  {replaceSelection(MEMORY[4]); break;}
-                    default:  {Toast.makeText(MainActivity.this, "Unknown Mode: ", Toast.LENGTH_LONG).show(); break;}
-                }
+                presenter.inputBtn25();
             }
         });
         btn_26.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                switch(englishMode){
-                    case "BASIC": {eingabeAddText("!"); break;}
-                    case "BASIC2": {eingabeAddText("MAX()"); break;}
-                    case "TRIGO":  {eingabeAddText("toCart(,)"); break;}
-                    case "USER":  {transBtnFct("btn_26"); break;}
-                    case "STATISTIC":  { break;}
-                    case "HYPER":  {break;}
-                    case "LOGIC":  {break;}
-                    case "MEMORY":  {replaceSelection(MEMORY[5]); break;}
-                    default:  {Toast.makeText(MainActivity.this, "Unknown Mode: ", Toast.LENGTH_LONG).show(); break;}
-                }
+                presenter.inputBtn26();
             }
         });
         btn_LINKS.setOnClickListener(new View.OnClickListener() {
@@ -520,315 +372,133 @@ public class MainActivity extends AppCompatActivity {
         btn_1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                eingabeAddText("1");
+                presenter.eingabeAddText("1");
             }
         });
         btn_2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                eingabeAddText("2");
+                presenter.eingabeAddText("2");
             }
         });
         btn_3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                eingabeAddText("3");
+                presenter.eingabeAddText("3");
             }
         });
         btn_4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                eingabeAddText("4");
+                presenter.eingabeAddText("4");
             }
         });
         btn_5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                eingabeAddText("5");
+                presenter.eingabeAddText("5");
             }
         });
         btn_6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                eingabeAddText("6");
+                presenter.eingabeAddText("6");
             }
         });
         btn_7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                eingabeAddText("7");
+                presenter.eingabeAddText("7");
             }
         });
         btn_8.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                eingabeAddText("8");
+                presenter.eingabeAddText("8");
             }
         });
         btn_9.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                eingabeAddText("9");
+                presenter.eingabeAddText("9");
             }
         });
         btn_0.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                eingabeAddText("0");
+                presenter.eingabeAddText("0");
             }
         });
         btn_com.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                eingabeAddText(".");
+                presenter.eingabeAddText(".");
 
             }
         });
         btn_sep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                eingabeAddText(",");
+                presenter.eingabeAddText(",");
             }
         });
         btn_ans.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainActivity.this,answer,Toast.LENGTH_SHORT).show();
-                eingabeAddText("ANS");
+                presenter.eingabeAddText("ANS");
             }
         });
         //G2
         btn_open_bracket.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                eingabeAddText("(");
+                presenter.eingabeAddText("(");
             }
         });
         btn_close_bracket.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                eingabeAddText(")");
+                eT_eingabe.clearFocus(); presenter.eingabeAddText(")");
             }
         });
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                eingabeAddText("+");
+                presenter.eingabeAddText("+");
             }
         });
         btn_sub.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                eingabeAddText("-");
+                presenter.eingabeAddText("-");
             }
         });
         btn_mul.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                eingabeAddText("*");
+                presenter.eingabeAddText("*");
             }
         });
         btn_div.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                eingabeAddText("/");
+                presenter.eingabeAddText("/");
             }
         });
         btn_eq.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!eT_eingabe.getText().toString().equals(I.getDisplayableString())) {
-                    I.setText(eT_eingabe.getText().toString());
-                }
-                answer = I.getResult(getBase(MainActivity.this));
-                if(scientificNotation){
-                    answer = I.normalToScientific(getBase(MainActivity.this));
-                } else {
-                    answer = I.scientificToNormal(getBase(MainActivity.this));
-                }
-                ausgabeSetText(answer);
+                presenter.inputEqual();
             }
         });
         btn_eq.setLongClickable(true);
         btn_eq.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                toogleScientificNotation();
+                presenter.toogleScientificNotation();
                 return false;
             }
         });
-    }
-
-    private void ausgabeSetText(String res) {
-        eT_ausgabe.setText(res);
-    }
-
-    private void toogleScientificNotation(){
-        scientificNotation = !scientificNotation;
-    }
-
-    private void assignModeFct() {
-        if (mode.equals(getResources().getString(R.string.TRIGO_DE)) || mode.equals(getResources().getString(R.string.TRIGO_EN))) {
-            btn_11.setText("SIN"); btn_12.setText("COS"); btn_13.setText("TAN"); btn_14.setText("COT"); btn_15.setText("ASIN"); btn_16.setText("ACOS");
-            btn_21.setText("ATAN"); btn_22.setText("ACOT"); btn_23.setText(">DEG"); btn_24.setText(">RAD"); btn_25.setText(">Polar"); btn_26.setText(">Cart");
-        }
-        if (mode.equals("HYPER")) {
-            btn_11.setText("SINH"); btn_12.setText("COSH"); btn_13.setText("TANH"); btn_14.setText("ASINH"); btn_15.setText("ASINH"); btn_16.setText("ASINH");
-            btn_21.setText("");  btn_22.setText("");  btn_23.setText("");  btn_24.setText("");  btn_25.setText("");  btn_26.setText("");
-        } else if (mode.equals(getResources().getString(R.string.STATS_EN)) || mode.equals(getResources().getString(R.string.STATS_DE))) {
-            btn_11.setText("ZN(N)"); btn_12.setText("ZB(X;Y)"); btn_13.setText("NCR"); btn_14.setText("NPR"); btn_15.setText("MEAN"); btn_16.setText("VAR");
-            btn_21.setText("E"); btn_22.setText("S"); btn_23.setText(""); btn_24.setText(""); btn_25.setText(""); btn_26.setText("");
-        } else if (mode.equals("LOGIC") || mode.equals("LOGISCH")) {
-            btn_11.setText("AND"); btn_12.setText("OR"); btn_13.setText("XOR"); btn_14.setText("NOT"); btn_15.setText(">BIN"); btn_16.setText(">OCT");
-            btn_21.setText(">DEC"); btn_22.setText(">HEX"); btn_23.setText(""); btn_24.setText(""); btn_25.setText(""); btn_26.setText("");
-        } else if (mode.equals("MEMORY") || mode.equals("SPEICHER")) {
-            btn_11.setText("M1"); btn_12.setText("M2"); btn_13.setText("M3"); btn_14.setText("M4"); btn_15.setText("M5"); btn_16.setText("M6");
-            btn_21.setText(">M1"); btn_22.setText(">M2"); btn_23.setText(">M3"); btn_24.setText(">M4"); btn_25.setText(">M5"); btn_26.setText(">M6");
-        } else if (mode.equals(getResources().getString(R.string.BASIC_DE)) || mode.equals(getResources().getString(R.string.BASIC_EN))) {
-            btn_11.setText(R.string.PI); btn_12.setText(R.string.E); btn_13.setText("^"); btn_14.setText("LOG"); btn_15.setText("LN"); btn_16.setText("LB");
-            btn_21.setText("³√"); btn_22.setText("√"); btn_23.setText("x³"); btn_24.setText("x²"); btn_25.setText("10^x"); btn_26.setText("!");
-        } else if (mode.equals(getResources().getString(R.string.BASIC2_DE)) || mode.equals(getResources().getString(R.string.BASIC2_EN))) {
-            //L1 normal: PI,E,->DEC,->BIN,->OCT
-            btn_11.setText("PFZ");
-            if (language.equals("german") || language.equals("deutsch")) {
-                btn_12.setText("GGT");
-            } else {
-                btn_12.setText("GCD");
-            }
-            if (language.equals("german") || language.equals("deutsch")) {
-                btn_13.setText("KGV");
-            } else {
-                btn_13.setText("LCM");
-            }
-            btn_14.setText(getResources().getString(R.string.SUME)); btn_15.setText(getResources().getString(R.string.MULP)); btn_16.setText("");
-            //L3 normal: %,!,^,a/b,x^-1,+/-
-            btn_21.setText(">%"); btn_22.setText("A/B"); btn_23.setText(R.string.x_h_one); btn_24.setText("+/-"); btn_25.setText("MIN"); btn_26.setText("MAX");
-        }
-        if (mode.equals("PROGRAM") || mode.equals("PROGRAMM")) {
-            btn_11.setText("P1"); btn_12.setText("P2"); btn_13.setText("P3"); btn_14.setText("P4"); btn_15.setText("P5"); btn_16.setText("P6");
-            btn_21.setText(">P1"); btn_22.setText(">P1"); btn_23.setText(">P3"); btn_24.setText(">P4"); btn_25.setText(">P5"); btn_26.setText(">P6");
-        }
-    }
-
-    private void transBtnFct(String fct) {
-        if (fct.startsWith("btn")) return;
-        //"PI","E","NCR","NPR","%","!N","^","A/B","x\u207B\u00B9","+/-","√","\u00B3√","LOG","LN","LB","SIN","COS","TAN","ASIN","ATAN","ASINH","ACOSH","ATANH","SINH","COSH","TANH"};
-        if (fct.equals(">%")) {
-            ausgabeSetText(I.getPercent(getBase(MainActivity.this)));
-            return;
-        } else if (fct.equals("A/B")) {
-            ausgabeSetText(I.getBruch(getBase(MainActivity.this)));
-            return;
-        } else if (fct.equals("x\u207B\u00B9")) {
-            ausgabeSetText(I.getReciproke(getBase(MainActivity.this)));
-            return;
-        } else if (fct.equals("+/-")) {
-            ausgabeSetText(I.getInvert(getBase(MainActivity.this)));
-            return;
-        }
-        String A = fct;
-        A = A.replace("NCR", "C");
-        A = A.replace("NCR", "C");
-        A = A.replace("!N", "!");
-        A = A.replace("x\u207B\u00B9", "C");
-        eingabeAddText(A);
-    }
-
-    private void replaceSelection(String input) {
-        if (input == null || input.isEmpty()) return;
-        int selStart = -1;
-        int selEnd = -1;
-        if (eT_eingabe.hasFocus()) {
-            selStart = eT_eingabe.getSelectionStart();
-            selEnd = eT_eingabe.getSelectionEnd();
-            if (selStart >= 0 && selEnd >= 0 && selStart <= selEnd && selStart <= eT_eingabe.length() && selEnd <= eT_eingabe.length()) {
-                String etE_text = eT_eingabe.getText().toString();
-                etE_text = StringUtils.replace(etE_text, input, selStart, selEnd);
-
-                Toast.makeText(MainActivity.this, "selection: " + etE_text.toString(), Toast.LENGTH_LONG).show();
-                eT_eingabe.setText(etE_text);
-            } else {
-                eT_eingabe.setText(input);
-            }
-            eT_eingabe.setSelection(selEnd);
-            I.setText(eT_eingabe.getText().toString());
-        }
-    }
-
-
-    private String getSelection() {
-        String selection = "";
-        int selStart = -1;
-        int selEnd = -1;
-        if (eT_eingabe.hasFocus()) {
-            selStart = eT_eingabe.getSelectionStart();
-            selEnd = eT_eingabe.getSelectionEnd();
-            if (selStart > 0 && selEnd > 0 && selStart < selEnd) {
-                return eT_eingabe.getText().toString().substring(selStart, selEnd);
-            } else {
-                return eT_eingabe.getText().toString();
-            }
-        } else if (eT_ausgabe.hasFocus()) {
-            selStart = eT_ausgabe.getSelectionStart();
-            selEnd = eT_ausgabe.getSelectionEnd();
-            if (selStart > 0 && selEnd > 0 && selStart < selEnd) {
-                return eT_ausgabe.getText().toString().substring(selStart, selEnd);
-            } else {
-                return eT_ausgabe.getText().toString();
-            }
-        }
-        return selection;
-    }
-
-    private void eingabeAddText(String i) {
-        if (eT_eingabe_hasFocus) {
-            eT_eingabe.clearFocus();
-        }
-        eT_eingabe.getText().insert(eT_eingabe.getSelectionStart(), i);
-        I.setText(eT_eingabe.getText().toString());
-        if (solve_inst_pref) {
-            if (!noImmidiateOps.contains(i.trim())) {
-                answer = I.getResult(getBase(MainActivity.this));
-                if (!answer.equals("Math Error")) ausgabeSetText(answer);
-            }
-        }
-    }
-
-    private void eingabeClear() {
-        if (!eT_eingabe.getText().toString().equals(I.getDisplayableString())) {
-            I.setText(eT_eingabe.getText().toString());
-        }
-        if (eT_eingabe_hasFocus) {
-            int pos = eT_eingabe.getSelectionStart();
-            I.clear(eT_eingabe.getSelectionStart());
-            eingabeSetText(I.getDisplayableString());
-            eT_eingabe.setSelection(Math.max(0, pos - 1));
-        }
-    }
-
-    private void eingabeSetText(String i) {
-        if (eT_eingabe_hasFocus) {
-            eT_eingabe.setText(i);
-            I.setText(eT_eingabe.getText().toString());
-        }
-    }
-
-    private static void setBase(Context context, int Base) {
-        if (Base <= 1) {
-            return;
-        } else {
-            base = Base;
-        }
-    }
-
-    private static int getBase(Context context) {
-        if (base == 0) {
-            String baseString = PreferenceManager.getDefaultSharedPreferences(context).getString("base", "10");
-            if (baseString == null) {
-                setBase(context, 0);
-            } else base = Integer.parseInt(baseString);
-        }
-        return base;
     }
 
     private static boolean checkPermissionForReadExtertalStorage(Context context) {
@@ -861,27 +531,6 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    private static void saveMemory(Context c, String[] Memory) {
-        String MEMS = ArrayUtils.arrayToString(Memory);
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(c);
-        SharedPreferences.Editor editor = preferences.edit();
-        Toast.makeText(c, "save: " + MEMS, Toast.LENGTH_SHORT).show();
-        editor.putString("MEMORY", MEMS);
-        editor.commit();
-    }
-
-    private static String[] loadMemory(Context c) {
-        String MEMS = PreferenceManager.getDefaultSharedPreferences(c).getString("MEMORY", "");
-        String[] memarray = ArrayUtils.stringToArray(MEMS);
-        Log.e("array mem", Arrays.toString(memarray));
-        String[] res = new String[6];
-        for (int i = 0; i < 6; i++) {
-            if (i < memarray.length) res[i] = memarray[i];
-            else res[i] = "";
-        }
-        return res;
-    }
-
     private static String returnEnglishMode(String mode){
         switch(mode){
             case "STANDART": {return "BASIC";}
@@ -907,5 +556,190 @@ public class MainActivity extends AppCompatActivity {
             editText.setRawInputType(InputType.TYPE_NULL);
             editText.setFocusable(true);
         }
+    }
+
+    @Override
+    public void setBtn11Text(String text) {
+        btn_11.setText(text);
+    }
+
+    @Override
+    public void setBtn12Text(String text) {
+        btn_12.setText(text);
+    }
+
+    @Override
+    public void setBtn13Text(String text) {
+        btn_13.setText(text);
+    }
+
+    @Override
+    public void setBtn14Text(String text) {
+        btn_14.setText(text);
+    }
+
+    @Override
+    public void setBtn15Text(String text) {
+        btn_15.setText(text);
+    }
+
+    @Override
+    public void setBtn16Text(String text) {
+        btn_16.setText(text);
+    }
+
+    @Override
+    public void setBtn21Text(String text) {
+        btn_21.setText(text);
+    }
+
+    @Override
+    public void setBtn22Text(String text) {
+        btn_22.setText(text);
+    }
+
+    @Override
+    public void setBtn23Text(String text) {
+        btn_23.setText(text);
+    }
+
+    @Override
+    public void setBtn24Text(String text) {
+        btn_24.setText(text);
+    }
+
+    @Override
+    public void setBtn25Text(String text) {
+        btn_25.setText(text);
+    }
+
+    @Override
+    public void setBtn26Text(String text) {
+        btn_26.setText(text);
+    }
+
+    @Override
+    public int getSelectionStartEingabe() {
+        if(eT_eingabe.hasSelection())return eT_eingabe.getSelectionStart();
+        else return -1;
+    }
+
+    @Override
+    public int getSelectionEndEingabe() {
+        if(eT_eingabe.hasSelection())return eT_eingabe.getSelectionEnd();
+        else return -1;
+    }
+
+
+    public void eingabeAddText(String i) {
+        eT_eingabe.getText().insert(eT_eingabe.getSelectionStart(), i);
+        /*
+        presenter.setNavI(eT_eingabe.getText().toString());
+        if (solve_inst_pref) {
+            if (!noImmidiateOps.contains(InputString.trim())) {
+                answer = InputString.getResult();
+                if (!answer.equals("Math Error")) ausgabeSetText(answer);
+            }
+        }
+         */
+    }
+
+    public void eingabeClear() {
+        /*
+        if (!eT_eingabe.getText().toString().equals(InputString.getDisplayableString())) {
+            setNavI(eT_eingabe.getText().toString());
+        }
+        InputString.clear(eT_eingabe.getSelectionStart());
+        eingabeSetText(InputString.getDisplayableString());
+
+         */
+        int pos = eT_eingabe.getSelectionStart();
+        eingabeSetText("");
+        eT_eingabe.setSelection(Math.max(0, pos - 1));
+    }
+
+
+    public void eingabeSetText(String i) {
+        eT_eingabe.setText(i);
+        //setNavI(eT_eingabe.getText().toString());
+    }
+
+    @Override
+    public String eingabeGetText() {
+        return eT_eingabe.getText().toString();
+    }
+
+    public void ausgabeSetText(String res) {
+        eT_ausgabe.setText(res);
+    }
+
+
+
+    @Override
+    public void replaceSelection(String input) {
+        if (input == null || input.isEmpty()) return;
+        int selStart = -1;
+        int selEnd = -1;
+        if (eT_eingabe.hasFocus()) {
+            selStart = eT_eingabe.getSelectionStart();
+            selEnd = eT_eingabe.getSelectionEnd();
+            if (selStart >= 0 && selEnd >= 0 && selStart <= selEnd && selStart <= eT_eingabe.length() && selEnd <= eT_eingabe.length()) {
+                String etE_text = eT_eingabe.getText().toString();
+                etE_text = StringUtils.replace(etE_text, input, selStart, selEnd);
+
+                Toast.makeText(MainActivity.this, "selection: " + etE_text.toString(), Toast.LENGTH_LONG).show();
+                eT_eingabe.setText(etE_text);
+            } else {
+                eT_eingabe.setText(input);
+            }
+            eT_eingabe.setSelection(selEnd);
+            presenter.setNavI(eT_eingabe.getText().toString());
+        }
+    }
+
+    @Override
+    public String getSelection() {
+        String selection = "";
+        int selStart = -1;
+        int selEnd = -1;
+        if (eT_eingabe.hasFocus()) {
+            selStart = eT_eingabe.getSelectionStart();
+            selEnd = eT_eingabe.getSelectionEnd();
+            if (selStart > 0 && selEnd > 0 && selStart < selEnd) {
+                return eT_eingabe.getText().toString().substring(selStart, selEnd);
+            } else {
+                return eT_eingabe.getText().toString();
+            }
+        } else if (eT_ausgabe.hasFocus()) {
+            selStart = eT_ausgabe.getSelectionStart();
+            selEnd = eT_ausgabe.getSelectionEnd();
+            if (selStart > 0 && selEnd > 0 && selStart < selEnd) {
+                return eT_ausgabe.getText().toString().substring(selStart, selEnd);
+            } else {
+                return eT_ausgabe.getText().toString();
+            }
+        }
+        return selection;
+    }
+
+    public void saveMemory(String[] Memory) {
+        String MEMS = ArrayUtils.arrayToString(Memory);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = preferences.edit();
+        Toast.makeText(this, "save: " + MEMS, Toast.LENGTH_SHORT).show();
+        editor.putString("MEMORY", MEMS);
+        editor.commit();
+    }
+
+    public String[] loadMemory() {
+        String MEMS = PreferenceManager.getDefaultSharedPreferences(this).getString("MEMORY", "");
+        String[] memarray = ArrayUtils.stringToArray(MEMS);
+        Log.e("array mem", Arrays.toString(memarray));
+        String[] res = new String[6];
+        for (int i = 0; i < 6; i++) {
+            if (i < memarray.length) res[i] = memarray[i];
+            else res[i] = "";
+        }
+        return res;
     }
 }

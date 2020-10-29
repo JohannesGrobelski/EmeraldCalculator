@@ -12,6 +12,8 @@ public class ContentString{
         return false;
     }
 
+    public String trim(){return content.trim();}
+
     public void copy(ContentString c){
         this.content = c.content;
     }
@@ -19,4 +21,6 @@ public class ContentString{
     public String getDisplayableString(){
         return content;
     }
+
+    public int getLength(){return content.length();}
 }

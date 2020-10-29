@@ -23,11 +23,22 @@ public class NavigatableString{
         }
     }
 
+    public String trim(){
+        return contentString.trim();
+    }
+
+    public int getLength(){return contentString.getLength();}
+
     public void addText(String a,int position) {
-        if(a == null || a.isEmpty() || a.equals(""))return;
+        if(a == null || a.isEmpty() || a.equals("") || position < 0)return;
         int cursorPosition = position;
         String newText = insertString(contentString.getContent(),a,cursorPosition);
         contentString.setContent(newText);
+    }
+
+    public void concatenateText(String a){
+        if(a == null || a.isEmpty() || a.equals(""))return;
+        contentString.setContent(contentString.getContent() + a);
     }
 
     public void setText(String a) {
@@ -66,65 +77,65 @@ public class NavigatableString{
         return newString.toString();
     }
 
-    public String getResult(int base){
-        return ((NumberString) contentString).getResult(base);
+    public String getResult(){
+        return ((NumberString) contentString).getResult();
     }
 
-    public String normalToScientific(int base){
-        return ((NumberString) contentString).normalToScientific(base);
+    public String normalToScientific(){
+        return ((NumberString) contentString).normalToScientific();
     }
 
-    public String scientificToNormal(int base){
-        return ((NumberString) contentString).scientificToNormal(base);
+    public String scientificToNormal(){
+        return ((NumberString) contentString).scientificToNormal();
     }
 
-    public String getPercent(int base){
-        if(contentString instanceof NumberString) return((NumberString)contentString).getPercent(base);
+    public String getPercent(){
+        if(contentString instanceof NumberString) return((NumberString)contentString).getPercent();
         else return "";
     }
 
-    public String getBIN(int base){
-        if(contentString instanceof NumberString) return((NumberString)contentString).getBIN(base);
+    public String getBIN(){
+        if(contentString instanceof NumberString) return((NumberString)contentString).getBIN();
         else return "";
     }
 
-    public String getOCT(int base){
-        if(contentString instanceof NumberString) return((NumberString)contentString).getOCT(base);
+    public String getOCT(){
+        if(contentString instanceof NumberString) return((NumberString)contentString).getOCT();
         else return "";
     }
 
-    public String getDEC(int base){
-        if(contentString instanceof NumberString) return((NumberString)contentString).getDEC(base);
+    public String getDEC(){
+        if(contentString instanceof NumberString) return((NumberString)contentString).getDEC();
         else return "";
     }
 
-    public String getHEX(int base){
-        if(contentString instanceof NumberString) return((NumberString)contentString).getHEX(base);
+    public String getHEX(){
+        if(contentString instanceof NumberString) return((NumberString)contentString).getHEX();
         else return "";
     }
 
-    public String getRAD(int base){
-        if(contentString instanceof NumberString) return((NumberString)contentString).getRAD(base);
+    public String getRAD(){
+        if(contentString instanceof NumberString) return((NumberString)contentString).getRAD();
         else return "";
     }
 
-    public String getDEG(int base){
-        if(contentString instanceof NumberString) return((NumberString)contentString).getDEG(base);
+    public String getDEG(){
+        if(contentString instanceof NumberString) return((NumberString)contentString).getDEG();
         else return "";
     }
 
-    public String getInvert(int base){
-        if(contentString instanceof NumberString) return ((NumberString)contentString).getInvert(base);
+    public String getInvert(){
+        if(contentString instanceof NumberString) return ((NumberString)contentString).getInvert();
         else return "";
     }
 
-    public String getReciproke(int base){
-        if(contentString instanceof NumberString) return ((NumberString)contentString).getReciproke(base);
+    public String getReciproke(){
+        if(contentString instanceof NumberString) return ((NumberString)contentString).getReciproke();
         else return "";
     }
 
-    public String getPFZ(int base){
-        if(contentString instanceof NumberString) return ((NumberString)contentString).getPFZ(base);
+    public String getPFZ(){
+        if(contentString instanceof NumberString) return ((NumberString)contentString).getPFZ();
         else return "";
     }
 
@@ -132,8 +143,8 @@ public class NavigatableString{
         if(contentString instanceof NumberString) ((NumberString)contentString).setArgument();
     }
 
-    public String getBruch(int base){
-        if(contentString instanceof NumberString) return ((NumberString)contentString).getBruch(base);
+    public String getBruch(){
+        if(contentString instanceof NumberString) return ((NumberString)contentString).getBruch();
         else return "";
     }
 

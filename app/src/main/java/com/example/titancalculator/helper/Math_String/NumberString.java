@@ -308,7 +308,7 @@ public class NumberString extends ContentString {
         }
     }
 
-    String getResult(int base){
+    String getResult(){
         String i = getCalcuableString(content);
         Log.e("getRES input",i);
 
@@ -320,7 +320,7 @@ public class NumberString extends ContentString {
         return c;
     }
 
-    String normalToScientific(int base){
+    String normalToScientific(){
         String i = getCalcuableString(content);
         Log.e("normToSci input",i);
 
@@ -330,7 +330,7 @@ public class NumberString extends ContentString {
         return c;
     }
 
-    String scientificToNormal(int base){
+    String scientificToNormal(){
         String i = getCalcuableString(content);
         Log.e("sciToNormal input",i);
 
@@ -341,68 +341,68 @@ public class NumberString extends ContentString {
     }
 
 
-    String getPercent(int base){
-        String res = getResult(base);
+    String getPercent(){
+        String res = getResult();
         if(res.isEmpty() || res.equals("Math Error"))return res;
         return getDisplayableString(Double.toString(Double.parseDouble(res) * 100));
     }
 
-    String getInvert(int base){
-        String res = getResult(base);
+    String getInvert(){
+        String res = getResult();
         if(res.isEmpty() || res.equals("Math Error"))return res;
         return getDisplayableString(Double.toString(-Double.parseDouble(res)));
     }
 
-    String getReciproke(int base){
-        String res = getResult(base);
+    String getReciproke(){
+        String res = getResult();
         if(res.isEmpty() || res.equals("Math Error"))return res;
         return getDisplayableString(Double.toString(1 / Double.parseDouble(res)));
     }
 
-    String getBruch(int base){
-        String res = getResult(base);
+    String getBruch(){
+        String res = getResult();
         if(res.isEmpty() || res.equals("Math Error"))return res;
         return getDisplayableString(MathEvaluator.toBruch(res));
     }
 
-    String getRAD(int base){
-        String res = getResult(base);
+    String getRAD(){
+        String res = getResult();
         if(res.isEmpty() || res.equals("Math Error"))return res;
         return getDisplayableString(MathEvaluator.toRAD(res));
     }
 
-    String getDEG(int base){
-        String res = getResult(base);
+    String getDEG(){
+        String res = getResult();
         if(res.isEmpty() || res.equals("Math Error"))return res;
         return getDisplayableString(MathEvaluator.toDEG(res));
     }
 
-    String getBIN(int base){
-        String res = getResult(base);
+    String getBIN(){
+        String res = getResult();
         if(res.isEmpty() || res.equals("Math Error"))return res;
         return getDisplayableString(MathEvaluator.baseConversion(res,10,2));
     }
 
-    String getOCT(int base){
-        String res = getResult(base);
+    String getOCT(){
+        String res = getResult();
         if(res.isEmpty() || res.equals("Math Error"))return res;
         return getDisplayableString(MathEvaluator.baseConversion(res,10,8));
     }
 
-    String getDEC(int base){
-        String res = getResult(base);
+    String getDEC(){
+        String res = getResult();
         if(res.isEmpty() || res.equals("Math Error"))return res;
         return getDisplayableString(MathEvaluator.baseConversion(res,10,10));
     }
 
-    String getHEX(int base){
-        String res = getResult(base);
+    String getHEX(){
+        String res = getResult();
         if(res.isEmpty() || res.equals("Math Error"))return res;
         return getDisplayableString(MathEvaluator.baseConversion(res,10,16)).toUpperCase();
     }
 
-    String getPFZ(int base){
-        String res = getResult(base);
+    String getPFZ(){
+        String res = getResult();
         if(res.isEmpty() || res.equals("Math Error"))return res;
         try{
             Double a = Double.parseDouble(res);
