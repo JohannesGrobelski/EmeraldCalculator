@@ -7,12 +7,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.graphics.Typeface;
+import android.opengl.Visibility;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -62,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout science_background;
     LinearLayout display;
     //L1
+    Button btn_FUN;
     Button btn_clear;
     Button btn_clearall;
     //L2
@@ -110,7 +114,6 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout LN2;
     LinearLayout LN3;
     LinearLayout LN4;
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -187,6 +190,7 @@ public class MainActivity extends AppCompatActivity {
         display = findViewById(R.id.display);
         science_background = findViewById(R.id.science_background);
         //L1
+        btn_FUN = findViewById(R.id.btn_FUN);
         btn_clear = findViewById(R.id.btn_clear);
         btn_clearall = findViewById(R.id.btn_clearall);
         //L2 normal: PI,E,->DEC,->BIN,->OCT
@@ -244,7 +248,36 @@ public class MainActivity extends AppCompatActivity {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.modes_DE, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
+        Button[] allButtons = {btn_11,btn_12,btn_13,btn_14,btn_15,btn_16,btn_21,btn_22,btn_23,btn_24,btn_25,btn_26,btn_FUN,btn_clear,btn_clearall,btn_LINKS,btn_RECHTS,btn_1,btn_2,btn_3,btn_4,btn_5,btn_6,btn_7,btn_8,btn_9,btn_open_bracket,btn_close_bracket,btn_add,btn_sub,btn_mul,btn_div,btn_com,btn_sep,btn_ans,btn_eq};
+        for(Button btn: allButtons){
+           // Log.d("",getResources().getResourceEntryName(btn.getId()));
+            btn.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    if (motionEvent.getAction() == android.view.MotionEvent.ACTION_DOWN) {
+                        ((Button)view).setTypeface(null, Typeface.BOLD);
+                    }
+                    else if (motionEvent.getAction() == android.view.MotionEvent.ACTION_UP) {
+                        ((Button)view).setTypeface(null, Typeface.NORMAL);
+                    }
+                    return false;
+                }
+            });
+        }
 
+
+        btn_FUN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(LN2.getVisibility() == View.VISIBLE){
+                    LN2.setVisibility(View.GONE);
+                    LN3.setVisibility(View.GONE);
+                } else {
+                    LN2.setVisibility(View.VISIBLE);
+                    LN3.setVisibility(View.VISIBLE);
+                }
+            }
+        });
         btn_clear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

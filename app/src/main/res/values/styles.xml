@@ -3,9 +3,6 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/primary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/accent</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -17,11 +14,32 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="Button" parent="Widget.MaterialComponents.Button.UnelevatedButton">
-        <item name="background">@color/Flat_Grau</item>
+
+
+    <style name="FlatButton" parent="@style/Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">@color/background</item>
+
+        <item name="android:textAlignment">center</item>
+        <item name="android:visibility">visible</item>
+
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:elevation">0sp</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:shadowRadius">30</item>
     </style>
 
+    <style name="NumberFlatButton" parent="FlatButton">
+        <item name="background">@drawable/button_number</item>
+    </style>
 
+    <style name="SpecialFlatButton" parent="FlatButton">
+        <item name="background">@color/primary_dark</item>
+    </style>
 
+    <style name="FunctionFlatButton" parent="FlatButton">
+        <item name="background">@color/accent</item>
+    </style>
 
 </resources>
