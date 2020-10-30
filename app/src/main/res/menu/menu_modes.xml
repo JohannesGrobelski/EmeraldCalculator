@@ -7,8 +7,10 @@
     <item android:id="@+id/trigo"
         android:title="@string/TRIGO_DE" />
     <item android:id="@+id/hyper"
-        android:title="@string/HYPER_DE" />
-    <item android:id="@+id/stats"
+    android:title="@string/HYPER_DE" />
+    <item android:id="@+id/logic"
+        android:title="@string/LOGIC_DE" />
+    <item android:id="@+id/statistic"
         android:title="@string/STATS_DE" />
     <item android:id="@+id/memory"
         android:title="@string/MEMORY_DE" />

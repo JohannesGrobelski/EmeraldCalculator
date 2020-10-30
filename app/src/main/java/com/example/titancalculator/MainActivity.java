@@ -3,12 +3,10 @@ package com.example.titancalculator;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Typeface;
-import android.opengl.Visibility;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
@@ -18,7 +16,6 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,91 +31,42 @@ import androidx.preference.PreferenceManager;
 
 import com.example.titancalculator.helper.ArrayUtils;
 import com.example.titancalculator.helper.MainDisplay.SettingsApplier;
-import com.example.titancalculator.helper.Math_String.NavigatableString;
 import com.example.titancalculator.helper.StringUtils;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 
 /** View implemented by Activity, will contain a reference to the presenter.
   * The only thing that the view will do is to call a method from the Presenter every time there is an interface action.
   */
 public class MainActivity extends AppCompatActivity implements Presenter.View {
     Presenter presenter;
-
     //auxiliary variables
     boolean eT_eingabe_hasFocus = true;
-
 
     //VIEWS
     Toolbar toolbar;
     LinearLayout science_background;
     LinearLayout display;
-    //L1
-    Button btn_FUN;
-    Button btn_clear;
-    Button btn_clearall;
-    //L2
-    Button btn_11;
-    Button btn_12;
-    Button btn_13;
-    Button btn_14;
-    Button btn_15;
-    Button btn_16;
-    //L3
-    Button btn_21;
-    Button btn_22;
-    Button btn_23;
-    Button btn_24;
-    Button btn_25;
-    Button btn_26;
-    //L5
-    Button btn_LINKS;
-    Button btn_RECHTS;
-    Spinner spinner_Base;
-    //G1
-    Button btn_1;
-    Button btn_2;
-    Button btn_3;
-    Button btn_4;
-    Button btn_5;
-    Button btn_6;
-    Button btn_7;
-    Button btn_8;
-    Button btn_9;
-    Button btn_0;
-    //G2
-    Button btn_open_bracket;
-    Button btn_close_bracket;
-    Button btn_add;
-    Button btn_sub;
-    Button btn_mul;
-    Button btn_div;
-    Button btn_com;
-    Button btn_sep;
-    Button btn_ans;
-    Button btn_eq;
-    EditText eT_eingabe;
-    EditText eT_ausgabe;
-    LinearLayout LN2;
-    LinearLayout LN3;
-    LinearLayout LN4;
-
-
+    //Line 1
+    Button btn_FUN; Button btn_clear; Button btn_clearall;
+    //Line 2
+    Button btn_11; Button btn_12;Button btn_13;Button btn_14;Button btn_15;Button btn_16;
+    //Line 3
+    Button btn_21; Button btn_22; Button btn_23; Button btn_24; Button btn_25; Button btn_26;
+    //Line 5
+    Button btn_LINKS; Button btn_RECHTS; Spinner spinner_Base;
+    //Group 1
+    Button btn_1; Button btn_2; Button btn_3; Button btn_4; Button btn_5; Button btn_6; Button btn_7; Button btn_8; Button btn_9; Button btn_0;
+    //Group 2
+    Button btn_open_bracket; Button btn_close_bracket; Button btn_add; Button btn_sub; Button btn_mul; Button btn_div; Button btn_com; Button btn_sep; Button btn_ans; Button btn_eq;
+    EditText eT_eingabe; EditText eT_ausgabe;
+    LinearLayout LN2; LinearLayout LN3; LinearLayout LN4;
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_modes, menu);
-        return true;
-    }
+    public boolean onCreateOptionsMenu(Menu menu) {getMenuInflater().inflate(R.menu.menu_modes, menu); return true;}
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-    }
+    public void onConfigurationChanged(Configuration newConfig) { super.onConfigurationChanged(newConfig);}
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -138,9 +86,10 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        presenter.setMode(item.toString());
+        String idName = getResources().getResourceEntryName(item.getItemId());
+        presenter.setMode(idName);
         presenter.assignModeFct();
-        toolbar.setTitle(presenter.getMode());
+        toolbar.setTitle(item.toString());
         return true;
     }
 
@@ -171,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        presenter.setMode("BASIC");
+        presenter.setMode("basic");
         presenter.resetMemory();
         //setzt hintergrundbild
 
@@ -181,61 +130,28 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
         display = findViewById(R.id.display);
         science_background = findViewById(R.id.science_background);
         //L1
-        btn_FUN = findViewById(R.id.btn_FUN);
-        btn_clear = findViewById(R.id.btn_clear);
-        btn_clearall = findViewById(R.id.btn_clearall);
-        //L2 normal: PI,E,->DEC,->BIN,->OCT
-        //TRIGO: SIN,COS,TAN,ASIN,ACOS,ATAN
-        btn_11 = findViewById(R.id.btn_11);
-        btn_12 = findViewById(R.id.btn_12);
-        btn_13 = findViewById(R.id.btn_13);
-        btn_14 = findViewById(R.id.btn_14);
-        btn_15 = findViewById(R.id.btn_15);
-        btn_16 = findViewById(R.id.btn_16);
-        //L3 normal: %,!,^,a/b,x^-1,+/-
-        //TRIGO: ASINH,ACOSH,ATANH,SINH,COSH,TANH
-        btn_21 = findViewById(R.id.btn_21);
-        btn_22 = findViewById(R.id.btn_22);
-        btn_23 = findViewById(R.id.btn_23);
-        btn_24 = findViewById(R.id.btn_24);
-        btn_25 = findViewById(R.id.btn_25);
-        btn_26 = findViewById(R.id.btn_26);
+        btn_FUN = findViewById(R.id.btn_FUN); btn_clear = findViewById(R.id.btn_clear); btn_clearall = findViewById(R.id.btn_clearall);
+        //L2
+        btn_11 = findViewById(R.id.btn_11);  btn_12 = findViewById(R.id.btn_12);  btn_13 = findViewById(R.id.btn_13);  btn_14 = findViewById(R.id.btn_14);  btn_15 = findViewById(R.id.btn_15);  btn_16 = findViewById(R.id.btn_16);
+        //L3
+        btn_21 = findViewById(R.id.btn_21);  btn_22 = findViewById(R.id.btn_22);  btn_23 = findViewById(R.id.btn_23);  btn_24 = findViewById(R.id.btn_24);  btn_25 = findViewById(R.id.btn_25);  btn_26 = findViewById(R.id.btn_26);
         //L5
-        btn_LINKS = findViewById(R.id.btn_LINKS);
-        btn_RECHTS = findViewById(R.id.btn_RECHTS);
-        spinner_Base = findViewById(R.id.spinner_Base);
+        btn_LINKS = findViewById(R.id.btn_LINKS);  btn_RECHTS = findViewById(R.id.btn_RECHTS);  spinner_Base = findViewById(R.id.spinner_Base);
         //G1
-        btn_1 = findViewById(R.id.btn_1);
-        btn_2 = findViewById(R.id.btn_2);
-        btn_3 = findViewById(R.id.btn_3);
-        btn_4 = findViewById(R.id.btn_4);
-        btn_5 = findViewById(R.id.btn_5);
-        btn_6 = findViewById(R.id.btn_6);
-        btn_7 = findViewById(R.id.btn_7);
-        btn_8 = findViewById(R.id.btn_8);
-        btn_9 = findViewById(R.id.btn_9);
-        btn_0 = findViewById(R.id.btn_0);
-        btn_com = findViewById(R.id.btn_com);
-        btn_sep = findViewById(R.id.btn_sep);
-        btn_ans = findViewById(R.id.btn_ANS);
+        btn_1 = findViewById(R.id.btn_1);  btn_2 = findViewById(R.id.btn_2);  btn_3 = findViewById(R.id.btn_3);  btn_4 = findViewById(R.id.btn_4);  btn_5 = findViewById(R.id.btn_5);
+        btn_6 = findViewById(R.id.btn_6);  btn_7 = findViewById(R.id.btn_7);  btn_8 = findViewById(R.id.btn_8);  btn_9 = findViewById(R.id.btn_9);  btn_0 = findViewById(R.id.btn_0);
+        btn_com = findViewById(R.id.btn_com);  btn_sep = findViewById(R.id.btn_sep);  btn_ans = findViewById(R.id.btn_ANS);
         //G2
-        btn_open_bracket = findViewById(R.id.btn_open_bracket);
-        btn_close_bracket = findViewById(R.id.btn_close_bracket);
-        btn_add = findViewById(R.id.btn_add);
-        btn_sub = findViewById(R.id.btn_sub);
-        btn_mul = findViewById(R.id.btn_mul);
-        btn_div = findViewById(R.id.btn_div);
-        btn_eq = findViewById(R.id.btn_eq);
-        LN2 = findViewById(R.id.LN2);
-        LN3 = findViewById(R.id.LN3);
-        LN4 = findViewById(R.id.LN4);
+        btn_open_bracket = findViewById(R.id.btn_open_bracket);  btn_close_bracket = findViewById(R.id.btn_close_bracket);
+        btn_add = findViewById(R.id.btn_add);  btn_sub = findViewById(R.id.btn_sub);  btn_mul = findViewById(R.id.btn_mul);  btn_div = findViewById(R.id.btn_div);  btn_eq = findViewById(R.id.btn_eq);
+        LN2 = findViewById(R.id.LN2);  LN3 = findViewById(R.id.LN3);  LN4 = findViewById(R.id.LN4);
 
         eT_ausgabe.setOnFocusChangeListener(focusListener);
         eT_eingabe.setOnFocusChangeListener(focusListener);
         disableSoftInputFromAppearing(eT_eingabe);
         disableSoftInputFromAppearing(eT_ausgabe);
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.modes_DE, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.modes_EN, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         Button[] allButtons = {btn_11,btn_12,btn_13,btn_14,btn_15,btn_16,btn_21,btn_22,btn_23,btn_24,btn_25,btn_26,btn_FUN,btn_clear,btn_clearall,btn_LINKS,btn_RECHTS,btn_1,btn_2,btn_3,btn_4,btn_5,btn_6,btn_7,btn_8,btn_9,btn_open_bracket,btn_close_bracket,btn_add,btn_sub,btn_mul,btn_div,btn_com,btn_sep,btn_ans,btn_eq};
@@ -271,89 +187,87 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
         btn_clear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                presenter.inputClear();
+                presenter.inputClearOne();
             }
         });
         btn_clearall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                eT_eingabe.setText("");
-                eT_ausgabe.setText("");
-                presenter.setNavI(eT_eingabe.getText().toString());
+               presenter.inputClearAll();
             }
         });
         //L2
         btn_11.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                presenter.inputBtn11();
+                presenter.inputBtn("11");
             }
         });
         btn_12.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               presenter.inputBtn12();
+               presenter.inputBtn("12");
             }
         });
         btn_13.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                presenter.inputBtn13();
+                presenter.inputBtn("13");
             }
         });
         btn_14.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                presenter.inputBtn14();
+                presenter.inputBtn("14");
             }
         });
         btn_15.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                presenter.inputBtn15();
+                presenter.inputBtn("15");
             }
         });
         btn_16.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                presenter.inputBtn16();
+                presenter.inputBtn("16");
             }
         });
         //L3
         btn_21.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                presenter.inputBtn21();
+                presenter.inputBtn("21");
             }
         });
         btn_22.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                presenter.inputBtn22();
+                presenter.inputBtn("22");
             }
         });
         btn_23.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                presenter.inputBtn23();
+                presenter.inputBtn("23");
             }
         });
         btn_24.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                presenter.inputBtn24();
+                presenter.inputBtn("24");
             }
         });
         btn_25.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                presenter.inputBtn25();
+                presenter.inputBtn("25");
             }
         });
         btn_26.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                presenter.inputBtn26();
+                presenter.inputBtn("26");
             }
         });
         btn_LINKS.setOnClickListener(new View.OnClickListener() {
@@ -372,117 +286,117 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
         btn_1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                presenter.eingabeAddText("1");
+                presenter.inputBtn("1");
             }
         });
         btn_2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                presenter.eingabeAddText("2");
+                presenter.inputBtn("2");
             }
         });
         btn_3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                presenter.eingabeAddText("3");
+                presenter.inputBtn("3");
             }
         });
         btn_4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                presenter.eingabeAddText("4");
+                presenter.inputBtn("4");
             }
         });
         btn_5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                presenter.eingabeAddText("5");
+                presenter.inputBtn("5");
             }
         });
         btn_6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                presenter.eingabeAddText("6");
+                presenter.inputBtn("6");
             }
         });
         btn_7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                presenter.eingabeAddText("7");
+                presenter.inputBtn("7");
             }
         });
         btn_8.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                presenter.eingabeAddText("8");
+                presenter.inputBtn("8");
             }
         });
         btn_9.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                presenter.eingabeAddText("9");
+                presenter.inputBtn("9");
             }
         });
         btn_0.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                presenter.eingabeAddText("0");
+                presenter.inputBtn("0");
             }
         });
         btn_com.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                presenter.eingabeAddText(".");
+                presenter.inputBtn(".");
 
             }
         });
         btn_sep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                presenter.eingabeAddText(",");
+                presenter.inputBtn(",");
             }
         });
         btn_ans.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                presenter.eingabeAddText("ANS");
+                presenter.inputBtn("ANS");
             }
         });
         //G2
         btn_open_bracket.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                presenter.eingabeAddText("(");
+                presenter.inputBtn("(");
             }
         });
         btn_close_bracket.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                eT_eingabe.clearFocus(); presenter.eingabeAddText(")");
+                eT_eingabe.clearFocus(); presenter.inputBtn(")");
             }
         });
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                presenter.eingabeAddText("+");
+                presenter.inputBtn("+");
             }
         });
         btn_sub.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                presenter.eingabeAddText("-");
+                presenter.inputBtn("-");
             }
         });
         btn_mul.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                presenter.eingabeAddText("*");
+                presenter.inputBtn("*");
             }
         });
         btn_div.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                presenter.eingabeAddText("/");
+                presenter.inputBtn("/");
             }
         });
         btn_eq.setOnClickListener(new View.OnClickListener() {
@@ -530,18 +444,6 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
             }
         }
     };
-
-    private static String returnEnglishMode(String mode){
-        switch(mode){
-            case "STANDART": {return "BASIC";}
-            case "STANDART2": {return "BASIC2";}
-            case "STATISTIK": {return "STATISTIC";}
-            case "NUTZER": {return "USER";}
-            case "LOGISCH": {return "LOGIC";}
-            case "SPEICHER": {return "MEMORY";}
-            default: return mode;
-        }
-    }
 
     /**
      * Disable soft keyboard from appearing, use in conjunction with android:windowSoftInputMode="stateAlwaysHidden|adjustNothing"
@@ -620,14 +522,19 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
 
     @Override
     public int getSelectionStartEingabe() {
-        if(eT_eingabe.hasSelection())return eT_eingabe.getSelectionStart();
+        if(eT_eingabe.hasFocus()){return eT_eingabe.getSelectionStart();}
         else return -1;
     }
 
     @Override
     public int getSelectionEndEingabe() {
-        if(eT_eingabe.hasSelection())return eT_eingabe.getSelectionEnd();
+        if(eT_eingabe.hasFocus()){return eT_eingabe.getSelectionEnd();}
         else return -1;
+    }
+
+    @Override
+    public void setSelectionEingabe(int selectionEingabe) {
+        eT_eingabe.setSelection(selectionEingabe);
     }
 
 
@@ -644,18 +551,23 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
          */
     }
 
-    public void eingabeClear() {
+    public void eingabeClearOne() {
         /*
         if (!eT_eingabe.getText().toString().equals(InputString.getDisplayableString())) {
             setNavI(eT_eingabe.getText().toString());
         }
         InputString.clear(eT_eingabe.getSelectionStart());
         eingabeSetText(InputString.getDisplayableString());
-
          */
         int pos = eT_eingabe.getSelectionStart();
         eingabeSetText("");
         eT_eingabe.setSelection(Math.max(0, pos - 1));
+    }
+
+    @Override
+    public void eingabeClearAll() {
+        eT_eingabe.setText(""); eT_eingabe.clearFocus();
+        eT_ausgabe.setText(""); eT_ausgabe.clearFocus();
     }
 
 
@@ -673,16 +585,12 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
         eT_ausgabe.setText(res);
     }
 
-
-
     @Override
     public void replaceSelection(String input) {
         if (input == null || input.isEmpty()) return;
-        int selStart = -1;
-        int selEnd = -1;
+        int selStart = eT_eingabe.getSelectionStart();
+        int selEnd = eT_eingabe.getSelectionEnd();
         if (eT_eingabe.hasFocus()) {
-            selStart = eT_eingabe.getSelectionStart();
-            selEnd = eT_eingabe.getSelectionEnd();
             if (selStart >= 0 && selEnd >= 0 && selStart <= selEnd && selStart <= eT_eingabe.length() && selEnd <= eT_eingabe.length()) {
                 String etE_text = eT_eingabe.getText().toString();
                 etE_text = StringUtils.replace(etE_text, input, selStart, selEnd);
