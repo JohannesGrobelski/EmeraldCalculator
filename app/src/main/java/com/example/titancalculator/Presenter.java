@@ -89,7 +89,7 @@ public class Presenter {
             ret =  identifier;
         }
 
-        if(ret.substring(0,1).equals(">")){ //TODO: schlechtes Signal das Output da ist, besser?: CalcModel benachrichtig Presenter direkt?
+        if(!ret.isEmpty() && ret.substring(0,1).equals(">")){ //TODO: schlechtes Signal das Output da ist, besser?: CalcModel benachrichtig Presenter direkt?
             view.ausgabeSetText(calcModel.getOutputString());
             return "";
         }

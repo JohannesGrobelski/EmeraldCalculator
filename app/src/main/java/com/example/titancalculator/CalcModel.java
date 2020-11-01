@@ -230,7 +230,7 @@ public class CalcModel {
     public String translInputBtn16(){
         switch(mode){
             case "basic": {return("LB");}
-            case "basic2": {}
+            case "basic2": {return "";}
             case "trigo":  {return("ACOS"); }
             case "user":  {transUserInputBtnFct("btn_16"); }
             case "statistic":  {return("VAR()"); }
