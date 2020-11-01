@@ -1,10 +1,18 @@
 package com.example.titancalculator;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.util.Log;
+import android.widget.Toast;
 
+import androidx.core.app.ActivityCompat;
 import androidx.preference.PreferenceManager;
 
+import com.example.titancalculator.helper.ArrayUtils;
 import com.example.titancalculator.helper.Math_String.NavigatableString;
 
 import java.util.Arrays;
@@ -18,6 +26,7 @@ public class CalcModel {
         public static Set<String> noImmidiateOps = new HashSet<>(Arrays.asList("³√", "ROOT", "√", "LOG", "P", "C", "%"));
 
     //state
+        Context context;
         NavigatableString InputString = new NavigatableString("content");
         int startSelection, endSelection;
         String OutputString = "";
@@ -57,6 +66,9 @@ public class CalcModel {
         public boolean isScientificNotation() {return scientificNotation;}
         public void setScientificNotation(boolean scientificNotation) {this.scientificNotation = scientificNotation;}
 
+    public CalcModel(Context c){
+            this.context = c;
+    }
 
     //methods
     private void setBase(Context context, int Base) {
@@ -324,5 +336,45 @@ public class CalcModel {
 
     public void toogleScientificNotation(){scientificNotation = !scientificNotation;}
 
+
+    //persistency
+
+    public void saveMemory(String[] Memory) {
+        String MEMS = ArrayUtils.arrayToString(Memory);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.context);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("MEMORY", MEMS);
+        editor.commit();
+    }
+
+    public String[] loadMemory() {
+        String MEMS = PreferenceManager.getDefaultSharedPreferences(this.context).getString("MEMORY", "");
+        String[] memarray = ArrayUtils.stringToArray(MEMS);
+        Log.e("array mem", Arrays.toString(memarray));
+        String[] res = new String[6];
+        for (int i = 0; i < 6; i++) {
+            if (i < memarray.length) res[i] = memarray[i];
+            else res[i] = "";
+        }
+        return res;
+    }
+
+    private static boolean checkPermissionForReadExtertalStorage(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            int result = context.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
+            return result == PackageManager.PERMISSION_GRANTED;
+        }
+        return false;
+    }
+
+    private static void requestPermissionForReadExtertalStorage(Context context) throws Exception {
+        try {
+            ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    Integer.parseInt(Manifest.permission.READ_EXTERNAL_STORAGE));
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
 
 }

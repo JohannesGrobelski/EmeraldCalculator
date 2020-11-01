@@ -5,6 +5,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 
 import static com.example.titancalculator.geplanteFeatures.CalcActivity_science.getBase;
 
@@ -14,11 +15,12 @@ import static com.example.titancalculator.geplanteFeatures.CalcActivity_science.
   * Generally there is a one to one mapping between View and Presenter, with the possibility to use multiple Presenters for complex Views.
   */
 public class Presenter {
-    CalcModel calcModel = new CalcModel();
+    CalcModel calcModel;
     View view;
 
-    public Presenter(View view){
+    public Presenter(View view, Context context){
         this.view = view;
+        calcModel = new CalcModel(context);
     }
 
 
@@ -46,22 +48,22 @@ public class Presenter {
             int nr = Integer.valueOf(identifier);
             switch (nr){
                 case 11: {
-                    if(calcModel.getMode().equals("MEMORY")){calcModel.setMemory(getSelection(),0); view.saveMemory(calcModel.getMemory()); break;}
+                    if(calcModel.getMode().equals("MEMORY")){calcModel.setMemory(getSelection(),0); calcModel.saveMemory(calcModel.getMemory()); break;}
                     ret = calcModel.translInputBtn11(); if(!ret.contains(">"))eingabeAddText(calcModel.translInputBtn11()); break;}
                 case 12: {
-                    if(calcModel.getMode().equals("MEMORY")){calcModel.setMemory(getSelection(),1); view.saveMemory(calcModel.getMemory()); break;}
+                    if(calcModel.getMode().equals("MEMORY")){calcModel.setMemory(getSelection(),1); calcModel.saveMemory(calcModel.getMemory()); break;}
                     ret = calcModel.translInputBtn12(); if(!ret.contains(">"))eingabeAddText(calcModel.translInputBtn12()); break;}
                 case 13: {
-                    if(calcModel.getMode().equals("MEMORY")){calcModel.setMemory(getSelection(),2); view.saveMemory(calcModel.getMemory()); break;}
+                    if(calcModel.getMode().equals("MEMORY")){calcModel.setMemory(getSelection(),2); calcModel.saveMemory(calcModel.getMemory()); break;}
                     ret = calcModel.translInputBtn13(); if(!ret.contains(">"))eingabeAddText(calcModel.translInputBtn13()); break;}
                 case 14: {
-                    if(calcModel.getMode().equals("MEMORY")){calcModel.setMemory(getSelection(),3); view.saveMemory(calcModel.getMemory()); break;}
+                    if(calcModel.getMode().equals("MEMORY")){calcModel.setMemory(getSelection(),3); calcModel.saveMemory(calcModel.getMemory()); break;}
                     ret = calcModel.translInputBtn14(); if(!ret.contains(">"))eingabeAddText(calcModel.translInputBtn14()); break;}
                 case 15: {
-                    if(calcModel.getMode().equals("MEMORY")){calcModel.setMemory(getSelection(),4); view.saveMemory(calcModel.getMemory()); break;}
+                    if(calcModel.getMode().equals("MEMORY")){calcModel.setMemory(getSelection(),4); calcModel.saveMemory(calcModel.getMemory()); break;}
                     ret = calcModel.translInputBtn15(); if(!ret.contains(">"))eingabeAddText(calcModel.translInputBtn15()); break;}
                 case 16: {
-                    if(calcModel.getMode().equals("MEMORY")){calcModel.setMemory(getSelection(),5); view.saveMemory(calcModel.getMemory()); break;}
+                    if(calcModel.getMode().equals("MEMORY")){calcModel.setMemory(getSelection(),5); calcModel.saveMemory(calcModel.getMemory()); break;}
                     ret = calcModel.translInputBtn16(); if(!ret.contains(">"))eingabeAddText(calcModel.translInputBtn16()); break;}
                 case 21: {
                     if(calcModel.getMode().equals("MEMORY")){replaceSelection(calcModel.getMemory(0)); eingabeAddText(calcModel.translInputBtn21()); break;}
@@ -132,12 +134,11 @@ public class Presenter {
         setNavI("");
     }
 
-
     public void inputEqual(){
         if (!view.eingabeGetText().equals(calcModel.inputStringGetDisplayableString())) {
             setNavI(view.eingabeGetText());
         }
-        String answer = calcModel.inputStringGetResult();
+        String answer;
         if(calcModel.isScientificNotation()){
             answer = calcModel.inputStringNormalToScientific();
         } else {
@@ -225,12 +226,8 @@ public class Presenter {
         void eingabeSetText(String text);
         String eingabeGetText();
         void ausgabeSetText(String text);
-
         
         void replaceSelection(String input);
         String getSelection();
-
-        void saveMemory(String[] Memory);
-        String[] loadMemory();
     }
 }

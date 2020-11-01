@@ -34,6 +34,7 @@ import com.example.titancalculator.helper.MainDisplay.SettingsApplier;
 import com.example.titancalculator.helper.StringUtils;
 
 import java.util.Arrays;
+import java.util.LinkedList;
 
 /** View implemented by Activity, will contain a reference to the presenter.
   * The only thing that the view will do is to call a method from the Presenter every time there is an interface action.
@@ -66,25 +67,6 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
     public boolean onCreateOptionsMenu(Menu menu) {getMenuInflater().inflate(R.menu.menu_modes, menu); return true;}
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig) { super.onConfigurationChanged(newConfig);}
-
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if (hasFocus) {
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-            getWindow().getDecorView().setSystemUiVisibility(
-                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-            );
-        }
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         String idName = getResources().getResourceEntryName(item.getItemId());
         presenter.setMode(idName);
@@ -109,11 +91,13 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
         //presenter.eingabeAddText(current_Callback); TODO
     }
 
+
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new Presenter(this);
+        presenter = new Presenter(this,this);
         SettingsApplier.applySettings(MainActivity.this);
         setContentView(R.layout.activity_main);
         setTitle("Calculator");
@@ -415,23 +399,23 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
         });
     }
 
-    private static boolean checkPermissionForReadExtertalStorage(Context context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            int result = context.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
-            return result == PackageManager.PERMISSION_GRANTED;
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+            );
         }
-        return false;
     }
 
-    private static void requestPermissionForReadExtertalStorage(Context context) throws Exception {
-        try {
-            ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                    Integer.parseInt(Manifest.permission.READ_EXTERNAL_STORAGE));
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw e;
-        }
-    }
+
 
     private View.OnFocusChangeListener focusListener = new View.OnFocusChangeListener() {
         public void onFocusChange(View v, boolean hasFocus) {
@@ -520,6 +504,16 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
         btn_26.setText(text);
     }
 
+    @Override public void setSelectionEingabe(int selectionEingabe) {eT_eingabe.setSelection(selectionEingabe);}
+    @Override public void eingabeAddText(String i) {eT_eingabe.getText().insert(eT_eingabe.getSelectionStart(), i);}
+    @Override public void eingabeSetText(String i) {eT_eingabe.setText(i);}
+    @Override public String eingabeGetText() {
+        return eT_eingabe.getText().toString();
+    }
+    @Override public void ausgabeSetText(String res) {
+        eT_ausgabe.setText(res);
+    }
+
     @Override
     public int getSelectionStartEingabe() {
         if(eT_eingabe.hasFocus()){return eT_eingabe.getSelectionStart();}
@@ -532,58 +526,17 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
         else return -1;
     }
 
-    @Override
-    public void setSelectionEingabe(int selectionEingabe) {
-        eT_eingabe.setSelection(selectionEingabe);
-    }
-
-
-    public void eingabeAddText(String i) {
-        eT_eingabe.getText().insert(eT_eingabe.getSelectionStart(), i);
-        /*
-        presenter.setNavI(eT_eingabe.getText().toString());
-        if (solve_inst_pref) {
-            if (!noImmidiateOps.contains(InputString.trim())) {
-                answer = InputString.getResult();
-                if (!answer.equals("Math Error")) ausgabeSetText(answer);
-            }
-        }
-         */
-    }
-
     public void eingabeClearOne() {
-        /*
-        if (!eT_eingabe.getText().toString().equals(InputString.getDisplayableString())) {
-            setNavI(eT_eingabe.getText().toString());
-        }
-        InputString.clear(eT_eingabe.getSelectionStart());
-        eingabeSetText(InputString.getDisplayableString());
-         */
         int pos = eT_eingabe.getSelectionStart();
         eingabeSetText("");
         eT_eingabe.setSelection(Math.max(0, pos - 1));
     }
 
-    @Override
     public void eingabeClearAll() {
         eT_eingabe.setText(""); eT_eingabe.clearFocus();
         eT_ausgabe.setText(""); eT_ausgabe.clearFocus();
     }
 
-
-    public void eingabeSetText(String i) {
-        eT_eingabe.setText(i);
-        //setNavI(eT_eingabe.getText().toString());
-    }
-
-    @Override
-    public String eingabeGetText() {
-        return eT_eingabe.getText().toString();
-    }
-
-    public void ausgabeSetText(String res) {
-        eT_ausgabe.setText(res);
-    }
 
     @Override
     public void replaceSelection(String input) {
@@ -630,24 +583,5 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
         return selection;
     }
 
-    public void saveMemory(String[] Memory) {
-        String MEMS = ArrayUtils.arrayToString(Memory);
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = preferences.edit();
-        Toast.makeText(this, "save: " + MEMS, Toast.LENGTH_SHORT).show();
-        editor.putString("MEMORY", MEMS);
-        editor.commit();
-    }
 
-    public String[] loadMemory() {
-        String MEMS = PreferenceManager.getDefaultSharedPreferences(this).getString("MEMORY", "");
-        String[] memarray = ArrayUtils.stringToArray(MEMS);
-        Log.e("array mem", Arrays.toString(memarray));
-        String[] res = new String[6];
-        for (int i = 0; i < 6; i++) {
-            if (i < memarray.length) res[i] = memarray[i];
-            else res[i] = "";
-        }
-        return res;
-    }
 }
