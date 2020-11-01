@@ -325,6 +325,7 @@ public class NumberString extends ContentString {
         Log.e("normToSci input",i);
 
         String c = MathEvaluator.evaluate(i,predec_places,7);
+        if(!c.equals("Math Error"))last_answer = c;
         Log.e("normToSci output",c);
 
         return c;
@@ -335,6 +336,7 @@ public class NumberString extends ContentString {
         Log.e("sciToNormal input",i);
 
         String c = MathEvaluator.evaluate(i,predec_places,1000);
+        if(!c.equals("Math Error"))last_answer = c;
         Log.e("sciToNormal output",c);
 
         return c;

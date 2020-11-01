@@ -2,15 +2,19 @@ package com.example.titancalculator;
 
 import android.os.Build;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toolbar;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
+import org.robolectric.fakes.RoboMenuItem;
 import org.robolectric.internal.IShadow;
 
 import java.text.DecimalFormat;
@@ -20,6 +24,7 @@ import java.util.LinkedList;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(RobolectricTestRunner.class)
@@ -71,24 +76,7 @@ public class MainActivityTest {
             //Check the division of zero by any number.
             assertTrue(testTerm("0/"+op1,"0"));
         }
-
-
-
-            //assertTrue(testTerm("³√77=4.254320865115005776"));
     }
-
-
-    @Test public void complexTerms() {
-
-        for (int i = 0; i < 10; i++) {
-            double op1 = (Math.random() * 1000) - 500;
-            //e^ln(x) = x
-            assertTrue(testTerm("E^LN("+op1+")",String.valueOf(op1)));
-
-        }
-    }
-
-
 
     private boolean testTerm(String term, String result) {
         return testTerm(term+"="+result);
@@ -110,6 +98,7 @@ public class MainActivityTest {
 
         mainActivity.findViewById(R.id.btn_eq).performClick();
         assertEquals(((EditText) mainActivity.findViewById(R.id.eT_eingabe)).getText().toString(),term);
+        System.out.println(((EditText) mainActivity.findViewById(R.id.eT_eingabe)).getText().toString());
         String output = ((EditText) mainActivity.findViewById(R.id.eT_ausgabe)).getText().toString();
         if(output.contains("E")){
             mainActivity.findViewById(R.id.btn_eq).performLongClick();
@@ -135,19 +124,9 @@ public class MainActivityTest {
         return true;
     }
 
-    @Test public void addNumbers(){
-        //Setup conditions
-        MainActivity mainActivity = Robolectric.setupActivity(MainActivity.class);
+    @Test public void testComplexFunctions(){
+        assertTrue(testTerm("b^e8",String.valueOf(8)));
 
-        //execute code
-        mainActivity.findViewById(R.id.btn_1).performClick();
-        mainActivity.findViewById(R.id.btn_add).performClick();
-        mainActivity.findViewById(R.id.btn_1).performClick();
-        mainActivity.findViewById(R.id.btn_eq).performClick();
-
-        //make assertions
-        assertEquals(((EditText) mainActivity.findViewById(R.id.eT_eingabe)).getText().toString(),"1+1");
-        assertEquals(((EditText) mainActivity.findViewById(R.id.eT_ausgabe)).getText().toString(),"2");
     }
 
     private void initMapIdToView(MainActivity mainActivity){
@@ -171,19 +150,112 @@ public class MainActivityTest {
         idToViewMap.put("(",mainActivity.findViewById(R.id.btn_open_bracket));
         idToViewMap.put(")",mainActivity.findViewById(R.id.btn_close_bracket));
 
-        idToViewMap.put("PI",mainActivity.findViewById(R.id.btn_11));
-        idToViewMap.put("E",mainActivity.findViewById(R.id.btn_12));
-        idToViewMap.put("^",mainActivity.findViewById(R.id.btn_13));
-        idToViewMap.put("LOG",mainActivity.findViewById(R.id.btn_14));
-        idToViewMap.put("LN",mainActivity.findViewById(R.id.btn_15));
-        idToViewMap.put("LB",mainActivity.findViewById(R.id.btn_16));
+        idToViewMap.put("a",mainActivity.findViewById(R.id.btn_11));
+        idToViewMap.put("b",mainActivity.findViewById(R.id.btn_12));
+        idToViewMap.put("c",mainActivity.findViewById(R.id.btn_13));
+        idToViewMap.put("d",mainActivity.findViewById(R.id.btn_14));
+        idToViewMap.put("e",mainActivity.findViewById(R.id.btn_15));
+        idToViewMap.put("f",mainActivity.findViewById(R.id.btn_16));
 
-        idToViewMap.put("³√",mainActivity.findViewById(R.id.btn_21));
-        idToViewMap.put("√",mainActivity.findViewById(R.id.btn_22));
-        idToViewMap.put("³",mainActivity.findViewById(R.id.btn_23));
-        idToViewMap.put("²",mainActivity.findViewById(R.id.btn_24));
-        idToViewMap.put("^10",mainActivity.findViewById(R.id.btn_25));
-        idToViewMap.put("!",mainActivity.findViewById(R.id.btn_26));
+        idToViewMap.put("g",mainActivity.findViewById(R.id.btn_21));
+        idToViewMap.put("h",mainActivity.findViewById(R.id.btn_22));
+        idToViewMap.put("i",mainActivity.findViewById(R.id.btn_23));
+        idToViewMap.put("j",mainActivity.findViewById(R.id.btn_24));
+        idToViewMap.put("k",mainActivity.findViewById(R.id.btn_25));
+        idToViewMap.put("l",mainActivity.findViewById(R.id.btn_26));
     }
+
+    @Test public void testNavigationButtons(){
+        MainActivity mainActivity = Robolectric.setupActivity(MainActivity.class);
+        mainActivity.findViewById(R.id.btn_1).performClick();
+        int pos1 = ((EditText) mainActivity.findViewById(R.id.eT_eingabe)).getSelectionStart();
+        mainActivity.findViewById(R.id.btn_LINKS).performClick();
+        mainActivity.findViewById(R.id.btn_LINKS).performClick();
+        int pos2 = ((EditText) mainActivity.findViewById(R.id.eT_eingabe)).getSelectionStart();
+        mainActivity.findViewById(R.id.btn_RECHTS).performClick();
+        mainActivity.findViewById(R.id.btn_RECHTS).performClick();
+        int pos3 = ((EditText) mainActivity.findViewById(R.id.eT_eingabe)).getSelectionStart();
+        assertEquals(pos1,pos3);
+        assertEquals(pos1,pos2+1);
+
+        mainActivity.findViewById(R.id.btn_0).performClick();
+        mainActivity.findViewById(R.id.btn_LINKS).performClick();
+        mainActivity.findViewById(R.id.btn_clear).performClick();
+        String i1 = ((EditText) mainActivity.findViewById(R.id.eT_eingabe)).getText().toString();
+        mainActivity.findViewById(R.id.btn_clearall).performClick();
+        String i2 = ((EditText) mainActivity.findViewById(R.id.eT_eingabe)).getText().toString();
+        assertEquals(i1,"0");
+        assertEquals(i2,"");
+    }
+
+    @Test public void testANSFunction(){
+        MainActivity mainActivity = Robolectric.setupActivity(MainActivity.class);
+        mainActivity.findViewById(R.id.btn_ANS).performClick();
+        mainActivity.findViewById(R.id.btn_eq).performClick();
+        String ans1 = ((EditText) mainActivity.findViewById(R.id.eT_ausgabe)).getText().toString();
+
+        mainActivity.findViewById(R.id.btn_clearall).performClick();
+        mainActivity.findViewById(R.id.btn_1).performClick();
+        mainActivity.findViewById(R.id.btn_add).performClick();
+        mainActivity.findViewById(R.id.btn_1).performClick();
+        mainActivity.findViewById(R.id.btn_eq).performClick();
+        mainActivity.findViewById(R.id.btn_clearall).performClick();
+        mainActivity.findViewById(R.id.btn_ANS).performClick();
+        mainActivity.findViewById(R.id.btn_eq).performClick();
+        String ans2 = ((EditText) mainActivity.findViewById(R.id.eT_ausgabe)).getText().toString();
+
+        mainActivity.findViewById(R.id.btn_clearall).performClick();
+        mainActivity.findViewById(R.id.btn_ANS).performClick();
+        mainActivity.findViewById(R.id.btn_mul).performClick();
+        mainActivity.findViewById(R.id.btn_2).performClick();
+        mainActivity.findViewById(R.id.btn_eq).performClick();
+        String ans3 = ((EditText) mainActivity.findViewById(R.id.eT_ausgabe)).getText().toString();
+
+        assertEquals(ans1,"Math Error");
+        assertEquals(ans2,"2");
+        assertEquals(ans3,"4");
+    }
+
+    @Test public void displayFunctions(){
+        MainActivity mainActivity = Robolectric.setupActivity(MainActivity.class);
+        Button[] b = new Button[]{mainActivity.findViewById(R.id.btn_11),mainActivity.findViewById(R.id.btn_12),mainActivity.findViewById(R.id.btn_13),
+                                 mainActivity.findViewById(R.id.btn_14),mainActivity.findViewById(R.id.btn_15),mainActivity.findViewById(R.id.btn_16),
+                                 mainActivity.findViewById(R.id.btn_21),mainActivity.findViewById(R.id.btn_22),mainActivity.findViewById(R.id.btn_23),
+                                 mainActivity.findViewById(R.id.btn_24),mainActivity.findViewById(R.id.btn_25),mainActivity.findViewById(R.id.btn_26)};
+        Button[] s = new Button[]{mainActivity.findViewById(R.id.btn_clearall),mainActivity.findViewById(R.id.btn_eq)};
+        EditText input = mainActivity.findViewById(R.id.eT_eingabe);
+        EditText output = mainActivity.findViewById(R.id.eT_ausgabe);
+
+
+        mainActivity.findViewById(R.id.btn_FUN).performClick();
+        for(View v: b)assertFalse(v.isShown());
+        mainActivity.findViewById(R.id.btn_FUN).performClick();
+        for(View v: b)assertTrue(v.isShown());
+
+        String[] fun1 = new String[]{"π","e","^","LOG","LN","LB","³√","√","x³","x²","10^x","!"};
+        for(int i=0; i<fun1.length; i++){
+            assertEquals(((Button) b[i]).getText().toString(),fun1[i]);
+        }
+        fun1 = new String[]{"π","e","^","LOG","LN","LB","³√","√","³","²","10^","!"};
+        for(int i=0; i<fun1.length; i++){
+            b[i].performClick(); assertEquals(input.getText().toString(),fun1[i]); s[0].performClick(); assertEquals(output.getText().toString(),input.getText().toString()); s[1].performClick();
+        }
+
+        MenuItem menuItem = new RoboMenuItem(R.id.basic2);
+        mainActivity.onOptionsItemSelected(menuItem);
+
+        String[] fun2 = new String[]{"PFZ","GCD","LCM","∑","∏","",">%","A/B","x⁻¹","+/-","MIN","MAX"};
+        for(int i=0; i<fun2.length; i++){
+            assertEquals(((Button) b[i]).getText().toString(),fun2[i]);
+        }
+        fun1 = new String[]{"Math Error","GCD(,)","LCM(,)","∑(,)","∏(,)","Math Error","Math Error","Math Error","Math Error","Math Error","Math Error","Math Error"};
+        for(int i=0; i<fun1.length; i++){
+            b[i].performClick(); assertEquals(input.getText().toString(),fun1[i]); s[0].performClick(); assertEquals(output.getText().toString(),input.getText().toString()); s[1].performClick();
+        }
+
+        //TODO: trigo, ...
+    }
+
+
 
 }

@@ -89,12 +89,7 @@ public class Presenter {
             ret =  identifier;
         }
 
-        Log.d("pfz2",ret);
-        Log.d("pfz2",ret.substring(0,1));
-        Log.d("pfz3",calcModel.getOutputString());
-
         if(ret.substring(0,1).equals(">")){ //TODO: schlechtes Signal das Output da ist, besser?: CalcModel benachrichtig Presenter direkt?
-            Log.d("pfz3",calcModel.getOutputString());
             view.ausgabeSetText(calcModel.getOutputString());
             return "";
         }
