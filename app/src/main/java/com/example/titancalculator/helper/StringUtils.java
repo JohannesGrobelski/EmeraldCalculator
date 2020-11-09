@@ -1,6 +1,14 @@
 package com.example.titancalculator.helper;
 
+import android.net.http.SslCertificate;
+
+import com.example.titancalculator.MainActivity;
+
 import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -65,8 +73,40 @@ public class StringUtils {
     }
 
     public static void main(String[] a){
-        String ges = "112233";
-        String repl = "55555";
-        System.out.println(replace(ges,repl,ges.length(),ges.length()));
+        String[] delimiters = new String[]{"1","2","3","4","5","6","7","8","9","0",".",",","ANS","*","/","+","-","(",")",
+                        "π","e","^","LOG","LN","LB","³√","√","x³","x²","10^x","!",
+                        "PFZ","GCD","LCM","∑","∏",">%","A/B","x\u207B\u00B9","+/-","MIN","MAX",
+                        "SIN","COS","TAN","COT","ASIN","ACOS","ATAN","ACOT","DEG",">RAD",">Polar",">Cart",
+                        "SINH","COSH","TANH","ASINH","ACOSH","ATANH",
+                        "AND","OR","XOR","NOT",">BIN",">OCT",">DEC",">HEX",
+                        "ZN()","ZB()","NCR","NPR","MEAN","VAR","E","S",
+                        "M1","M2","M3","M4","M5","M6",">M1",">M2",">M3",">M4",">M5",">M6",
+                        "L","R"
+                };
+        String input = "GCD-1950";
+        System.out.println(Arrays.toString(split(input,delimiters)));
     }
+
+    /**
+     * Splits the inputstring by delimiters
+     * @param input
+     * @return
+     */
+    public static String[] split(String input, String[] delimiters){
+        if(input.length() < 1)return new String[]{input};
+        //System.out.println("split: "+input);
+        LinkedList<String> output = new LinkedList<>();
+        while(input.length() > 0){
+            //System.out.println(" split: "+input);
+            //System.out.println(" split: "+Arrays.toString(output.toArray(new String[output.size()])));
+            for(String delimiter: delimiters){
+                if(input.startsWith(delimiter)){
+                    output.add(delimiter);
+                    input = input.substring(delimiter.length());
+                }
+            }
+        }
+        return output.toArray(new String[output.size()]);
+    }
+
 }

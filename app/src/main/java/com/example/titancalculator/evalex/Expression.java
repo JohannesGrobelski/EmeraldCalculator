@@ -579,7 +579,7 @@ public class Expression {
 
 			private BigDecimal fac(BigDecimal b){
 				if(b.compareTo(BigDecimal.ZERO) < 0)return BigDecimal.ZERO;
-				else if(b.equals(BigDecimal.ZERO))return BigDecimal.ZERO;
+				else if(b.equals(BigDecimal.ZERO))return BigDecimal.ONE;
 				else if(b.equals(BigDecimal.ONE))return BigDecimal.ONE;
 				else if(b.compareTo(BigDecimal.ONE) > 0) {
 					return b.multiply(fac(b.subtract(BigDecimal.ONE)));
@@ -2284,7 +2284,7 @@ public class Expression {
 
 	private BigDecimal GGT(BigDecimal m,BigDecimal n){
 		if (n.equals(BigDecimal.ZERO))
-			return m;
+			return m.abs();
 		else
 			return GGT(n, m.remainder(n));
 	}
@@ -2292,7 +2292,7 @@ public class Expression {
 	private BigDecimal KGV(BigDecimal m,BigDecimal n){
 		BigDecimal o = GGT(m,n);
 		BigDecimal p = (m.multiply(n)).divide(o);
-		return p;
+		return p.abs();
 	}
 
 }

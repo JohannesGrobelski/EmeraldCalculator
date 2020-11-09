@@ -17,6 +17,7 @@
         android:layout_height="wrap_content"
         android:background="@color/accent"
         android:minHeight="?attr/actionBarSize"
+        android:textAlignment="center"
         app:title="STANDART"
         app:titleTextColor="@android:color/white"></androidx.appcompat.widget.Toolbar>
 
@@ -89,7 +90,7 @@
         android:visibility="visible">
 
         <Button
-            android:id="@+id/btn_11"
+            android:id="@+id/btn_11" android:tag="btn11"
             style="@style/FunctionFlatButton"
 
             android:text="@string/PI"
@@ -97,16 +98,15 @@
             app:autoSizeTextType="uniform" />
 
         <Button
-            android:id="@+id/btn_12"
+            android:id="@+id/btn_12" android:tag="btn12"
             style="@style/FunctionFlatButton"
-
 
             android:text="@string/e"
             app:autoSizeStepGranularity="10sp"
             app:autoSizeTextType="uniform" />
 
         <Button
-            android:id="@+id/btn_13"
+            android:id="@+id/btn_13" android:tag="btn13"
             style="@style/FunctionFlatButton"
 
             android:text="@string/POT"
@@ -114,7 +114,7 @@
             app:autoSizeTextType="uniform" />
 
         <Button
-            android:id="@+id/btn_14"
+            android:id="@+id/btn_14" android:tag="btn14"
             style="@style/FunctionFlatButton"
 
             android:text="@string/DECLOG"
@@ -122,7 +122,7 @@
             app:autoSizeTextType="uniform" />
 
         <Button
-            android:id="@+id/btn_15"
+            android:id="@+id/btn_15" android:tag="btn11"
             style="@style/FunctionFlatButton"
 
             android:text="@string/LN"
@@ -130,7 +130,7 @@
             app:autoSizeTextType="uniform" />
 
         <Button
-            android:id="@+id/btn_16"
+            android:id="@+id/btn_16" android:tag="btn16"
             style="@style/FunctionFlatButton"
 
             android:text="@string/LB"
@@ -149,7 +149,7 @@
         android:visibility="visible">
 
         <Button
-            android:id="@+id/btn_21"
+            android:id="@+id/btn_21" android:tag="btn21"
             style="@style/FunctionFlatButton"
 
             android:text="@string/ROOT3"
@@ -157,7 +157,7 @@
             app:autoSizeTextType="uniform" />
 
         <Button
-            android:id="@+id/btn_22"
+            android:id="@+id/btn_22" android:tag="btn22"
             style="@style/FunctionFlatButton"
 
             android:text="@string/ROOT"
@@ -165,7 +165,7 @@
             app:autoSizeTextType="uniform" />
 
         <Button
-            android:id="@+id/btn_23"
+            android:id="@+id/btn_23" android:tag="btn23"
             style="@style/FunctionFlatButton"
 
             android:text="x³"
@@ -173,7 +173,7 @@
             app:autoSizeTextType="uniform" />
 
         <Button
-            android:id="@+id/btn_24"
+            android:id="@+id/btn_24" android:tag="btn24"
             style="@style/FunctionFlatButton"
 
             android:text="x²"
@@ -181,7 +181,7 @@
             app:autoSizeTextType="uniform" />
 
         <Button
-            android:id="@+id/btn_25"
+            android:id="@+id/btn_25" android:tag="btn25"
             style="@style/FunctionFlatButton"
 
             android:text="10^x"
@@ -190,7 +190,7 @@
 
 
         <Button
-            android:id="@+id/btn_26"
+            android:id="@+id/btn_26" android:tag="btn26"
             style="@style/FunctionFlatButton"
 
             android:text="!"

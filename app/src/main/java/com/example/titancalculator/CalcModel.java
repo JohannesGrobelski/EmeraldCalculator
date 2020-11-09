@@ -23,6 +23,7 @@ import java.util.Set;
   */
 public class CalcModel {
     //static data
+        public static int precisionDigits = 10;
         public static Set<String> noImmidiateOps = new HashSet<>(Arrays.asList("³√", "ROOT", "√", "LOG", "P", "C", "%"));
 
     //state
@@ -307,7 +308,7 @@ public class CalcModel {
     public String translInputBtn25(){
         switch(mode){
             case "basic": {return("10^"); }
-            case "basic2": {return("MIN()"); }
+            case "basic2": {return("MIN(,)"); }
             case "trigo":  {return("toPolar(,)"); }
             case "user":  {transUserInputBtnFct("btn_25"); }
             case "statistic":  {return "";}
@@ -322,7 +323,7 @@ public class CalcModel {
     public String translInputBtn26(){
         switch(mode){
             case "basic": {return("!"); }
-            case "basic2": {return("MAX()"); }
+            case "basic2": {return("MAX(,)"); }
             case "trigo":  {return("toCart(,)"); }
             case "user":  {transUserInputBtnFct("btn_26"); return "";}
             case "statistic":  {return "";}

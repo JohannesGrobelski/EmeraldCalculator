@@ -2,6 +2,7 @@ package com.example.titancalculator.helper.Math_String;
 
 import android.content.Context;
 
+import com.example.titancalculator.MainActivity;
 import com.example.titancalculator.evalex.Expression;
 import com.example.titancalculator.helper.StringUtils;
 
@@ -44,7 +45,7 @@ public class MathEvaluator {
 	int marker = 1;
 	
 	public static void main(String[] args) {
-
+        System.out.println(GGT(-54,0));
     }
 
 
@@ -255,6 +256,7 @@ public class MathEvaluator {
 	}
 	
 	private static int GGT(double a, double b) {
+	    if(b == 0)return (int) Math.abs(a);
 		int A = (int) a;
 		int B = (int) b;
 

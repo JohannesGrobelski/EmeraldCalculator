@@ -151,10 +151,10 @@ public class Presenter {
             view.setBtn21Text("ATAN"); view.setBtn22Text("ACOT"); view.setBtn23Text(">DEG"); view.setBtn24Text(">RAD"); view.setBtn25Text(">Polar"); view.setBtn26Text(">Cart");
         }
         if (calcModel.getMode().equals("hyper")) {
-            view.setBtn11Text("SINH"); view.setBtn12Text("COSH"); view.setBtn13Text("TANH"); view.setBtn14Text("ASINH"); view.setBtn15Text("ASINH"); view.setBtn16Text("ASINH");
+            view.setBtn11Text("SINH"); view.setBtn12Text("COSH"); view.setBtn13Text("TANH"); view.setBtn14Text("ASINH"); view.setBtn15Text("ACOSH"); view.setBtn16Text("ATANH");
             view.setBtn21Text("");  view.setBtn22Text("");  view.setBtn23Text("");  view.setBtn24Text("");  view.setBtn25Text("");  view.setBtn26Text("");
         } else if (calcModel.getMode().equals("statistic")) {
-            view.setBtn11Text("ZN(N)"); view.setBtn12Text("ZB(X;Y)"); view.setBtn13Text("NCR"); view.setBtn14Text("NPR"); view.setBtn15Text("MEAN"); view.setBtn16Text("VAR");
+            view.setBtn11Text("ZN()"); view.setBtn12Text("ZB()"); view.setBtn13Text("NCR"); view.setBtn14Text("NPR"); view.setBtn15Text("MEAN"); view.setBtn16Text("VAR");
             view.setBtn21Text("E"); view.setBtn22Text("S"); view.setBtn23Text(""); view.setBtn24Text(""); view.setBtn25Text(""); view.setBtn26Text("");
         } else if (calcModel.getMode().equals("logic")) {
             view.setBtn11Text("AND"); view.setBtn12Text("OR"); view.setBtn13Text("XOR"); view.setBtn14Text("NOT"); view.setBtn15Text(">BIN"); view.setBtn16Text(">OCT");

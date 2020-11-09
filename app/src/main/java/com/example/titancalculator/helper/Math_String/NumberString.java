@@ -24,7 +24,7 @@ public class NumberString extends ContentString {
     public static String var_mode = "AriVar";
 
     public static int dec_places = 5;
-    public static int predec_places = 5;
+    public static int predec_places = 25;
 
     static String last_answer="";
     static String angle_unit = "";
