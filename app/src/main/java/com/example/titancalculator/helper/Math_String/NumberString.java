@@ -6,6 +6,7 @@ import android.widget.Toast;
 import com.example.titancalculator.helper.StringUtils;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -344,21 +345,15 @@ public class NumberString extends ContentString {
 
 
     String getPercent(){
-        String res = getResult();
-        if(res.isEmpty() || res.equals("Math Error"))return res;
-        return getDisplayableString(Double.toString(Double.parseDouble(res) * 100));
+        return MathEvaluator.evaluate("("+getCalcuableString(content)+")*100",predec_places,7);
     }
 
     String getInvert(){
-        String res = getResult();
-        if(res.isEmpty() || res.equals("Math Error"))return res;
-        return getDisplayableString(Double.toString(-Double.parseDouble(res)));
+        return MathEvaluator.evaluate("-("+getCalcuableString(content)+")",predec_places,7);
     }
 
-    String getReciproke(){
-        String res = getResult();
-        if(res.isEmpty() || res.equals("Math Error"))return res;
-        return getDisplayableString(Double.toString(1 / Double.parseDouble(res)));
+    String getReciproke() {
+        return MathEvaluator.evaluate("1/(" + getCalcuableString(content)+")", predec_places, 7);
     }
 
     String getBruch(){

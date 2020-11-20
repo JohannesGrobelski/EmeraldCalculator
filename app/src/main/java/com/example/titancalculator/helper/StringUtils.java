@@ -76,7 +76,7 @@ public class StringUtils {
         String[] delimiters = new String[]{"1","2","3","4","5","6","7","8","9","0",".",",","ANS","*","/","+","-","(",")",
                         "π","e","^","LOG","LN","LB","³√","√","x³","x²","10^x","!",
                         "PFZ","GCD","LCM","∑","∏",">%","A/B","x\u207B\u00B9","+/-","MIN","MAX",
-                        "SIN","COS","TAN","COT","ASIN","ACOS","ATAN","ACOT","DEG",">RAD",">Polar",">Cart",
+                        "SIN","COS","TAN","COT","ASIN","ACOS","ATAN","ACOT","DEG",">RAD","toPolar","toCart",
                         "SINH","COSH","TANH","ASINH","ACOSH","ATANH",
                         "AND","OR","XOR","NOT",">BIN",">OCT",">DEC",">HEX",
                         "ZN()","ZB()","NCR","NPR","MEAN","VAR","E","S",
@@ -93,6 +93,7 @@ public class StringUtils {
      * @return
      */
     public static String[] split(String input, String[] delimiters){
+        //TODO: if delimiter does not exist => infinite loop
         if(input.length() < 1)return new String[]{input};
         //System.out.println("split: "+input);
         LinkedList<String> output = new LinkedList<>();

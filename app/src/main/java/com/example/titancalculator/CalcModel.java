@@ -34,7 +34,7 @@ public class CalcModel {
         private static String[] memory = new String[6];
 
         public static String[] getMemory() {return memory;}
-        public static String getMemory(int index) {return memory[index];}
+        public static String getMemory(int index) { return memory[index];}
         public static void setMemory(String[] memory) {CalcModel.memory = memory;}
         public static void setMemory(String mem, int index) {CalcModel.memory[index] = mem;}
         public String getOutputString() {return OutputString;}
@@ -153,7 +153,7 @@ public class CalcModel {
             case "statistic":  {return("Zn()"); }
             case "hyper":  {return("SINH"); }
             case "logic":  {return("AND(,)"); }
-            case "memory":  {return "";}
+            case "memory":  {return "M1";}
             default:  {Log.e("CalcMode","unknown Mode"); }
         }
         return "";
@@ -173,7 +173,7 @@ public class CalcModel {
             case "statistic":  {return("Zb(,)"); }
             case "hyper":  {return("COSH"); }
             case "logic":  {return("OR(,)"); }
-            case "memory":  {return "";}
+            case "memory":  {return "M2";}
             default:  {Log.e("CalcMode","unknown Mode"); }
         }
         return "";
@@ -192,7 +192,7 @@ public class CalcModel {
             case "statistic":  {return("C"); }
             case "hyper":  {return("TANH"); }
             case "logic":  {return("XOR(,)"); }
-            case "memory":  {return "";}
+            case "memory":  {return "M3";}
             default:  {Log.e("CalcMode","unknown Mode"); }
         }
         return "";
@@ -207,7 +207,7 @@ public class CalcModel {
             case "statistic":  {return("P"); }
             case "hyper":  {return("ASINH"); }
             case "logic":  {return("NOT()"); }
-            case "memory":  {return "";}
+            case "memory":  {return "M4";}
             default:  {Log.e("CalcMode","unknown Mode"); }
         }
         return "";
@@ -217,12 +217,12 @@ public class CalcModel {
         switch(mode){
             case "basic": {return("LN"); }
             case "basic2": {return("∏"+ "(,)"); }
-            case "trigo":  {return("ASIN"); }
+            case "trigo":  {return("SEC"); }
             case "user":  {transUserInputBtnFct("btn_15"); }
             case "statistic":  {return("MEAN()"); }
             case "hyper":  {return("ACOSH"); }
-            case "logic":  {ausgabeSetText(InputString.getBIN()); return ">BIN";}
-            case "memory":  {return "";}
+            case "logic":  {return "";} //ausgabeSetText(InputString.getBIN()); return ">BIN";}
+            case "memory":  {return "M5";}
             default:  {Log.e("CalcMode","unknown Mode"); }
         }
         return "";
@@ -232,12 +232,12 @@ public class CalcModel {
         switch(mode){
             case "basic": {return("LB");}
             case "basic2": {return "";}
-            case "trigo":  {return("ACOS"); }
+            case "trigo":  {return("CSC"); }
             case "user":  {transUserInputBtnFct("btn_16"); }
             case "statistic":  {return("VAR()"); }
             case "hyper":  {return("ATANH"); }
-            case "logic":  {ausgabeSetText(InputString.getOCT()); return ">OCT";}
-            case "memory":  {return "";}
+            case "logic":  {return "";} //ausgabeSetText(InputString.getOCT()); return ">OCT";}
+            case "memory":  {return "M6";}
             default:  {Log.e("CalcMode","unknown Mode"); }
         }
         return "";
@@ -246,15 +246,16 @@ public class CalcModel {
     public String translInputBtn21(){
         switch(mode){
             case "basic": {return("³√"); }
-            case "basic2": {ausgabeSetText(InputString.getPercent());
+            case "basic2": {
+                ausgabeSetText(InputString.getPercent());
                 OutputString = InputString.getPercent();
                 ausgabeSetText(OutputString); return ">%";}
-            case "trigo":  {return("ATAN"); }
+            case "trigo":  {return("ASIN"); }
             case "user":  {transUserInputBtnFct("btn_21"); }
-            case "statistic":  {return("E()"); }
-            case "hyper":  {return "";}
-            case "logic":  {ausgabeSetText(InputString.getDEC()); return ">DEC";}
-            case "memory":  {return "";}
+            case "statistic":  {return("√(VAR())"); }
+            case "hyper":  {ausgabeSetText(InputString.getDEG()); return ">DEG";}
+            case "logic":  {return "";} //ausgabeSetText(InputString.getDEC()); return ">DEC";}
+            case "memory":  {return ">M1";}
             default:  {Log.e("CalcMode","unknown Mode"); }
         }
         return "";
@@ -264,12 +265,12 @@ public class CalcModel {
         switch(mode){
             case "basic": {return("√"); }
             case "basic2": {ausgabeSetText(InputString.getBruch()); return ">A/B";}
-            case "trigo":  {return("ACOT"); }
+            case "trigo":  {return("ACOS"); }
             case "user":  {transUserInputBtnFct("btn_22"); }
-            case "statistic":  {return("2√(VAR())"); }
-            case "hyper":  {return "";}
-            case "logic":  {ausgabeSetText(InputString.getHEX()); return ">HEX";}
-            case "memory":  {return "";}
+            case "statistic":  {return(""); }
+            case "hyper":  {ausgabeSetText(InputString.getRAD()); return ">RAD";}
+            case "logic":  {return "";} //ausgabeSetText(InputString.getHEX()); return ">HEX";}
+            case "memory":  {return ">M2";}
             default:  {Log.e("CalcMode","unknown Mode"); }
         }
         return "";
@@ -279,12 +280,12 @@ public class CalcModel {
         switch(mode){
             case "basic": {return("³"); }
             case "basic2": {ausgabeSetText(InputString.getReciproke()); return ">x\u207B\u00B9";}
-            case "trigo":  {ausgabeSetText(InputString.getDEG()); return ">DEG";}
+            case "trigo":  {return("ATAN");}
             case "user":  {transUserInputBtnFct("btn_23"); }
             case "statistic":  {return "";}
-            case "hyper":  {return "";}
+            case "hyper":  {return("toPolar(,)");}
             case "logic":  {return "";}
-            case "memory":  {return "";}
+            case "memory":  {return ">M3";}
             default:  {Log.e("CalcMode","unknown Mode"); }
         }
         return "";
@@ -294,12 +295,12 @@ public class CalcModel {
         switch(mode){
             case "basic": {return("²"); }
             case "basic2": {ausgabeSetText(InputString.getInvert()); return ">+/-";}
-            case "trigo":  {ausgabeSetText(InputString.getRAD()); return ">RAD";}
+            case "trigo":  {return("ACOT");}
             case "user":  {transUserInputBtnFct("btn_24"); return "";}
             case "statistic":  {return "";}
-            case "hyper":  {return "";}
+            case "hyper":  {return("toCart(,)"); }
             case "logic":  {return "";}
-            case "memory":  {return "";}
+            case "memory":  {return ">M4";}
             default:  {Log.e("CalcMode","unknown Mode"); }
         }
         return "";
@@ -309,12 +310,12 @@ public class CalcModel {
         switch(mode){
             case "basic": {return("10^"); }
             case "basic2": {return("MIN(,)"); }
-            case "trigo":  {return("toPolar(,)"); }
+            case "trigo":  {return(""); }
             case "user":  {transUserInputBtnFct("btn_25"); }
             case "statistic":  {return "";}
             case "hyper":  {return "";}
             case "logic":  {return "";}
-            case "memory":  {return "";}
+            case "memory":  {return ">M5";}
             default:  {Log.e("CalcMode","unknown Mode"); }
         }
         return "";
@@ -324,12 +325,12 @@ public class CalcModel {
         switch(mode){
             case "basic": {return("!"); }
             case "basic2": {return("MAX(,)"); }
-            case "trigo":  {return("toCart(,)"); }
+            case "trigo":  {return "";}
             case "user":  {transUserInputBtnFct("btn_26"); return "";}
             case "statistic":  {return "";}
             case "hyper":  {return "";}
             case "logic":  {return "";}
-            case "memory":  {return "";}
+            case "memory":  {return ">M6";}
             default:  {Log.e("CalcMode","unknown Mode"); }
         }
         return "";

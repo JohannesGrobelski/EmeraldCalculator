@@ -637,8 +637,8 @@ public class Expression {
 					int signOf2 = v2.signum();
 					double dn1 = v1.doubleValue();
 					v2 = v2.multiply(new BigDecimal(signOf2)); // n2 is now positive
-					BigDecimal remainderOf2 = v2.remainder(BigDecimal.ONE);
-					BigDecimal n2IntPart = v2.subtract(remainderOf2);
+					BigDecimal remainderOf2 = v2.remainder(BigDecimal.ONE,mc);
+					BigDecimal n2IntPart = v2.subtract(remainderOf2,mc);
 					BigDecimal intPow = v1.pow(n2IntPart.intValueExact(), mc);
 					BigDecimal doublePow = new BigDecimal(Math.pow(dn1, remainderOf2.doubleValue()));
 
@@ -798,7 +798,7 @@ public class Expression {
 			@Override
 			public BigDecimal eval(List<BigDecimal> parameters) {
 				assertNotNull(parameters.get(0));
-				double d = Math.sin(Math.toRadians(parameters.get(0).doubleValue()));
+				double d = Math.sin((parameters.get(0).doubleValue())); //Math.sin(Math.toRadians(parameters.get(0).doubleValue()));
 				return new BigDecimal(d, mc);
 			}
 		});
@@ -806,7 +806,7 @@ public class Expression {
 			@Override
 			public BigDecimal eval(List<BigDecimal> parameters) {
 				assertNotNull(parameters.get(0));
-				double d = Math.cos(Math.toRadians(parameters.get(0).doubleValue()));
+				double d = Math.cos((parameters.get(0).doubleValue())); //Math.cos(Math.toRadians(parameters.get(0).doubleValue()));
 				return new BigDecimal(d, mc);
 			}
 		});
@@ -814,7 +814,7 @@ public class Expression {
 			@Override
 			public BigDecimal eval(List<BigDecimal> parameters) {
 				assertNotNull(parameters.get(0));
-				double d = Math.tan(Math.toRadians(parameters.get(0).doubleValue()));
+				double d = Math.tan((parameters.get(0).doubleValue())); //Math.tan(Math.toRadians(parameters.get(0).doubleValue()));
 				return new BigDecimal(d, mc);
 			}
 		});
@@ -822,7 +822,7 @@ public class Expression {
 			@Override
 			public BigDecimal eval(List<BigDecimal> parameters) {
 				assertNotNull(parameters.get(0));
-				double d = Math.toDegrees(Math.asin(parameters.get(0).doubleValue()));
+				double d = Math.asin((parameters.get(0).doubleValue())); //Math.toDegrees(Math.asin(parameters.get(0).doubleValue()));
 				return new BigDecimal(d, mc);
 			}
 		});
@@ -830,7 +830,7 @@ public class Expression {
 			@Override
 			public BigDecimal eval(List<BigDecimal> parameters) {
 				assertNotNull(parameters.get(0));
-				double d = Math.toDegrees(Math.acos(parameters.get(0).doubleValue()));
+				double d = Math.acos((parameters.get(0).doubleValue())); //Math.toDegrees(Math.acos(parameters.get(0).doubleValue()));
 				return new BigDecimal(d, mc);
 			}
 		});
@@ -838,7 +838,7 @@ public class Expression {
 			@Override
 			public BigDecimal eval(List<BigDecimal> parameters) {
 				assertNotNull(parameters.get(0));
-				double d = Math.toDegrees(Math.atan(parameters.get(0).doubleValue()));
+				double d = Math.atan((parameters.get(0).doubleValue())); //Math.toDegrees(Math.atan(parameters.get(0).doubleValue()));
 				return new BigDecimal(d, mc);
 			}
 		});
@@ -846,7 +846,7 @@ public class Expression {
 			@Override
 			public BigDecimal eval(List<BigDecimal> parameters) {
 				assertNotNull(parameters.get(0), parameters.get(1));
-				double d = Math.toDegrees(Math.atan2(parameters.get(0).doubleValue(), parameters.get(1).doubleValue()));
+				double d = Math.atan2(parameters.get(0).doubleValue(),parameters.get(1).doubleValue()); //Math.toDegrees(Math.atan2(parameters.get(0).doubleValue(), parameters.get(1).doubleValue()));
 				return new BigDecimal(d, mc);
 			}
 		});
@@ -854,7 +854,7 @@ public class Expression {
 			@Override
 			public BigDecimal eval(List<BigDecimal> parameters) {
 				assertNotNull(parameters.get(0));
-				double d = Math.sinh(parameters.get(0).doubleValue());
+				double d = Math.sinh((parameters.get(0).doubleValue()));
 				return new BigDecimal(d, mc);
 			}
 		});
@@ -870,7 +870,7 @@ public class Expression {
 			@Override
 			public BigDecimal eval(List<BigDecimal> parameters) {
 				assertNotNull(parameters.get(0));
-				double d = Math.tanh(parameters.get(0).doubleValue());
+				double d = Math.tanh(parameters.get(0).doubleValue()); //Math.tanh(parameters.get(0).doubleValue());
 				return new BigDecimal(d, mc);
 			}
 		});
@@ -880,7 +880,7 @@ public class Expression {
 				assertNotNull(parameters.get(0));
 				/** Formula: sec(x) = 1 / cos(x) */
 				double one = 1;
-				double d = Math.cos(Math.toRadians(parameters.get(0).doubleValue()));
+				double d = Math.cos((parameters.get(0).doubleValue())); //Math.cos(Math.toRadians(parameters.get(0).doubleValue()));
 				return new BigDecimal((one / d), mc);
 			}
 		});
@@ -890,7 +890,7 @@ public class Expression {
 				assertNotNull(parameters.get(0));
 				/** Formula: csc(x) = 1 / sin(x) */
 				double one = 1;
-				double d = Math.sin(Math.toRadians(parameters.get(0).doubleValue()));
+				double d = Math.sin((parameters.get(0).doubleValue())); //Math.sin(Math.toRadians(parameters.get(0).doubleValue()));
 				return new BigDecimal((one / d), mc);
 			}
 		});
@@ -1008,9 +1008,10 @@ public class Expression {
 				assertNotNull(parameters.get(0));
 				/** Formula: cot(x) = cos(x) / sin(x) = 1 / tan(x) */
 				double one = 1;
-				double d = Math.tan(Math.toRadians(parameters.get(0).doubleValue()));
+				double d = Math.tan((parameters.get(0).doubleValue())); //Math.tan(Math.toRadians(parameters.get(0).doubleValue()));
 				return new BigDecimal((one / d), mc);
 			}
+
 		});
 		addFunction(new Function("ACOT", 1) {
 			@Override
@@ -1098,7 +1099,7 @@ public class Expression {
 					assertNotNull(parameter);
 					sum = sum.add(parameter);
 				}
-				return sum.divide(BigDecimal.valueOf(parameters.size()));
+				return sum.divide(BigDecimal.valueOf(parameters.size()),mc);
 			}
 		});
 
@@ -1137,20 +1138,6 @@ public class Expression {
 			}
 		});
 
-		addFunction(new Function("E", -1) {
-			@Override
-			public BigDecimal eval(List<BigDecimal> parameters) {
-				if (parameters.size() == 0) {
-					throw new ExpressionException("AriMit requires at least one parameter");
-				}
-				BigDecimal sum = BigDecimal.ZERO;
-				for (BigDecimal parameter : parameters) {
-					assertNotNull(parameter);
-					sum = sum.add(parameter);
-				}
-				return sum.divide(new BigDecimal(parameters.size()));
-			}
-		});
 
 		addFunction(new Function("AriVar", -1) {
 			@Override
@@ -1334,7 +1321,7 @@ public class Expression {
 			@Override
 			public BigDecimal eval(List<BigDecimal> parameters) {
 				assertNotNull(parameters.get(0));
-				BigDecimal Z = BigDecimal.valueOf(Math.random()*parameters.get(0).doubleValue());
+				BigDecimal Z = BigDecimal.valueOf(Math.random()*Math.abs(parameters.get(0).doubleValue()));
 				return Z.setScale(0, RoundingMode.CEILING);
 			}
 		});
@@ -1342,8 +1329,8 @@ public class Expression {
 			@Override
 			public BigDecimal eval(List<BigDecimal> parameters) {
 				assertNotNull(parameters.get(0));
-				double a = parameters.get(0).doubleValue();
-				double b = parameters.get(1).doubleValue();
+				double a = Math.abs(parameters.get(0).doubleValue());
+				double b = Math.abs(parameters.get(1).doubleValue());
 				if(a < 0 || b < 0 || b <= a)return null;
 				else{
 					BigDecimal Z = BigDecimal.valueOf((Math.random()*(b-a)) + a);
@@ -2286,12 +2273,12 @@ public class Expression {
 		if (n.equals(BigDecimal.ZERO))
 			return m.abs();
 		else
-			return GGT(n, m.remainder(n));
+			return GGT(n, m.remainder(n,mc));
 	}
 
 	private BigDecimal KGV(BigDecimal m,BigDecimal n){
 		BigDecimal o = GGT(m,n);
-		BigDecimal p = (m.multiply(n)).divide(o);
+		BigDecimal p = (m.multiply(n)).divide(o,mc);
 		return p.abs();
 	}
 

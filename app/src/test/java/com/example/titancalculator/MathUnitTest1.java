@@ -34,6 +34,7 @@ public class MathUnitTest1 {
         //assertEquals(NumberString.findLongestParenthesisable("LOGLOG9"));
 
 
+        assertEquals(MathEvaluator.evaluate("AriMit(18.920683057342217,236.94690914832142,172.22050990703872,-229.6619378948368,323.8524514829659,479.01654184960853,425.4397364292351)",4,12),String.valueOf(203.819270568525));
 
     }
 

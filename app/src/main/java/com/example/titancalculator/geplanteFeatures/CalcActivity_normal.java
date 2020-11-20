@@ -1237,7 +1237,7 @@ public class CalcActivity_normal extends AppCompatActivity {
             VIEW_15.setText(VIEW_5_text);
             VIEW_16.setText(VIEW_6_text);
 
-            //L3 normal: >DEG/>RAD/>Polar/>Cart
+            //L3 normal: >DEG/>RAD/toPolar/toCart
             VIEW_21.setText(VIEW_1_text);
             VIEW_22.setText(VIEW_2_text);
             VIEW_23.setText(VIEW_3_text);
@@ -1253,13 +1253,13 @@ public class CalcActivity_normal extends AppCompatActivity {
             VIEW_15.setText("ASIN");
             VIEW_16.setText("ACOS");
 
-            //L3 normal: >DEG/>RAD/>Polar/>Cart
+            //L3 normal: >DEG/>RAD/toPolar/toCart
             VIEW_21.setText("ATAN");
             VIEW_22.setText("ACOT");
             VIEW_23.setText(">DEG");
             VIEW_24.setText(">RAD");
-            VIEW_25.setText(">Polar");
-            VIEW_26.setText(">Cart");
+            VIEW_25.setText("toPolar");
+            VIEW_26.setText("toCart");
         }if(mode.equals("HYPER")){
             //L1 normal: SIN,COS,TAN,ASIN,ACOS,ATAN
             VIEW_11.setText("SINH");

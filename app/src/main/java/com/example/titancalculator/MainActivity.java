@@ -505,6 +505,9 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
     }
 
     @Override public void setSelectionEingabe(int selectionEingabe) {eT_eingabe.setSelection(selectionEingabe);}
+    @Override public void setSelectionEingabe(int selectionEingabeStart, int selectionEingabeEnde) {eT_eingabe.setSelection(selectionEingabeStart, selectionEingabeEnde);}
+    @Override public void setSelectionAusgabe(int selectionAusgabe) {eT_ausgabe.setSelection(selectionAusgabe);}
+    @Override public void setSelectionAusgabe(int selectionAusgabeStart, int selectionAusgabeEnde) {eT_ausgabe.setSelection(selectionAusgabeStart, selectionAusgabeEnde);}
     @Override public void eingabeAddText(String i) {eT_eingabe.getText().insert(eT_eingabe.getSelectionStart(), i);}
     @Override public void eingabeSetText(String i) {eT_eingabe.setText(i);}
     @Override public String eingabeGetText() {
@@ -523,6 +526,18 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
     @Override
     public int getSelectionEndEingabe() {
         if(eT_eingabe.hasFocus()){return eT_eingabe.getSelectionEnd();}
+        else return -1;
+    }
+
+    @Override
+    public int getSelectionStartAusgabe() {
+        if(eT_ausgabe.hasFocus()){return eT_ausgabe.getSelectionStart();}
+        else return -1;
+    }
+
+    @Override
+    public int getSelectionEndAusgabe() {
+        if(eT_ausgabe.hasFocus()){return eT_ausgabe.getSelectionEnd();}
         else return -1;
     }
 
@@ -547,14 +562,14 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
             if (selStart >= 0 && selEnd >= 0 && selStart <= selEnd && selStart <= eT_eingabe.length() && selEnd <= eT_eingabe.length()) {
                 String etE_text = eT_eingabe.getText().toString();
                 etE_text = StringUtils.replace(etE_text, input, selStart, selEnd);
-
-                Toast.makeText(MainActivity.this, "selection: " + etE_text.toString(), Toast.LENGTH_LONG).show();
                 eT_eingabe.setText(etE_text);
             } else {
                 eT_eingabe.setText(input);
             }
             eT_eingabe.setSelection(selEnd);
             presenter.setNavI(eT_eingabe.getText().toString());
+        } else {
+            eingabeAddText(input);
         }
     }
 
@@ -566,20 +581,23 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
         if (eT_eingabe.hasFocus()) {
             selStart = eT_eingabe.getSelectionStart();
             selEnd = eT_eingabe.getSelectionEnd();
-            if (selStart > 0 && selEnd > 0 && selStart < selEnd) {
-                return eT_eingabe.getText().toString().substring(selStart, selEnd);
+            if (selStart >= 0 && selEnd > 0 && selStart < selEnd) {
+                selection = eT_eingabe.getText().toString().substring(selStart, selEnd);
             } else {
-                return eT_eingabe.getText().toString();
+                selection = eT_eingabe.getText().toString();
             }
         } else if (eT_ausgabe.hasFocus()) {
             selStart = eT_ausgabe.getSelectionStart();
             selEnd = eT_ausgabe.getSelectionEnd();
-            if (selStart > 0 && selEnd > 0 && selStart < selEnd) {
-                return eT_ausgabe.getText().toString().substring(selStart, selEnd);
+            if (selStart >= 0 && selEnd > 0 && selStart < selEnd) {
+                selection = eT_ausgabe.getText().toString().substring(selStart, selEnd);
             } else {
-                return eT_ausgabe.getText().toString();
+                selection = eT_ausgabe.getText().toString();
             }
+        } else {
+            selection = eT_eingabe.getText().toString();
         }
+        //selection funzt net (siehe memory)
         return selection;
     }
 

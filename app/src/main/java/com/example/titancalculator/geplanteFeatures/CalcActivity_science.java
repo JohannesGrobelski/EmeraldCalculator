@@ -1254,13 +1254,13 @@ public class CalcActivity_science extends AppCompatActivity {
             btn_14.setText("COT");
             btn_15.setText("ASIN");
             btn_16.setText("ACOS");
-            //L3 normal: >DEG/>RAD/>Polar/>Cart
+            //L3 normal: >DEG/>RAD/toPolar/toCart
             btn_21.setText("ATAN");
             btn_22.setText("ACOT");
             btn_23.setText(">DEG");
             btn_24.setText(">RAD");
-            btn_25.setText(">Polar");
-            btn_26.setText(">Cart");
+            btn_25.setText("toPolar");
+            btn_26.setText("toCart");
         }
         if (mode.equals("HYPER")) {
             //L1 normal: SIN,COS,TAN,ASIN,ACOS,ATAN
@@ -1369,7 +1369,7 @@ public class CalcActivity_science extends AppCompatActivity {
             btn_14.setText("P4");
             btn_15.setText("P5");
             btn_16.setText("P6");
-            //L3 normal: >DEG/>RAD/>Polar/>Cart
+            //L3 normal: >DEG/>RAD/toPolar/toCart
             btn_21.setText(">P1");
             btn_22.setText(">P1");
             btn_23.setText(">P3");

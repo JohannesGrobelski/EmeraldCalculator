@@ -48,40 +48,40 @@ public class Presenter {
             int nr = Integer.valueOf(identifier);
             switch (nr){
                 case 11: {
-                    if(calcModel.getMode().equals("MEMORY")){calcModel.setMemory(getSelection(),0); calcModel.saveMemory(calcModel.getMemory()); break;}
+                    if(calcModel.getMode().equals("memory")){replaceSelection(calcModel.getMemory(0)); break;}
                     ret = calcModel.translInputBtn11(); if(!ret.contains(">"))eingabeAddText(calcModel.translInputBtn11()); break;}
                 case 12: {
-                    if(calcModel.getMode().equals("MEMORY")){calcModel.setMemory(getSelection(),1); calcModel.saveMemory(calcModel.getMemory()); break;}
+                    if(calcModel.getMode().equals("memory")){replaceSelection(calcModel.getMemory(1)); break;}
                     ret = calcModel.translInputBtn12(); if(!ret.contains(">"))eingabeAddText(calcModel.translInputBtn12()); break;}
                 case 13: {
-                    if(calcModel.getMode().equals("MEMORY")){calcModel.setMemory(getSelection(),2); calcModel.saveMemory(calcModel.getMemory()); break;}
+                    if(calcModel.getMode().equals("memory")){replaceSelection(calcModel.getMemory(2)); break;}
                     ret = calcModel.translInputBtn13(); if(!ret.contains(">"))eingabeAddText(calcModel.translInputBtn13()); break;}
                 case 14: {
-                    if(calcModel.getMode().equals("MEMORY")){calcModel.setMemory(getSelection(),3); calcModel.saveMemory(calcModel.getMemory()); break;}
+                    if(calcModel.getMode().equals("memory")){replaceSelection(calcModel.getMemory(3)); break;}
                     ret = calcModel.translInputBtn14(); if(!ret.contains(">"))eingabeAddText(calcModel.translInputBtn14()); break;}
                 case 15: {
-                    if(calcModel.getMode().equals("MEMORY")){calcModel.setMemory(getSelection(),4); calcModel.saveMemory(calcModel.getMemory()); break;}
+                    if(calcModel.getMode().equals("memory")){replaceSelection(calcModel.getMemory(4)); break;}
                     ret = calcModel.translInputBtn15(); if(!ret.contains(">"))eingabeAddText(calcModel.translInputBtn15()); break;}
                 case 16: {
-                    if(calcModel.getMode().equals("MEMORY")){calcModel.setMemory(getSelection(),5); calcModel.saveMemory(calcModel.getMemory()); break;}
+                    if(calcModel.getMode().equals("memory")){replaceSelection(calcModel.getMemory(5)); break;}
                     ret = calcModel.translInputBtn16(); if(!ret.contains(">"))eingabeAddText(calcModel.translInputBtn16()); break;}
                 case 21: {
-                    if(calcModel.getMode().equals("MEMORY")){replaceSelection(calcModel.getMemory(0)); eingabeAddText(calcModel.translInputBtn21()); break;}
+                    if(calcModel.getMode().equals("memory")){calcModel.setMemory(getSelection(),0); calcModel.saveMemory(calcModel.getMemory()); break;}
                     ret = calcModel.translInputBtn21(); if(!ret.contains(">"))eingabeAddText(calcModel.translInputBtn21()); break;}
                 case 22: {
-                    if(calcModel.getMode().equals("MEMORY")){replaceSelection(calcModel.getMemory(1)); eingabeAddText(calcModel.translInputBtn22()); break;}
+                    if(calcModel.getMode().equals("memory")){calcModel.setMemory(getSelection(),1); calcModel.saveMemory(calcModel.getMemory()); break;}
                     ret = calcModel.translInputBtn22(); if(!ret.contains(">"))eingabeAddText(calcModel.translInputBtn22()); break;}
                 case 23: {
-                    if(calcModel.getMode().equals("MEMORY")){replaceSelection(calcModel.getMemory(2)); eingabeAddText(calcModel.translInputBtn23()); break;}
+                    if(calcModel.getMode().equals("memory")){calcModel.setMemory(getSelection(),2); calcModel.saveMemory(calcModel.getMemory()); break;}
                     ret = calcModel.translInputBtn23(); if(!ret.contains(">"))eingabeAddText(calcModel.translInputBtn23()); break;}
                 case 24: {
-                    if(calcModel.getMode().equals("MEMORY")){replaceSelection(calcModel.getMemory(3)); eingabeAddText(calcModel.translInputBtn24()); break;}
+                    if(calcModel.getMode().equals("memory")){calcModel.setMemory(getSelection(),3); calcModel.saveMemory(calcModel.getMemory()); break;}
                     ret = calcModel.translInputBtn24(); if(!ret.contains(">"))eingabeAddText(calcModel.translInputBtn24()); break;}
                 case 25: {
-                    if(calcModel.getMode().equals("MEMORY")){replaceSelection(calcModel.getMemory(4)); eingabeAddText(calcModel.translInputBtn25()); break;}
+                    if(calcModel.getMode().equals("memory")){calcModel.setMemory(getSelection(),4); calcModel.saveMemory(calcModel.getMemory()); break;}
                     ret = calcModel.translInputBtn25(); if(!ret.contains(">"))eingabeAddText(calcModel.translInputBtn25()); break;}
                 case 26: {
-                    if(calcModel.getMode().equals("MEMORY")){replaceSelection(calcModel.getMemory(5)); eingabeAddText(calcModel.translInputBtn26()); break;}
+                    if(calcModel.getMode().equals("memory")){calcModel.setMemory(getSelection(),5); calcModel.saveMemory(calcModel.getMemory()); break;}
                     ret = calcModel.translInputBtn26(); if(!ret.contains(">"))eingabeAddText(calcModel.translInputBtn26()); break;}
             }
         }  else if(Arrays.asList(otherIdentifiers).contains(identifier) || identifier.matches("[0-9]")) {
@@ -89,7 +89,7 @@ public class Presenter {
             ret =  identifier;
         }
 
-        if(!ret.isEmpty() && ret.substring(0,1).equals(">")){ //TODO: schlechtes Signal das Output da ist, besser?: CalcModel benachrichtig Presenter direkt?
+        if(!ret.isEmpty() && ret.substring(0,1).equals(">")){ //TODO: schlechtes Signal das Output da ist, besser?: CalcModel benachrichtigt Presenter direkt?
             view.ausgabeSetText(calcModel.getOutputString());
             return "";
         }
@@ -147,18 +147,19 @@ public class Presenter {
 
     public void assignModeFct() {
         if (calcModel.getMode().equals("trigo")) {
-            view.setBtn11Text("SIN"); view.setBtn12Text("COS"); view.setBtn13Text("TAN"); view.setBtn14Text("COT"); view.setBtn15Text("ASIN"); view.setBtn16Text("ACOS");
-            view.setBtn21Text("ATAN"); view.setBtn22Text("ACOT"); view.setBtn23Text(">DEG"); view.setBtn24Text(">RAD"); view.setBtn25Text(">Polar"); view.setBtn26Text(">Cart");
+            view.setBtn11Text("SIN"); view.setBtn12Text("COS"); view.setBtn13Text("TAN"); view.setBtn14Text("COT"); view.setBtn15Text("SEC"); view.setBtn16Text("CSC");
+            view.setBtn21Text("ASIN"); view.setBtn22Text("ACOS"); view.setBtn23Text("ATAN"); view.setBtn24Text("ACOT"); view.setBtn25Text(""); view.setBtn26Text("");
         }
         if (calcModel.getMode().equals("hyper")) {
             view.setBtn11Text("SINH"); view.setBtn12Text("COSH"); view.setBtn13Text("TANH"); view.setBtn14Text("ASINH"); view.setBtn15Text("ACOSH"); view.setBtn16Text("ATANH");
-            view.setBtn21Text("");  view.setBtn22Text("");  view.setBtn23Text("");  view.setBtn24Text("");  view.setBtn25Text("");  view.setBtn26Text("");
+            view.setBtn21Text(">DEG"); view.setBtn22Text(">RAD"); view.setBtn23Text("toPolar"); view.setBtn24Text("toCart");  view.setBtn25Text("");  view.setBtn26Text("");
         } else if (calcModel.getMode().equals("statistic")) {
-            view.setBtn11Text("ZN()"); view.setBtn12Text("ZB()"); view.setBtn13Text("NCR"); view.setBtn14Text("NPR"); view.setBtn15Text("MEAN"); view.setBtn16Text("VAR");
-            view.setBtn21Text("E"); view.setBtn22Text("S"); view.setBtn23Text(""); view.setBtn24Text(""); view.setBtn25Text(""); view.setBtn26Text("");
+            view.setBtn11Text("ZN"); view.setBtn12Text("ZB"); view.setBtn13Text("NCR"); view.setBtn14Text("NPR"); view.setBtn15Text("MEAN"); view.setBtn16Text("VAR");
+            view.setBtn21Text("S"); view.setBtn22Text(""); view.setBtn23Text(""); view.setBtn24Text(""); view.setBtn25Text(""); view.setBtn26Text("");
         } else if (calcModel.getMode().equals("logic")) {
-            view.setBtn11Text("AND"); view.setBtn12Text("OR"); view.setBtn13Text("XOR"); view.setBtn14Text("NOT"); view.setBtn15Text(">BIN"); view.setBtn16Text(">OCT");
-            view.setBtn21Text(">DEC"); view.setBtn22Text(">HEX"); view.setBtn23Text(""); view.setBtn24Text(""); view.setBtn25Text(""); view.setBtn26Text("");
+            view.setBtn11Text("AND"); view.setBtn12Text("OR"); view.setBtn13Text("XOR"); view.setBtn14Text("NOT");
+            view.setBtn15Text(""); view.setBtn16Text(""); view.setBtn21Text(""); view.setBtn22Text(""); //view.setBtn15Text(">BIN"); view.setBtn16Text(">OCT"); view.setBtn21Text(">DEC"); view.setBtn22Text(">HEX");
+            view.setBtn23Text(""); view.setBtn24Text(""); view.setBtn25Text(""); view.setBtn26Text("");
         } else if (calcModel.getMode().equals("memory")) {
             view.setBtn11Text("M1"); view.setBtn12Text("M2"); view.setBtn13Text("M3"); view.setBtn14Text("M4"); view.setBtn15Text("M5"); view.setBtn16Text("M6");
             view.setBtn21Text(">M1"); view.setBtn22Text(">M2"); view.setBtn23Text(">M3"); view.setBtn24Text(">M4"); view.setBtn25Text(">M5"); view.setBtn26Text(">M6");
@@ -174,9 +175,9 @@ public class Presenter {
             else {view.setBtn13Text("LCM");}
             view.setBtn14Text("∑"); view.setBtn15Text("∏"); view.setBtn16Text("");
             //L3 normal: %,!,^,a/b,x^-1,+/-
-            view.setBtn21Text(">%"); view.setBtn22Text("A/B");
-            /*TODO pruefe ob funzt*/ view.setBtn23Text("x\u207B\u00B9");
-            view.setBtn24Text("+/-"); view.setBtn25Text("MIN"); view.setBtn26Text("MAX");
+            view.setBtn21Text(">%"); view.setBtn22Text(">A/B");
+            /*TODO pruefe ob funzt*/ view.setBtn23Text(">x\u207B\u00B9");
+            view.setBtn24Text(">+/-"); view.setBtn25Text("MIN"); view.setBtn26Text("MAX");
         }
         if (calcModel.getMode().equals("PROGRAM") || calcModel.getMode().equals("PROGRAMM")) {
             view.setBtn11Text("P1"); view.setBtn12Text("P2"); view.setBtn13Text("P3"); view.setBtn14Text("P4"); view.setBtn15Text("P5"); view.setBtn16Text("P6");
@@ -215,7 +216,18 @@ public class Presenter {
         int getSelectionEndEingabe();
         void setSelectionEingabe(int selectionEingabe);
 
+        void setSelectionEingabe(int selectionEingabeStart, int selectionEingabeEnde);
+
+        void setSelectionAusgabe(int selectionAusgabe);
+
+        void setSelectionAusgabe(int selectionAusgabeStart, int selectionAusgabeEnde);
+
         void eingabeAddText(String i);
+
+        int getSelectionStartAusgabe();
+
+        int getSelectionEndAusgabe();
+
         void eingabeClearOne();
         void eingabeClearAll();
         void eingabeSetText(String text);
