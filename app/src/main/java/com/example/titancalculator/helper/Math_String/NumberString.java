@@ -18,7 +18,7 @@ public class NumberString extends ContentString {
     private static HashMap<String, String> replacements = new HashMap<String, String>() {{
         put("²","^2");  put("√","ROOT"); put("³","^3"); put("∏","MULP"); put("∑","SUME"); put("π","PI"); put("PI",String.valueOf(Math.PI));
     }};
-    public static String[] functions_parentIn = {"ASINH","ACOSH","ATANH","ASIN","ACOS","ATAN","ACOT","SINH","COSH","TANH","SIN","COS","TAN","COT","MEAN","ROOT","LN","LB","LOG","P","R","C"};
+    public static String[] functions_parentIn = {"ASINH","ACOSH","ATANH","ASIN","ACOS","ATAN","ACOT","ASEC","ACSC","SINH","COSH","TANH","SIN","COS","TAN","COT","MEAN","ROOT","LN","LB","LOG","P","R","C"};
     public static String[] functions_paraIn = {"ROOT","LOG","P","C","R"};
 
     public static String mean_mode = "AriMit";

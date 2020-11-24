@@ -310,7 +310,7 @@ public class CalcModel {
         switch(mode){
             case "basic": {return("10^"); }
             case "basic2": {return("MIN(,)"); }
-            case "trigo":  {return(""); }
+            case "trigo":  {return("ASEC"); }
             case "user":  {transUserInputBtnFct("btn_25"); }
             case "statistic":  {return "";}
             case "hyper":  {return "";}
@@ -325,7 +325,7 @@ public class CalcModel {
         switch(mode){
             case "basic": {return("!"); }
             case "basic2": {return("MAX(,)"); }
-            case "trigo":  {return "";}
+            case "trigo":  {return "ACSC";}
             case "user":  {transUserInputBtnFct("btn_26"); return "";}
             case "statistic":  {return "";}
             case "hyper":  {return "";}

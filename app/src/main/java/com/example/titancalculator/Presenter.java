@@ -148,7 +148,7 @@ public class Presenter {
     public void assignModeFct() {
         if (calcModel.getMode().equals("trigo")) {
             view.setBtn11Text("SIN"); view.setBtn12Text("COS"); view.setBtn13Text("TAN"); view.setBtn14Text("COT"); view.setBtn15Text("SEC"); view.setBtn16Text("CSC");
-            view.setBtn21Text("ASIN"); view.setBtn22Text("ACOS"); view.setBtn23Text("ATAN"); view.setBtn24Text("ACOT"); view.setBtn25Text(""); view.setBtn26Text("");
+            view.setBtn21Text("ASIN"); view.setBtn22Text("ACOS"); view.setBtn23Text("ATAN"); view.setBtn24Text("ACOT"); view.setBtn25Text("ASEC"); view.setBtn26Text("ACSC");
         }
         if (calcModel.getMode().equals("hyper")) {
             view.setBtn11Text("SINH"); view.setBtn12Text("COSH"); view.setBtn13Text("TANH"); view.setBtn14Text("ASINH"); view.setBtn15Text("ACOSH"); view.setBtn16Text("ATANH");

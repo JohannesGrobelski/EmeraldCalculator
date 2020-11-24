@@ -30,7 +30,10 @@ import static org.junit.Assert.assertTrue;
  * - test properties with random values
  * TODO: test random values
  * TODO: test extreme values
- * TODO: test incorrect values (result: Math Error)
+ * TODO: test incorrect values (result: Math Error): for all:
+        if (parameters.get(0).doubleValue() == 0) {
+            throw new ExpressionException("Number must not be 0");
+        }
  */
 public class MainActivityTest {
     static int iterationsSubtests = 20; //TODO: hohe iterationen => JRE EXCEPTION_ACCESS_VIOLATION
@@ -39,7 +42,7 @@ public class MainActivityTest {
     String[] delimiters = new String[]{"1","2","3","4","5","6","7","8","9","0",".",",","ANS","*","/","+","-","(",")",
             "π","e","^","LOG","LN","LB","³√","√","³","²","10^x","!",
             "PFZ","GCD","LCM","∑","∏",">%",">A/B",">x\u207B\u00B9",">+/-","MIN","MAX",
-            "SIN","COS","TAN","COT","SEC","CSC","ASIN","ACOS","ATAN","ACOT",
+            "SIN","COS","TAN","COT","SEC","CSC","ASIN","ACOS","ATAN","ACOT","ASEC","ACSC",
             "SINH","COSH","TANH","ASINH","ACOSH","ATANH",">DEG",">RAD","toPolar","toCart",
             "AND","OR","XOR","NOT",">BIN",">OCT",">DEC",">HEX",
             "ZN","ZB","NCR","NPR","MEAN","VAR","S",
@@ -278,19 +281,23 @@ public class MainActivityTest {
     @Test public void testTrigoAndHyperFunctions() {
         currentMode = new RoboMenuItem(R.id.trigo);
 
+        //random values
+        assertTrue(resembles(calcTerm("COS(9)"),"0.9876883405951377261900402476934372607584068615898804349239048016"));
+        assertTrue(resembles(calcTerm("SIN(7.2284977183385335)"),"0.12582667507334807"));
+
+
         for(int i=0; i<iterationsSubtests; i++) {
-            double x = (Math.random() * 10) - 0; //TODO: negative numbers
-            double y = (Math.random() * 10) - 0; //TODO: bigger numbers
-            int a = (int) ((Math.random() * 1000) - 500); //TODO: negative numbers
-            int b = (int) ((Math.random() * 1000) - 500); //TODO: negative numbers
+            double x = (Math.random() * 10) + 1; //TODO: negative numbers
+            double y = (Math.random() * 10) + 1; //TODO: bigger numbers
+            int a = (int) ((Math.random() * 50) - 25); //TODO: negative numbers
+            int b = (int) ((Math.random() * 50) - 25); //TODO: negative numbers
 
-            /*TODO
-            assertTrue(testEquation("SIN("+a+"*π)","0"));
-            assertTrue(testEquation("COS("+a+"*π+0.5*π)","0"));
-            assertTrue(testEquation("TAN("+a+"*π)","0"));
-            assertTrue(testEquation("COT("+a+"*π+0.5*π)","0"));
+            assertTrue(testEquation("SIN("+a*Math.toRadians(Math.PI)+")","0"));
+            assertTrue(testEquation("COS("+a*Math.toRadians(Math.PI)+0.5*Math.toRadians(Math.PI)+")","0"));
+            assertTrue(testEquation("TAN("+a*Math.toRadians(Math.PI)+")","0"));
+            assertTrue(testEquation("COT("+a*Math.toRadians(Math.PI)+Math.toRadians(0.5*Math.PI)+")","0"));
 
-            assertTrue(testEquation("SIN("+x+"+(2*π))","SIN("+x+")"));//sin(x + 2k*π) = sinx
+            assertTrue(testEquation("SIN("+x+Math.toRadians(2*Math.PI)+")","SIN("+x+")"));//sin(x + 2k*π) = sinx
             assertTrue(testEquation("COS("+x+"+(2*π))","COS("+x+")"));//cos(x + 2k*π) = cosx
 
             assertTrue(testEquation("SIN("+x+")/COS("+x+")","TAN("+x+")")); //tan(x) = sin(x) / cot(x)
@@ -316,23 +323,39 @@ public class MainActivityTest {
             assertTrue(testEquation("COS("+x+"+"+y+")","COS("+x+")*COS("+y+")-SIN("+x+")*SIN("+y+")")); //cos(x+y) = cos(x)*cos(y)-sin(x)*sin(y)
             assertTrue(testEquation("SIN("+x+"-"+y+")","SIN("+x+")*COS("+y+")-COS("+x+")*SIN("+y+")")); //sin(x-y) = cos(x)*cos(y)-sin(x)*sin(y)
             assertTrue(testEquation("COS("+x+"-"+y+")","COS("+x+")*COS("+y+")+SIN("+x+")*SIN("+y+")")); //cos(x-y) = cos(x)*cos(y)+sin(x)*sin(y)
-             */
+
             //more identities: http://www2.clarku.edu/faculty/djoyce/trig/identities.html
 
-            double x1 = Math.random() - .5;
+            double x1 = Math.random() - 0.5;
 
-            assertTrue(testEquation("ASIN(SIN("+x1+"))",String.valueOf(x1))); //sin(asin(x)) = x
-            assertTrue(testEquation("ACOS(COS("+x1+"))",String.valueOf(x1))); //acos(cos(x)) = x
-            assertTrue(testEquation("ATAN(TAN("+x1+"))",String.valueOf(x1))); //atan(tan(x)) = x
-            //assertTrue(testEquation("ACOT(COT("+x1+"))",String.valueOf(x1))); //sin(asin(x)) = x
+            assertTrue(testEquation("SIN(ASIN("+x1+"))",String.valueOf(x1))); //sin(asin(x)) = x
+            assertTrue(testEquation("COS(ACOS("+x1+"))",String.valueOf(x1))); //cos(acos(x)) = x
+            assertTrue(testEquation("TAN(ATAN("+x1+"))",String.valueOf(x1))); //tan(atan(x)) = x
+            assertTrue(testEquation("COT(ACOT("+x1+"))",String.valueOf(x1))); //cot(acot(x)) = x
+            assertTrue(testEquation("SEC(ASEC("+x+"))",String.valueOf(x))); //sec(asec(x)) = x
+            assertTrue(testEquation("CSC(ACSC("+x+"))",String.valueOf(x))); //csc(acsc(x)) = x
 
-            //TODO: ASIN, ACOS, ATAN, ACOT
-            //TODO: >DEG
-            //TODO: >RAD
+            String expected,result;
+            calcTerm(x+">RAD"); expected = ((EditText) mainActivity.findViewById(R.id.eT_ausgabe)).getText().toString();
+            calcTerm(x+">DEG"); String deg = ((EditText) mainActivity.findViewById(R.id.eT_ausgabe)).getText().toString();
+            result = calcTerm("(π*"+deg+")/180");
+            assertEquals(expected,result);//rad(x) = (π*deg(x)) / 180
+
             //TODO: >toPolar
             //TODO: >toCart
 
+            //TODO: >DEG
+            //TODO: >RAD
+
+
         }
+
+
+        assertTrue(resembles(calcTerm("π>DEG))"),"180",3)); //csc(acsc(x)) = x
+        assertTrue(resembles(calcTerm("0>DEG))"),"0",3)); //csc(acsc(x)) = x
+        assertTrue(resembles(calcTerm("2*π>DEG))"),"360",3)); //csc(acsc(x)) = x
+
+
     }
 
     @Test public void testLogicFunctions() {
@@ -518,7 +541,7 @@ public class MainActivityTest {
         for(int i=0; i<12; i++) {if(fun1[i].equals(""))continue;idToViewMap.put(fun1[i], B[i]);idToModeMap.put(fun1[i], new RoboMenuItem(R.id.basic));}
         fun1 = new String[]{"PFZ","GCD","LCM","∑","∏","",">%",">A/B",">x⁻¹",">+/-","MIN","MAX"};
         for(int i=0; i<12; i++) {if(fun1[i].equals(""))continue;idToViewMap.put(fun1[i], B[i]);idToModeMap.put(fun1[i],  new RoboMenuItem(R.id.basic2));}
-        fun1 = new String[]{"SIN","COS","TAN","COT","SEC","CSC","ASIN","ACOS","ATAN","ACOT","",""};
+        fun1 = new String[]{"SIN","COS","TAN","COT","SEC","CSC","ASIN","ACOS","ATAN","ACOT","ASEC","ACSC"};
         for(int i=0; i<12; i++) {if(fun1[i].equals(""))continue;idToViewMap.put(fun1[i], B[i]);idToModeMap.put(fun1[i],  new RoboMenuItem(R.id.trigo));}
         fun1 = new String[]{"SINH","COSH","TANH","ASINH","ACOSH","ATANH",">DEG",">RAD","toPolar","toCart","",""};
         for(int i=0; i<12; i++) {if(fun1[i].equals(""))continue;idToViewMap.put(fun1[i], B[i]);idToModeMap.put(fun1[i],  new RoboMenuItem(R.id.hyper));}
@@ -670,7 +693,7 @@ public class MainActivityTest {
 
     }
 
-    private boolean resembles(String output, String expectedResult){
+    public static boolean resembles(String output, String expectedResult){
         if(expectedResult.equals("Math Error") || output.equals("Math Error")){
             System.out.println("resembleS Math Error: "+output+" "+expectedResult);
             return expectedResult.equals(output);
@@ -687,20 +710,22 @@ public class MainActivityTest {
         }
     }
 
-    private boolean resembles(String expectedResult, String output,int toleranceDigits){
+    public static boolean resembles(String expectedResult, String output,int toleranceDigits){
+        double tolerance = 1/Math.pow(10,toleranceDigits);
+
         int minlength = Math.min(Math.min(expectedResult.length(),output.length()),20);
         if(expectedResult.startsWith(".") || expectedResult.startsWith("-."))expectedResult=expectedResult.replace(".","0."); //TODO: solve better
         if(output.startsWith(expectedResult.substring(0,Math.min(minlength,CalcModel.precisionDigits)))){return true;}
         else{
-            if(Math.abs(Double.valueOf(output) - Double.valueOf(expectedResult)) < 1/(toleranceDigits+1)){return true;
+            if(Math.abs(Double.valueOf(output) - Double.valueOf(expectedResult)) < tolerance){return true;
             } else{
-                System.out.println("resembleS false: "+output+" "+expectedResult);
+                System.out.println("resembleS false: "+output+" "+expectedResult+" dif:"+Math.abs(Double.valueOf(output) - Double.valueOf(expectedResult)));
                 return false;
             }
         }
     }
 
-    private boolean resembles(double expectedResult, double output){
+    public static boolean resembles(double expectedResult, double output){
         if(Math.abs(Double.valueOf(output) - Double.valueOf(expectedResult)) < 0.0000000001){return true;
             } else{
                 System.out.println("resembles false: "+output+" "+expectedResult);

@@ -399,6 +399,7 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
         });
     }
 
+    /* fullscreen
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
@@ -414,6 +415,7 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
             );
         }
     }
+     */
 
 
 

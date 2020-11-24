@@ -798,7 +798,7 @@ public class Expression {
 			@Override
 			public BigDecimal eval(List<BigDecimal> parameters) {
 				assertNotNull(parameters.get(0));
-				double d = Math.sin((parameters.get(0).doubleValue())); //Math.sin(Math.toRadians(parameters.get(0).doubleValue()));
+				double d = Math.sin(Math.toRadians(parameters.get(0).doubleValue()));
 				return new BigDecimal(d, mc);
 			}
 		});
@@ -806,7 +806,7 @@ public class Expression {
 			@Override
 			public BigDecimal eval(List<BigDecimal> parameters) {
 				assertNotNull(parameters.get(0));
-				double d = Math.cos((parameters.get(0).doubleValue())); //Math.cos(Math.toRadians(parameters.get(0).doubleValue()));
+				double d = Math.cos(Math.toRadians(parameters.get(0).doubleValue()));
 				return new BigDecimal(d, mc);
 			}
 		});
@@ -814,7 +814,7 @@ public class Expression {
 			@Override
 			public BigDecimal eval(List<BigDecimal> parameters) {
 				assertNotNull(parameters.get(0));
-				double d = Math.tan((parameters.get(0).doubleValue())); //Math.tan(Math.toRadians(parameters.get(0).doubleValue()));
+				double d = Math.tan(Math.toRadians(parameters.get(0).doubleValue()));
 				return new BigDecimal(d, mc);
 			}
 		});
@@ -830,7 +830,7 @@ public class Expression {
 			@Override
 			public BigDecimal eval(List<BigDecimal> parameters) {
 				assertNotNull(parameters.get(0));
-				double d = Math.acos((parameters.get(0).doubleValue())); //Math.toDegrees(Math.acos(parameters.get(0).doubleValue()));
+				double d = (Math.acos((parameters.get(0).doubleValue()))); //Math.toDegrees(Math.acos(parameters.get(0).doubleValue()));
 				return new BigDecimal(d, mc);
 			}
 		});
@@ -1017,11 +1017,35 @@ public class Expression {
 			@Override
 			public BigDecimal eval(List<BigDecimal> parameters) {
 				assertNotNull(parameters.get(0));
-				/** Formula: acot(x) = atan(1/x) */
+				/** Formula: acot(x) = pi/2 - atan(x) */
 				if (parameters.get(0).doubleValue() == 0) {
 					throw new ExpressionException("Number must not be 0");
 				}
-				double d = Math.toDegrees(Math.atan(1 / parameters.get(0).doubleValue()));
+				double d = Math.PI/2 - (Math.atan(parameters.get(0).doubleValue()));
+				return new BigDecimal(d, mc);
+			}
+		});
+		addFunction(new Function("ASEC", 1) {
+			@Override
+			public BigDecimal eval(List<BigDecimal> parameters) {
+				assertNotNull(parameters.get(0));
+				/** Formula: asec(x) = acos(1/x)*/
+				if (parameters.get(0).doubleValue() == 0) {
+					throw new ExpressionException("Number must not be 0");
+				}
+				double d = Math.acos(1/parameters.get(0).doubleValue());
+				return new BigDecimal(d, mc);
+			}
+		});
+		addFunction(new Function("ACSC", 1) {
+			@Override
+			public BigDecimal eval(List<BigDecimal> parameters) {
+				assertNotNull(parameters.get(0));
+				/** Formula: asec(x) = pi/2 - asec(x) */
+				if (parameters.get(0).doubleValue() == 0) {
+					throw new ExpressionException("Number must not be 0");
+				}
+				double d = Math.asin(1/parameters.get(0).doubleValue());
 				return new BigDecimal(d, mc);
 			}
 		});
