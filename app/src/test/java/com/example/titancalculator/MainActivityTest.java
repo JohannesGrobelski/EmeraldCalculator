@@ -37,13 +37,14 @@ import static org.junit.Assert.assertTrue;
  */
 public class MainActivityTest {
     static int iterationsSubtests = 20; //TODO: hohe iterationen => JRE EXCEPTION_ACCESS_VIOLATION
+    private static double toleranceDigits = 10;
     Map<String, View> idToViewMap = new HashMap<>();
     Map<String, RoboMenuItem> idToModeMap = new HashMap<>();
     String[] delimiters = new String[]{"1","2","3","4","5","6","7","8","9","0",".",",","ANS","*","/","+","-","(",")",
             "π","e","^","LOG","LN","LB","³√","√","³","²","10^x","!",
             "PFZ","GCD","LCM","∑","∏",">%",">A/B",">x\u207B\u00B9",">+/-","MIN","MAX",
             "SIN","COS","TAN","COT","SEC","CSC","ASIN","ACOS","ATAN","ACOT","ASEC","ACSC",
-            "SINH","COSH","TANH","ASINH","ACOSH","ATANH",">DEG",">RAD","toPolar","toCart",
+            "SINH","COSH","TANH","ASINH","ACOSH","ATANH",">DEG",">RAD","","",
             "AND","OR","XOR","NOT",">BIN",">OCT",">DEC",">HEX",
             "ZN","ZB","NCR","NPR","MEAN","VAR","S",
             "M1","M2","M3","M4","M5","M6",">M1",">M2",">M3",">M4",">M5",">M6",
@@ -340,14 +341,6 @@ public class MainActivityTest {
             calcTerm(x+">DEG"); String deg = ((EditText) mainActivity.findViewById(R.id.eT_ausgabe)).getText().toString();
             result = calcTerm("(π*"+deg+")/180");
             assertEquals(expected,result);//rad(x) = (π*deg(x)) / 180
-
-            //TODO: >toPolar
-            //TODO: >toCart
-
-            //TODO: >DEG
-            //TODO: >RAD
-
-
         }
 
 
@@ -543,7 +536,7 @@ public class MainActivityTest {
         for(int i=0; i<12; i++) {if(fun1[i].equals(""))continue;idToViewMap.put(fun1[i], B[i]);idToModeMap.put(fun1[i],  new RoboMenuItem(R.id.basic2));}
         fun1 = new String[]{"SIN","COS","TAN","COT","SEC","CSC","ASIN","ACOS","ATAN","ACOT","ASEC","ACSC"};
         for(int i=0; i<12; i++) {if(fun1[i].equals(""))continue;idToViewMap.put(fun1[i], B[i]);idToModeMap.put(fun1[i],  new RoboMenuItem(R.id.trigo));}
-        fun1 = new String[]{"SINH","COSH","TANH","ASINH","ACOSH","ATANH",">DEG",">RAD","toPolar","toCart","",""};
+        fun1 = new String[]{"SINH","COSH","TANH","ASINH","ACOSH","ATANH",">DEG",">RAD","","","",""};
         for(int i=0; i<12; i++) {if(fun1[i].equals(""))continue;idToViewMap.put(fun1[i], B[i]);idToModeMap.put(fun1[i],  new RoboMenuItem(R.id.hyper));}
         fun1 = new String[]{"AND","OR","XOR","NOT",">BIN",">OCT",">DEC",">HEX","","","",""};
         for(int i=0; i<12; i++) {if(fun1[i].equals(""))continue;idToViewMap.put(fun1[i], B[i]);idToModeMap.put(fun1[i],  new RoboMenuItem(R.id.logic));}
@@ -652,11 +645,11 @@ public class MainActivityTest {
         }
 
         mainActivity.onOptionsItemSelected(new RoboMenuItem(R.id.hyper));
-        fun2 = new String[]{"SINH","COSH","TANH","ASINH","ACOSH","ATANH",">DEG",">RAD","toPolar","toCart","",""};
+        fun2 = new String[]{"SINH","COSH","TANH","ASINH","ACOSH","ATANH",">DEG",">RAD","","","",""};
         for(int i=0; i<fun2.length; i++){
             assertEquals(((Button) B[i]).getText().toString(),fun2[i]);
         }
-        fun1 = new String[]{"SINH","COSH","TANH","ASINH","ACOSH","ATANH","","","toPolar(,)","toCart(,)","",""};
+        fun1 = new String[]{"SINH","COSH","TANH","ASINH","ACOSH","ATANH","","","","","",""};
         for(int i=0; i<fun1.length; i++){
             B[i].performClick(); assertEquals(INPUT.getText().toString(),fun1[i]); S[0].performClick(); assertEquals(OUTPUT.getText().toString(),INPUT.getText().toString()); S[1].performClick();
         }
@@ -694,6 +687,8 @@ public class MainActivityTest {
     }
 
     public static boolean resembles(String output, String expectedResult){
+        double tolerance = 1/Math.pow(10,toleranceDigits);
+
         if(expectedResult.equals("Math Error") || output.equals("Math Error")){
             System.out.println("resembleS Math Error: "+output+" "+expectedResult);
             return expectedResult.equals(output);
@@ -702,7 +697,7 @@ public class MainActivityTest {
         if(expectedResult.startsWith(".") || expectedResult.startsWith("-."))expectedResult=expectedResult.replace(".","0."); //TODO: solve better
         if(output.startsWith(expectedResult.substring(0,Math.min(minlength,CalcModel.precisionDigits)))){return true;}
         else{
-            if(Math.abs(Double.valueOf(output) - Double.valueOf(expectedResult)) < 0.0000000001){return true;
+            if(Math.abs(Double.valueOf(output) - Double.valueOf(expectedResult)) < tolerance){return true;
             } else{
                 System.out.println("resembleS false: "+output+" "+expectedResult);
                 return false;

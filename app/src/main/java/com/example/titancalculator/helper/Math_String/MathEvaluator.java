@@ -2,11 +2,11 @@ package com.example.titancalculator.helper.Math_String;
 
 import android.content.Context;
 
-import com.example.titancalculator.MainActivity;
 import com.example.titancalculator.evalex.Expression;
 import com.example.titancalculator.helper.StringUtils;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.math.MathContext;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -45,7 +45,7 @@ public class MathEvaluator {
 	int marker = 1;
 	
 	public static void main(String[] args) {
-        System.out.println(GGT(-54,0));
+        System.out.println(toPFZ(24));
     }
 
 
@@ -202,57 +202,39 @@ public class MathEvaluator {
     }
 
 
-    public static String toBruch(String dec) {
+    /**
+     * @param dec
+     * @return a fraction representing the input
+     */
+    public static String toFraction(String dec) {
+        System.out.println("fraction input: "+dec);
 		dec = dec.replace(',','.');
+		if(!dec.contains("."))return dec;
 
-		String gesamtbruch="";
-		List<String> brueche = new ArrayList<String>();
-		double decD = Double.parseDouble(dec);
-		String beforeCom="";
-		String afterCom="";
-		if(dec.contains(".")) {
-			beforeCom = dec.substring(0,dec.indexOf('.'));
-			afterCom = dec.substring(dec.indexOf('.')+1);
-		}
-		else {beforeCom = dec;}
-		int exp = beforeCom.length();
-		for(char c: beforeCom.toCharArray()) {
-			String b = Character.digit(c, 10) * Math.pow(10, exp - 1) +"/"+"1";
-			brueche.add(b);
-			--exp;
-		}
-		for(char c: afterCom.toCharArray()) {
-			String b = Character.digit(c, 10)+"/"+ Math.pow(10, exp + 1);
-			brueche.add(b);
-			++exp;
-		}
-		
-		double div = Math.pow(10,exp);	
-		double n = 0;
-		for(String bruch: brueche) {
-			n += Double.parseDouble(bruch.substring(0,bruch.indexOf('/')))*div / Double.parseDouble(bruch.substring(bruch.indexOf('/')+1));
-		}
-		
-		gesamtbruch = n +"/"+ div;
-		gesamtbruch = kuerzen(gesamtbruch);
-		return gesamtbruch;
+		//convert dec to fraction (abc.def to abcdef/1000000)
+        int postdecimalPlaces = dec.substring(dec.indexOf('.')+1).length();
+        BigInteger counter = new BigInteger("10").pow(postdecimalPlaces);
+        BigInteger denominator = new BigInteger(dec.replace(".","")) ;
+        String fraction = denominator+"/"+counter;
+        System.out.println("fraction: "+fraction);
+
+		String shortenedFraction = shortenFraction(fraction);
+        System.out.println("shortened fraction: "+shortenedFraction);
+
+        return shortenedFraction;
 	}
 	
-	private static String kuerzen(String bruch) {
-		while(true) {
-			int A = (int) Double.parseDouble(bruch.substring(0,bruch.indexOf('/')));
-			int B = (int) Double.parseDouble(bruch.substring(bruch.indexOf('/')+1));
-			bruch = A+"/"+B;
+	public static String shortenFraction(String fraction) {
+        BigInteger A = new BigInteger(fraction.substring(0,fraction.indexOf('/')));
+        BigInteger B = new BigInteger(fraction.substring(fraction.indexOf('/')+1));
 
-			int GGT = GGT(A,B);
-			if(GGT==1)break;
-			A = A / GGT;
-			B = B / GGT;
-			///System.out.println("k�rzen: "+A+"/"+B);
-			
-			bruch = A+"/"+B;
-		}
-		return bruch;
+        BigInteger GGT = new BigInteger("-1");
+        while(!GGT.equals(BigInteger.ONE)) {
+            GGT = GGT(A,B);
+			A = A.divide(GGT);
+			B = B.divide(GGT);
+        }
+		return fraction = A+"/"+B;
 	}
 	
 	private static int GGT(double a, double b) {
@@ -260,7 +242,7 @@ public class MathEvaluator {
 		int A = (int) a;
 		int B = (int) b;
 
-		int GGT = 0;
+		int GGT = 1;
 		for(int i=1;i<=Math.max(A, B)/2;i++) {
 			if((A % i == 0) && (B % i == 0)) {
 				GGT = i;
@@ -269,6 +251,12 @@ public class MathEvaluator {
 		
 		return GGT;
 	}
+
+    private static BigInteger GGT(BigInteger a, BigInteger b) {
+        return a.gcd(b);
+    }
+
+
 
     /**
      * Zähle kommas in richtiger Ebene
@@ -417,8 +405,19 @@ public class MathEvaluator {
         }
         return input;
     }
-	
-	void clear(){
+
+    public static String toPFZ(Integer number){
+        List<Integer> pfz = NumberString.PFZ(number);
+        String result = "(";
+        for(int i:pfz){
+            result += i+",";
+        }
+        result = result.substring(0,result.length()-1)+")";
+
+        return result;
+    }
+
+    void clear(){
         String c = contentString;
         if(c.equals(""))return;
         else{

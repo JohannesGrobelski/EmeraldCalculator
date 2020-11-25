@@ -822,7 +822,7 @@ public class Expression {
 			@Override
 			public BigDecimal eval(List<BigDecimal> parameters) {
 				assertNotNull(parameters.get(0));
-				double d = Math.asin((parameters.get(0).doubleValue())); //Math.toDegrees(Math.asin(parameters.get(0).doubleValue()));
+				double d = Math.toDegrees(Math.asin(parameters.get(0).doubleValue()));
 				return new BigDecimal(d, mc);
 			}
 		});
@@ -830,7 +830,7 @@ public class Expression {
 			@Override
 			public BigDecimal eval(List<BigDecimal> parameters) {
 				assertNotNull(parameters.get(0));
-				double d = (Math.acos((parameters.get(0).doubleValue()))); //Math.toDegrees(Math.acos(parameters.get(0).doubleValue()));
+				double d = Math.toDegrees(Math.acos(parameters.get(0).doubleValue()));
 				return new BigDecimal(d, mc);
 			}
 		});
@@ -838,7 +838,7 @@ public class Expression {
 			@Override
 			public BigDecimal eval(List<BigDecimal> parameters) {
 				assertNotNull(parameters.get(0));
-				double d = Math.atan((parameters.get(0).doubleValue())); //Math.toDegrees(Math.atan(parameters.get(0).doubleValue()));
+				double d = Math.toDegrees(Math.atan(parameters.get(0).doubleValue()));
 				return new BigDecimal(d, mc);
 			}
 		});
@@ -846,7 +846,7 @@ public class Expression {
 			@Override
 			public BigDecimal eval(List<BigDecimal> parameters) {
 				assertNotNull(parameters.get(0), parameters.get(1));
-				double d = Math.atan2(parameters.get(0).doubleValue(),parameters.get(1).doubleValue()); //Math.toDegrees(Math.atan2(parameters.get(0).doubleValue(), parameters.get(1).doubleValue()));
+				double d = Math.toDegrees(Math.atan2(parameters.get(0).doubleValue(), parameters.get(1).doubleValue()));
 				return new BigDecimal(d, mc);
 			}
 		});
@@ -870,7 +870,7 @@ public class Expression {
 			@Override
 			public BigDecimal eval(List<BigDecimal> parameters) {
 				assertNotNull(parameters.get(0));
-				double d = Math.tanh(parameters.get(0).doubleValue()); //Math.tanh(parameters.get(0).doubleValue());
+				double d = Math.tanh(parameters.get(0).doubleValue());
 				return new BigDecimal(d, mc);
 			}
 		});
@@ -880,7 +880,7 @@ public class Expression {
 				assertNotNull(parameters.get(0));
 				/** Formula: sec(x) = 1 / cos(x) */
 				double one = 1;
-				double d = Math.cos((parameters.get(0).doubleValue())); //Math.cos(Math.toRadians(parameters.get(0).doubleValue()));
+				double d = Math.cos(Math.toRadians(parameters.get(0).doubleValue()));
 				return new BigDecimal((one / d), mc);
 			}
 		});
@@ -890,7 +890,7 @@ public class Expression {
 				assertNotNull(parameters.get(0));
 				/** Formula: csc(x) = 1 / sin(x) */
 				double one = 1;
-				double d = Math.sin((parameters.get(0).doubleValue())); //Math.sin(Math.toRadians(parameters.get(0).doubleValue()));
+				double d = Math.sin(Math.toRadians(parameters.get(0).doubleValue()));
 				return new BigDecimal((one / d), mc);
 			}
 		});
@@ -1007,9 +1007,8 @@ public class Expression {
 			public BigDecimal eval(List<BigDecimal> parameters) {
 				assertNotNull(parameters.get(0));
 				/** Formula: cot(x) = cos(x) / sin(x) = 1 / tan(x) */
-				double one = 1;
-				double d = Math.tan((parameters.get(0).doubleValue())); //Math.tan(Math.toRadians(parameters.get(0).doubleValue()));
-				return new BigDecimal((one / d), mc);
+				double d = Math.cos(Math.toRadians(parameters.get(0).doubleValue())) / Math.sin(Math.toRadians(parameters.get(0).doubleValue()));
+				return new BigDecimal((d), mc);
 			}
 
 		});
@@ -1021,8 +1020,9 @@ public class Expression {
 				if (parameters.get(0).doubleValue() == 0) {
 					throw new ExpressionException("Number must not be 0");
 				}
-				double d = Math.PI/2 - (Math.atan(parameters.get(0).doubleValue()));
+				double d = Math.toDegrees(Math.PI/2 - (Math.atan(parameters.get(0).doubleValue()))); //Math.PI/2 - (Math.atan(parameters.get(0).doubleValue()))
 				return new BigDecimal(d, mc);
+
 			}
 		});
 		addFunction(new Function("ASEC", 1) {
@@ -1033,7 +1033,7 @@ public class Expression {
 				if (parameters.get(0).doubleValue() == 0) {
 					throw new ExpressionException("Number must not be 0");
 				}
-				double d = Math.acos(1/parameters.get(0).doubleValue());
+				double d = Math.toDegrees(Math.acos(1/parameters.get(0).doubleValue())); //Math.acos(1/parameters.get(0).doubleValue())
 				return new BigDecimal(d, mc);
 			}
 		});
@@ -1045,7 +1045,7 @@ public class Expression {
 				if (parameters.get(0).doubleValue() == 0) {
 					throw new ExpressionException("Number must not be 0");
 				}
-				double d = Math.asin(1/parameters.get(0).doubleValue());
+				double d = Math.toDegrees(Math.asin(1/parameters.get(0).doubleValue()));
 				return new BigDecimal(d, mc);
 			}
 		});
@@ -2302,6 +2302,7 @@ public class Expression {
 
 	private BigDecimal KGV(BigDecimal m,BigDecimal n){
 		BigDecimal o = GGT(m,n);
+		if(o.equals(BigDecimal.ZERO))return o;
 		BigDecimal p = (m.multiply(n)).divide(o,mc);
 		return p.abs();
 	}

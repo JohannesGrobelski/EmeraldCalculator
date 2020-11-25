@@ -283,7 +283,7 @@ public class CalcModel {
             case "trigo":  {return("ATAN");}
             case "user":  {transUserInputBtnFct("btn_23"); }
             case "statistic":  {return "";}
-            case "hyper":  {return("toPolar(,)");}
+            case "hyper":  {return("");}
             case "logic":  {return "";}
             case "memory":  {return ">M3";}
             default:  {Log.e("CalcMode","unknown Mode"); }
@@ -298,7 +298,7 @@ public class CalcModel {
             case "trigo":  {return("ACOT");}
             case "user":  {transUserInputBtnFct("btn_24"); return "";}
             case "statistic":  {return "";}
-            case "hyper":  {return("toCart(,)"); }
+            case "hyper":  {return(""); }
             case "logic":  {return "";}
             case "memory":  {return ">M4";}
             default:  {Log.e("CalcMode","unknown Mode"); }

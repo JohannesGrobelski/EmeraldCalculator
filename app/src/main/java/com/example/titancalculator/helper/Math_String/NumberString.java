@@ -1,12 +1,10 @@
 package com.example.titancalculator.helper.Math_String;
 
 import android.util.Log;
-import android.widget.Toast;
 
 import com.example.titancalculator.helper.StringUtils;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -39,6 +37,18 @@ public class NumberString extends ContentString {
     String C="c = 0";
     String D="d = 0";
     String E="e = 0";
+
+    public static List<Integer> PFZ(Integer number){
+        ArrayList<Integer> pfzList = new ArrayList<>();
+        for(int i = 2; i< number; i++) {
+            while(number%i == 0) {
+                pfzList.add(i);
+                number = number/i;
+            }
+        }
+        pfzList.add(number);
+        return pfzList;
+    }
 
     public void setMean_mode(String mode){
         if(mode.equals("AriMit") || mode.equals("GeoMit") || mode.equals("HarMit") ){
@@ -348,18 +358,30 @@ public class NumberString extends ContentString {
         return MathEvaluator.evaluate("("+getCalcuableString(content)+")*100",predec_places,7);
     }
 
+    public static String toPercent(String input){
+        return MathEvaluator.evaluate("("+input+")*100",predec_places,20);
+    }
+
     String getInvert(){
         return MathEvaluator.evaluate("-("+getCalcuableString(content)+")",predec_places,7);
+    }
+
+    public static String toInvert(String input){
+        return MathEvaluator.evaluate("-("+input+")",predec_places,20);
     }
 
     String getReciproke() {
         return MathEvaluator.evaluate("1/(" + getCalcuableString(content)+")", predec_places, 7);
     }
 
+    public static String toReciproke(String input) {
+        return MathEvaluator.evaluate("1/(" + input+")", predec_places, 20);
+    }
+
     String getBruch(){
         String res = getResult();
         if(res.isEmpty() || res.equals("Math Error"))return res;
-        return getDisplayableString(MathEvaluator.toBruch(res));
+        return getDisplayableString(MathEvaluator.toFraction(res));
     }
 
     String getRAD(){
@@ -410,18 +432,6 @@ public class NumberString extends ContentString {
         } catch (Exception ex){
             return res;
         }
-    }
-
-    private static List<Integer> PFZ(Integer number){
-        ArrayList<Integer> pfzList = new ArrayList<>();
-        for(int i = 2; i< number; i++) {
-            while(number%i == 0) {
-                pfzList.add(i);
-                number = number/i;
-            }
-        }
-        pfzList.add(number);
-        return pfzList;
     }
 
     @Override

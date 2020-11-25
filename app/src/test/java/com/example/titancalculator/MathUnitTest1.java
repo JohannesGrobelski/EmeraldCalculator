@@ -1,17 +1,17 @@
 package com.example.titancalculator;
 
+import android.text.style.TtsSpan;
 import android.util.Log;
-import android.widget.Button;
-import android.widget.EditText;
+
+import androidx.fragment.app.testing.FragmentScenario;
 
 import com.example.titancalculator.helper.Math_String.MathEvaluator;
 import com.example.titancalculator.helper.Math_String.NumberString;
-import com.example.titancalculator.helper.StringUtils;
 
 import org.junit.Test;
-import org.robolectric.Robolectric;
-import org.robolectric.fakes.RoboMenuItem;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.text.DecimalFormat;
 
 import static com.example.titancalculator.MainActivityTest.resembles;
@@ -29,71 +29,25 @@ public class MathUnitTest1 {
 
 
     @Test
-    public void mathEv1() {
-        assertEquals(MathEvaluator.evaluate("LOG(2,AriVAR(2,3))",10),"-2");
-        assertEquals(MathEvaluator.evaluate("AriVAR(2,3)",10),"0.25");
-
-        assertEquals(4, 2 + 2);
-        assertTrue(testEquation(MathEvaluator.evaluate(NumberString.getCalcuableString("2√2√2√256"),10),"2"));
-        //assertEquals(MathEvaluator.evaluate(NumberString.getCalcuableString("3√3√(3^3^3)"),10),"3");
-
-        assertEquals(MathEvaluator.evaluate("78588558.2121",4,5),"7.85886E7");
-        assertEquals(MathEvaluator.evaluate("LOG(LOG(2))",4,5),"-0.52139");
-
-        assertEquals(MathEvaluator.evaluate("2.121^32",10),"2.81385E10");
-
-        //assertEquals(toBase("1412432",16,20));
-        //assertEquals(NumberString.findLongestParenthesisable("LOGLOG9"));
-
-
-        assertEquals(MathEvaluator.evaluate("AriMit(18.920683057342217,236.94690914832142,172.22050990703872,-229.6619378948368,323.8524514829659,479.01654184960853,425.4397364292351)",4,12),String.valueOf(203.819270568525));
-
-    }
-
-
-
-    @Test
     public void mathEvTime(){
         //assertEquals(MathEvaluator.evaluate(NumberString.getCalcuableString("√4"),10),"2");
-        long start,end; start = System.currentTimeMillis();
+        long start,end; start = System.currentTimeMillis(); int originalIterationsSubtests = iterationsSubtests; iterationsSubtests = 1;
         MathEvaluator.evaluate(NumberString.getCalcuableString("√√√5"),10);
-        System.out.println("time: "+String.valueOf(System.currentTimeMillis() - start));
+        testBasicFunctions();
+        testBasic2Functions();
+        testTrigoAndHyperFunctions();
+        testLogicFunctions();
+        testStatisticFunctions();
+        testVoids();
+        assertTrue(System.currentTimeMillis() - start < 3000);
+        iterationsSubtests = originalIterationsSubtests;
     }
 
-    @Test
-    public void mathEv2() {
-        //Testfälle absolut große/kleine zahlen, ganze/bruchzahlen, negative/positive zahlen
-        System.out.println(MathEvaluator.evaluate("15rootToSqrt.25*22! + 7.90^sin(22) + 3.12^23",10));
-        System.out.println(MathEvaluator.evaluate("69.2*37122.44",10));
-        System.out.println(MathEvaluator.evaluate("89*9*62.2",10));
-        System.out.println(MathEvaluator.evaluate("MAX(1,2,3)",10));
-        System.out.println("ARI: "+MathEvaluator.evaluate("AriVar(1,2,3,4,5,6)",10));
-        System.out.println(MathEvaluator.evaluate("AriMit(1,2,3,4,5,6)",10));
 
-
-        System.out.println(MathEvaluator.evaluate("10000!",10));
-
-        System.out.println(MathEvaluator.evaluate("-8^32",10));
-        System.out.println(MathEvaluator.evaluate("8^32",10));
-
-        System.out.println(MathEvaluator.evaluate("-8^32 + 0.123456789",10));
-        System.out.println(MathEvaluator.evaluate("8^32 - 0.123456789",10));
-
-        System.out.println(MathEvaluator.evaluate("-150",10));
-        System.out.println(MathEvaluator.evaluate("150",10));
-
-        System.out.println(MathEvaluator.evaluate("-150 + 0.123456789",10));
-        System.out.println(MathEvaluator.evaluate("150 - 0.123456789",10));
-
-        System.out.println(MathEvaluator.evaluate("SEC(ASEC(0.08635282754123619))",10));
-
-
-
-    }
 
     @Test public void testBasicFunctions(){
         assertTrue(testEquation("π","3.141592653589793"));
-        //TODO: assertTrue(testEquation("e","2.718281828459045"));
+        assertTrue(testEquation("e","2.718281828459045"));
         assertTrue(testEquation("e^0","1"));
         assertTrue(testEquation("LN(1)","0"));
         assertTrue(testEquation("LN(e)","1"));
@@ -147,7 +101,7 @@ public class MathUnitTest1 {
     }
 
     @Test public void testBasic2Functions() {
-        for(int i=0; i<3; i++) {
+        for(int i=0; i<iterationsSubtests; i++) {
             int inta = (int) ((Math.random() * 1000) - 500); //TODO: negative numbers
             int intb = (int) ((Math.random() * 1000) - 500); //TODO: negative numbers
             int intc = (int) ((Math.random() * 1000) - 500); //TODO: negative numbers
@@ -202,36 +156,46 @@ public class MathUnitTest1 {
         assertTrue(resembles(calcTerm("COS(9)"),"0.9876883405951377261900402476934372607584068615898804349239048016"));
         assertTrue(resembles(calcTerm("SIN(7.2284977183385335)"),"0.12582667507334807"));
 
+        double x = (Math.random() * 10) + 1; //TODO: negative numbers
+        double y = (Math.random() * 10) + 1; //TODO: bigger numbers
+        int a = (int) ((Math.random() * 50) - 25); //TODO: negative numbers
+        int b = (int) ((Math.random() * 50) - 25); //TODO: negative numbers
 
-        /*
+
+        System.out.println("1. "+calcTerm("SIN("+20*Math.toDegrees(2*Math.PI)+")"));
+        System.out.println("2. "+calcTerm("SIN("+20+")"));
+
+
+
+
         for(int i=0; i<iterationsSubtests; i++) {
-            double x = (Math.random() * 10) + 1; //TODO: negative numbers
-            double y = (Math.random() * 10) + 1; //TODO: bigger numbers
-            int a = (int) ((Math.random() * 50) - 25); //TODO: negative numbers
-            int b = (int) ((Math.random() * 50) - 25); //TODO: negative numbers
+            x = (Math.random() * 10) + 1; //TODO: negative numbers
+            y = (Math.random() * 10) + 1; //TODO: bigger numbers
+            a = (int) ((Math.random() * 50) - 25); //TODO: negative numbers
+            b = (int) ((Math.random() * 50) - 25); //TODO: negative numbers
 
-            assertTrue(testEquation("SIN("+a*Math.toRadians(Math.PI)+")","0"));
-            assertTrue(testEquation("COS("+a*Math.toRadians(Math.PI)+0.5*Math.toRadians(Math.PI)+")","0"));
-            assertTrue(testEquation("TAN("+a*Math.toRadians(Math.PI)+")","0"));
-            assertTrue(testEquation("COT("+a*Math.toRadians(Math.PI)+Math.toRadians(0.5*Math.PI)+")","0"));
-
-            assertTrue(testEquation("SIN("+x+Math.toRadians(2*Math.PI)+")","SIN("+x+")"));//sin(x + 2k*π) = sinx
-            assertTrue(testEquation("COS("+x+"+(2*π))","COS("+x+")"));//cos(x + 2k*π) = cosx
+            assertTrue(resembles(calcTerm("SIN("+x*Math.toRadians(Math.PI)+")"),"0",2));
+            if(x == ((double) ((int) x)))x += .1;
+            double complex = (a*Math.toRadians(Math.PI))+(0.5*Math.toRadians(Math.PI));
+            assertTrue(testEquation("COS("+complex+")","0"));
+            assertTrue(testEquation("TAN("+x*Math.toRadians(Math.PI)+")","0"));
 
             assertTrue(testEquation("SIN("+x+")/COS("+x+")","TAN("+x+")")); //tan(x) = sin(x) / cot(x)
-            assertTrue(testEquation("COS("+x+")/SIN("+x+")","COT("+x+")")); //cot(x) = cos(x) / sin(x)
+            assertTrue(testEquation("COT("+(Math.toDegrees(1.5*Math.PI))+")","0"));
             assertTrue(testEquation("1/TAN("+x+")","COT("+x+")")); //cot(x) = 1 / tan(x)
 
-            assertTrue(testEquation("SIN(π/2-"+x+")","COS("+x+")")); //cos(x) = sin(π/2 - x)
-            assertTrue(testEquation("COS(π/2-"+x+")","SIN("+x+")")); //sin(x) = cos(π/2 - x)
-            assertTrue(testEquation("TAN(π/2-"+x+")","COT("+x+")")); //cot(x) = tan(π/2 - x)
-            assertTrue(testEquation("COT(π/2-"+x+")","TAN("+x+")")); //tan(x) = cot(π/2 - x)
-            assertTrue(testEquation("SEC(π/2-"+x+")","CSC("+x+")")); //sec(x) = csc(π/2 - x)
-            assertTrue(testEquation("CSC(π/2-"+x+")","SEC("+x+")")); //csc(x) = sec(π/2 - x)
+            assertTrue(testEquation("SIN("+Math.toDegrees(Math.PI/2)+"-"+x+")","COS("+x+")")); //cos(x) = sin(π/2 - x)
+            assertTrue(testEquation("COS("+Math.toDegrees(Math.PI/2)+"-"+x+")","SIN("+x+")")); //sin(x) = cos(π/2 - x)
+            assertTrue(testEquation("TAN("+Math.toDegrees(Math.PI/2)+"-"+x+")","COT("+x+")")); //cot(x) = tan(π/2 - x)
+            assertTrue(testEquation("COT("+Math.toDegrees(Math.PI/2)+"-"+x+")","TAN("+x+")")); //tan(x) = cot(π/2 - x)
+            assertTrue(testEquation("SEC("+Math.toDegrees(Math.PI/2)+"-"+x+")","CSC("+x+")")); //sec(x) = csc(π/2 - x)
+            assertTrue(testEquation("SEC("+Math.toDegrees(Math.PI/2)+"-"+x+")","CSC("+x+")")); //sec(x) = csc(π/2 - x)
+            assertTrue(testEquation("CSC("+Math.toDegrees(Math.PI/2)+"-"+x+")","SEC("+x+")")); //csc(x) = sec(π/2 - x)
 
-            assertTrue(testEquation("SIN("+x+"+π*2)","SIN("+x+")")); //sin(x) = sin(x + 2π)
-            assertTrue(testEquation("COS("+x+"+π*2)","COS("+x+")")); //cos(x) = cos(x + 2π)
-            assertTrue(testEquation("TAN("+x+"+π)","TAN("+x+")")); //tan(x) = tan(x + 2π)
+            //here
+            //TODO: assertTrue(resembles(calcTerm("SIN("+5+Math.toRadians(2*2*Math.PI)+")"),calcTerm("SIN("+5+")")));//sin(x + 2k*π) = sin(x)
+            //TODO: assertTrue(resembles(calcTerm("COS("+x*Math.toDegrees(2*Math.PI)+")"),calcTerm("COS("+x+")")));//cos(x + 2k*π) = cos(x)
+            //TODO: assertTrue(resembles(calcTerm("TAN("+x*Math.toDegrees(2*Math.PI)+")"),calcTerm("TAN("+x+")")));//tan(x + 2k*π) = tan(x)
 
             assertTrue(testEquation("SIN(-"+x+")","-SIN("+x+")")); //sin(-x) = -sin(x)
             assertTrue(testEquation("COS(-"+x+")","COS("+x+")")); //cos(-x) = cos(x)
@@ -253,26 +217,21 @@ public class MathUnitTest1 {
             assertTrue(testEquation("SEC(ASEC("+x+"))",String.valueOf(x))); //sec(asec(x)) = x
             assertTrue(testEquation("CSC(ACSC("+x+"))",String.valueOf(x))); //csc(acsc(x)) = x
 
-            //TODO: RAD
-            //TODO: DEG
-
-            //TODO: >toPolar
-            //TODO: >toCart
-
-            //TODO: >DEG
-            //TODO: >RAD
-
+            assertTrue(resembles(MathEvaluator.toDEG(MathEvaluator.toRAD("0")),"0")); //DEG(RAD(0)) = 0
+            assertTrue(resembles(MathEvaluator.toDEG(MathEvaluator.toRAD(String.valueOf(a))),String.valueOf(a))); //DEG(RAD(0)) = 0
 
         }
 
+        assertTrue(resembles(MathEvaluator.toDEG("0"),"0")); //DEG(0) = 0
+        assertTrue(resembles(MathEvaluator.toDEG(calcTerm("π")),"180")); //DEG(π) = 180
+        assertTrue(resembles(MathEvaluator.toDEG(calcTerm("2*π")),"360")); //DEG(2π) = 360
+        assertTrue(resembles(MathEvaluator.toRAD("0"),"0")); //RAD(0) = 0
+        assertTrue(resembles(MathEvaluator.toRAD(("180")),calcTerm("π"))); //RAD(180) = π
+        assertTrue(resembles(MathEvaluator.toRAD(("360")),calcTerm("2*π"))); //RAD(360) = 2π
 
 
 
-        assertTrue(resembles(calcTerm("π>DEG))"),"180",3)); //csc(acsc(x)) = x
-        assertTrue(resembles(calcTerm("0>DEG))"),"0",3)); //csc(acsc(x)) = x
-        assertTrue(resembles(calcTerm("2*π>DEG))"),"360",3)); //csc(acsc(x)) = x
 
-        */
     }
 
     @Test public void testLogicFunctions() {
@@ -314,10 +273,13 @@ public class MathUnitTest1 {
             double x = ((Math.random() * 1000) - 500);
 
             int result = Integer.valueOf(calcTerm("ZN("+a+")"));
-            assertTrue(result > 0); assertTrue(result <= a);  //0 < result < a
+
+            assertTrue("result is negative"+result,result >= 0);
+            assertTrue(result+" higher than "+a+1,result <= a);  //0 < result < a
 
             result = Integer.valueOf(calcTerm("ZB("+a+","+b+")"));
-            assertTrue(result > a); assertTrue(result <= b);  //0 < result < a
+            assertTrue(result > a);
+            assertTrue(result <= b);  //0 < result < a
 
             assertTrue(testEquation("NPR("+n+","+r+")",n+"!"+"/("+n+"-"+r+")!")); //nPr(n,r)=n!/(n−r)!
             assertTrue(testEquation("NCR("+n+","+r+")","NPR("+n+","+r+")/"+r+"!")); //nCr(n,r)=nPr(n,r)/r!
@@ -352,11 +314,27 @@ public class MathUnitTest1 {
             int a = (int) ((Math.random() * 1000) - 500);
             double x = ((Math.random() * 1000) - 500);
 
-            //TODO: >%
-            //TODO: >+/-
-            //TODO: >A/B
-            //TODO: >PFZ
+            assertTrue(resembles(NumberString.toPercent(String.valueOf(x)),String.valueOf(x*100))); //toPercent(x) = x*100
+            assertTrue(resembles(NumberString.toInvert(String.valueOf(x)),String.valueOf(-x))); //inverse(x) = -x
+            assertTrue(resembles(NumberString.toReciproke(String.valueOf(x)),String.valueOf(1/x))); //inverse(x) = 1/x
+
+
+            final int  p = (int) ((Math.random() * 1000) - 500);
+            String PFZ = MathEvaluator.toPFZ(p);  PFZ = PFZ.replace(",","*").replace("(","").replace(")","");
+            assertTrue(resembles(calcTerm(PFZ),String.valueOf(p))); //calc(transformation(PFZ(x))) = x
+
+            String fraction = MathEvaluator.toFraction(String.valueOf(x));
+            BigDecimal counter = new BigDecimal(fraction.substring(0,fraction.indexOf('/'))); BigDecimal denominator = new BigDecimal(fraction.substring(fraction.indexOf('/')+1));
+            String FRACTION = counter.divide(denominator).toString();
+            String input = String.valueOf(x);
+            assertTrue(FRACTION.equals(input));
+
+
         }
+
+
+
+
     }
 
     private String calcTerm(String term){

@@ -152,7 +152,7 @@ public class Presenter {
         }
         if (calcModel.getMode().equals("hyper")) {
             view.setBtn11Text("SINH"); view.setBtn12Text("COSH"); view.setBtn13Text("TANH"); view.setBtn14Text("ASINH"); view.setBtn15Text("ACOSH"); view.setBtn16Text("ATANH");
-            view.setBtn21Text(">DEG"); view.setBtn22Text(">RAD"); view.setBtn23Text("toPolar"); view.setBtn24Text("toCart");  view.setBtn25Text("");  view.setBtn26Text("");
+            view.setBtn21Text(">DEG"); view.setBtn22Text(">RAD"); view.setBtn23Text(""); view.setBtn24Text("");  view.setBtn25Text("");  view.setBtn26Text("");
         } else if (calcModel.getMode().equals("statistic")) {
             view.setBtn11Text("ZN"); view.setBtn12Text("ZB"); view.setBtn13Text("NCR"); view.setBtn14Text("NPR"); view.setBtn15Text("MEAN"); view.setBtn16Text("VAR");
             view.setBtn21Text("S"); view.setBtn22Text(""); view.setBtn23Text(""); view.setBtn24Text(""); view.setBtn25Text(""); view.setBtn26Text("");
