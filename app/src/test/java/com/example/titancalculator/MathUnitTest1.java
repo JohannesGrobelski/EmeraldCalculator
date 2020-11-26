@@ -1,20 +1,14 @@
 package com.example.titancalculator;
 
-import android.text.style.TtsSpan;
-import android.util.Log;
-
-import androidx.fragment.app.testing.FragmentScenario;
-
 import com.example.titancalculator.helper.Math_String.MathEvaluator;
 import com.example.titancalculator.helper.Math_String.NumberString;
 
 import org.junit.Test;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.text.DecimalFormat;
 
-import static com.example.titancalculator.MainActivityTest.resembles;
+import static com.example.titancalculator.MainActivityUnitTest.resembles;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;

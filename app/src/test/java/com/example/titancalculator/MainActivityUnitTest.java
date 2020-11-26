@@ -5,6 +5,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.titancalculator.CalcModel;
+import com.example.titancalculator.MainActivity;
+import com.example.titancalculator.R;
 import com.example.titancalculator.helper.Math_String.MathEvaluator;
 import com.example.titancalculator.helper.StringUtils;
 
@@ -29,7 +32,7 @@ import static org.junit.Assert.assertTrue;
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = 28)
 
-public class MainActivityTest {
+public class MainActivityUnitTest {
     private static int iterationsSubtests = 1; //TODO: hohe iterationen => JRE EXCEPTION_ACCESS_VIOLATION
     private static double toleranceDigits = 10;
     private Map<String, View> idToViewMap = new HashMap<>();
@@ -592,7 +595,7 @@ public class MainActivityTest {
         }
         int minlength = Math.min(Math.min(expectedResult.length(),output.length()),20);
         if(expectedResult.startsWith(".") || expectedResult.startsWith("-."))expectedResult=expectedResult.replace(".","0."); //TODO: solve better
-        if(output.startsWith(expectedResult.substring(0,Math.min(minlength,CalcModel.precisionDigits)))){return true;}
+        if(output.startsWith(expectedResult.substring(0,Math.min(minlength, CalcModel.precisionDigits)))){return true;}
         else{
             if(Math.abs(Double.valueOf(output) - Double.valueOf(expectedResult)) < tolerance){return true;
             } else{

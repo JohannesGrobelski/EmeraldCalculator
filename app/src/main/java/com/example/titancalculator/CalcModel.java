@@ -34,9 +34,9 @@ public class CalcModel {
         private static String[] memory = new String[6];
 
         public static String[] getMemory() {return memory;}
-        public static String getMemory(int index) { return memory[index];}
-        public static void setMemory(String[] memory) {CalcModel.memory = memory;}
-        public static void setMemory(String mem, int index) {CalcModel.memory[index] = mem;}
+        public static String getMemory(int index) {if(index<6 && index>=0)return memory[index]; else {System.out.println(index); assert(false); return "";}}
+        public static void setMemory(String[] memory) {if(memory.length == CalcModel.memory.length)CalcModel.memory = memory;}
+        public static void setMemory(String mem, int index) {if(index<6 && index>=0)CalcModel.memory[index] = mem;}
         public String getOutputString() {return OutputString;}
         public void setOutputString(String OutputString) {this.OutputString = OutputString;}
         public void setIText(String text) {InputString.setText(text);}

@@ -2,6 +2,8 @@ package com.example.titancalculator;
 
 import android.content.Context;
 
+import com.example.titancalculator.CalcModel;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -11,7 +13,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 
-public class CalcModelTest {
+public class CalcModelUnitTest {
 
     CalcModel calcModel;
     final private String[] modes = {"basic","basic2","trigo","hyper","logic","statistic","memory"};
@@ -66,10 +68,11 @@ public class CalcModelTest {
     public void testMemoryOps(){
         //getMemory(),getMemory(int),setMemory(int[]),setMemory(int,int)
         assertArrayEquals(calcModel.getMemory(),new String[6]);
+        String[] memTest = new String[]{"1","2","3","4","5","6"}; calcModel.setMemory(memTest);
+        assertArrayEquals(calcModel.getMemory(),memTest);
+        calcModel.setMemory(new String[5]); assertArrayEquals(calcModel.getMemory(),memTest); //wrong arraysize
+        memTest[2] = "11"; calcModel.setMemory("11",2); assertArrayEquals(calcModel.getMemory(),memTest); calcModel.setMemory("11",-2);
+        for(int i=0;i<6;i++){assertEquals(calcModel.getMemory(i),memTest[i]);}
     }
 
-    @Test
-    public void testInputStringOps(){
-
-    }
 }
