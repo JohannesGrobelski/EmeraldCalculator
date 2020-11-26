@@ -22,8 +22,8 @@ import androidx.preference.PreferenceManager;
 import com.example.titancalculator.R;
 import com.example.titancalculator.helper.ButtonShapeCustomAdapter;
 import com.example.titancalculator.helper.ButtonShapeImageModel;
-import com.example.titancalculator.helper.MainDisplay.DesignApplier;
-import com.example.titancalculator.helper.MainDisplay.SettingsApplier;
+import com.example.titancalculator.geplanteFeatures.helper.MainDisplay.DesignApplier;
+import com.example.titancalculator.geplanteFeatures.helper.MainDisplay.SettingsApplier;
 
 import java.util.ArrayList;
 

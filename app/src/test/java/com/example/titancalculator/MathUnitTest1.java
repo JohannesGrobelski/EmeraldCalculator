@@ -30,7 +30,7 @@ public class MathUnitTest1 {
     public void mathEvTime(){
         //assertEquals(MathEvaluator.evaluate(NumberString.getCalcuableString("√4"),10),"2");
         long start,end; start = System.currentTimeMillis(); int originalIterationsSubtests = iterationsSubtests; iterationsSubtests = 1;
-        MathEvaluator.evaluate(NumberString.getCalcuableString("√√√5"),10);
+        MathEvaluator.evaluate(NumberString.getCalcuableString("√√√5"));
         testBasicFunctions();
         testBasic2Functions();
         testTrigoAndHyperFunctions();
@@ -52,6 +52,7 @@ public class MathUnitTest1 {
         assertTrue(testEquation("0!","1"));
         assertTrue(testEquation("0.5!","Math Error"));
         assertTrue(testEquation("1!","1"));
+        assertTrue(testEquation("5!","120"));
 
         for(int i=0; i<iterationsSubtests; i++) {
             double op1 = (Math.random() * 10) - 0; //TODO: negative numbers

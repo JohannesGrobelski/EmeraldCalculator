@@ -36,8 +36,8 @@ import androidx.preference.PreferenceManager;
 
 import com.example.titancalculator.R;
 import com.example.titancalculator.helper.ArrayUtils;
-import com.example.titancalculator.helper.MainDisplay.OnSwipeTouchListener;
-import com.example.titancalculator.helper.MainDisplay.SettingsApplier;
+import com.example.titancalculator.geplanteFeatures.helper.MainDisplay.OnSwipeTouchListener;
+import com.example.titancalculator.geplanteFeatures.helper.MainDisplay.SettingsApplier;
 import com.example.titancalculator.helper.Math_String.MathEvaluator;
 import com.example.titancalculator.helper.Math_String.NavigatableString;
 import com.example.titancalculator.helper.Math_String.NumberString;
@@ -757,7 +757,7 @@ public class CalcActivity_normal extends AppCompatActivity {
                     MEMORY[4] = getSelection();
                     CalcActivity_science.saveMemory(CalcActivity_normal.this,MEMORY);
                 }else if (mode.equals("LOGIC") || mode.equals("LOGISCH")) {
-                    ausgabeSetText(I.getBIN());
+                    //ausgabeSetText(I.getBIN());
                 } else if (UserFctGroups.contains(mode)) {
                     transBtnFct(VIEW_15.getText().toString());
                 }else {
@@ -796,7 +796,7 @@ public class CalcActivity_normal extends AppCompatActivity {
                     MEMORY[5] = getSelection();
                     CalcActivity_science.saveMemory(CalcActivity_normal.this,MEMORY);
                 }else if (mode.equals("LOGIC") || mode.equals("LOGISCH")) {
-                    ausgabeSetText(I.getOCT());
+                    //TODO: ausgabeSetText(I.getOCT());
                 } else if (UserFctGroups.contains(mode)) {
                     transBtnFct(VIEW_16.getText().toString());
                 }else {
@@ -842,7 +842,7 @@ public class CalcActivity_normal extends AppCompatActivity {
 
                 } else if (mode.equals("HYPER")) {
                 } else if (mode.equals("LOGIC") || mode.equals("LOGISCH")) {
-                    ausgabeSetText(I.getDEC());
+                    //TODO: ausgabeSetText(I.getDEC());
                 } else if (mode.equals("MEMORY") || mode.equals("SPEICHER")) {
                     replaceSelection(MEMORY[0]);
                 } else if (UserFctGroups.contains(mode)) {
@@ -882,7 +882,7 @@ public class CalcActivity_normal extends AppCompatActivity {
                 } else if (mode.equals("MEMORY") || mode.equals("SPEICHER")) {
                     replaceSelection(MEMORY[1]);
                 }else if (mode.equals("LOGIC") || mode.equals("LOGISCH")) {
-                    ausgabeSetText(I.getHEX());
+                    //TODO: ausgabeSetText(I.getHEX());
                 } else if (UserFctGroups.contains(mode)) {
                     transBtnFct(VIEW_22.getText().toString());
                 }else {

@@ -189,7 +189,6 @@ public class Expression {
 		public BigDecimal eval() {
 			return null;
 		}
-
 		public String getString() {
 			return null;
 		}
@@ -224,7 +223,6 @@ public class Expression {
 			public String getString() {
 				return bigDecimal.toPlainString();
 			}
-
 			@Override
 			public BigDecimal eval() {
 				return bigDecimal;
@@ -275,22 +273,6 @@ public class Expression {
 
 		public Function(String name, int numParams, boolean booleanFunction) {
 			super(name, numParams, booleanFunction);
-		}
-	}
-
-	/**
-	 * Abstract definition of a supported expression function. A function is
-	 * defined by a name, the number of parameters and the actual processing
-	 * implementation.
-	 */
-	public abstract class VFunction extends AbstractVFunction {
-
-		public VFunction(String name) {
-			super(name);
-		}
-
-		public VFunction(String name, boolean booleanFunction) {
-			super(name, booleanFunction);
 		}
 	}
 
@@ -2285,18 +2267,6 @@ public class Expression {
 		}
 		return false;
 	}
-
-	public List<String> infixNotation() {
-		final List<String> infix = new ArrayList<String>();
-		Tokenizer tokenizer = new Tokenizer(expression);
-		while (tokenizer.hasNext()) {
-			Token token = tokenizer.next();
-			String infixNotation = "{" + token.type + ":" + token.surface + "}";
-			infix.add(infixNotation);
-		}
-		return infix;
-	}
-
 
 	private BigDecimal GGT(BigDecimal m,BigDecimal n){
 		if (n.equals(BigDecimal.ZERO))

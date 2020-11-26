@@ -1,40 +1,25 @@
 package com.example.titancalculator;
 
-import android.Manifest;
-import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.preference.PreferenceManager;
 
-import com.example.titancalculator.helper.ArrayUtils;
-import com.example.titancalculator.helper.MainDisplay.SettingsApplier;
+import com.example.titancalculator.geplanteFeatures.helper.MainDisplay.SettingsApplier;
 import com.example.titancalculator.helper.StringUtils;
-
-import java.util.Arrays;
-import java.util.LinkedList;
 
 /** View implemented by Activity, will contain a reference to the presenter.
   * The only thing that the view will do is to call a method from the Presenter every time there is an interface action.

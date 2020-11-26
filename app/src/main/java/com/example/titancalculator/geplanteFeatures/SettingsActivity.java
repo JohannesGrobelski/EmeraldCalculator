@@ -42,7 +42,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.core.app.NavUtils;
 
 import com.example.titancalculator.R;
-import com.example.titancalculator.helper.MainDisplay.SettingsApplier;
+import com.example.titancalculator.geplanteFeatures.helper.MainDisplay.SettingsApplier;
 
 import java.util.List;
 

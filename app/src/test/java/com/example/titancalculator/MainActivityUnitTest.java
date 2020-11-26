@@ -63,6 +63,7 @@ public class MainActivityUnitTest {
             assertEquals("Math Error",calcTerm(((int) (Math.random()*1000) + 1)+"/0"));
         }
     }
+    TODO: 100% coverage
      */
 
     /**

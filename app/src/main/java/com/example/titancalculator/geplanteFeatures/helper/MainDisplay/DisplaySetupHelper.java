@@ -1,9 +1,8 @@
-package com.example.titancalculator.helper.MainDisplay;
+package com.example.titancalculator.geplanteFeatures.helper.MainDisplay;
 
 import android.content.Context;
 
 
-import android.graphics.Color;
 import android.util.DisplayMetrics;
 
 import com.example.titancalculator.R;

@@ -1,4 +1,4 @@
-package com.example.titancalculator.helper.Math_String;
+package com.example.titancalculator.geplanteFeatures.MathString;
 
 import java.util.Stack;
 

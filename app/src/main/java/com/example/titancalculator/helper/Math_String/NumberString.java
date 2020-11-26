@@ -1,7 +1,6 @@
 package com.example.titancalculator.helper.Math_String;
 
-import android.util.Log;
-
+import com.example.titancalculator.geplanteFeatures.MathString.ContentString;
 import com.example.titancalculator.helper.StringUtils;
 
 import java.math.BigDecimal;
@@ -260,7 +259,6 @@ public class NumberString extends ContentString {
 
 
     public static String getCalcuableString(String a){
-
         //language settings
         a = a.replaceAll("LCM","KGV");
         a = a.replaceAll("GCD","GGT");
@@ -285,9 +283,7 @@ public class NumberString extends ContentString {
             a = a.replace(r,replacements.get(r));
         }
 
-
         //I: fix; sonst: PI -> P(I)
-
         a = NumberString.paraInComplex(a);
 
         for(String f: functions_paraIn){
@@ -386,30 +382,6 @@ public class NumberString extends ContentString {
         String res = getResult();
         if(res.isEmpty() || res.equals("Math Error"))return res;
         return getDisplayableString(MathEvaluator.toDEG(res));
-    }
-
-    String getBIN(){
-        String res = getResult();
-        if(res.isEmpty() || res.equals("Math Error"))return res;
-        return getDisplayableString(MathEvaluator.baseConversion(res,10,2));
-    }
-
-    String getOCT(){
-        String res = getResult();
-        if(res.isEmpty() || res.equals("Math Error"))return res;
-        return getDisplayableString(MathEvaluator.baseConversion(res,10,8));
-    }
-
-    String getDEC(){
-        String res = getResult();
-        if(res.isEmpty() || res.equals("Math Error"))return res;
-        return getDisplayableString(MathEvaluator.baseConversion(res,10,10));
-    }
-
-    String getHEX(){
-        String res = getResult();
-        if(res.isEmpty() || res.equals("Math Error"))return res;
-        return getDisplayableString(MathEvaluator.baseConversion(res,10,16)).toUpperCase();
     }
 
     String getPFZ(){

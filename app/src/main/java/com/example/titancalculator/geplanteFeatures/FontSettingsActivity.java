@@ -19,8 +19,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
 import com.example.titancalculator.R;
-import com.example.titancalculator.helper.MainDisplay.DisplaySetupHelper;
-import com.example.titancalculator.helper.MainDisplay.SettingsApplier;
+import com.example.titancalculator.geplanteFeatures.helper.MainDisplay.DisplaySetupHelper;
+import com.example.titancalculator.geplanteFeatures.helper.MainDisplay.SettingsApplier;
 
 public class FontSettingsActivity extends AppCompatActivity {
 

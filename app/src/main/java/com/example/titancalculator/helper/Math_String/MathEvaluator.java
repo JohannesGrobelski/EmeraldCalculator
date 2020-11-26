@@ -59,147 +59,7 @@ public class MathEvaluator {
 		return String.valueOf(Math.toDegrees(Double.valueOf(dec)));
 	}
 
-    // Parse EVERY number with source radix
-    // and transform in specified radix(base)
-    public static String baseConversion(String input, int sBase, int dBase) {
-        //trans scientific notation
 
-        while(input.contains("E+")){
-            int places = Integer.valueOf(input.substring(input.indexOf("E+")+2));
-            String search = "E\\+"+ places;
-            input = input.replaceFirst(search,StringUtils.repeat("0",places));
-            input = input.replace(".","");
-            input = StringUtils.insertString(input,".",places);
-        }
-        while(input.contains("E-")){
-            int places = Integer.valueOf(input.substring(input.indexOf("E-")+2));
-            String search = "E-"+ places;
-            input = input.replaceFirst(search,"");
-
-            input = input.replace(".","");
-            input = "0."+StringUtils.repeat("0",places)+input;
-        }
-
-        Matcher m1 = Pattern.compile("[0-9a-z]+\\.[0-9a-z]+").matcher(input);
-        Matcher m2 = Pattern.compile("[0-9a-z]*\\.[0-9a-z]+").matcher(input);
-        Matcher m3 = Pattern.compile("[0-9a-z]+\\.[0-9a-z]*").matcher(input);
-        Matcher m4  = Pattern.compile("[0-9a-z]+\\.?[0-9a-z]*").matcher(input);
-        LinkedHashSet<String> allMatches = new LinkedHashSet<String>();
-
-        while(m1.find()) {allMatches.add(m1.group());}
-        while(m2.find()) {allMatches.add(m2.group());}
-        while(m3.find()) {allMatches.add(m3.group());}
-        while(m4.find()) {allMatches.add(m4.group());}
-
-        for(String s: allMatches.toArray(new String[allMatches.size()])) {
-            String number = s;
-            if(sBase == 10 && dBase != 10){
-                number = toBase(s,dBase,1000);
-            } else if(sBase != 10 && dBase == 10){
-                number = toDec(s,sBase,1000);
-            }
-            input = input.replace(s,number);
-        }
-        return input;
-    }
-
-
-    public static String toDec(String input, int base, int decimal_places_pref){
-	    if(base < 0 || base > 36) return "";
-        BigDecimal b = new BigDecimal(base);
-
-        String pc = "";
-        if(input.contains(".")){
-            pc = input.substring(input.indexOf(".")+1);
-            input = input.substring(0,input.indexOf("."));
-        }
-
-        BigDecimal res = BigDecimal.ZERO;
-
-        if(!input.isEmpty()){
-            for(int i=input.length()-1; i>=0; --i){
-                String digit = String.valueOf(input.toCharArray()[i]);
-                BigDecimal d = base_digits_rl.get(digit);
-                int p = input.length()-1-i;
-                BigDecimal m = BigDecimal.valueOf(base).pow(p,MathContext.DECIMAL128);
-                d = d.multiply(m,MathContext.DECIMAL128);
-                res = res.add(d,MathContext.DECIMAL128);
-                //System.out.println("digit: "+digit+", d: "+d+", m: "+m+", res"+res);
-            }
-        }
-
-        if(!pc.isEmpty()){
-            BigDecimal pc_res = BigDecimal.ZERO;
-            if(!pc.isEmpty()){
-                for(int i=pc.length()-1; i>=0; --i){
-                    String digit = String.valueOf(pc.toCharArray()[i]);
-                    BigDecimal d = base_digits_rl.get(digit);
-                    int p = -(i+1);
-                    BigDecimal m = BigDecimal.valueOf(base).pow(p,MathContext.DECIMAL128);
-                    d = d.multiply(m,MathContext.DECIMAL128);
-                    pc_res = pc_res.add(d,MathContext.DECIMAL128);
-                   //System.out.println("decdigit: "+digit+", p: "+p+", d: "+d+", m: "+m+", res: "+pc_res);
-                }
-            }
-            res = res.add(pc_res);
-        }
-
-        return res.toString();
-    }
-
-    public static String toBase(String input, int base, int decimal_places_pref){
-        if(base < 2 || base > 36) return "";
-
-        BigDecimal b = new BigDecimal(base);
-
-	    String pc = "";
-	    if(input.contains(".")){
-	        pc = "0"+input.substring(input.indexOf("."));
-	        input = input.substring(0,input.indexOf("."));
-        }
-
-        String res = "";
-        if(!input.isEmpty()){
-            BigDecimal n = new BigDecimal(input,MathContext.DECIMAL128);
-            while(n.compareTo(BigDecimal.ZERO)>=0){
-                BigDecimal d = n.divide(b,MathContext.DECIMAL128).setScale(0,RoundingMode.FLOOR);
-                BigDecimal r = n.remainder(b,MathContext.DECIMAL128).setScale(0,RoundingMode.FLOOR);
-                res = base_digits.get(r) + res;
-
-                n = d;
-                //System.out.println("n: "+n.toString()+", r: "+r+", res: "+res);
-
-                if(n.compareTo(b)<=0){
-                    r = n.remainder(b,MathContext.DECIMAL128).setScale(0,RoundingMode.HALF_DOWN);
-                    res = base_digits.get(r) + res;
-
-                    //System.out.println("n: "+n.toString()+", r: "+r+", res: "+res);
-                    break;
-                }
-            }
-        }
-
-        String pc_res="";
-	    if(!pc.isEmpty()){
-            BigDecimal n = new BigDecimal(pc,MathContext.DECIMAL128);
-            //System.out.println(n+" "+b+" "+(n.compareTo(b) == 0));
-
-            while(!(n.multiply(b,MathContext.DECIMAL128).compareTo(b) == 0) && !(n.compareTo(BigDecimal.ZERO) == 0)){
-                n = n.multiply(b,MathContext.DECIMAL128);
-                BigDecimal r = n.setScale(0,RoundingMode.FLOOR).remainder(b,MathContext.DECIMAL128);
-                pc_res += base_digits.get(r);
-
-                //System.out.println("n: "+n.toString()+", r: "+r+", pc_res: "+pc_res);
-                n = n.remainder(b,MathContext.DECIMAL128);
-
-                --decimal_places_pref;
-                if(decimal_places_pref == 0)break;
-            }
-
-            res = res+"."+pc_res;
-        }
-        return res;
-    }
 
 
     /**
@@ -279,34 +139,20 @@ public class MathEvaluator {
         return number_comma + 1;
     }
 
-	public static String evaluate(String input,int base) {
+	public static String evaluate(String input) {
 
         input = rootToSqrt(input);
         input = logToLogb(input);
 
         if(input.contains("!"))input = facCor(input);
         //input = baseConversion(input,base,10);
-
-        if(base != 10){
-            input = baseConversion(input,base,10);
-        }
-
         Expression expression = new Expression(input);
 
         try {
             //System.out.println("1. "+expression.eval().toString());
-            if(base == 10){
-                expression.setPrecision(decimal_places_pref + 1);
-                String res = format(expression.eval()).toString();
-                return res;
-            }
-            else {
-                //BigDecimal a = new BigDecimal(baseConversion(res,10,base));
-                //return a.toString();
-                expression.setPrecision(Math.max(decimal_places_pref,100));
-                String res = expression.eval().toString();
-                return formatNumber(baseConversion(res,10,base),base);
-            }
+            expression.setPrecision(decimal_places_pref + 1);
+            String res = format(expression.eval()).toString();
+            return res;
         }
         catch (Exception e) {
             return "Math Error";
@@ -488,17 +334,6 @@ public class MathEvaluator {
         return s.matches("-?\\d+");
     }
 
-
-    private static void test(int durchläufe){
-        for(int i=0; i<durchläufe;i++){
-            BigDecimal z = BigDecimal.valueOf(Math.random()*100000);
-            int bz = (int) Math.round(Math.random()*36)+1;
-            BigDecimal res = new BigDecimal(toDec(toBase(String.valueOf(z), bz , 20),bz,20),MathContext.DECIMAL128);
-            if(Math.round(z.subtract(res).doubleValue()) > .1){
-                System.out.println(z+" != "+ res);
-            }
-        }
-    }
 
     private static HashMap<Integer,String> init_intBase_digits_rl(){
         HashMap<Integer,String> base_digits = new HashMap<Integer,String>(){{}};

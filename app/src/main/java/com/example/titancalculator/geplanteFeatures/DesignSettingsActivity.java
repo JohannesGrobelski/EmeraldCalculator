@@ -16,8 +16,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.titancalculator.R;
-import com.example.titancalculator.helper.MainDisplay.DesignApplier;
-import com.example.titancalculator.helper.MainDisplay.SettingsApplier;
+import com.example.titancalculator.geplanteFeatures.helper.MainDisplay.DesignApplier;
+import com.example.titancalculator.geplanteFeatures.helper.MainDisplay.SettingsApplier;
 
 import java.util.ArrayList;
 

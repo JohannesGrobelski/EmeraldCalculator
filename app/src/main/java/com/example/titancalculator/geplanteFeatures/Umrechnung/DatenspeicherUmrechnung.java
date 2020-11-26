@@ -1,11 +1,11 @@
-package com.example.titancalculator.helper.Umrechnung;
+package com.example.titancalculator.geplanteFeatures.Umrechnung;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
-public class DatentransferUmrechnung {
+public class DatenspeicherUmrechnung {
 
     private static HashMap<String, BigDecimal> Datenspeicher = new LinkedHashMap<>();
 
@@ -23,31 +23,28 @@ public class DatentransferUmrechnung {
     }
 
     private static void init(){
-        Datenspeicher.put("Bit pro Sekunde", new BigDecimal("1"));
-        Datenspeicher.put("Kilobit pro Sekunde", new BigDecimal("0.001"));
-        Datenspeicher.put("Kibibit pro Sekunde", new BigDecimal("0.000976563"));
-        Datenspeicher.put("Megabit pro Sekunde", new BigDecimal("1e-6"));
-        Datenspeicher.put("Mebibit pro Sekunde", new BigDecimal("9.5367e-7"));
-        Datenspeicher.put("Gigabit pro Sekunde", new BigDecimal("1e-9"));
-        Datenspeicher.put("Gibibit pro Sekunde", new BigDecimal("9.3132e-10"));
-        Datenspeicher.put("Terabit pro Sekunde", new BigDecimal("1e-12"));
-        Datenspeicher.put("Tebiti pro Sekunde", new BigDecimal("9.0949e-13"));
-        Datenspeicher.put("Petabit pro Sekunde", new BigDecimal("1e-15"));
-        Datenspeicher.put("Pebibit pro Sekunde", new BigDecimal("8.8818e-16"));
-        Datenspeicher.put("Kilobyte pro Sekunde", new BigDecimal("0.000125"));
-        Datenspeicher.put("Kibibyte pro Sekunde", new BigDecimal("0.00012207"));
-        Datenspeicher.put("Megabyte pro Sekunde", new BigDecimal("1.25e-7"));
-        Datenspeicher.put("Mebibyte pro Sekunde", new BigDecimal("1.1921e-7"));
-        Datenspeicher.put("Gigabyte pro Sekunde", new BigDecimal("1.25e-10"));
-        Datenspeicher.put("Gibibyte pro Sekunde", new BigDecimal("1.1642e-10"));
-        Datenspeicher.put("Terabyte pro Sekunde", new BigDecimal("1.25e-13"));
-        Datenspeicher.put("Tebibyte pro Sekunde", new BigDecimal("1.1369e-13"));
+        Datenspeicher.put("Bit", new BigDecimal("1"));
+        Datenspeicher.put("Kilobit", new BigDecimal("0.001"));
+        Datenspeicher.put("Kibibit", new BigDecimal("0.000976563"));
+        Datenspeicher.put("Megabit", new BigDecimal("1e-6"));
+        Datenspeicher.put("Mebibit", new BigDecimal("9.5367e-7"));
+        Datenspeicher.put("Gigabit", new BigDecimal("1e-9"));
+        Datenspeicher.put("Gibibit", new BigDecimal("9.3132e-10"));
+        Datenspeicher.put("Terabit", new BigDecimal("1e-12"));
+        Datenspeicher.put("Tebiti", new BigDecimal("9.0949e-13"));
+        Datenspeicher.put("Petabit", new BigDecimal("1e-15"));
+        Datenspeicher.put("Pebibit", new BigDecimal("8.8818e-16"));
+        Datenspeicher.put("Kilobyte", new BigDecimal("0.000125"));
+        Datenspeicher.put("Kibibyte", new BigDecimal("0.00012207"));
+        Datenspeicher.put("Megabyte", new BigDecimal("1.25e-7"));
+        Datenspeicher.put("Mebibyte", new BigDecimal("1.1921e-7"));
+        Datenspeicher.put("Gigabyte", new BigDecimal("1.25e-10"));
+        Datenspeicher.put("Gibibyte", new BigDecimal("1.1642e-10"));
+        Datenspeicher.put("Terabyte", new BigDecimal("1.25e-13"));
+        Datenspeicher.put("Tebibyte", new BigDecimal("1.1369e-13"));
 
         unitsDE = (String[]) Datenspeicher.keySet().toArray(new String[Datenspeicher.size()]);
-        unitsEN = new String[]{"bit per second", "kilobit per second", "kibibit per second", "megabit per second", "mebibit per second",
-                "gigabit per second", "gibibit per second", "terabit per second", "tebibit per second", "petabit per second", "pebibit per second",
-                "byte per second", "kilobyte per second", "kibibyte per second", "megabyte per second", "mebibyte per second", "gigabyte per second",
-                "gibibyte per second", "terabyte per second", "tebibyte per second"};
+        unitsEN = new String[]{"bit", "kilobit", "kibibit", "megabit", "mebibit", "gigabit", "gibibit", "terabit", "tebibit", "petabit", "pebibit", "byte", "kilobyte", "kibibyte", "megabyte", "mebibyte", "gigabyte", "gibibyte", "terabyte", "tebibyte"};
      }
 
     public static BigDecimal sourceToBase(BigDecimal a, String source){

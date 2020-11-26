@@ -20,7 +20,7 @@ import androidx.preference.PreferenceManager;
 import com.example.titancalculator.R;
 import com.example.titancalculator.helper.InitConstMapDE;
 import com.example.titancalculator.helper.InitConstMapEN;
-import com.example.titancalculator.helper.MainDisplay.SettingsApplier;
+import com.example.titancalculator.geplanteFeatures.helper.MainDisplay.SettingsApplier;
 
 import java.text.DecimalFormat;
 import java.util.Arrays;

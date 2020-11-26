@@ -8,7 +8,7 @@
  * - handle @string/... values in xml file
  */
 
-package com.example.titancalculator.helper.MainDisplay;
+package com.example.titancalculator.geplanteFeatures.helper.MainDisplay;
 
 import android.app.AlertDialog;
 import android.content.Context;

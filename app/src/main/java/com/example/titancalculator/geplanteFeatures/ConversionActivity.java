@@ -25,20 +25,20 @@ import androidx.appcompat.widget.PopupMenu;
 import androidx.preference.PreferenceManager;
 
 import com.example.titancalculator.R;
-import com.example.titancalculator.helper.MainDisplay.SettingsApplier;
+import com.example.titancalculator.geplanteFeatures.helper.MainDisplay.SettingsApplier;
 import com.example.titancalculator.helper.Math_String.MathEvaluator;
-import com.example.titancalculator.helper.Umrechnung.DatenspeicherUmrechnung;
-import com.example.titancalculator.helper.Umrechnung.DatentransferUmrechnung;
-import com.example.titancalculator.helper.Umrechnung.FlächenUmrechnung;
-import com.example.titancalculator.helper.Umrechnung.GeschwindigkeitUmrechnung;
-import com.example.titancalculator.helper.Umrechnung.KraftUmrechnung;
-import com.example.titancalculator.helper.Umrechnung.LaengeUmrechnung;
-import com.example.titancalculator.helper.Umrechnung.LeistungUmrechnung;
-import com.example.titancalculator.helper.Umrechnung.MasseUmrechnung;
-import com.example.titancalculator.helper.Umrechnung.StromstärkeUmrechnung;
-import com.example.titancalculator.helper.Umrechnung.TemperaturUmrechnung;
-import com.example.titancalculator.helper.Umrechnung.VolumenUmrechnung;
-import com.example.titancalculator.helper.Umrechnung.ZeitUmrechnung;
+import com.example.titancalculator.geplanteFeatures.Umrechnung.DatenspeicherUmrechnung;
+import com.example.titancalculator.geplanteFeatures.Umrechnung.DatentransferUmrechnung;
+import com.example.titancalculator.geplanteFeatures.Umrechnung.FlächenUmrechnung;
+import com.example.titancalculator.geplanteFeatures.Umrechnung.GeschwindigkeitUmrechnung;
+import com.example.titancalculator.geplanteFeatures.Umrechnung.KraftUmrechnung;
+import com.example.titancalculator.geplanteFeatures.Umrechnung.LaengeUmrechnung;
+import com.example.titancalculator.geplanteFeatures.Umrechnung.LeistungUmrechnung;
+import com.example.titancalculator.geplanteFeatures.Umrechnung.MasseUmrechnung;
+import com.example.titancalculator.geplanteFeatures.Umrechnung.StromstärkeUmrechnung;
+import com.example.titancalculator.geplanteFeatures.Umrechnung.TemperaturUmrechnung;
+import com.example.titancalculator.geplanteFeatures.Umrechnung.VolumenUmrechnung;
+import com.example.titancalculator.geplanteFeatures.Umrechnung.ZeitUmrechnung;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -200,7 +200,7 @@ public class ConversionActivity extends AppCompatActivity implements  PopupMenu.
         String me2 = btn_maßeinheit2.getText().toString();
         String e1val = eT_cur_const_val1.getText().toString();
         if(checkValid(me1,me2,e1val)>0){
-            String target = MathEvaluator.evaluate(convert(new BigDecimal(e1val),me1,me2),10);
+            String target = MathEvaluator.evaluate(convert(new BigDecimal(e1val),me1,me2));
             eTtarget.setText(target);
             currentConv = target;
         }

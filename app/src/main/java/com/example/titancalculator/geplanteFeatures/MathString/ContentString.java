@@ -1,4 +1,4 @@
-package com.example.titancalculator.helper.Math_String;
+package com.example.titancalculator.geplanteFeatures.MathString;
 
 public class ContentString{
     String content="";

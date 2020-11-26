@@ -1,4 +1,4 @@
-package com.example.titancalculator.helper.Umrechnung;
+package com.example.titancalculator.geplanteFeatures.Umrechnung;
 
 import java.math.BigDecimal;
 import java.math.MathContext;

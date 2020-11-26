@@ -32,7 +32,7 @@ public class Presenter {
 
 
     public void eingabeAddText(String text){
-        //wenn cursor in mitte klappt es noch nicht ganz
+        //TODO: wenn cursor in mitte klappt es noch nicht ganz
         if(view.getSelectionEndEingabe() != view.getSelectionStartEingabe()){text = deleteSpan(text,view.getSelectionEndEingabe(),view.getSelectionStartEingabe());}
         calcModel.eingabeAddText(text,view.getSelectionStartEingabe());
         int selection = view.getSelectionEndEingabe() + 1;
@@ -88,12 +88,10 @@ public class Presenter {
             eingabeAddText(identifier);
             ret =  identifier;
         }
-
         if(!ret.isEmpty() && ret.substring(0,1).equals(">")){ //TODO: schlechtes Signal das Output da ist, besser?: CalcModel benachrichtigt Presenter direkt?
             view.ausgabeSetText(calcModel.getOutputString());
             return "";
         }
-
         return "";
     }
 
@@ -143,8 +141,6 @@ public class Presenter {
         view.ausgabeSetText(calcModel.getOutputString());
     }
 
-
-
     public void assignModeFct() {
         if (calcModel.getMode().equals("trigo")) {
             view.setBtn11Text("SIN"); view.setBtn12Text("COS"); view.setBtn13Text("TAN"); view.setBtn14Text("COT"); view.setBtn15Text("SEC"); view.setBtn16Text("CSC");
@@ -185,16 +181,15 @@ public class Presenter {
         }
     }
 
-    public void replaceSelection(String input){view.replaceSelection(input);}
-
-    public String getSelection(){return view.getSelection();}
-
     public String deleteSpan(String input, int start, int end){
         if(start < 0 || start > input.length() - 1 || end < 0 || end > input.length() || end <= start)return input;
         else{
             return (input = input.substring(0,start) + input.substring(Math.min(end,input.length() - 1),Math.max(end,input.length()-1)));
         }
     }
+
+    public void replaceSelection(String input){view.replaceSelection(input);}
+    public String getSelection(){return view.getSelection();}
 
     public interface View{
         void setBtn11Text(String text);

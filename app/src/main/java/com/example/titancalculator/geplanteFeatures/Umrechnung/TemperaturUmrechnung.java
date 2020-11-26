@@ -1,4 +1,4 @@
-package com.example.titancalculator.helper.Umrechnung;
+package com.example.titancalculator.geplanteFeatures.Umrechnung;
 
 import com.example.titancalculator.helper.Math_String.MathEvaluator;
 
@@ -37,17 +37,17 @@ public class TemperaturUmrechnung {
         if(!Arrays.asList(unitsDE).contains(target))return a.toString();
 
         if(source.equals("Celsius") && target.equals("Fahrenheit")){
-            return MathEvaluator.evaluate("("+a.toString()+"*(9/5)) + 32",10);
+            return MathEvaluator.evaluate("("+a.toString()+"*(9/5)) + 32");
         } else if(source.equals("Fahrenheit") && target.equals("Celsius")){
-             return MathEvaluator.evaluate("("+a.toString()+" - 32) * 5/9",10);
+             return MathEvaluator.evaluate("("+a.toString()+" - 32) * 5/9");
         } else if(source.equals("Celsius") && target.equals("Kelvin")){
-             return MathEvaluator.evaluate(a.toString()+" + 273.15",10);
+             return MathEvaluator.evaluate(a.toString()+" + 273.15");
         } else if(source.equals("Kelvin") && target.equals("Celsius")){
-             return MathEvaluator.evaluate(a.toString()+" - 273.15",10);
+             return MathEvaluator.evaluate(a.toString()+" - 273.15");
         } else if(source.equals("Fahrenheit") && target.equals("Kelvin")){
-            return MathEvaluator.evaluate("(("+a.toString()+" - 32) * 5/9) + 273.15 ",10);
+            return MathEvaluator.evaluate("(("+a.toString()+" - 32) * 5/9) + 273.15 ");
         } else if(source.equals("Kelvin") && target.equals("Fahrenheit")){
-            return MathEvaluator.evaluate("(("+a.toString()+" - 273.15) * 9/5) + 32",10);
+            return MathEvaluator.evaluate("(("+a.toString()+" - 273.15) * 9/5) + 32");
         } else return "ConversionActivity Error";
 
      }

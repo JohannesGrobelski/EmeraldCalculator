@@ -1,8 +1,10 @@
-package com.example.titancalculator.helper.Math_String;
+package com.example.titancalculator.geplanteFeatures.MathString;
 
 import android.util.Log;
 
 import com.example.titancalculator.helper.ArrayUtils;
+import com.example.titancalculator.helper.Math_String.MathEvaluator;
+import com.example.titancalculator.helper.Math_String.NumberString;
 
 import java.util.HashMap;
 
@@ -127,7 +129,7 @@ public class SequentialInfixEvaluator {
     }
 
     public static String calc(){
-        String res = MathEvaluator.evaluate(NumberString.getCalcuableString(input),10);
+        String res = MathEvaluator.evaluate(NumberString.getCalcuableString(input));
         input = currentInput = lastOperator = "";
         result = res;
         return res;

@@ -1,6 +1,6 @@
 package com.example.titancalculator.helper.Math_String;
 
-import android.util.Log;
+import com.example.titancalculator.geplanteFeatures.MathString.ContentString;
 
 public class NavigatableString{
 
@@ -91,26 +91,6 @@ public class NavigatableString{
 
     public String getPercent(){
         if(contentString instanceof NumberString) return((NumberString)contentString).getPercent();
-        else return "";
-    }
-
-    public String getBIN(){
-        if(contentString instanceof NumberString) return((NumberString)contentString).getBIN();
-        else return "";
-    }
-
-    public String getOCT(){
-        if(contentString instanceof NumberString) return((NumberString)contentString).getOCT();
-        else return "";
-    }
-
-    public String getDEC(){
-        if(contentString instanceof NumberString) return((NumberString)contentString).getDEC();
-        else return "";
-    }
-
-    public String getHEX(){
-        if(contentString instanceof NumberString) return((NumberString)contentString).getHEX();
         else return "";
     }
 
