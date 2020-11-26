@@ -66,22 +66,22 @@ public class Presenter {
                     if(calcModel.getMode().equals("memory")){replaceSelection(calcModel.getMemory(5)); break;}
                     ret = calcModel.translInputBtn16(); if(!ret.contains(">"))eingabeAddText(calcModel.translInputBtn16()); break;}
                 case 21: {
-                    if(calcModel.getMode().equals("memory")){calcModel.setMemory(getSelection(),0); calcModel.saveMemory(calcModel.getMemory()); break;}
+                    if(calcModel.getMode().equals("memory")){calcModel.setMemory(getSelection(),0); /*calcModel.saveMemory(calcModel.getMemory());*/ break;}
                     ret = calcModel.translInputBtn21(); if(!ret.contains(">"))eingabeAddText(calcModel.translInputBtn21()); break;}
                 case 22: {
-                    if(calcModel.getMode().equals("memory")){calcModel.setMemory(getSelection(),1); calcModel.saveMemory(calcModel.getMemory()); break;}
+                    if(calcModel.getMode().equals("memory")){calcModel.setMemory(getSelection(),1); /*calcModel.saveMemory(calcModel.getMemory());*/ break;}
                     ret = calcModel.translInputBtn22(); if(!ret.contains(">"))eingabeAddText(calcModel.translInputBtn22()); break;}
                 case 23: {
-                    if(calcModel.getMode().equals("memory")){calcModel.setMemory(getSelection(),2); calcModel.saveMemory(calcModel.getMemory()); break;}
+                    if(calcModel.getMode().equals("memory")){calcModel.setMemory(getSelection(),2); /*calcModel.saveMemory(calcModel.getMemory());*/ break;}
                     ret = calcModel.translInputBtn23(); if(!ret.contains(">"))eingabeAddText(calcModel.translInputBtn23()); break;}
                 case 24: {
-                    if(calcModel.getMode().equals("memory")){calcModel.setMemory(getSelection(),3); calcModel.saveMemory(calcModel.getMemory()); break;}
+                    if(calcModel.getMode().equals("memory")){calcModel.setMemory(getSelection(),3); /*calcModel.saveMemory(calcModel.getMemory());*/ break;}
                     ret = calcModel.translInputBtn24(); if(!ret.contains(">"))eingabeAddText(calcModel.translInputBtn24()); break;}
                 case 25: {
-                    if(calcModel.getMode().equals("memory")){calcModel.setMemory(getSelection(),4); calcModel.saveMemory(calcModel.getMemory()); break;}
+                    if(calcModel.getMode().equals("memory")){calcModel.setMemory(getSelection(),4); /*calcModel.saveMemory(calcModel.getMemory());*/ break;}
                     ret = calcModel.translInputBtn25(); if(!ret.contains(">"))eingabeAddText(calcModel.translInputBtn25()); break;}
                 case 26: {
-                    if(calcModel.getMode().equals("memory")){calcModel.setMemory(getSelection(),5); calcModel.saveMemory(calcModel.getMemory()); break;}
+                    if(calcModel.getMode().equals("memory")){calcModel.setMemory(getSelection(),5); /*calcModel.saveMemory(calcModel.getMemory());*/ break;}
                     ret = calcModel.translInputBtn26(); if(!ret.contains(">"))eingabeAddText(calcModel.translInputBtn26()); break;}
             }
         }  else if(Arrays.asList(otherIdentifiers).contains(identifier) || identifier.matches("[0-9]")) {

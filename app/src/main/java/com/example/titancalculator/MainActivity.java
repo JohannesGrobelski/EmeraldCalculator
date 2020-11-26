@@ -545,8 +545,13 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
 
     public void eingabeClearOne() {
         int pos = eT_eingabe.getSelectionStart();
-        eingabeSetText("");
-        eT_eingabe.setSelection(Math.max(0, pos - 1));
+        //altered
+            if(pos != -1 && pos > 0) eT_eingabe.setText(eT_eingabe.getText().toString().substring(0,pos-1));
+            else {eT_eingabe.setText(eT_eingabe.getText().toString().substring(0,Math.max(0,eT_eingabe.getText().toString().length()-2)));}
+            eT_eingabe.clearFocus();
+        //original//TODO: test and delete
+            //eingabeSetText("");
+            //eT_eingabe.setSelection(Math.max(0, pos - 1));
     }
 
     public void eingabeClearAll() {

@@ -26,7 +26,7 @@ public class CalcModel {
         public static int precisionDigits = 10;
         public static Set<String> noImmidiateOps = new HashSet<>(Arrays.asList("³√", "ROOT", "√", "LOG", "P", "C", "%"));
 
-    //state
+    //state variables (incl. getter and setters)
         Context context;
         NavigatableString InputString = new NavigatableString("content");
         int startSelection, endSelection;
@@ -71,37 +71,236 @@ public class CalcModel {
             this.context = c;
     }
 
+    public String translInputBtn11(){
+        switch(mode){
+            case "basic": {return("π"); }
+            case "basic2": {ausgabeSetText(InputString.getPFZ()); return ">PFZ";}
+            case "trigo":  {return("SIN"); }
+            case "statistic":  {return("Zn()"); }
+            case "hyper":  {return("SINH"); }
+            case "logic":  {return("AND(,)"); }
+            case "memory":  {return "M1";}
+            default:  {Log.e("CalcMode","unknown Mode"); }
+        }
+        return "";
+    }
+    
+    public String translInputBtn12(){
+        switch(mode){
+            case "basic": {return("e"); }
+            case "basic2": {
+                if (language.equals("german") || language.equals("deutsch")) {
+                    return("GGT(,)");
+                } else {
+                    return("GCD(,)");
+                }   }
+            case "trigo":  {return("COS"); }
+            case "statistic":  {return("Zb(,)"); }
+            case "hyper":  {return("COSH"); }
+            case "logic":  {return("OR(,)"); }
+            case "memory":  {return "M2";}
+            default:  {Log.e("CalcMode","unknown Mode"); }
+        }
+        return "";
+    }
+
+    public String translInputBtn13(){
+        switch(mode){
+            case "basic": {return("^");}
+            case "basic2": {if (language.equals("german") || language.equals("deutsch")) {
+                return("KGV(,)");
+            } else {
+                return("LCM(,)");
+            } }
+            case "trigo":  {return("TAN"); }
+            case "statistic":  {return("C"); }
+            case "hyper":  {return("TANH"); }
+            case "logic":  {return("XOR(,)"); }
+            case "memory":  {return "M3";}
+            default:  {Log.e("CalcMode","unknown Mode"); }
+        }
+        return "";
+    }
+
+    public String translInputBtn14(){
+        switch(mode){
+            case "basic": {return("LOG"); }
+            case "basic2": {return("∑(,)"); }
+            case "trigo":  {return("COT"); }
+            case "statistic":  {return("P"); }
+            case "hyper":  {return("ASINH"); }
+            case "logic":  {return("NOT()"); }
+            case "memory":  {return "M4";}
+            default:  {Log.e("CalcMode","unknown Mode"); }
+        }
+        return "";
+    }
+
+    public String translInputBtn15(){
+        switch(mode){
+            case "basic": {return("LN"); }
+            case "basic2": {return("∏(,)"); }
+            case "trigo":  {return("SEC"); }
+            case "statistic":  {return("MEAN()"); }
+            case "hyper":  {return("ACOSH"); }
+            case "logic":  {return "";} //ausgabeSetText(InputString.getBIN()); return ">BIN";}
+            case "memory":  {return "M5";}
+            default:  {Log.e("CalcMode","unknown Mode"); }
+        }
+        return "";
+    }
+
+    public String translInputBtn16(){
+        switch(mode){
+            case "basic": {return("LB");}
+            case "basic2": {return "";}
+            case "trigo":  {return("CSC"); }
+            case "statistic":  {return("VAR()"); }
+            case "hyper":  {return("ATANH"); }
+            case "logic":  {return "";} //ausgabeSetText(InputString.getOCT()); return ">OCT";}
+            case "memory":  {return "M6";}
+            default:  {Log.e("CalcMode","unknown Mode"); }
+        }
+        return "";
+    }
+
+    public String translInputBtn21(){
+        switch(mode){
+            case "basic": {return("³√"); }
+            case "basic2": {
+                ausgabeSetText(InputString.getPercent());
+                OutputString = InputString.getPercent();
+                ausgabeSetText(OutputString); return ">%";}
+            case "trigo":  {return("ASIN"); }
+            case "statistic":  {return("√(VAR())"); }
+            case "hyper":  {ausgabeSetText(InputString.getDEG()); return ">DEG";}
+            case "logic":  {return "";} //ausgabeSetText(InputString.getDEC()); return ">DEC";}
+            case "memory":  {return ">M1";}
+            default:  {Log.e("CalcMode","unknown Mode"); }
+        }
+        return "";
+    }
+
+    public String translInputBtn22(){
+        switch(mode){
+            case "basic": {return("√"); }
+            case "basic2": {ausgabeSetText(InputString.getBruch()); return ">A/B";}
+            case "trigo":  {return("ACOS"); }
+            case "statistic":  {return(""); }
+            case "hyper":  {ausgabeSetText(InputString.getRAD()); return ">RAD";}
+            case "logic":  {return "";} //ausgabeSetText(InputString.getHEX()); return ">HEX";}
+            case "memory":  {return ">M2";}
+            default:  {Log.e("CalcMode","unknown Mode"); }
+        }
+        return "";
+    }
+
+    public String translInputBtn23(){
+        switch(mode){
+            case "basic": {return("³"); }
+            case "basic2": {ausgabeSetText(InputString.getReciproke()); return ">x\u207B\u00B9";}
+            case "trigo":  {return("ATAN");}
+            case "statistic":  {return "";}
+            case "hyper":  {return("");}
+            case "logic":  {return "";}
+            case "memory":  {return ">M3";}
+            default:  {Log.e("CalcMode","unknown Mode"); }
+        }
+        return "";
+    }
+
+    public String translInputBtn24(){
+        switch(mode){
+            case "basic": {return("²"); }
+            case "basic2": {ausgabeSetText(InputString.getInvert()); return ">+/-";}
+            case "trigo":  {return("ACOT");}
+            case "statistic":  {return "";}
+            case "hyper":  {return(""); }
+            case "logic":  {return "";}
+            case "memory":  {return ">M4";}
+            default:  {Log.e("CalcMode","unknown Mode"); }
+        }
+        return "";
+    }
+
+    public String translInputBtn25(){
+        switch(mode){
+            case "basic": {return("10^"); }
+            case "basic2": {return("MIN(,)"); }
+            case "trigo":  {return("ASEC"); }
+            case "statistic":  {return "";}
+            case "hyper":  {return "";}
+            case "logic":  {return "";}
+            case "memory":  {return ">M5";}
+            default:  {Log.e("CalcMode","unknown Mode"); }
+        }
+        return "";
+    }
+
+    public String translInputBtn26(){
+        switch(mode){
+            case "basic": {return("!"); }
+            case "basic2": {return("MAX(,)"); }
+            case "trigo":  {return "ACSC";}
+            case "statistic":  {return "";}
+            case "hyper":  {return "";}
+            case "logic":  {return "";}
+            case "memory":  {return ">M6";}
+            default:  {Log.e("CalcMode","unknown Mode"); }
+        }
+        return "";
+    }
+
     //methods
-    private void setBase(Context context, int Base) {
-        if (Base <= 1) {
-            return;
-        } else {
-            base = Base;
-        }
-    }
-
-    private int getBase(Context context) {
-        if (base == 0) {
-            String baseString = PreferenceManager.getDefaultSharedPreferences(context).getString("base", "10");
-            if (baseString == null) {
-                setBase(context, 0);
-            } else base = Integer.parseInt(baseString);
-        }
-        return base;
-    }
-
     public void eingabeAddText(String i, int selectionStart) {
         if(selectionStart < 0)InputString.concatenateText(i);
         else InputString.addText(i,selectionStart);
+    }
 
-        /*
-        if (solve_inst_pref) {
-            if (!noImmidiateOps.contains(InputString.trim())) {
-                answer = InputString.getResult();
-                if (!answer.equals("Math Error")) ausgabeSetText(answer);
-            }
+    public void ausgabeSetText(String res) {OutputString = res;}
+
+    public void toogleScientificNotation(){scientificNotation = !scientificNotation;}
+
+
+    /*
+    //persistency
+
+    public void saveMemory(String[] Memory) {
+        String MEMS = ArrayUtils.arrayToString(Memory);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.context);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("MEMORY", MEMS);
+        editor.commit();
+    }
+
+    private static boolean checkPermissionForReadExtertalStorage(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            int result = context.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
+            return result == PackageManager.PERMISSION_GRANTED;
         }
-         */
+        return false;
+    }
+
+    private static void requestPermissionForReadExtertalStorage(Context context) throws Exception {
+        try {
+            ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    Integer.parseInt(Manifest.permission.READ_EXTERNAL_STORAGE));
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    public String[] loadMemory() {
+        String MEMS = PreferenceManager.getDefaultSharedPreferences(this.context).getString("MEMORY", "");
+        String[] memarray = ArrayUtils.stringToArray(MEMS);
+        Log.e("array mem", Arrays.toString(memarray));
+        String[] res = new String[6];
+        for (int i = 0; i < 6; i++) {
+            if (i < memarray.length) res[i] = memarray[i];
+            else res[i] = "";
+        }
+        return res;
     }
 
     private static String returnmode(String mode){
@@ -116,8 +315,22 @@ public class CalcModel {
         }
     }
 
-    public void ausgabeSetText(String res) {
-        OutputString = res;
+    private void setBase(int Base) {
+        if (Base <= 1) {
+            return;
+        } else {
+            base = Base;
+        }
+    }
+
+    private int getBase() {
+        if (base == 0) {
+            String baseString = PreferenceManager.getDefaultSharedPreferences(context).getString("base", "10");
+            if (baseString == null) {
+                setBase(0);
+            } else base = Integer.parseInt(baseString);
+        }
+        return base;
     }
 
     private String transUserInputBtnFct(String fct) {
@@ -143,240 +356,6 @@ public class CalcModel {
         A = A.replace("x\u207B\u00B9", "C");
         return A;
     }
-
-    public String translInputBtn11(){
-        switch(mode){
-            case "basic": {return("π"); }
-            case "basic2": {ausgabeSetText(InputString.getPFZ()); return ">PFZ";}
-            case "trigo":  {return("SIN"); }
-            case "user":  {transUserInputBtnFct("btn_11"); }
-            case "statistic":  {return("Zn()"); }
-            case "hyper":  {return("SINH"); }
-            case "logic":  {return("AND(,)"); }
-            case "memory":  {return "M1";}
-            default:  {Log.e("CalcMode","unknown Mode"); }
-        }
-        return "";
-    }
-    
-    public String translInputBtn12(){
-        switch(mode){
-            case "basic": {return("e"); }
-            case "basic2": {
-                if (language.equals("german") || language.equals("deutsch")) {
-                    return("GGT(,)");
-                } else {
-                    return("GCD(,)");
-                }   }
-            case "trigo":  {return("COS"); }
-            case "user":  {transUserInputBtnFct("btn_12"); }
-            case "statistic":  {return("Zb(,)"); }
-            case "hyper":  {return("COSH"); }
-            case "logic":  {return("OR(,)"); }
-            case "memory":  {return "M2";}
-            default:  {Log.e("CalcMode","unknown Mode"); }
-        }
-        return "";
-    }
-
-    public String translInputBtn13(){
-        switch(mode){
-            case "basic": {return("^");}
-            case "basic2": {if (language.equals("german") || language.equals("deutsch")) {
-                return("KGV(,)");
-            } else {
-                return("LCM(,)");
-            } }
-            case "trigo":  {return("TAN"); }
-            case "user":  {transUserInputBtnFct("btn_13"); }
-            case "statistic":  {return("C"); }
-            case "hyper":  {return("TANH"); }
-            case "logic":  {return("XOR(,)"); }
-            case "memory":  {return "M3";}
-            default:  {Log.e("CalcMode","unknown Mode"); }
-        }
-        return "";
-    }
-
-    public String translInputBtn14(){
-        switch(mode){
-            case "basic": {return("LOG"); }
-            case "basic2": {return("∑" + "(,)"); }
-            case "trigo":  {return("COT"); }
-            case "user":  {transUserInputBtnFct("btn_14"); }
-            case "statistic":  {return("P"); }
-            case "hyper":  {return("ASINH"); }
-            case "logic":  {return("NOT()"); }
-            case "memory":  {return "M4";}
-            default:  {Log.e("CalcMode","unknown Mode"); }
-        }
-        return "";
-    }
-
-    public String translInputBtn15(){
-        switch(mode){
-            case "basic": {return("LN"); }
-            case "basic2": {return("∏"+ "(,)"); }
-            case "trigo":  {return("SEC"); }
-            case "user":  {transUserInputBtnFct("btn_15"); }
-            case "statistic":  {return("MEAN()"); }
-            case "hyper":  {return("ACOSH"); }
-            case "logic":  {return "";} //ausgabeSetText(InputString.getBIN()); return ">BIN";}
-            case "memory":  {return "M5";}
-            default:  {Log.e("CalcMode","unknown Mode"); }
-        }
-        return "";
-    }
-
-    public String translInputBtn16(){
-        switch(mode){
-            case "basic": {return("LB");}
-            case "basic2": {return "";}
-            case "trigo":  {return("CSC"); }
-            case "user":  {transUserInputBtnFct("btn_16"); }
-            case "statistic":  {return("VAR()"); }
-            case "hyper":  {return("ATANH"); }
-            case "logic":  {return "";} //ausgabeSetText(InputString.getOCT()); return ">OCT";}
-            case "memory":  {return "M6";}
-            default:  {Log.e("CalcMode","unknown Mode"); }
-        }
-        return "";
-    }
-
-    public String translInputBtn21(){
-        switch(mode){
-            case "basic": {return("³√"); }
-            case "basic2": {
-                ausgabeSetText(InputString.getPercent());
-                OutputString = InputString.getPercent();
-                ausgabeSetText(OutputString); return ">%";}
-            case "trigo":  {return("ASIN"); }
-            case "user":  {transUserInputBtnFct("btn_21"); }
-            case "statistic":  {return("√(VAR())"); }
-            case "hyper":  {ausgabeSetText(InputString.getDEG()); return ">DEG";}
-            case "logic":  {return "";} //ausgabeSetText(InputString.getDEC()); return ">DEC";}
-            case "memory":  {return ">M1";}
-            default:  {Log.e("CalcMode","unknown Mode"); }
-        }
-        return "";
-    }
-
-    public String translInputBtn22(){
-        switch(mode){
-            case "basic": {return("√"); }
-            case "basic2": {ausgabeSetText(InputString.getBruch()); return ">A/B";}
-            case "trigo":  {return("ACOS"); }
-            case "user":  {transUserInputBtnFct("btn_22"); }
-            case "statistic":  {return(""); }
-            case "hyper":  {ausgabeSetText(InputString.getRAD()); return ">RAD";}
-            case "logic":  {return "";} //ausgabeSetText(InputString.getHEX()); return ">HEX";}
-            case "memory":  {return ">M2";}
-            default:  {Log.e("CalcMode","unknown Mode"); }
-        }
-        return "";
-    }
-
-    public String translInputBtn23(){
-        switch(mode){
-            case "basic": {return("³"); }
-            case "basic2": {ausgabeSetText(InputString.getReciproke()); return ">x\u207B\u00B9";}
-            case "trigo":  {return("ATAN");}
-            case "user":  {transUserInputBtnFct("btn_23"); }
-            case "statistic":  {return "";}
-            case "hyper":  {return("");}
-            case "logic":  {return "";}
-            case "memory":  {return ">M3";}
-            default:  {Log.e("CalcMode","unknown Mode"); }
-        }
-        return "";
-    }
-
-    public String translInputBtn24(){
-        switch(mode){
-            case "basic": {return("²"); }
-            case "basic2": {ausgabeSetText(InputString.getInvert()); return ">+/-";}
-            case "trigo":  {return("ACOT");}
-            case "user":  {transUserInputBtnFct("btn_24"); return "";}
-            case "statistic":  {return "";}
-            case "hyper":  {return(""); }
-            case "logic":  {return "";}
-            case "memory":  {return ">M4";}
-            default:  {Log.e("CalcMode","unknown Mode"); }
-        }
-        return "";
-    }
-
-    public String translInputBtn25(){
-        switch(mode){
-            case "basic": {return("10^"); }
-            case "basic2": {return("MIN(,)"); }
-            case "trigo":  {return("ASEC"); }
-            case "user":  {transUserInputBtnFct("btn_25"); }
-            case "statistic":  {return "";}
-            case "hyper":  {return "";}
-            case "logic":  {return "";}
-            case "memory":  {return ">M5";}
-            default:  {Log.e("CalcMode","unknown Mode"); }
-        }
-        return "";
-    }
-
-    public String translInputBtn26(){
-        switch(mode){
-            case "basic": {return("!"); }
-            case "basic2": {return("MAX(,)"); }
-            case "trigo":  {return "ACSC";}
-            case "user":  {transUserInputBtnFct("btn_26"); return "";}
-            case "statistic":  {return "";}
-            case "hyper":  {return "";}
-            case "logic":  {return "";}
-            case "memory":  {return ">M6";}
-            default:  {Log.e("CalcMode","unknown Mode"); }
-        }
-        return "";
-    }
-
-    public void toogleScientificNotation(){scientificNotation = !scientificNotation;}
-
-
-    //persistency
-
-    public void saveMemory(String[] Memory) {
-        String MEMS = ArrayUtils.arrayToString(Memory);
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.context);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("MEMORY", MEMS);
-        editor.commit();
-    }
-
-    public String[] loadMemory() {
-        String MEMS = PreferenceManager.getDefaultSharedPreferences(this.context).getString("MEMORY", "");
-        String[] memarray = ArrayUtils.stringToArray(MEMS);
-        Log.e("array mem", Arrays.toString(memarray));
-        String[] res = new String[6];
-        for (int i = 0; i < 6; i++) {
-            if (i < memarray.length) res[i] = memarray[i];
-            else res[i] = "";
-        }
-        return res;
-    }
-
-    private static boolean checkPermissionForReadExtertalStorage(Context context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            int result = context.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
-            return result == PackageManager.PERMISSION_GRANTED;
-        }
-        return false;
-    }
-
-    private static void requestPermissionForReadExtertalStorage(Context context) throws Exception {
-        try {
-            ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                    Integer.parseInt(Manifest.permission.READ_EXTERNAL_STORAGE));
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw e;
-        }
-    }
+     */
 
 }

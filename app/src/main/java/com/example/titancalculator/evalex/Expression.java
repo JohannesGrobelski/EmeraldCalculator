@@ -1362,7 +1362,7 @@ public class Expression {
 				}
 			}
 		});
-		addFunction(new Function("MULP", 2) {
+		addFunction(new Function("MULP2", 2) {
 			@Override
 			public BigDecimal eval(List<BigDecimal> parameters) {
 				assertNotNull(parameters.get(0));
@@ -1377,12 +1377,29 @@ public class Expression {
 				return null;
 			}
 		});
+		addFunction(new Function("MULP", 2) {
+			@Override
+			public BigDecimal eval(List<BigDecimal> parameters) {
+				assertNotNull(parameters.get(0));
+				double a = parameters.get(0).doubleValue();
+				double b = parameters.get(1).doubleValue();
+				if(a > b)return BigDecimal.ONE;
+				if(a == b)return new BigDecimal(a);
+				BigDecimal product = BigDecimal.ONE;
+				for(double i=a; i<=b; i++){
+					product = product.multiply(BigDecimal.valueOf(i));
+				}
+				return product;
+			}
+		});
 		addFunction(new Function("SUME", 2) {
 			@Override
 			public BigDecimal eval(List<BigDecimal> parameters) {
 				assertNotNull(parameters.get(0));
 				double a = parameters.get(0).doubleValue();
 				double b = parameters.get(1).doubleValue();
+				if(a > b)return BigDecimal.ZERO;
+				if(a == b)return new BigDecimal(a);
 				BigDecimal sum = BigDecimal.ZERO;
 				for(double i=a; i<=b; i++){
 					sum = sum.add(BigDecimal.valueOf(i));
@@ -1390,19 +1407,7 @@ public class Expression {
 				return sum;
 			}
 		});
-		addFunction(new Function("MULP", 2) {
-			@Override
-			public BigDecimal eval(List<BigDecimal> parameters) {
-				assertNotNull(parameters.get(0));
-				double a = parameters.get(0).doubleValue();
-				double b = parameters.get(1).doubleValue();
-				BigDecimal sum = BigDecimal.ONE;
-				for(double i=a; i<=b; i++){
-					sum = sum.multiply(BigDecimal.valueOf(i));
-				}
-				return sum;
-			}
-		});
+
 		addFunction(new Function("KGV", 2) {
 			@Override
 			public BigDecimal eval(List<BigDecimal> parameters) {

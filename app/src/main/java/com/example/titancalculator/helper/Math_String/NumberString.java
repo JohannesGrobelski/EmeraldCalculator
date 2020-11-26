@@ -321,12 +321,12 @@ public class NumberString extends ContentString {
 
     String getResult(){
         String i = getCalcuableString(content);
-        Log.e("getRES input",i);
+        //Log.e("getRES input",i);
 
         String c = MathEvaluator.evaluate(i,predec_places,dec_places);
         if(!c.equals("Math Error"))last_answer = c;
 
-        Log.e("getRES output",c);
+        //Log.e("getRES output",c);
 
         return c;
     }

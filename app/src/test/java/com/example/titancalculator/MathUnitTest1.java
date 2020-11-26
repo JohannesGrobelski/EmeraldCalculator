@@ -20,9 +20,13 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Example local unit test, which will execute on the development machine (host).
- *
- * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
+ * - test properties with random values
+ * TODO: test random values
+ * TODO: test extreme values
+ * TODO: test incorrect values (result: Math Error): for all:
+         - if (parameters.get(0).doubleValue() == 0) {throw new ExpressionException("Number must not be 0");}
+         - ..
+
  */
 public class MathUnitTest1 {
     static int iterationsSubtests = 100;
@@ -71,11 +75,11 @@ public class MathUnitTest1 {
             assertTrue(testEquation(op1+"^-1","1/"+op1)); //a ^ -1 = 1/a
             assertTrue(testEquation(op1+"^-"+op2,"1/"+op1+"^"+op2)); //a^-b = 1/a^b
             assertTrue(testEquation(op1+"√"+op2,op2+"^(1/"+op1+")")); //a√b = b^(1/a)
-            assertFalse(testEquation(op1+"√"+op2,op2+"^1/"+op1)); //a√b != b^1/a
+            //assertFalse(testEquation(op1+"√"+op2,op2+"^1/"+op1)); //a√b != b^1/a
             assertTrue(testEquation(op3+"^("+op1+"+"+op2+")","("+op3+"^"+op2+")*("+op3+"^"+op1+")"));  //a^(b+c) = a^c + a^c
-            assertFalse(testEquation(op3+"^"+op1+"+"+op2,+op3+"^"+op2+"*"+op3+"^"+op1)); //a^b+c != a^c + a^c
+            //assertFalse(testEquation(op3+"^"+op1+"+"+op2,+op3+"^"+op2+"*"+op3+"^"+op1)); //a^b+c != a^c + a^c
             assertTrue(testEquation(op3+"^("+op1+"-"+op2+")","("+op3+"^"+op1+")/("+op3+"^"+op2+")")); //a^(b-c) = a^b / a^c
-            assertFalse(testEquation(op3+"^"+op1+"-"+op2,+op3+"^"+op1+"/"+op3+"^"+op2)); //a^b-c != a^c / a^c
+            //assertFalse(testEquation(op3+"^"+op1+"-"+op2,+op3+"^"+op1+"/"+op3+"^"+op2)); //a^b-c != a^c / a^c
             assertTrue(testEquation("("+op1+"^"+op2+")^"+op3,op1+"^("+op2+"*"+op3+")")); //(a^b)^c = a^(b^c)
             //assertFalse(testEquation(+op1+"^"+op2+"^"+op3,op1+"^"+op2+"*"+op3));
             //assertFalse(testEquation(op1+"^"+op3+"^"+op2,op1+"^"+op2+"*"+op3));
@@ -91,7 +95,6 @@ public class MathUnitTest1 {
             assertTrue(testEquation("LN("+op1+")+LN("+op2+")","LN("+op1+"*"+op2+")")); //LN(a) + LN(b) = LN(a*b)
             assertTrue(testEquation("LN("+op1+")-LN("+op2+")","LN("+op1+"/"+op2+")")); //LN(a) - LN(b) = LN(a/b)
             assertTrue(testEquation("LN("+op1+"^"+op2+")",op2+"*LN("+op1+")")); //LN(a^b) = b*LN(a)
-
 
             assertTrue(testEquation("LOG("+op1+")+LOG("+op2+")","LOG("+op1+"*"+op2+")")); //LOG(a) + LOG(b) = LOG(a*b)
             assertTrue(testEquation("LOG("+op1+")-LOG("+op2+")","LOG("+op1+"/"+op2+")")); //LOG(a) - LOG(b) = LOG(a/b)
@@ -129,17 +132,25 @@ public class MathUnitTest1 {
             assertTrue(testEquation("GCD("+intm+"*"+inta+","+intm+"*"+intb+")","(GCD("+inta+","+intb+")*"+intm+")")); //gcd(m⋅a, m⋅b) = m⋅gcd(a, b).
             assertTrue(testEquation("LCM("+intm+"*"+inta+","+intm+"*"+intb+")","(LCM("+inta+","+intb+")*"+intm+")")); //lcm(m⋅a, m⋅b) = m⋅lcm(a, b).
             assertTrue(testEquation("GCD("+inta+"+("+intm+"*"+intb+"),"+intb+")","GCD("+inta+","+intb+")")); //gcd(a + m⋅b, b) = gcd(a, b).
-            //TODO:assertTrue(testEquation("LCM("+inta+"+("+intm+"*"+intb+"),"+intb+")","LCM("+inta+","+intb+")")); //lcm(a + m⋅b, b) = lcm(a, b).
-            //TODO: assertTrue(testEquation("GCD("+inta+"+"+intm+"*"+intb+","+intb,"(GCD("+inta+","+intb));
+            //assertTrue(testEquation("LCM("+inta+"+("+intm+"*"+intb+"),"+intb+")","LCM("+inta+","+intb+")")); //lcm(a + m⋅b, b) = lcm(a, b).
+            //assertTrue(testEquation("GCD("+inta+"+"+intm+"*"+intb+","+intb,"(GCD("+inta+","+intb));
             assertTrue(testEquation(String.valueOf(Integer.valueOf(calcTerm("GCD("+inta+","+intb+")"))*Integer.valueOf(calcTerm("LCM("+inta+","+intb+")"))),String.valueOf(Math.abs(inta*intb))));
-            //TODO: assertTrue(testEquation("(LCM("+inta+","+intb+")"+"*"+"(GCD("+inta+","+intb+")",String.valueOf(Math.abs(inta*intb))));
+            //assertTrue(testEquation("(LCM("+inta+","+intb+")"+"*"+"(GCD("+inta+","+intb+")",String.valueOf(Math.abs(inta*intb))));
             assertTrue(testEquation("GCD("+inta+","+"LCM("+intb+","+intc+")","LCM("+"GCD("+inta+","+intb+","+"GCD("+inta+","+intc)); //gcd(a, lcm(b, c)) = lcm(gcd(a, b), gcd(a, c))
             assertTrue(testEquation("LCM("+inta+","+"GCD("+intb+","+intc+")","GCD("+"LCM("+inta+","+intb+","+"LCM("+inta+","+intc)); //lcm(a, gcd(b, c)) = gcd(lcm(a, b), lcm(a, c))
 
             assertTrue(testEquation("SUME("+"1"+","+intm+")","("+intm+"("+intm+"+1))/2")); //∑1..m = m(m+1) / 2
+            int min = Math.min((inta),(intb)); int max = Math.max((inta),(intb)); int q = min + (int) (Math.random()*(Math.abs(min-max) / 2));
+            assertTrue(min<=max);
 
-            //https://www.mathebibel.de/summenzeichen
-            //https://www.mathebibel.de/produktzeichen
+            assertTrue(testEquation("SUME("+min+","+max+")","SUME("+min+","+q+")+SUME("+(q+1)+","+max+")")); //sum(i=1...n)ak = sum(i=1...m)ak+sum(i=m+1...n)
+            assertTrue(testEquation(String.valueOf(0),"SUME("+max+","+min+")")); //sum(b,a) with b>a = 0
+            assertTrue(testEquation(String.valueOf(max),"SUME("+max+","+max+")")); //sum(a,a) = a
+
+            max = min+((int) (Math.random()*15) + 1); q = min + (int) (Math.random()*(Math.abs(min-max) / 2));
+            assertTrue(testEquation("MULP("+min+","+max+")","MULP("+min+","+q+")*MULP("+(q+1)+","+max+")")); //mul(i=1...n)ak = mul(i=1...m)ak*mul(i=m+1...n)
+            assertTrue(testEquation(String.valueOf(1),"MULP("+max+","+(max-1)+")")); //mul(b,a) with b>a = 1
+            assertTrue(testEquation(String.valueOf(max),"MULP("+max+","+max+")")); //mul(a,a) = a
 
             assertTrue(testEquation("MAX"+op1+","+op2,"-MIN"+"-"+op1+",-"+op2)); //max(a,b) = -min(-a,-b)
             assertTrue(testEquation("MIN"+op1+","+op2,"-MAX"+"-"+op1+",-"+op2)); //min(a,b) = -max(-a,-b)
@@ -148,6 +159,7 @@ public class MathUnitTest1 {
             assertTrue(testEquation("(MAX"+op1+","+op2+")*"+d,"MAX"+op1+"*"+d+","+op2+"*"+d)); //d*max(a,b) = max(d*a,d*b)
             assertTrue(testEquation("(MIN"+op1+","+op2+")*"+d,"MIN"+op1+"*"+d+","+op2+"*"+d)); //d*min(a,b) = min(d*a,d*b)
         }
+        assertTrue(testEquation("SUME(-143,-53)","SUME(-143,-143)+SUME(-142,-53)")); //sum(i=1...n)ak = sum(i=1...m)ak+sum(i=m+1...n)
 
     }
 
@@ -160,13 +172,6 @@ public class MathUnitTest1 {
         double y = (Math.random() * 10) + 1; //TODO: bigger numbers
         int a = (int) ((Math.random() * 50) - 25); //TODO: negative numbers
         int b = (int) ((Math.random() * 50) - 25); //TODO: negative numbers
-
-
-        System.out.println("1. "+calcTerm("SIN("+20*Math.toDegrees(2*Math.PI)+")"));
-        System.out.println("2. "+calcTerm("SIN("+20+")"));
-
-
-
 
         for(int i=0; i<iterationsSubtests; i++) {
             x = (Math.random() * 10) + 1; //TODO: negative numbers

@@ -5,8 +5,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.titancalculator.helper.Math_String.MathEvaluator;
 import com.example.titancalculator.helper.StringUtils;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
@@ -26,40 +28,48 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = 28)
-/**
- * - test properties with random values
- * TODO: test random values
- * TODO: test extreme values
- * TODO: test incorrect values (result: Math Error): for all:
-        if (parameters.get(0).doubleValue() == 0) {
-            throw new ExpressionException("Number must not be 0");
-        }
- */
+
 public class MainActivityTest {
-    static int iterationsSubtests = 20; //TODO: hohe iterationen => JRE EXCEPTION_ACCESS_VIOLATION
+    private static int iterationsSubtests = 1; //TODO: hohe iterationen => JRE EXCEPTION_ACCESS_VIOLATION
     private static double toleranceDigits = 10;
-    Map<String, View> idToViewMap = new HashMap<>();
-    Map<String, RoboMenuItem> idToModeMap = new HashMap<>();
-    String[] delimiters = new String[]{"1","2","3","4","5","6","7","8","9","0",".",",","ANS","*","/","+","-","(",")",
+    private Map<String, View> idToViewMap = new HashMap<>();
+    private Map<String, RoboMenuItem> idToModeMap = new HashMap<>();
+    private String[] delimiters = new String[]{"1","2","3","4","5","6","7","8","9","0",".",",","ANS","*","/","+","-","(",")",
             "π","e","^","LOG","LN","LB","³√","√","³","²","10^x","!",
             "PFZ","GCD","LCM","∑","∏",">%",">A/B",">x\u207B\u00B9",">+/-","MIN","MAX",
             "SIN","COS","TAN","COT","SEC","CSC","ASIN","ACOS","ATAN","ACOT","ASEC","ACSC",
-            "SINH","COSH","TANH","ASINH","ACOSH","ATANH",">DEG",">RAD","","",
+            "SINH","COSH","TANH","ASINH","ACOSH","ATANH",">DEG",">RAD",
             "AND","OR","XOR","NOT",">BIN",">OCT",">DEC",">HEX",
             "ZN","ZB","NCR","NPR","MEAN","VAR","S",
             "M1","M2","M3","M4","M5","M6",">M1",">M2",">M3",">M4",">M5",">M6",
             "L","R"
     };
-    MainActivity mainActivity = Robolectric.setupActivity(MainActivity.class);
-    RoboMenuItem currentMode = new RoboMenuItem(R.id.basic);
+    private MainActivity mainActivity = Robolectric.setupActivity(MainActivity.class);
+    private RoboMenuItem currentMode = new RoboMenuItem(R.id.basic);
+
+    /**
+     * TODO: this throws the error: A fatal error has been detected by the Java Runtime Environment: ...
+     * # Problematic frame:
+     * # V  [jvm.dll+0x4c8180]
+     * # EXCEPTION_ACCESS_VIOLATION
+     *
+     * possible solution (needs a lot of data): https://stackoverflow.com/questions/42827364/fatal-error-jre-android-studio
+
+    @Before public void testSa(){
+        for(int i=0; i<800; i++){
+            assertEquals("Math Error",calcTerm(((int) (Math.random()*1000) + 1)+"/0"));
+        }
+    }
+     */
 
     /**
      * Terms that involve +,-,*,/
      */
     @Test public void testSimpleTerms(){
+        assertEquals("Math Error",calcTerm(((int) (Math.random()*1000) + 1)+"/0"));
         for(int i=0; i<iterationsSubtests; i++){
-            int op1 = (int) (Math.random()*1000);
-            int op2 = (int) (Math.random()*1000);
+            int op1 = (int) (Math.random()*1000) + 1;
+            int op2 = (int) (Math.random()*1000) + 1;
             //Check the addition of two integer numbers.
             assertTrue(testEquation(op1+"+"+op2,String.valueOf(op1+op2)));
             //Check the subtraction of two integer numbers.
@@ -100,75 +110,6 @@ public class MainActivityTest {
     }
 
 
-
-    private boolean testEquation(String term, String result) {
-        return testEquation(term+"="+result);
-    }
-
-    private boolean testEquation(String equation){
-        assertTrue(equation.contains("="));
-        String term = equation.split("=")[0]; String expectedResult = equation.split("=")[1];
-        if(!(expectedResult.matches("Math Error") || expectedResult.matches("[0-9]+") || expectedResult.matches("[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?"))){
-            expectedResult = calcTerm(expectedResult);
-        }
-        String output = calcTerm(term);
-        if(output.equals(expectedResult)){ return true; }
-        //System.out.println("tE output: "+output);
-        //System.out.println("tE result: "+expectedResult);
-        assertTrue(output.matches("Math Error") || output.matches("[0-9]+") || output.matches("[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?"));
-        assertTrue(expectedResult.matches("Math Error") || expectedResult.matches("[0-9]+") || expectedResult.matches("[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?"));
-
-        if(output.contains("E") && !output.contains("Math Error")){
-            mainActivity.findViewById(R.id.btn_eq).performLongClick();
-            output = ((EditText) mainActivity.findViewById(R.id.eT_ausgabe)).getText().toString();
-        }
-        if(!expectedResult.equals("Math Error")){
-            DecimalFormat df = new DecimalFormat("#");
-            df.setMaximumFractionDigits(20);
-            expectedResult = df.format(Double.valueOf(expectedResult));
-        }
-        int minlength = Math.min(Math.min(expectedResult.length(),output.length()),20);
-
-        if(!output.equals(expectedResult)){
-            return resembles(expectedResult,output);
-        }
-        return true;
-    }
-
-
-
-    private String calcTerm(String term){
-        mainActivity = Robolectric.setupActivity(MainActivity.class);
-        mainActivity.onOptionsItemSelected(currentMode);
-        RoboMenuItem mode = currentMode;
-        initMapIdToView(mainActivity); //TODO: ineffizient
-
-        String[] splitted = StringUtils.split(term,delimiters);
-        boolean inputShouldEqualtTerm = true; boolean containsOutputFunctions = false;
-        //System.out.println("cT  "+Arrays.toString(splitted));
-        for(String s: splitted){
-            if(s.isEmpty())break;
-            if(idToViewMap.containsKey(s) && (idToViewMap.get(s) instanceof Button)){
-                if(s.contains(">"))containsOutputFunctions = true;
-                if(idToModeMap.containsKey(s))mainActivity.onOptionsItemSelected(idToModeMap.get(s));
-                idToViewMap.get(s).performClick();
-                if(s.length() > 1 || s.equals("∑") || s.equals("Π") || s.equals("S")){
-                    inputShouldEqualtTerm = false;
-                    for(int i=0; i<s.length(); i++)mainActivity.findViewById(R.id.btn_RECHTS).performClick();
-                }
-            } else {
-                //System.out.println("unknown lexical unit: "+s);
-                assertTrue("calcTerm: Button doesnt exist: "+s,false);
-            }
-            //System.out.println("cT input: "+((EditText) mainActivity.findViewById(R.id.eT_eingabe)).getText().toString());
-            //System.out.println("cT output: "+((EditText) mainActivity.findViewById(R.id.eT_ausgabe)).getText().toString());
-        }
-        if(!containsOutputFunctions)mainActivity.findViewById(R.id.btn_eq).performClick();
-        //System.out.println("cT final output: "+((EditText) mainActivity.findViewById(R.id.eT_ausgabe)).getText().toString()+"\n\n");
-        if(inputShouldEqualtTerm)assertEquals(((EditText) mainActivity.findViewById(R.id.eT_eingabe)).getText().toString(),term);
-        return ((EditText) mainActivity.findViewById(R.id.eT_ausgabe)).getText().toString();
-    }
-
     @Test public void testBasicFunctions(){
         currentMode = new RoboMenuItem(R.id.basic);
 
@@ -182,8 +123,8 @@ public class MainActivityTest {
         assertTrue(testEquation("1!","1"));
 
         for(int i=0; i<iterationsSubtests; i++) {
-            double op1 = (Math.random() * 10) - 0; //TODO: negative numbers
-            double op2 = (Math.random() * 10) - 0; //TODO: bigger numbers
+            double op1 = (Math.random() * 10) - 0;
+            double op2 = (Math.random() * 10) - 0;
             double op3 = Math.random() * 10;
             assertTrue(testEquation(op1+"+"+op2,op2+"+"+op1)); //a+b = b+a
             assertTrue(testEquation(op1+"*"+op2,op2+"*"+op1)); //a*b = b*a
@@ -197,18 +138,12 @@ public class MainActivityTest {
             assertTrue(testEquation(op1+"^-1","1/"+op1)); //a ^ -1 = 1/a
             assertTrue(testEquation(op1+"^-"+op2,"1/"+op1+"^"+op2)); //a^-b = 1/a^b
             assertTrue(testEquation(op1+"√"+op2,op2+"^(1/"+op1+")")); //a√b = b^(1/a)
-            assertFalse(testEquation(op1+"√"+op2,op2+"^1/"+op1)); //a√b != b^1/a
             assertTrue(testEquation(op3+"^("+op1+"+"+op2+")","("+op3+"^"+op2+")*("+op3+"^"+op1+")"));  //a^(b+c) = a^c + a^c
-            assertFalse(testEquation(op3+"^"+op1+"+"+op2,+op3+"^"+op2+"*"+op3+"^"+op1)); //a^b+c != a^c + a^c
             assertTrue(testEquation(op3+"^("+op1+"-"+op2+")","("+op3+"^"+op1+")/("+op3+"^"+op2+")")); //a^(b-c) = a^b / a^c
-            assertFalse(testEquation(op3+"^"+op1+"-"+op2,+op3+"^"+op1+"/"+op3+"^"+op2)); //a^b-c != a^c / a^c
             assertTrue(testEquation("("+op1+"^"+op2+")^"+op3,op1+"^("+op2+"*"+op3+")")); //(a^b)^c = a^(b^c)
-            //assertFalse(testEquation(+op1+"^"+op2+"^"+op3,op1+"^"+op2+"*"+op3));
-            //assertFalse(testEquation(op1+"^"+op3+"^"+op2,op1+"^"+op2+"*"+op3));
             assertTrue(testEquation("("+op1+"*"+op2+")^"+op3,op1+"^"+op3+"*"+op2+"^"+op3)); //(a*b)^c = a^c * b^c
-            //assertFalse(testEquation(op1+"*"+op2+"^"+op3,op1+"^"+op3+"*"+op2+"^"+op3));
             assertTrue(testEquation(op1+"^"+op3+"/"+op2+"^"+op3,"("+op1+"/"+op2+")^"+op3)); //a^c / b^c = (a/b)^c
- 
+
             assertTrue(testEquation("e^"+op1+"*"+"e^"+op2,"e^("+op1+"+"+op2+")")); //e^a*e^b = e^(b+c)
             assertTrue(testEquation("e^"+op1+"/"+"e^"+op2,"e^("+op1+"-"+op2+")")); //e^a/e^b = e^(b-c)
             assertTrue(testEquation("(e^"+op1+")"+"^"+op2,"e^("+op1+"*"+op2+")")); //(e^a)^b = e^(a*b)
@@ -218,11 +153,9 @@ public class MainActivityTest {
             assertTrue(testEquation("LN("+op1+")-LN("+op2+")","LN("+op1+"/"+op2+")")); //LN(a) - LN(b) = LN(a/b)
             assertTrue(testEquation("LN("+op1+"^"+op2+")",op2+"*LN("+op1+")")); //LN(a^b) = b*LN(a)
 
-
             assertTrue(testEquation("LOG("+op1+")+LOG("+op2+")","LOG("+op1+"*"+op2+")")); //LOG(a) + LOG(b) = LOG(a*b)
             assertTrue(testEquation("LOG("+op1+")-LOG("+op2+")","LOG("+op1+"/"+op2+")")); //LOG(a) - LOG(b) = LOG(a/b)
             assertTrue(testEquation("LOG("+op1+"^"+op2+")",op2+"*LOG("+op1+")")); //LOG(a^b) = b*LOG(a)
-
         }
     }
 
@@ -258,17 +191,10 @@ public class MainActivityTest {
             assertTrue(testEquation("LCM"+intm+"*"+inta+"R"+intm+"*"+intb,"(LCM"+inta+"R"+intb+")*"+intm)); //lcm(m⋅a, m⋅b) = m⋅lcm(a, b).
             assertTrue(testEquation("GCD"+inta+"+("+intm+"*"+intb+")R"+intb,"(GCD"+inta+"R"+intb)); //gcd(a + m⋅b, b) = gcd(a, b).
             assertTrue(testEquation("LCM"+inta+"+("+intm+"*"+intb+")R"+intb,"(LCM"+inta+"R"+intb)); //lcm(a + m⋅b, b) = lcm(a, b).
-            //TODO: assertTrue(testEquation("GCD"+inta+"+"+intm+"*"+intb+"R"+intb,"(GCD"+inta+"R"+intb));
             assertTrue(testEquation(String.valueOf(Integer.valueOf(calcTerm("(GCD"+inta+"R"+intb+")"))*Integer.valueOf(calcTerm("(LCM"+inta+"R"+intb+")"))),String.valueOf(Math.abs(inta*intb))));
-            //TODO: assertTrue(testEquation("(LCM"+inta+"R"+intb+")"+"*"+"(GCD"+inta+"R"+intb+")",String.valueOf(Math.abs(inta*intb))));
             assertTrue(testEquation("GCD"+inta+"R"+"LCM"+intb+"R"+intc,"LCM"+"GCD"+inta+"R"+intb+"R"+"GCD"+inta+"R"+intc)); //gcd(a, lcm(b, c)) = lcm(gcd(a, b), gcd(a, c))
             assertTrue(testEquation("LCM"+inta+"R"+"GCD"+intb+"R"+intc,"GCD"+"LCM"+inta+"R"+intb+"R"+"LCM"+inta+"R"+intc)); //lcm(a, gcd(b, c)) = gcd(lcm(a, b), lcm(a, c))
-
             assertTrue(testEquation("∑"+"1"+"R"+intm,"("+intm+"("+intm+"+1))/2")); //∑1..m = m(m+1) / 2
-
-            //https://www.mathebibel.de/summenzeichen
-            //https://www.mathebibel.de/produktzeichen
-
             assertTrue(testEquation("MAX"+op1+"R"+op2,"-MIN"+"-"+op1+"R-"+op2)); //max(a,b) = -min(-a,-b)
             assertTrue(testEquation("MIN"+op1+"R"+op2,"-MAX"+"-"+op1+"R-"+op2)); //min(a,b) = -max(-a,-b)
             assertTrue(testEquation("(MAX"+op1+"R"+op2+")+"+op3,"MAX"+op1+"+"+op3+"R"+op2+"+"+op3)); //max(a,b)+c = max(a+c,b+c)
@@ -276,80 +202,60 @@ public class MainActivityTest {
             assertTrue(testEquation("(MAX"+op1+"R"+op2+")*"+d,"MAX"+op1+"*"+d+"R"+op2+"*"+d)); //d*max(a,b) = max(d*a,d*b)
             assertTrue(testEquation("(MIN"+op1+"R"+op2+")*"+d,"MIN"+op1+"*"+d+"R"+op2+"*"+d)); //d*min(a,b) = min(d*a,d*b)
         }
-
     }
 
     @Test public void testTrigoAndHyperFunctions() {
         currentMode = new RoboMenuItem(R.id.trigo);
 
-        //random values
-        assertTrue(resembles(calcTerm("COS(9)"),"0.9876883405951377261900402476934372607584068615898804349239048016"));
-        assertTrue(resembles(calcTerm("SIN(7.2284977183385335)"),"0.12582667507334807"));
-
-
         for(int i=0; i<iterationsSubtests; i++) {
-            double x = (Math.random() * 10) + 1; //TODO: negative numbers
-            double y = (Math.random() * 10) + 1; //TODO: bigger numbers
-            int a = (int) ((Math.random() * 50) - 25); //TODO: negative numbers
-            int b = (int) ((Math.random() * 50) - 25); //TODO: negative numbers
+            double x = (Math.random() * 10) + 1;
+            double y = (Math.random() * 10) + 1;
+            int a = (int) ((Math.random() * 50) - 25);
+            int b = (int) ((Math.random() * 50) - 25);
 
-            assertTrue(testEquation("SIN("+a*Math.toRadians(Math.PI)+")","0"));
-            assertTrue(testEquation("COS("+a*Math.toRadians(Math.PI)+0.5*Math.toRadians(Math.PI)+")","0"));
-            assertTrue(testEquation("TAN("+a*Math.toRadians(Math.PI)+")","0"));
-            assertTrue(testEquation("COT("+a*Math.toRadians(Math.PI)+Math.toRadians(0.5*Math.PI)+")","0"));
-
-            assertTrue(testEquation("SIN("+x+Math.toRadians(2*Math.PI)+")","SIN("+x+")"));//sin(x + 2k*π) = sinx
-            assertTrue(testEquation("COS("+x+"+(2*π))","COS("+x+")"));//cos(x + 2k*π) = cosx
+            assertTrue(resembles(calcTerm("SIN("+x*Math.toRadians(Math.PI)+")"),"0",2));
+            if(x == ((double) ((int) x)))x += .1;
+            double complex = (a*Math.toRadians(Math.PI))+(0.5*Math.toRadians(Math.PI));
+            assertTrue(testEquation("COS("+complex+")","0"));
+            assertTrue(testEquation("TAN("+x*Math.toRadians(Math.PI)+")","0"));
 
             assertTrue(testEquation("SIN("+x+")/COS("+x+")","TAN("+x+")")); //tan(x) = sin(x) / cot(x)
-            assertTrue(testEquation("COS("+x+")/SIN("+x+")","COT("+x+")")); //cot(x) = cos(x) / sin(x)
+            assertTrue(testEquation("COT("+(Math.toDegrees(1.5*Math.PI))+")","0"));
             assertTrue(testEquation("1/TAN("+x+")","COT("+x+")")); //cot(x) = 1 / tan(x)
 
-            assertTrue(testEquation("SIN(π/2-"+x+")","COS("+x+")")); //cos(x) = sin(π/2 - x)
-            assertTrue(testEquation("COS(π/2-"+x+")","SIN("+x+")")); //sin(x) = cos(π/2 - x)
-            assertTrue(testEquation("TAN(π/2-"+x+")","COT("+x+")")); //cot(x) = tan(π/2 - x)
-            assertTrue(testEquation("COT(π/2-"+x+")","TAN("+x+")")); //tan(x) = cot(π/2 - x)
-            assertTrue(testEquation("SEC(π/2-"+x+")","CSC("+x+")")); //sec(x) = csc(π/2 - x)
-            assertTrue(testEquation("CSC(π/2-"+x+")","SEC("+x+")")); //csc(x) = sec(π/2 - x)
-
-            assertTrue(testEquation("SIN("+x+"+π*2)","SIN("+x+")")); //sin(x) = sin(x + 2π)
-            assertTrue(testEquation("COS("+x+"+π*2)","COS("+x+")")); //cos(x) = cos(x + 2π)
-            assertTrue(testEquation("TAN("+x+"+π)","TAN("+x+")")); //tan(x) = tan(x + 2π)
-
+            assertTrue(testEquation("SIN("+Math.toDegrees(Math.PI/2)+"-"+x+")","COS("+x+")")); //cos(x) = sin(π/2 - x)
+            assertTrue(testEquation("COS("+Math.toDegrees(Math.PI/2)+"-"+x+")","SIN("+x+")")); //sin(x) = cos(π/2 - x)
+            assertTrue(testEquation("TAN("+Math.toDegrees(Math.PI/2)+"-"+x+")","COT("+x+")")); //cot(x) = tan(π/2 - x)
+            assertTrue(testEquation("COT("+Math.toDegrees(Math.PI/2)+"-"+x+")","TAN("+x+")")); //tan(x) = cot(π/2 - x)
+            assertTrue(testEquation("SEC("+Math.toDegrees(Math.PI/2)+"-"+x+")","CSC("+x+")")); //sec(x) = csc(π/2 - x)
+            assertTrue(testEquation("SEC("+Math.toDegrees(Math.PI/2)+"-"+x+")","CSC("+x+")")); //sec(x) = csc(π/2 - x)
+            assertTrue(testEquation("CSC("+Math.toDegrees(Math.PI/2)+"-"+x+")","SEC("+x+")")); //csc(x) = sec(π/2 - x)
             assertTrue(testEquation("SIN(-"+x+")","-SIN("+x+")")); //sin(-x) = -sin(x)
             assertTrue(testEquation("COS(-"+x+")","COS("+x+")")); //cos(-x) = cos(x)
             assertTrue(testEquation("TAN(-"+x+")","-TAN("+x+")")); //tan(-x) = -tan(x)
-
             assertTrue(testEquation("SIN("+x+"+"+y+")","SIN("+x+")*COS("+y+")+COS("+x+")*SIN("+y+")")); //sin(x+y) = sin(x)*cos(y)+cos(x)*sin(y)
             assertTrue(testEquation("COS("+x+"+"+y+")","COS("+x+")*COS("+y+")-SIN("+x+")*SIN("+y+")")); //cos(x+y) = cos(x)*cos(y)-sin(x)*sin(y)
             assertTrue(testEquation("SIN("+x+"-"+y+")","SIN("+x+")*COS("+y+")-COS("+x+")*SIN("+y+")")); //sin(x-y) = cos(x)*cos(y)-sin(x)*sin(y)
             assertTrue(testEquation("COS("+x+"-"+y+")","COS("+x+")*COS("+y+")+SIN("+x+")*SIN("+y+")")); //cos(x-y) = cos(x)*cos(y)+sin(x)*sin(y)
-
-            //more identities: http://www2.clarku.edu/faculty/djoyce/trig/identities.html
-
             double x1 = Math.random() - 0.5;
-
             assertTrue(testEquation("SIN(ASIN("+x1+"))",String.valueOf(x1))); //sin(asin(x)) = x
             assertTrue(testEquation("COS(ACOS("+x1+"))",String.valueOf(x1))); //cos(acos(x)) = x
             assertTrue(testEquation("TAN(ATAN("+x1+"))",String.valueOf(x1))); //tan(atan(x)) = x
             assertTrue(testEquation("COT(ACOT("+x1+"))",String.valueOf(x1))); //cot(acot(x)) = x
             assertTrue(testEquation("SEC(ASEC("+x+"))",String.valueOf(x))); //sec(asec(x)) = x
             assertTrue(testEquation("CSC(ACSC("+x+"))",String.valueOf(x))); //csc(acsc(x)) = x
-
-            String expected,result;
-            calcTerm(x+">RAD"); expected = ((EditText) mainActivity.findViewById(R.id.eT_ausgabe)).getText().toString();
-            calcTerm(x+">DEG"); String deg = ((EditText) mainActivity.findViewById(R.id.eT_ausgabe)).getText().toString();
-            result = calcTerm("(π*"+deg+")/180");
-            assertEquals(expected,result);//rad(x) = (π*deg(x)) / 180
+            assertTrue(resembles(MathEvaluator.toDEG(MathEvaluator.toRAD("0")),"0")); //DEG(RAD(0)) = 0
+            assertTrue(resembles(MathEvaluator.toDEG(MathEvaluator.toRAD(String.valueOf(a))),String.valueOf(a))); //DEG(RAD(0)) = 0
         }
-
-
-        assertTrue(resembles(calcTerm("π>DEG))"),"180",3)); //csc(acsc(x)) = x
-        assertTrue(resembles(calcTerm("0>DEG))"),"0",3)); //csc(acsc(x)) = x
-        assertTrue(resembles(calcTerm("2*π>DEG))"),"360",3)); //csc(acsc(x)) = x
-
-
+        assertTrue(resembles(MathEvaluator.toDEG("0"),"0")); //DEG(0) = 0
+        assertTrue(resembles(MathEvaluator.toDEG(calcTerm("π")),"180")); //DEG(π) = 180
+        assertTrue(resembles(MathEvaluator.toDEG(calcTerm("2*π")),"360")); //DEG(2π) = 360
+        assertTrue(resembles(MathEvaluator.toRAD("0"),"0")); //RAD(0) = 0
+        assertTrue(resembles(MathEvaluator.toRAD(("180")),calcTerm("π"))); //RAD(180) = π
+        assertTrue(resembles(MathEvaluator.toRAD(("360")),calcTerm("2*π"))); //RAD(360) = 2π
     }
+
+
 
     @Test public void testLogicFunctions() {
         currentMode = new RoboMenuItem(R.id.trigo);
@@ -359,27 +265,21 @@ public class MainActivityTest {
             int b = (int) ((Math.random() * 1000) - 500);
             int c = (int) ((Math.random() * 1000) - 500);
 
-            //properties
-                assertTrue(testEquation("AND("+a+"R"+b+")","AND("+b+"R"+a+")"));    //a and b = b and a
-                assertTrue(testEquation("OR("+a+"R"+b+")","OR("+b+"R"+a+")"));    //a or b = b or a
-                assertTrue(testEquation("AND"+a+"RAND"+b+"R"+c,"AND"+c+"RAND"+a+"R"+b)); //and(a, and(b, c)) = and(and(a, b), c)
-                assertTrue(testEquation("OR"+a+"ROR"+b+"R"+c,"OR"+c+"ROR"+a+"R"+b)); //or(a, or(b, c)) = or(or(a, b), c)
-                assertTrue(testEquation("AND("+a+"R0)","0"));    //a and 0 = 0
-                assertTrue(testEquation("OR("+a+"R0)",String.valueOf(a)));    //a or 0 = a
-                assertTrue(testEquation("AND("+a+"ROR("+a+"R1))",String.valueOf(a)));    //a and a or 1 = a
-                assertTrue(testEquation("OR("+a+"ROR("+a+"R1))","OR("+a+"R1)"));    //a and a or 1 = a or 1
-                assertTrue(testEquation("NOT(NOT("+a+"))",String.valueOf(a)));    //not(not(a)) = a
-                assertTrue(testEquation("AND("+a+"R"+"NOT("+a+"))","0"));    //a and not(a) = 0
-                assertTrue(testEquation("NOT(1)","-2"));    //not(0) = 1
-                assertTrue(testEquation("NOT(0)","-1"));    //not(1) = 0
-
-
-            //assertTrue(testEquation("NOT(AND("+a+"R"+b+"))","OR("+"NOT("+a+")"+"R"+"NOT("+b+"))"));    //not(a and b) = not(a) or not(b)
-
-            // assertTrue(testEquation("OR("+a+"R1)",String.valueOf(a)));    //a or 1 = a
-
+            assertTrue(testEquation("AND("+a+"R"+b+")","AND("+b+"R"+a+")"));    //a and b = b and a
+            assertTrue(testEquation("OR("+a+"R"+b+")","OR("+b+"R"+a+")"));    //a or b = b or a
+            assertTrue(testEquation("AND"+a+"RAND"+b+"R"+c,"AND"+c+"RAND"+a+"R"+b)); //and(a, and(b, c)) = and(and(a, b), c)
+            assertTrue(testEquation("OR"+a+"ROR"+b+"R"+c,"OR"+c+"ROR"+a+"R"+b)); //or(a, or(b, c)) = or(or(a, b), c)
+            assertTrue(testEquation("AND("+a+"R0)","0"));    //a and 0 = 0
+            assertTrue(testEquation("OR("+a+"R0)",String.valueOf(a)));    //a or 0 = a
+            assertTrue(testEquation("AND("+a+"ROR("+a+"R1))",String.valueOf(a)));    //a and a or 1 = a
+            assertTrue(testEquation("OR("+a+"ROR("+a+"R1))","OR("+a+"R1)"));    //a and a or 1 = a or 1
+            assertTrue(testEquation("NOT(NOT("+a+"))",String.valueOf(a)));    //not(not(a)) = a
+            assertTrue(testEquation("AND("+a+"R"+"NOT("+a+"))","0"));    //a and not(a) = 0
+            assertTrue(testEquation("NOT(1)","-2"));    //not(0) = 1
+            assertTrue(testEquation("NOT(0)","-1"));    //not(1) = 0
         }
     }
+
 
     @Test public void testStatisticFunctions() {
         currentMode = new RoboMenuItem(R.id.statistic);
@@ -394,26 +294,23 @@ public class MainActivityTest {
 
             calcTerm("ZN("+a+")"); int result = Integer.valueOf(((EditText) mainActivity.findViewById(R.id.eT_ausgabe)).getText().toString());
             assertTrue(result > 0); assertTrue(result <= a);  //0 < result < a
-
             calcTerm("ZB("+a+"R"+b+")");  result = Integer.valueOf(((EditText) mainActivity.findViewById(R.id.eT_ausgabe)).getText().toString());
             assertTrue(result > a); assertTrue(result <= b);  //0 < result < a
-
             assertTrue(testEquation("NPR("+n+"R"+r+")",n+"!"+"/("+n+"-"+r+")!")); //nPr(n,r)=n!/(n−r)!
             assertTrue(testEquation("NCR("+n+"R"+r+")","NPR("+n+"R"+r+")/"+r+"!")); //nCr(n,r)=nPr(n,r)/r!
 
         }
 
-        //extreme values
         //mean
-            assertTrue(resembles(calcTerm("MEAN()"),"Math Error"));
-            assertTrue(resembles(calcTerm("MEAN(-1,0,1)"),calcTerm("0")));
-            assertTrue(resembles(calcTerm("MEAN(1,2,3)"),calcTerm("MEAN(2,1,3)")));
-            assertTrue(resembles(calcTerm("MEAN(1,2)"),calcTerm("MEAN(2,1,0)")));
-            assertTrue(resembles(calcTerm("MEAN(1,23,32523,12,124,154,-123,12.124)"),"4090.7655"));
-            assertTrue(resembles(calcTerm("MEAN(1,23,0,-12,124,12,2.3125,13.154,-123,12.124)"),"5.25905"));
+        assertTrue(resembles(calcTerm("MEAN()"),"Math Error"));
+        assertTrue(resembles(calcTerm("MEAN(-1,0,1)"),calcTerm("0")));
+        assertTrue(resembles(calcTerm("MEAN(1,2,3)"),calcTerm("MEAN(2,1,3)")));
+        assertTrue(resembles(calcTerm("MEAN(1,2)"),calcTerm("MEAN(2,1,0)")));
+        assertTrue(resembles(calcTerm("MEAN(1,23,32523,12,124,154,-123,12.124)"),"4090.7655"));
+        assertTrue(resembles(calcTerm("MEAN(1,23,0,-12,124,12,2.3125,13.154,-123,12.124)"),"5.25905"));
 
         //var
-            assertTrue(resembles(calcTerm("VAR(1,2,3)"),calcTerm("VAR(2,1,3)")));
+        assertTrue(resembles(calcTerm("VAR(1,2,3)"),calcTerm("VAR(2,1,3)")));
 
         //s
         assertTrue(resembles(calcTerm("SRRRR0"),"0"));
@@ -422,7 +319,6 @@ public class MainActivityTest {
 
         assertTrue(resembles(calcTerm("SRRRR1,2,3"),"0.81649658092772603273242802"));
         assertTrue(resembles(calcTerm("SRRRR1.12,124.12,12.241,-12.124124,40783420,-792.2"),"15199132.952412"));
-
     }
 
     @Test public void testMemoryFunctions() {
@@ -504,49 +400,7 @@ public class MainActivityTest {
         }
     }
 
-    private void initMapIdToView(MainActivity mainActivity){
-        Button[] B = new Button[]{mainActivity.findViewById(R.id.btn_11),mainActivity.findViewById(R.id.btn_12),mainActivity.findViewById(R.id.btn_13),
-                mainActivity.findViewById(R.id.btn_14),mainActivity.findViewById(R.id.btn_15),mainActivity.findViewById(R.id.btn_16),
-                mainActivity.findViewById(R.id.btn_21),mainActivity.findViewById(R.id.btn_22),mainActivity.findViewById(R.id.btn_23),
-                mainActivity.findViewById(R.id.btn_24),mainActivity.findViewById(R.id.btn_25),mainActivity.findViewById(R.id.btn_26)};
 
-        idToViewMap.put("1",mainActivity.findViewById(R.id.btn_1));
-        idToViewMap.put("2",mainActivity.findViewById(R.id.btn_2));
-        idToViewMap.put("3",mainActivity.findViewById(R.id.btn_3));
-        idToViewMap.put("4",mainActivity.findViewById(R.id.btn_4));
-        idToViewMap.put("5",mainActivity.findViewById(R.id.btn_5));
-        idToViewMap.put("6",mainActivity.findViewById(R.id.btn_6));
-        idToViewMap.put("7",mainActivity.findViewById(R.id.btn_7));
-        idToViewMap.put("8",mainActivity.findViewById(R.id.btn_8));
-        idToViewMap.put("9",mainActivity.findViewById(R.id.btn_9));
-        idToViewMap.put("0",mainActivity.findViewById(R.id.btn_0));
-        idToViewMap.put(",",mainActivity.findViewById(R.id.btn_sep));
-        idToViewMap.put(".",mainActivity.findViewById(R.id.btn_com));
-
-        idToViewMap.put("+",mainActivity.findViewById(R.id.btn_add));
-        idToViewMap.put("-",mainActivity.findViewById(R.id.btn_sub));
-        idToViewMap.put("*",mainActivity.findViewById(R.id.btn_mul));
-        idToViewMap.put("/",mainActivity.findViewById(R.id.btn_div));
-        idToViewMap.put("(",mainActivity.findViewById(R.id.btn_open_bracket));
-        idToViewMap.put(")",mainActivity.findViewById(R.id.btn_close_bracket));
-
-        String[] fun1 = new String[]{"π","e","^","LOG","LN","LB","³√","√","³","²","10^x","!"};
-        for(int i=0; i<12; i++) {if(fun1[i].equals(""))continue;idToViewMap.put(fun1[i], B[i]);idToModeMap.put(fun1[i], new RoboMenuItem(R.id.basic));}
-        fun1 = new String[]{"PFZ","GCD","LCM","∑","∏","",">%",">A/B",">x⁻¹",">+/-","MIN","MAX"};
-        for(int i=0; i<12; i++) {if(fun1[i].equals(""))continue;idToViewMap.put(fun1[i], B[i]);idToModeMap.put(fun1[i],  new RoboMenuItem(R.id.basic2));}
-        fun1 = new String[]{"SIN","COS","TAN","COT","SEC","CSC","ASIN","ACOS","ATAN","ACOT","ASEC","ACSC"};
-        for(int i=0; i<12; i++) {if(fun1[i].equals(""))continue;idToViewMap.put(fun1[i], B[i]);idToModeMap.put(fun1[i],  new RoboMenuItem(R.id.trigo));}
-        fun1 = new String[]{"SINH","COSH","TANH","ASINH","ACOSH","ATANH",">DEG",">RAD","","","",""};
-        for(int i=0; i<12; i++) {if(fun1[i].equals(""))continue;idToViewMap.put(fun1[i], B[i]);idToModeMap.put(fun1[i],  new RoboMenuItem(R.id.hyper));}
-        fun1 = new String[]{"AND","OR","XOR","NOT",">BIN",">OCT",">DEC",">HEX","","","",""};
-        for(int i=0; i<12; i++) {if(fun1[i].equals(""))continue;idToViewMap.put(fun1[i], B[i]);idToModeMap.put(fun1[i],  new RoboMenuItem(R.id.logic));}
-        fun1 = new String[]{"ZN","ZB","NCR","NPR","MEAN","VAR","S","","","","",""};
-        for(int i=0; i<12; i++) {if(fun1[i].equals(""))continue;idToViewMap.put(fun1[i], B[i]);idToModeMap.put(fun1[i],  new RoboMenuItem(R.id.statistic));}
-        fun1 = new String[]{"M1","M2","M3","M4","M5","M6",">M1",">M2",">M3",">M4",">M5",">M6"};
-        for(int i=0; i<12; i++) {if(fun1[i].equals(""))continue;idToViewMap.put(fun1[i], B[i]);idToModeMap.put(fun1[i],  new RoboMenuItem(R.id.memory));}
-        idToViewMap.put("L",mainActivity.findViewById(R.id.btn_LINKS));
-        idToViewMap.put("R",mainActivity.findViewById(R.id.btn_RECHTS));
-    }
 
     @Test public void testNavigationButtons(){
         MainActivity mainActivity = Robolectric.setupActivity(MainActivity.class);
@@ -594,7 +448,7 @@ public class MainActivityTest {
         assertEquals(ans3,"4");
     }
 
-    @Test public void displayFunctions(){
+    @Test public void testDisplayFunctions(){
         MainActivity mainActivity = Robolectric.setupActivity(MainActivity.class);
         Button[] B = new Button[]{mainActivity.findViewById(R.id.btn_11),mainActivity.findViewById(R.id.btn_12),mainActivity.findViewById(R.id.btn_13),
                 mainActivity.findViewById(R.id.btn_14),mainActivity.findViewById(R.id.btn_15),mainActivity.findViewById(R.id.btn_16),
@@ -625,7 +479,7 @@ public class MainActivityTest {
 
         MenuItem menuItem = new RoboMenuItem(R.id.basic2);
         mainActivity.onOptionsItemSelected(menuItem);
-        String[] fun2 = new String[]{"PFZ","GCD","LCM","∑","∏","",">%","A/B","x⁻¹","+/-","MIN","MAX"};
+        String[] fun2 = new String[]{"PFZ","GCD","LCM","∑","∏","",">%",">A/B",">x⁻¹",">+/-","MIN","MAX"};
         for(int i=0; i<fun2.length; i++){
             assertEquals(((Button) B[i]).getText().toString(),fun2[i]);
         }
@@ -635,11 +489,11 @@ public class MainActivityTest {
         }
 
         mainActivity.onOptionsItemSelected(new RoboMenuItem(R.id.trigo));
-        fun2 = new String[]{"SIN","COS","TAN","COT","SEC","CSC","ASIN","ACOS","ATAN","ACOT","",""};
+        fun2 = new String[]{"SIN","COS","TAN","COT","SEC","CSC","ASIN","ACOS","ATAN","ACOT","ASEC","ACSC"};
         for(int i=0; i<fun2.length; i++){
             assertEquals(((Button) B[i]).getText().toString(),fun2[i]);
         }
-        fun1 = new String[]{"SIN","COS","TAN","COT","SEC","CSC","ASIN","ACOS","ATAN","ACOT","",""};
+        fun1 = new String[]{"SIN","COS","TAN","COT","SEC","CSC","ASIN","ACOS","ATAN","ACOT","ASEC","ACSC"};
         for(int i=0; i<fun1.length; i++){
             B[i].performClick(); assertEquals(INPUT.getText().toString(),fun1[i]); S[0].performClick(); assertEquals(OUTPUT.getText().toString(),INPUT.getText().toString()); S[1].performClick();
         }
@@ -655,7 +509,7 @@ public class MainActivityTest {
         }
 
         mainActivity.onOptionsItemSelected(new RoboMenuItem(R.id.logic));
-        fun2 = new String[]{"AND","OR","XOR","NOT",">BIN",">OCT",">DEC",">HEX","","","",""};
+        fun2 = new String[]{"AND","OR","XOR","NOT","","","","","","","",""};
         for(int i=0; i<fun2.length; i++){
             assertEquals(((Button) B[i]).getText().toString(),fun2[i]);
         }
@@ -665,11 +519,11 @@ public class MainActivityTest {
         }
 
         mainActivity.onOptionsItemSelected(new RoboMenuItem(R.id.statistic));
-        fun2 = new String[]{"ZN","ZB","NCR","NPR","MEAN","VAR","E","S","","","",""};
+        fun2 = new String[]{"ZN","ZB","NCR","NPR","MEAN","VAR","S","","","","",""};
         for(int i=0; i<fun2.length; i++){
             assertEquals(((Button) B[i]).getText().toString(),fun2[i]);
         }
-        fun1 = new String[]{"Zn()","Zb(,)","C","P","MEAN()","VAR()","E()","2√(VAR())","","","",""};
+        fun1 = new String[]{"Zn()","Zb(,)","C","P","MEAN()","VAR()","√(VAR())","","","","",""};
         for(int i=0; i<fun1.length; i++){
             B[i].performClick(); assertEquals(INPUT.getText().toString(),fun1[i]); S[0].performClick(); assertEquals(OUTPUT.getText().toString(),INPUT.getText().toString()); S[1].performClick();
         }
@@ -683,6 +537,49 @@ public class MainActivityTest {
         for(int i=0; i<fun1.length; i++){
             B[i].performClick(); assertEquals(INPUT.getText().toString(),fun1[i]); S[0].performClick(); assertEquals(OUTPUT.getText().toString(),INPUT.getText().toString()); S[1].performClick();
         }
+    }
+
+    @Test public void testText(){
+        String random1 = StringUtils.randomString(10);
+        String random2 = StringUtils.randomString(5);
+
+        //test: eingabeSetText, eingabeAddText, eingabeGetText, eingabeClearAll, eingabeClearOne
+        assertEquals(mainActivity.eT_eingabe.getText().toString(),"");
+        mainActivity.eingabeSetText(random1); assertEquals(mainActivity.eT_eingabe.getText().toString(),random1);
+        mainActivity.eingabeAddText(random2); assertEquals(mainActivity.eT_eingabe.getText().toString(),random2+random1);
+        mainActivity.eingabeClearAll(); assertEquals(mainActivity.eT_eingabe.getText().toString(),"");
+
+        mainActivity.eingabeAddText(random1); assertEquals(mainActivity.eT_eingabe.getText().toString(),random1);
+        mainActivity.eingabeAddText(random2); assertEquals(mainActivity.eT_eingabe.getText().toString(),random1+random2);
+        mainActivity.eingabeClearOne(); assertEquals(mainActivity.eT_eingabe.getText().toString(),random1+random2.substring(0,random2.length()-1));
+        for(int i=0; i<14; i++){mainActivity.eingabeClearOne();} assertEquals(mainActivity.eT_eingabe.getText().toString(),"");
+        mainActivity.eingabeClearOne(); assertEquals(mainActivity.eT_eingabe.getText().toString(),"");
+        assertEquals(mainActivity.eT_eingabe.getText().toString(),mainActivity.eingabeGetText());
+
+        assertEquals(mainActivity.eT_ausgabe.getText().toString(),"");
+        mainActivity.ausgabeSetText(random1); assertEquals(mainActivity.eT_ausgabe.getText().toString(),random1);
+        mainActivity.ausgabeSetText(random2); assertEquals(mainActivity.eT_ausgabe.getText().toString(),random2);
+        mainActivity.eingabeClearAll(); assertEquals(mainActivity.eT_ausgabe.getText().toString(),"");
+
+        //test: setSelectionStartEingabe(start),setSelectionStartEingabe(start,end),getSelectionStartEingabe,getSelectionEndEingabe
+        mainActivity.eT_eingabe.requestFocus();
+        assertEquals(mainActivity.eT_eingabe.getText().toString(),"");
+        assertEquals(mainActivity.getSelectionStartEingabe(), mainActivity.getSelectionEndEingabe());
+        assertEquals(0,mainActivity.getSelectionStartEingabe());
+        mainActivity.setSelectionEingabe(0);
+        assertEquals(0,mainActivity.getSelectionStartEingabe()); assertEquals(0,mainActivity.getSelectionEndEingabe());
+        int end = ((int) Math.random()*mainActivity.eT_eingabe.length()); mainActivity.setSelectionEingabe(0,end);
+        assertEquals(0,mainActivity.getSelectionStartEingabe()); assertEquals(end,mainActivity.getSelectionEndEingabe());
+
+        //test: setSelectionStartAusgabe(start),setSelectionStartAusgabe(start,end),getSelectionStartAusgabe,getSelectionEndAusgabe
+        mainActivity.eT_ausgabe.requestFocus();
+        assertEquals(mainActivity.eT_ausgabe.getText().toString(),"");
+        assertEquals(mainActivity.getSelectionStartAusgabe(), mainActivity.getSelectionEndAusgabe());
+        assertEquals(0,mainActivity.getSelectionStartAusgabe());
+        mainActivity.setSelectionAusgabe(0);
+        assertEquals(0,mainActivity.getSelectionStartAusgabe()); assertEquals(0,mainActivity.getSelectionEndAusgabe());
+        end = ((int) Math.random()*mainActivity.eT_ausgabe.length()); mainActivity.setSelectionAusgabe(0,end);
+        assertEquals(0,mainActivity.getSelectionStartAusgabe()); assertEquals(end,mainActivity.getSelectionEndAusgabe());
 
     }
 
@@ -700,6 +597,7 @@ public class MainActivityTest {
             if(Math.abs(Double.valueOf(output) - Double.valueOf(expectedResult)) < tolerance){return true;
             } else{
                 System.out.println("resembleS false: "+output+" "+expectedResult);
+                assertTrue("resembleS false",false);
                 return false;
             }
         }
@@ -715,6 +613,7 @@ public class MainActivityTest {
             if(Math.abs(Double.valueOf(output) - Double.valueOf(expectedResult)) < tolerance){return true;
             } else{
                 System.out.println("resembleS false: "+output+" "+expectedResult+" dif:"+Math.abs(Double.valueOf(output) - Double.valueOf(expectedResult)));
+                assertTrue("resembleS false",false);
                 return false;
             }
         }
@@ -724,8 +623,119 @@ public class MainActivityTest {
         if(Math.abs(Double.valueOf(output) - Double.valueOf(expectedResult)) < 0.0000000001){return true;
             } else{
                 System.out.println("resembles false: "+output+" "+expectedResult);
-                return false;
+            assertTrue("resembleS false",false);
+            return false;
         }
     }
 
+    private boolean testEquation(String term, String result) {
+        return testEquation(term+"="+result);
+    }
+
+    private boolean testEquation(String equation){
+        assertTrue(equation.contains("="));
+        String term = equation.split("=")[0]; String expectedResult = equation.split("=")[1];
+        if(!(expectedResult.matches("Math Error") || expectedResult.matches("[0-9]+") || expectedResult.matches("[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?"))){
+            expectedResult = calcTerm(expectedResult);
+        }
+        String output = calcTerm(term);
+        if(output.equals(expectedResult)){ return true; }
+        //System.out.println("tE output: "+output);
+        //System.out.println("tE result: "+expectedResult);
+        assertTrue(output.matches("Math Error") || output.matches("[0-9]+") || output.matches("[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?"));
+        assertTrue(expectedResult.matches("Math Error") || expectedResult.matches("[0-9]+") || expectedResult.matches("[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?"));
+
+        if(output.contains("E") && !output.contains("Math Error")){
+            mainActivity.findViewById(R.id.btn_eq).performLongClick();
+            output = ((EditText) mainActivity.findViewById(R.id.eT_ausgabe)).getText().toString();
+        }
+        if(!expectedResult.equals("Math Error")){
+            DecimalFormat df = new DecimalFormat("#");
+            df.setMaximumFractionDigits(20);
+            expectedResult = df.format(Double.valueOf(expectedResult));
+        }
+        int minlength = Math.min(Math.min(expectedResult.length(),output.length()),20);
+
+        if(!output.equals(expectedResult)){
+            return resembles(expectedResult,output);
+        }
+        return true;
+    }
+
+    private String calcTerm(String term){
+        mainActivity = Robolectric.setupActivity(MainActivity.class);
+        mainActivity.onOptionsItemSelected(currentMode);
+        RoboMenuItem mode = currentMode;
+        initMapIdToView(mainActivity); //TODO: ineffizient
+
+        //System.out.println("calcTerm: \""+term+"\"");
+        String[] splitted = StringUtils.split(term,delimiters);
+        boolean inputShouldEqualtTerm = true; boolean containsOutputFunctions = false;
+        //System.out.println("cT  "+Arrays.toString(splitted));
+        for(String s: splitted){
+            if(s.isEmpty())break;
+            if(idToViewMap.containsKey(s) && (idToViewMap.get(s) instanceof Button)){
+                if(s.contains(">"))containsOutputFunctions = true;
+                if(idToModeMap.containsKey(s))mainActivity.onOptionsItemSelected(idToModeMap.get(s));
+                idToViewMap.get(s).performClick();
+                if(s.length() > 1 || s.equals("∑") || s.equals("Π") || s.equals("S")){
+                    inputShouldEqualtTerm = false;
+                    for(int i=0; i<s.length(); i++)mainActivity.findViewById(R.id.btn_RECHTS).performClick();
+                }
+            } else {
+                //System.out.println("unknown lexical unit: "+s);
+                assertTrue("calcTerm: Button doesnt exist: "+s,false);
+            }
+            //System.out.println("cT input: "+((EditText) mainActivity.findViewById(R.id.eT_eingabe)).getText().toString());
+            //System.out.println("cT output: "+((EditText) mainActivity.findViewById(R.id.eT_ausgabe)).getText().toString());
+        }
+        if(!containsOutputFunctions)mainActivity.findViewById(R.id.btn_eq).performClick();
+        //System.out.println("cT final output: "+((EditText) mainActivity.findViewById(R.id.eT_ausgabe)).getText().toString()+"\n\n");
+        if(inputShouldEqualtTerm)assertEquals(((EditText) mainActivity.findViewById(R.id.eT_eingabe)).getText().toString(),term);
+        return ((EditText) mainActivity.findViewById(R.id.eT_ausgabe)).getText().toString();
+    }
+
+    private void initMapIdToView(MainActivity mainActivity){
+        Button[] B = new Button[]{mainActivity.findViewById(R.id.btn_11),mainActivity.findViewById(R.id.btn_12),mainActivity.findViewById(R.id.btn_13),
+                mainActivity.findViewById(R.id.btn_14),mainActivity.findViewById(R.id.btn_15),mainActivity.findViewById(R.id.btn_16),
+                mainActivity.findViewById(R.id.btn_21),mainActivity.findViewById(R.id.btn_22),mainActivity.findViewById(R.id.btn_23),
+                mainActivity.findViewById(R.id.btn_24),mainActivity.findViewById(R.id.btn_25),mainActivity.findViewById(R.id.btn_26)};
+
+        idToViewMap.put("1",mainActivity.findViewById(R.id.btn_1));
+        idToViewMap.put("2",mainActivity.findViewById(R.id.btn_2));
+        idToViewMap.put("3",mainActivity.findViewById(R.id.btn_3));
+        idToViewMap.put("4",mainActivity.findViewById(R.id.btn_4));
+        idToViewMap.put("5",mainActivity.findViewById(R.id.btn_5));
+        idToViewMap.put("6",mainActivity.findViewById(R.id.btn_6));
+        idToViewMap.put("7",mainActivity.findViewById(R.id.btn_7));
+        idToViewMap.put("8",mainActivity.findViewById(R.id.btn_8));
+        idToViewMap.put("9",mainActivity.findViewById(R.id.btn_9));
+        idToViewMap.put("0",mainActivity.findViewById(R.id.btn_0));
+        idToViewMap.put(",",mainActivity.findViewById(R.id.btn_sep));
+        idToViewMap.put(".",mainActivity.findViewById(R.id.btn_com));
+
+        idToViewMap.put("+",mainActivity.findViewById(R.id.btn_add));
+        idToViewMap.put("-",mainActivity.findViewById(R.id.btn_sub));
+        idToViewMap.put("*",mainActivity.findViewById(R.id.btn_mul));
+        idToViewMap.put("/",mainActivity.findViewById(R.id.btn_div));
+        idToViewMap.put("(",mainActivity.findViewById(R.id.btn_open_bracket));
+        idToViewMap.put(")",mainActivity.findViewById(R.id.btn_close_bracket));
+
+        String[] fun1 = new String[]{"π","e","^","LOG","LN","LB","³√","√","³","²","10^x","!"};
+        for(int i=0; i<12; i++) {if(fun1[i].equals(""))continue;idToViewMap.put(fun1[i], B[i]);idToModeMap.put(fun1[i], new RoboMenuItem(R.id.basic));}
+        fun1 = new String[]{"PFZ","GCD","LCM","∑","∏","",">%",">A/B",">x⁻¹",">+/-","MIN","MAX"};
+        for(int i=0; i<12; i++) {if(fun1[i].equals(""))continue;idToViewMap.put(fun1[i], B[i]);idToModeMap.put(fun1[i],  new RoboMenuItem(R.id.basic2));}
+        fun1 = new String[]{"SIN","COS","TAN","COT","SEC","CSC","ASIN","ACOS","ATAN","ACOT","ASEC","ACSC"};
+        for(int i=0; i<12; i++) {if(fun1[i].equals(""))continue;idToViewMap.put(fun1[i], B[i]);idToModeMap.put(fun1[i],  new RoboMenuItem(R.id.trigo));}
+        fun1 = new String[]{"SINH","COSH","TANH","ASINH","ACOSH","ATANH",">DEG",">RAD","","","",""};
+        for(int i=0; i<12; i++) {if(fun1[i].equals(""))continue;idToViewMap.put(fun1[i], B[i]);idToModeMap.put(fun1[i],  new RoboMenuItem(R.id.hyper));}
+        fun1 = new String[]{"AND","OR","XOR","NOT",">BIN",">OCT",">DEC",">HEX","","","",""};
+        for(int i=0; i<12; i++) {if(fun1[i].equals(""))continue;idToViewMap.put(fun1[i], B[i]);idToModeMap.put(fun1[i],  new RoboMenuItem(R.id.logic));}
+        fun1 = new String[]{"ZN","ZB","NCR","NPR","MEAN","VAR","S","","","","",""};
+        for(int i=0; i<12; i++) {if(fun1[i].equals(""))continue;idToViewMap.put(fun1[i], B[i]);idToModeMap.put(fun1[i],  new RoboMenuItem(R.id.statistic));}
+        fun1 = new String[]{"M1","M2","M3","M4","M5","M6",">M1",">M2",">M3",">M4",">M5",">M6"};
+        for(int i=0; i<12; i++) {if(fun1[i].equals(""))continue;idToViewMap.put(fun1[i], B[i]);idToModeMap.put(fun1[i],  new RoboMenuItem(R.id.memory));}
+        idToViewMap.put("L",mainActivity.findViewById(R.id.btn_LINKS));
+        idToViewMap.put("R",mainActivity.findViewById(R.id.btn_RECHTS));
+    }
 }
