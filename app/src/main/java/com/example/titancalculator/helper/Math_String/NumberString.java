@@ -333,23 +333,15 @@ public class NumberString extends ContentString {
 
     String normalToScientific(){
         String i = getCalcuableString(content);
-        Log.e("normToSci input",i);
-
         String c = MathEvaluator.evaluate(i,predec_places,7);
         if(!c.equals("Math Error"))last_answer = c;
-        Log.e("normToSci output",c);
-
         return c;
     }
 
     String scientificToNormal(){
         String i = getCalcuableString(content);
-        Log.e("sciToNormal input",i);
-
         String c = MathEvaluator.evaluate(i,predec_places,1000);
         if(!c.equals("Math Error"))last_answer = c;
-        Log.e("sciToNormal output",c);
-
         return c;
     }
 

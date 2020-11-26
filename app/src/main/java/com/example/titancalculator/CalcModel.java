@@ -22,6 +22,7 @@ import java.util.Set;
 /** The model is the only gateway to the domain layer or business logic.
   */
 public class CalcModel {
+    public boolean enableLog = true;
     //static data
         public static int precisionDigits = 10;
         public static Set<String> noImmidiateOps = new HashSet<>(Arrays.asList("³√", "ROOT", "√", "LOG", "P", "C", "%"));
@@ -62,10 +63,7 @@ public class CalcModel {
         public void setMode(String mode) {this.mode = mode;}
         public String getLanguage() {return language;}
         public void setLanguage(String language) {this.language = language;}
-        public boolean isSolve_inst_pref() {return solve_inst_pref;}
-        public void setSolve_inst_pref(boolean solve_inst_pref) {this.solve_inst_pref = solve_inst_pref;}
         public boolean isScientificNotation() {return scientificNotation;}
-        public void setScientificNotation(boolean scientificNotation) {this.scientificNotation = scientificNotation;}
 
     public CalcModel(Context c){
             this.context = c;
@@ -80,9 +78,8 @@ public class CalcModel {
             case "hyper":  {return("SINH"); }
             case "logic":  {return("AND(,)"); }
             case "memory":  {return "M1";}
-            default:  {Log.e("CalcMode","unknown Mode"); }
+            default:  {if(enableLog)Log.e("CalcMode","unknown Mode"); return "";}
         }
-        return "";
     }
     
     public String translInputBtn12(){
@@ -91,35 +88,34 @@ public class CalcModel {
             case "basic2": {
                 if (language.equals("german") || language.equals("deutsch")) {
                     return("GGT(,)");
-                } else {
-                    return("GCD(,)");
-                }   }
+                }
+                return("GCD(,)");
+            }
             case "trigo":  {return("COS"); }
             case "statistic":  {return("Zb(,)"); }
             case "hyper":  {return("COSH"); }
             case "logic":  {return("OR(,)"); }
             case "memory":  {return "M2";}
-            default:  {Log.e("CalcMode","unknown Mode"); }
+            default:  {if(enableLog)Log.e("CalcMode","unknown Mode"); return "";}
         }
-        return "";
     }
 
     public String translInputBtn13(){
         switch(mode){
             case "basic": {return("^");}
-            case "basic2": {if (language.equals("german") || language.equals("deutsch")) {
-                return("KGV(,)");
-            } else {
+            case "basic2": {
+                if (language.equals("german") || language.equals("deutsch")) {
+                    return ("KGV(,)");
+                }
                 return("LCM(,)");
-            } }
+            }
             case "trigo":  {return("TAN"); }
             case "statistic":  {return("C"); }
             case "hyper":  {return("TANH"); }
             case "logic":  {return("XOR(,)"); }
             case "memory":  {return "M3";}
-            default:  {Log.e("CalcMode","unknown Mode"); }
+            default:  {if(enableLog)Log.e("CalcMode","unknown Mode"); return "";}
         }
-        return "";
     }
 
     public String translInputBtn14(){
@@ -131,9 +127,8 @@ public class CalcModel {
             case "hyper":  {return("ASINH"); }
             case "logic":  {return("NOT()"); }
             case "memory":  {return "M4";}
-            default:  {Log.e("CalcMode","unknown Mode"); }
+            default:  {if(enableLog)Log.e("CalcMode","unknown Mode"); return "";}
         }
-        return "";
     }
 
     public String translInputBtn15(){
@@ -145,9 +140,8 @@ public class CalcModel {
             case "hyper":  {return("ACOSH"); }
             case "logic":  {return "";} //ausgabeSetText(InputString.getBIN()); return ">BIN";}
             case "memory":  {return "M5";}
-            default:  {Log.e("CalcMode","unknown Mode"); }
+            default:  {if(enableLog)Log.e("CalcMode","unknown Mode"); return "";}
         }
-        return "";
     }
 
     public String translInputBtn16(){
@@ -159,9 +153,8 @@ public class CalcModel {
             case "hyper":  {return("ATANH"); }
             case "logic":  {return "";} //ausgabeSetText(InputString.getOCT()); return ">OCT";}
             case "memory":  {return "M6";}
-            default:  {Log.e("CalcMode","unknown Mode"); }
+            default:  {if(enableLog)Log.e("CalcMode","unknown Mode"); return "";}
         }
-        return "";
     }
 
     public String translInputBtn21(){
@@ -176,9 +169,8 @@ public class CalcModel {
             case "hyper":  {ausgabeSetText(InputString.getDEG()); return ">DEG";}
             case "logic":  {return "";} //ausgabeSetText(InputString.getDEC()); return ">DEC";}
             case "memory":  {return ">M1";}
-            default:  {Log.e("CalcMode","unknown Mode"); }
+            default:  {if(enableLog)Log.e("CalcMode","unknown Mode"); return "";}
         }
-        return "";
     }
 
     public String translInputBtn22(){
@@ -190,9 +182,8 @@ public class CalcModel {
             case "hyper":  {ausgabeSetText(InputString.getRAD()); return ">RAD";}
             case "logic":  {return "";} //ausgabeSetText(InputString.getHEX()); return ">HEX";}
             case "memory":  {return ">M2";}
-            default:  {Log.e("CalcMode","unknown Mode"); }
+            default:  {if(enableLog)Log.e("CalcMode","unknown Mode"); return "";}
         }
-        return "";
     }
 
     public String translInputBtn23(){
@@ -204,9 +195,8 @@ public class CalcModel {
             case "hyper":  {return("");}
             case "logic":  {return "";}
             case "memory":  {return ">M3";}
-            default:  {Log.e("CalcMode","unknown Mode"); }
+            default:  {if(enableLog)Log.e("CalcMode","unknown Mode"); return "";}
         }
-        return "";
     }
 
     public String translInputBtn24(){
@@ -218,9 +208,8 @@ public class CalcModel {
             case "hyper":  {return(""); }
             case "logic":  {return "";}
             case "memory":  {return ">M4";}
-            default:  {Log.e("CalcMode","unknown Mode"); }
+            default:  {if(enableLog)Log.e("CalcMode","unknown Mode"); return "";}
         }
-        return "";
     }
 
     public String translInputBtn25(){
@@ -232,9 +221,8 @@ public class CalcModel {
             case "hyper":  {return "";}
             case "logic":  {return "";}
             case "memory":  {return ">M5";}
-            default:  {Log.e("CalcMode","unknown Mode"); }
+            default:  {if(enableLog)Log.e("CalcMode","unknown Mode"); return "";}
         }
-        return "";
     }
 
     public String translInputBtn26(){
@@ -246,9 +234,8 @@ public class CalcModel {
             case "hyper":  {return "";}
             case "logic":  {return "";}
             case "memory":  {return ">M6";}
-            default:  {Log.e("CalcMode","unknown Mode"); }
+            default:  {if(enableLog)Log.e("CalcMode","unknown Mode"); return "";}
         }
-        return "";
     }
 
     //methods
@@ -294,7 +281,7 @@ public class CalcModel {
     public String[] loadMemory() {
         String MEMS = PreferenceManager.getDefaultSharedPreferences(this.context).getString("MEMORY", "");
         String[] memarray = ArrayUtils.stringToArray(MEMS);
-        Log.e("array mem", Arrays.toString(memarray));
+        if(enableLog)Log.e("array mem", Arrays.toString(memarray));
         String[] res = new String[6];
         for (int i = 0; i < 6; i++) {
             if (i < memarray.length) res[i] = memarray[i];
