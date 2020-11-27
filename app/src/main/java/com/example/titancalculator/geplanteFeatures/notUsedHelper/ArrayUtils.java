@@ -1,10 +1,7 @@
-package com.example.titancalculator.helper;
-
-import android.util.Log;
+package com.example.titancalculator.geplanteFeatures.notUsedHelper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 

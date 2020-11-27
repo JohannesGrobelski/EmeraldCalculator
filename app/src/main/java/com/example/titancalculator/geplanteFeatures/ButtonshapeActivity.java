@@ -20,8 +20,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
 import com.example.titancalculator.R;
-import com.example.titancalculator.helper.ButtonShapeCustomAdapter;
-import com.example.titancalculator.helper.ButtonShapeImageModel;
+import com.example.titancalculator.geplanteFeatures.notUsedHelper.ButtonShapeCustomAdapter;
+import com.example.titancalculator.geplanteFeatures.notUsedHelper.ButtonShapeImageModel;
 import com.example.titancalculator.geplanteFeatures.helper.MainDisplay.DesignApplier;
 import com.example.titancalculator.geplanteFeatures.helper.MainDisplay.SettingsApplier;
 
@@ -35,10 +35,10 @@ public class ButtonshapeActivity extends AppCompatActivity {
     private ListView lv_füllung;
     private ImageView iv_preview;
 
-    private com.example.titancalculator.helper.ButtonShapeCustomAdapter ButtonShapeCustomAdapter;
+    private com.example.titancalculator.geplanteFeatures.notUsedHelper.ButtonShapeCustomAdapter ButtonShapeCustomAdapter;
     private ArrayList<ButtonShapeImageModel> ButtonShapeImageModelArrayList;
 
-    private com.example.titancalculator.helper.ButtonShapeCustomAdapter ButtonFillingCustomAdapter;
+    private com.example.titancalculator.geplanteFeatures.notUsedHelper.ButtonShapeCustomAdapter ButtonFillingCustomAdapter;
     private ArrayList<ButtonShapeImageModel> ButtonFillingImageModelArrayList;
 
     private int[] formList = new int[]{R.drawable.buttonshape_round, R.drawable.buttonshape_square, R.drawable.buttonshape_circel};

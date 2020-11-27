@@ -44,8 +44,8 @@ public class CalcModelUnitTest {
             btn[1][3] = calcModel.translInputBtn24(); btn[1][4] = calcModel.translInputBtn25(); btn[1][5] = calcModel.translInputBtn26();
 
             for(int i=0; i<12; i++){
-                System.out.println("mode: "+btn[i/6][i%6]+", transl:"+modesModes[mode][i]);
-                //assertEquals(modesModes[mode][i],btn[i/6][i%6]);
+                //System.out.println("mode: "+btn[i/6][i%6]+", transl:"+modesModes[mode][i]);
+                assertEquals(modesModes[mode][i],btn[i/6][i%6]);
             }
             //System.out.println("\n\n");
         }

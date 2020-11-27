@@ -18,8 +18,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
 import com.example.titancalculator.R;
-import com.example.titancalculator.helper.InitConstMapDE;
-import com.example.titancalculator.helper.InitConstMapEN;
+import com.example.titancalculator.geplanteFeatures.notUsedHelper.InitConstMapDE;
+import com.example.titancalculator.geplanteFeatures.notUsedHelper.InitConstMapEN;
 import com.example.titancalculator.geplanteFeatures.helper.MainDisplay.SettingsApplier;
 
 import java.text.DecimalFormat;

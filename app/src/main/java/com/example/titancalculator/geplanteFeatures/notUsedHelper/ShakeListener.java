@@ -1,4 +1,4 @@
-package com.example.titancalculator.helper;/* The following code was written by Matthew Wiggins
+package com.example.titancalculator.geplanteFeatures.notUsedHelper;/* The following code was written by Matthew Wiggins
  * and is released under the APACHE 2.0 license
  *
  * http://www.apache.org/licenses/LICENSE-2.0

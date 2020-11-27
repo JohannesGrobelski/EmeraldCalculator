@@ -34,14 +34,14 @@ import androidx.core.app.ActivityCompat;
 import androidx.preference.PreferenceManager;
 
 import com.example.titancalculator.R;
-import com.example.titancalculator.helper.ArrayUtils;
+import com.example.titancalculator.geplanteFeatures.notUsedHelper.ArrayUtils;
 import com.example.titancalculator.geplanteFeatures.helper.MainDisplay.DesignApplier;
 import com.example.titancalculator.geplanteFeatures.helper.MainDisplay.OnSwipeTouchListener;
 import com.example.titancalculator.geplanteFeatures.helper.MainDisplay.SettingsApplier;
 import com.example.titancalculator.helper.Math_String.MathEvaluator;
 import com.example.titancalculator.helper.Math_String.NavigatableString;
 import com.example.titancalculator.helper.Math_String.NumberString;
-import com.example.titancalculator.helper.ShakeListener;
+import com.example.titancalculator.geplanteFeatures.notUsedHelper.ShakeListener;
 import com.example.titancalculator.helper.StringUtils;
 
 import java.util.ArrayList;

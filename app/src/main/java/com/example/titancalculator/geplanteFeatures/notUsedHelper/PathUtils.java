@@ -1,4 +1,4 @@
-package com.example.titancalculator.helper;
+package com.example.titancalculator.geplanteFeatures.notUsedHelper;
 
 import android.annotation.SuppressLint;
 import android.content.ContentUris;

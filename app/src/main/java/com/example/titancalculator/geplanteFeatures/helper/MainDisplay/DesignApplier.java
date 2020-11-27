@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.example.titancalculator.helper.ArrayUtils;
+import com.example.titancalculator.geplanteFeatures.notUsedHelper.ArrayUtils;
 import java.util.ArrayList;
 
 public class DesignApplier {

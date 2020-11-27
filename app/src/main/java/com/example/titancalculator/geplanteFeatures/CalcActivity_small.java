@@ -28,7 +28,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.preference.PreferenceManager;
 
 import com.example.titancalculator.R;
-import com.example.titancalculator.helper.ArrayUtils;
+import com.example.titancalculator.geplanteFeatures.notUsedHelper.ArrayUtils;
 import com.example.titancalculator.geplanteFeatures.helper.MainDisplay.OnSwipeTouchListener;
 import com.example.titancalculator.geplanteFeatures.helper.MainDisplay.SettingsApplier;
 import com.example.titancalculator.helper.Math_String.MathEvaluator;

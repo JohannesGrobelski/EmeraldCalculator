@@ -23,7 +23,7 @@ import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceManager;
 
 import com.example.titancalculator.R;
-import com.example.titancalculator.helper.PathUtils;
+import com.example.titancalculator.geplanteFeatures.notUsedHelper.PathUtils;
 
 import java.io.File;
 import java.net.URISyntaxException;

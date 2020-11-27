@@ -2,7 +2,7 @@ package com.example.titancalculator.geplanteFeatures.MathString;
 
 import android.util.Log;
 
-import com.example.titancalculator.helper.ArrayUtils;
+import com.example.titancalculator.geplanteFeatures.notUsedHelper.ArrayUtils;
 import com.example.titancalculator.helper.Math_String.MathEvaluator;
 import com.example.titancalculator.helper.Math_String.NumberString;
 

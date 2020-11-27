@@ -48,11 +48,9 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
     EditText eT_eingabe; EditText eT_ausgabe;
     LinearLayout LN2; LinearLayout LN3; LinearLayout LN4;
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {getMenuInflater().inflate(R.menu.menu_modes, menu); return true;}
+    @Override public boolean onCreateOptionsMenu(Menu menu) {getMenuInflater().inflate(R.menu.menu_modes, menu); return true;}
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    @Override public boolean onOptionsItemSelected(MenuItem item) {
         String idName = getResources().getResourceEntryName(item.getItemId());
         presenter.setMode(idName);
         presenter.assignModeFct();
@@ -90,7 +88,6 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
         setSupportActionBar(toolbar);
 
         presenter.setMode("basic");
-        presenter.resetMemory();
         //setzt hintergrundbild
 
         science_background = findViewById(R.id.science_background);
@@ -127,8 +124,7 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
         for(Button btn: allButtons){
            // Log.d("",getResources().getResourceEntryName(btn.getId()));
             btn.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View view, MotionEvent motionEvent) {
+                @Override public boolean onTouch(View view, MotionEvent motionEvent) {
                     if (motionEvent.getAction() == android.view.MotionEvent.ACTION_DOWN) {
                         ((Button)view).setTypeface(null, Typeface.BOLD);
                     }
@@ -142,8 +138,7 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
 
 
         btn_FUN.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            @Override public void onClick(View view) {
                 if(LN2.getVisibility() == View.VISIBLE){
                     LN2.setVisibility(View.GONE);
                     LN3.setVisibility(View.GONE);
@@ -154,230 +149,193 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
             }
         });
         btn_clear.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            @Override public void onClick(View view) {
                 presenter.inputClearOne();
             }
         });
         btn_clearall.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            @Override public void onClick(View view) {
                presenter.inputClearAll();
             }
         });
         //L2
         btn_11.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            @Override public void onClick(View view) {
                 presenter.inputBtn("11");
             }
         });
         btn_12.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            @Override public void onClick(View view) {
                presenter.inputBtn("12");
             }
         });
         btn_13.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            @Override public void onClick(View view) {
                 presenter.inputBtn("13");
             }
         });
         btn_14.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            @Override public void onClick(View view) {
                 presenter.inputBtn("14");
             }
         });
         btn_15.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            @Override public void onClick(View view) {
                 presenter.inputBtn("15");
             }
         });
         btn_16.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            @Override public void onClick(View view) {
                 presenter.inputBtn("16");
             }
         });
         //L3
         btn_21.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            @Override public void onClick(View view) {
                 presenter.inputBtn("21");
             }
         });
         btn_22.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            @Override public void onClick(View view) {
                 presenter.inputBtn("22");
             }
         });
         btn_23.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            @Override public void onClick(View view) {
                 presenter.inputBtn("23");
             }
         });
         btn_24.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            @Override public void onClick(View view) {
                 presenter.inputBtn("24");
             }
         });
         btn_25.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            @Override public void onClick(View view) {
                 presenter.inputBtn("25");
             }
         });
         btn_26.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            @Override public void onClick(View view) {
                 presenter.inputBtn("26");
             }
         });
         btn_LINKS.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            @Override public void onClick(View view) {
                 eT_eingabe.setSelection(Math.max(0, eT_eingabe.getSelectionStart() - 1));
             }
         });
         btn_RECHTS.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            @Override public void onClick(View view) {
                 eT_eingabe.setSelection(Math.min(eT_eingabe.length(), eT_eingabe.getSelectionStart() + 1));
             }
         });
         //G1
         btn_1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            @Override public void onClick(View view) {
                 presenter.inputBtn("1");
             }
         });
         btn_2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            @Override public void onClick(View view) {
                 presenter.inputBtn("2");
             }
         });
         btn_3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            @Override public void onClick(View view) {
                 presenter.inputBtn("3");
             }
         });
         btn_4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            @Override public void onClick(View view) {
                 presenter.inputBtn("4");
             }
         });
         btn_5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            @Override public void onClick(View view) {
                 presenter.inputBtn("5");
             }
         });
         btn_6.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            @Override public void onClick(View view) {
                 presenter.inputBtn("6");
             }
         });
         btn_7.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            @Override public void onClick(View view) {
                 presenter.inputBtn("7");
             }
         });
         btn_8.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            @Override public void onClick(View view) {
                 presenter.inputBtn("8");
             }
         });
         btn_9.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            @Override public void onClick(View view) {
                 presenter.inputBtn("9");
             }
         });
         btn_0.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            @Override public void onClick(View view) {
                 presenter.inputBtn("0");
             }
         });
         btn_com.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            @Override public void onClick(View view) {
                 presenter.inputBtn(".");
 
             }
         });
         btn_sep.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            @Override public void onClick(View view) {
                 presenter.inputBtn(",");
             }
         });
         btn_ans.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            @Override public void onClick(View view) {
                 presenter.inputBtn("ANS");
             }
         });
         //G2
         btn_open_bracket.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            @Override public void onClick(View view) {
                 presenter.inputBtn("(");
             }
         });
         btn_close_bracket.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            @Override public void onClick(View view) {
                 eT_eingabe.clearFocus(); presenter.inputBtn(")");
             }
         });
         btn_add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            @Override public void onClick(View view) {
                 presenter.inputBtn("+");
             }
         });
         btn_sub.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            @Override public void onClick(View view) {
                 presenter.inputBtn("-");
             }
         });
         btn_mul.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            @Override public void onClick(View view) {
                 presenter.inputBtn("*");
             }
         });
         btn_div.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            @Override public void onClick(View view) {
                 presenter.inputBtn("/");
             }
         });
         btn_eq.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            @Override public void onClick(View view) {
                 presenter.inputEqual();
             }
         });
         btn_eq.setLongClickable(true);
         btn_eq.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
+            @Override public boolean onLongClick(View view) {
                 presenter.toogleScientificNotation();
                 return false;
             }
@@ -385,8 +343,7 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
     }
 
     /* fullscreen
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
+    @Override public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
         if (hasFocus) {
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -431,65 +388,37 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
         }
     }
 
-    @Override
-    public void setBtn11Text(String text) {
-        btn_11.setText(text);
+    @Override public void setBtn11Text(String text) { btn_11.setText(text);}
+    @Override public void setBtn12Text(String text) { btn_12.setText(text);}
+    @Override public void setBtn13Text(String text) { btn_13.setText(text);}
+    @Override public void setBtn14Text(String text) { btn_14.setText(text);}
+    @Override public void setBtn15Text(String text) { btn_15.setText(text);}
+    @Override public void setBtn16Text(String text) { btn_16.setText(text);}
+    @Override public void setBtn21Text(String text) { btn_21.setText(text);}
+    @Override public void setBtn22Text(String text) { btn_22.setText(text);}
+    @Override public void setBtn23Text(String text) { btn_23.setText(text);}
+    @Override public void setBtn24Text(String text) { btn_24.setText(text);}
+    @Override public void setBtn25Text(String text) { btn_25.setText(text);}
+    @Override public void setBtn26Text(String text) { btn_26.setText(text);}
+    @Override public String getBtnText(int i) {
+        switch (i) {
+            case 11:{return btn_11.getText().toString();}
+            case 12:{return btn_12.getText().toString();}
+            case 13:{return btn_13.getText().toString();}
+            case 14:{return btn_14.getText().toString();}
+            case 15:{return btn_15.getText().toString();}
+            case 16:{return btn_16.getText().toString();}
+            case 21:{return btn_21.getText().toString();}
+            case 22:{return btn_22.getText().toString();}
+            case 23:{return btn_23.getText().toString();}
+            case 24:{return btn_24.getText().toString();}
+            case 25:{return btn_25.getText().toString();}
+            case 26:{return btn_26.getText().toString();}
+            default:{System.out.println("wrong i:"+i);assert(false);return "";}
+        }
     }
 
-    @Override
-    public void setBtn12Text(String text) {
-        btn_12.setText(text);
-    }
 
-    @Override
-    public void setBtn13Text(String text) {
-        btn_13.setText(text);
-    }
-
-    @Override
-    public void setBtn14Text(String text) {
-        btn_14.setText(text);
-    }
-
-    @Override
-    public void setBtn15Text(String text) {
-        btn_15.setText(text);
-    }
-
-    @Override
-    public void setBtn16Text(String text) {
-        btn_16.setText(text);
-    }
-
-    @Override
-    public void setBtn21Text(String text) {
-        btn_21.setText(text);
-    }
-
-    @Override
-    public void setBtn22Text(String text) {
-        btn_22.setText(text);
-    }
-
-    @Override
-    public void setBtn23Text(String text) {
-        btn_23.setText(text);
-    }
-
-    @Override
-    public void setBtn24Text(String text) {
-        btn_24.setText(text);
-    }
-
-    @Override
-    public void setBtn25Text(String text) {
-        btn_25.setText(text);
-    }
-
-    @Override
-    public void setBtn26Text(String text) {
-        btn_26.setText(text);
-    }
 
     @Override public void setSelectionEingabe(int selectionEingabe) {eT_eingabe.setSelection(selectionEingabe);}
     @Override public void setSelectionEingabe(int selectionEingabeStart, int selectionEingabeEnde) {eT_eingabe.setSelection(selectionEingabeStart, selectionEingabeEnde);}
@@ -504,26 +433,22 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
         eT_ausgabe.setText(res);
     }
 
-    @Override
-    public int getSelectionStartEingabe() {
+    @Override public int getSelectionStartEingabe() {
         if(eT_eingabe.hasFocus()){return eT_eingabe.getSelectionStart();}
         else return -1;
     }
 
-    @Override
-    public int getSelectionEndEingabe() {
+    @Override public int getSelectionEndEingabe() {
         if(eT_eingabe.hasFocus()){return eT_eingabe.getSelectionEnd();}
         else return -1;
     }
 
-    @Override
-    public int getSelectionStartAusgabe() {
+    @Override public int getSelectionStartAusgabe() {
         if(eT_ausgabe.hasFocus()){return eT_ausgabe.getSelectionStart();}
         else return -1;
     }
 
-    @Override
-    public int getSelectionEndAusgabe() {
+    @Override public int getSelectionEndAusgabe() {
         if(eT_ausgabe.hasFocus()){return eT_ausgabe.getSelectionEnd();}
         else return -1;
     }
@@ -545,8 +470,7 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
     }
 
 
-    @Override
-    public void replaceSelection(String input) {
+    @Override public void replaceSelection(String input) {
         if (input == null || input.isEmpty()) return;
         int selStart = eT_eingabe.getSelectionStart();
         int selEnd = eT_eingabe.getSelectionEnd();
@@ -565,8 +489,7 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
         }
     }
 
-    @Override
-    public String getSelection() {
+    @Override public String getSelection() {
         String selection = "";
         int selStart = -1;
         int selEnd = -1;
