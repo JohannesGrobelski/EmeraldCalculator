@@ -7,14 +7,11 @@ import com.example.titancalculator.helper.StringUtils;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.math.MathContext;
-import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
@@ -43,11 +40,6 @@ public class MathEvaluator {
 
 	String contentString = "123";
 	int marker = 1;
-	
-	public static void main(String[] args) {
-        System.out.println(toPFZ(24));
-    }
-
 
     public static String toRAD(String dec) {
 		dec = dec.replace(',','.');
@@ -76,11 +68,7 @@ public class MathEvaluator {
         BigInteger counter = new BigInteger("10").pow(postdecimalPlaces);
         BigInteger denominator = new BigInteger(dec.replace(".","")) ;
         String fraction = denominator+"/"+counter;
-        System.out.println("fraction: "+fraction);
-
 		String shortenedFraction = shortenFraction(fraction);
-        System.out.println("shortened fraction: "+shortenedFraction);
-
         return shortenedFraction;
 	}
 	
@@ -166,7 +154,6 @@ public class MathEvaluator {
         input = rootToSqrt(input);
         input = logToLogb(input);
         if(input.contains("!"))input = facCor(input);
-        System.out.println(input);
         Expression expression = new Expression(input);
 
         try {
@@ -253,7 +240,7 @@ public class MathEvaluator {
     }
 
     public static String toPFZ(Integer number){
-        List<Integer> pfz = NumberString.PFZ(number);
+        List<Integer> pfz = PFZ(number);
         String result = "(";
         for(int i:pfz){
             result += i+",";
@@ -261,6 +248,19 @@ public class MathEvaluator {
         result = result.substring(0,result.length()-1)+")";
 
         return result;
+    }
+
+    public static List<Integer> PFZ(Integer number){
+        ArrayList<Integer> pfzList = new ArrayList<>();
+        for(int i = 2; i< number; i++) {
+            while(number%i == 0) {
+                pfzList.add(i);
+                number = number/i;
+            }
+        }
+        pfzList.add(number);
+        pfzList.remove(Integer.valueOf(1));
+        return pfzList;
     }
 
     void clear(){

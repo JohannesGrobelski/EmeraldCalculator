@@ -113,12 +113,14 @@ public class StringUtils {
      * @return
      */
     public static String[] split(String input, String[] delimiters){
+        //System.out.println("input split: \""+input+"\""+" by "+Arrays.toString(delimiters));
         //sorts delimiters by decreasing length
         Arrays.sort(delimiters, new java.util.Comparator<String>() {
             @Override public int compare(String a, String b) {return -(a.length()-b.length());}
         });
-        if(input.length() < 1)return new String[]{input};
-        //System.out.println("split: \""+input+"\"");
+        if(input.length() == 0)return new String[0];
+        if(delimiters.length == 0)return new String[]{input};
+
         LinkedList<String> output = new LinkedList<>(); output.add(input);
 
         for(String delimiter: delimiters){
@@ -126,9 +128,11 @@ public class StringUtils {
             LinkedList<String> toRemove = new LinkedList<>();
 
             for(String candidate: output){
-                ArrayList<String> split = new ArrayList<>(Arrays.asList(candidate.split(delimiter)));
-                split.remove(candidate); split.remove("");
-                if(!split.isEmpty())toRemove.add(candidate);
+                LinkedList<String> split = new LinkedList<>(Arrays.asList(candidate.split(delimiter)));
+                //System.out.println("candidate: "+candidate+", split: "+split.toString());
+                split.remove(candidate); split.remove(delimiter); split.remove("");
+                if(!split.isEmpty() || candidate.contains(delimiter))toRemove.add(candidate);
+                toRemove.add(delimiter);
                 step.addAll(split);
             }
             step.remove(delimiter);
@@ -138,7 +142,8 @@ public class StringUtils {
             //System.out.println("output["+delimiter+"]: "+Arrays.toString(output.toArray()));
         }
         output.remove(input);
-        System.out.println("end result: "+output.toString());
+        output.remove("");
+        //System.out.println("end result: "+output.toString()+" "+output.size());
         return output.toArray(new String[output.size()]);
 
 
@@ -149,7 +154,7 @@ public class StringUtils {
      * @return a random String with length
      */
     public static String randomString(int length){
-        String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        String alphabet = "AAABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
         StringBuilder salt = new StringBuilder();
         Random rnd = new Random();
         while (salt.length() < length) {

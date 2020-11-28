@@ -119,12 +119,8 @@ public class NavigatableString{
         else return "";
     }
 
-    public void setArgument(){
-        if(contentString instanceof NumberString) ((NumberString)contentString).setArgument();
-    }
-
     public String getBruch(){
-        if(contentString instanceof NumberString) return ((NumberString)contentString).getBruch();
+        if(contentString instanceof NumberString) return ((NumberString)contentString).toFraction();
         else return "";
     }
 

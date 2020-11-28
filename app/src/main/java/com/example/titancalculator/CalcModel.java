@@ -317,7 +317,7 @@ public class CalcModel {
             ausgabeSetText(InputString.getPercent());
             return ">%";
         } else if (fct.equals("A/B")) {
-            ausgabeSetText(InputString.getBruch());
+            ausgabeSetText(InputString.toFraction());
             return "A/B";
         } else if (fct.equals("x\u207B\u00B9")) {
             ausgabeSetText(InputString.getReciproke());
