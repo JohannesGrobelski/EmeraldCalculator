@@ -144,15 +144,17 @@ public class NumberStringUnitTest {
     @Test
     public void testScientific(){
         NumberString numberString = new NumberString();
+
         String[] inputs = {"1","5.5","10^10"};
         String[] outputsNormal = {"1","5.5","10000000000"};
-        String[] outputsScientific = {"1","5.5","10E10"};
+        String[] outputsScientific = {"1","5.5","1E10"};
 
-        for(int i=0;i<2;i++){
+        for(int i=0;i<inputs.length;i++){
             numberString.setContent(inputs[i]);
             assertEquals(outputsNormal[i], numberString.scientificToNormal());
             assertEquals(outputsScientific[i], numberString.normalToScientific());
         }
+
     }
 
     @Test
@@ -201,18 +203,18 @@ public class NumberStringUnitTest {
             assertEquals("Math Error", numberString.getPFZ());
         }
 
-        //setVar_mode(), setMean_mode()
+        //setVarMode(), setMeanMode()
         String[] modes = new String[]{"Ari","Geo","Har"};
         for(String mode: modes){
-            numberString.setMean_mode(mode+"Mit"); assertEquals(mode+"Mit",NumberString.mean_mode);
-            numberString.setVar_mode(mode+"Var"); assertEquals(mode+"Var",NumberString.var_mode);
+            numberString.setMeanMode(mode+"Mit"); assertEquals(mode+"Mit",NumberString.mean_mode); assertEquals(NumberString.mean_mode,numberString.getMeanMode());
+            numberString.setVarMode(mode+"Var"); assertEquals(mode+"Var",NumberString.var_mode); assertEquals(NumberString.var_mode,numberString.getVarMode());
         }
-        numberString.setMean_mode("unknown"); assertEquals("HarMit",NumberString.mean_mode);
-        numberString.setVar_mode("unknown"); assertEquals("HarVar",NumberString.var_mode);
+        numberString.setMeanMode("unknown"); assertEquals("HarMit",NumberString.mean_mode); assertEquals(NumberString.mean_mode,numberString.getMeanMode());
+        numberString.setVarMode("unknown"); assertEquals("HarVar",NumberString.var_mode); assertEquals(NumberString.var_mode,numberString.getVarMode());
         //getContent(), setContent(...)
         String content = "1+1"; numberString.setContent(content); assertEquals(content,numberString.getContent());
 
-        //getDisplayableString()
+        //TODO: getDisplayableString()
 
 
     }

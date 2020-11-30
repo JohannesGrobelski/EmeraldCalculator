@@ -2,4 +2,6 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:background="@color/primary_dark" android:state_pressed="true"/>
     <item android:background="@color/primary" />
+    <item android:tint="@color/Flat_Grün"/>
+
 </selector>

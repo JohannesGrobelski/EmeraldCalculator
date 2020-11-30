@@ -36,7 +36,7 @@ public class MathUnitTest1 {
         testTrigoAndHyperFunctions();
         testLogicFunctions();
         testStatisticFunctions();
-        testVoids();
+        testVoidFunctions();
         assertTrue(System.currentTimeMillis() - start < 3000);
         iterationsSubtests = originalIterationsSubtests;
     }
@@ -228,10 +228,6 @@ public class MathUnitTest1 {
         assertTrue(resembles(MathEvaluator.toRAD("0"),"0")); //RAD(0) = 0
         assertTrue(resembles(MathEvaluator.toRAD(("180")),calcTerm("π"))); //RAD(180) = π
         assertTrue(resembles(MathEvaluator.toRAD(("360")),calcTerm("2*π"))); //RAD(360) = 2π
-
-
-
-
     }
 
     @Test public void testLogicFunctions() {
@@ -253,12 +249,8 @@ public class MathUnitTest1 {
             assertTrue(testEquation("AND("+a+","+"NOT("+a+"))","0"));    //a and not(a) = 0
             assertTrue(testEquation("NOT(1)","-2"));    //not(0) = 1
             assertTrue(testEquation("NOT(0)","-1"));    //not(1) = 0
-
-
             //assertTrue(testEquation("NOT(AND("+a+","+b+"))","OR("+"NOT("+a+")"+","+"NOT("+b+"))"));    //not(a and b) = not(a) or not(b)
-
             // assertTrue(testEquation("OR("+a+",1)",String.valueOf(a)));    //a or 1 = a
-
         }
     }
 
@@ -309,7 +301,7 @@ public class MathUnitTest1 {
     }
 
 
-    @Test public void testVoids(){
+    @Test public void testVoidFunctions(){
         for(int i=0; i<iterationsSubtests; i++) {
             int a = (int) ((Math.random() * 1000) - 500);
             double x = ((Math.random() * 1000) - 500);
@@ -317,7 +309,6 @@ public class MathUnitTest1 {
             assertTrue(resembles(NumberString.toPercent(String.valueOf(x)),String.valueOf(x*100))); //toPercent(x) = x*100
             assertTrue(resembles(NumberString.toInvert(String.valueOf(x)),String.valueOf(-x))); //inverse(x) = -x
             assertTrue(resembles(NumberString.toReciproke(String.valueOf(x)),String.valueOf(1/x))); //inverse(x) = 1/x
-
 
             final int  p = (int) ((Math.random() * 1000) - 500);
             String PFZ = MathEvaluator.toPFZ(p);  PFZ = PFZ.replace(",","*").replace("(","").replace(")","");
@@ -328,13 +319,11 @@ public class MathUnitTest1 {
             String FRACTION = counter.divide(denominator).toString();
             String input = String.valueOf(x);
             assertTrue(FRACTION.equals(input));
-
-
         }
+    }
 
-
-
-
+    @Test public void testFormat(){
+        NumberString numberString = new NumberString(); numberString.setContent("1.2*10^15"); assertEquals("1.2E15",numberString.normalToScientific());
     }
 
     private String calcTerm(String term){

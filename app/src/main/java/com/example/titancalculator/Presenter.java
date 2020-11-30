@@ -4,7 +4,7 @@ import android.content.Context;
 
 import java.util.Arrays;
 
-import static com.example.titancalculator.helper.StringUtils.deleteSpan;
+import static com.example.titancalculator.helper.Math_String.StringUtils.deleteSpan;
 
 /** The Presenter is the mediator between Model and View.
   * It retrieves data from Model and returns it formatted to the View.
@@ -43,27 +43,27 @@ public class Presenter {
             int nr = Integer.valueOf(identifier);
             switch (nr){
                 case 11: {
-                    if(calcModel.getMode().equals("memory")){replaceSelection(calcModel.getMemory(0));}
+                    if(calcModel.getMode().equals("memory")){replaceSelection(calcModel.getMemory(0)); break;}
                     ret = calcModel.translInputBtn11();
                     if(!ret.contains(">"))eingabeAddText(calcModel.translInputBtn11()); break;}
                 case 12: {
-                    if(calcModel.getMode().equals("memory")){replaceSelection(calcModel.getMemory(1));}
+                    if(calcModel.getMode().equals("memory")){replaceSelection(calcModel.getMemory(1)); break;}
                     ret = calcModel.translInputBtn12();
                     if(!ret.contains(">"))eingabeAddText(calcModel.translInputBtn12()); break;}
                 case 13: {
-                    if(calcModel.getMode().equals("memory")){replaceSelection(calcModel.getMemory(2));}
+                    if(calcModel.getMode().equals("memory")){replaceSelection(calcModel.getMemory(2)); break;}
                     ret = calcModel.translInputBtn13();
                     if(!ret.contains(">"))eingabeAddText(calcModel.translInputBtn13()); break;}
                 case 14: {
-                    if(calcModel.getMode().equals("memory")){replaceSelection(calcModel.getMemory(3));}
+                    if(calcModel.getMode().equals("memory")){replaceSelection(calcModel.getMemory(3)); break;}
                     ret = calcModel.translInputBtn14();
                     if(!ret.contains(">"))eingabeAddText(calcModel.translInputBtn14()); break;}
                 case 15: {
-                    if(calcModel.getMode().equals("memory")){replaceSelection(calcModel.getMemory(4));}
+                    if(calcModel.getMode().equals("memory")){replaceSelection(calcModel.getMemory(4)); break;}
                     ret = calcModel.translInputBtn15();
                     if(!ret.contains(">"))eingabeAddText(calcModel.translInputBtn15()); break;}
                 case 16: {
-                    if(calcModel.getMode().equals("memory")){replaceSelection(calcModel.getMemory(5));}
+                    if(calcModel.getMode().equals("memory")){replaceSelection(calcModel.getMemory(5)); break;}
                     ret = calcModel.translInputBtn16();
                     if(!ret.contains(">"))eingabeAddText(calcModel.translInputBtn16()); break;}
                 case 21: {

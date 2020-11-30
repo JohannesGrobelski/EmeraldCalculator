@@ -1,4 +1,4 @@
-package com.example.titancalculator.helper;
+package com.example.titancalculator.helper.Math_String;
 
 import android.net.http.SslCertificate;
 
@@ -7,6 +7,7 @@ import com.example.titancalculator.MainActivity;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -14,6 +15,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class StringUtils {
+    static String[] mathTokens= new String[]{
+            "ASINH","ACOSH","ATANH",
+            "MEAN",">A/B",">x\u207B\u00B9",">+/-","SINH","COSH","TANH",">DEG",">RAD",">BIN",">OCT",">DEC",">HEX","10^x","ASIN","ACOS","ATAN","ACOT","ASEC","ACSC",
+            "MIN","MAX","NCR","NPR","VAR",">M1",">M2",">M3",">M4",">M5",">M6","ANS","SIN","COS","TAN","COT","SEC","CSC","AND","OR","XOR","NOT","LOG","PFZ","GCD","LCM",
+            ">%","LN","LB","Zn","Zb",
+            "∑","∏","1","2","3","4","5","6","7","8","9","0",".",",","*","/","+","-","(",")","π","e","^","³√","√","³","²","!","S","M1","M2","M3","M4","M5","M6","L","R"
+    };
+
     /**
      * @param a
      * @param b
@@ -107,62 +116,64 @@ public class StringUtils {
         }
         return res.toString();
     }
-    /**
-     * Splits the inputstring by an array of delimiters
-     * @param input
-     * @return
-     */
-    public static String[] split(String input, String[] delimiters){
-        //System.out.println("input split: \""+input+"\""+" by "+Arrays.toString(delimiters));
-        //sorts delimiters by decreasing length
-        Arrays.sort(delimiters, new java.util.Comparator<String>() {
-            @Override public int compare(String a, String b) {return -(a.length()-b.length());}
-        });
-        if(input.length() == 0)return new String[0];
-        if(delimiters.length == 0)return new String[]{input};
 
-        LinkedList<String> output = new LinkedList<>(); output.add(input);
-
-        for(String delimiter: delimiters){
-            LinkedList<String> step = new LinkedList<>();
-            LinkedList<String> toRemove = new LinkedList<>();
-
-            for(String candidate: output){
-                LinkedList<String> split = new LinkedList<>(Arrays.asList(candidate.split(delimiter)));
-                //System.out.println("candidate: "+candidate+", split: "+split.toString());
-                split.remove(candidate); split.remove(delimiter); split.remove("");
-                if(!split.isEmpty() || candidate.contains(delimiter))toRemove.add(candidate);
-                toRemove.add(delimiter);
-                step.addAll(split);
-            }
-            step.remove(delimiter);
-            if(!step.isEmpty())output.remove(input);
-            output.addAll(step);
-            output.removeAll(toRemove);
-            //System.out.println("output["+delimiter+"]: "+Arrays.toString(output.toArray()));
-        }
-        output.remove(input);
-        output.remove("");
-        //System.out.println("end result: "+output.toString()+" "+output.size());
-        return output.toArray(new String[output.size()]);
-
-
-    }
 
     /**
      * @param length
      * @return a random String with length
      */
     public static String randomString(int length){
-        String alphabet = "AAABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
         StringBuilder salt = new StringBuilder();
         Random rnd = new Random();
         while (salt.length() < length) {
-            int index = (int) (rnd.nextFloat() * alphabet.length());
-            salt.append(alphabet.charAt(index));
+            int index = -1;
+            if((length - salt.length()) < 5){
+                int dif = length - salt.length();
+                while(index == -1 || mathTokens[index].length() != dif){
+                    index = (int) (rnd.nextFloat() * mathTokens.length);
+                }
+            } else {
+               index = (int) (rnd.nextFloat() * mathTokens.length);
+            }
+            salt.append(mathTokens[index]);
         }
         String saltStr = salt.toString();
         return saltStr;
+    }
+
+    /**Splits the inputstring by an array of delimiters
+     * @param input
+     * @return
+     * */
+    public static String[] split(String input) {
+        return split(input,mathTokens);
+    }
+
+     /**Splits the inputstring by an array of delimiters
+     * @param input
+     * @return
+      * */
+    private static String[] split(String input, String[] delimiters) {
+        if (input.length() == 0) return new String[]{""};
+        if(delimiters.length == 0) return new String[]{input};
+        //System.out.println("split: \""+input+"\"");
+        LinkedList<String> output = new LinkedList<>();
+        while (input.length() > 0) {
+            //System.out.println("   splitInput: "+input);
+            //System.out.println("   splitArray: "+Arrays.toString(output.toArray(new String[output.size()])));
+            boolean contains = false;
+            for(String delimiter : delimiters) {
+                //System.out.println("    "+input+" startsWith "+delimiter+": "+input.startsWith(delimiter));
+                if (input.startsWith(delimiter)) {
+                    contains=true;
+                    output.add(delimiter);
+                    input = input.substring(delimiter.length());
+                    break;
+                }
+            }
+            assert(contains);
+        }
+        return output.toArray(new String[output.size()]);
     }
 
     /**

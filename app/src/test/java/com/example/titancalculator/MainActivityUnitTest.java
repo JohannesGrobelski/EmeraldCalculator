@@ -5,11 +5,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.example.titancalculator.CalcModel;
-import com.example.titancalculator.MainActivity;
-import com.example.titancalculator.R;
 import com.example.titancalculator.helper.Math_String.MathEvaluator;
-import com.example.titancalculator.helper.StringUtils;
+import com.example.titancalculator.helper.Math_String.StringUtils;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -19,7 +16,6 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 import org.robolectric.fakes.RoboMenuItem;
 
-import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -33,7 +29,7 @@ import static org.junit.Assert.assertTrue;
 @Config(sdk = 28)
 
 public class MainActivityUnitTest {
-    private static int iterationsSubtests = 1; //TODO: hohe iterationen => JRE EXCEPTION_ACCESS_VIOLATION
+    private static int iterationsSubtests = 1000;
     private static double toleranceDigits = 10;
     private Map<String, View> idToViewMap = new HashMap<>();
     private Map<String, RoboMenuItem> idToModeMap = new HashMap<>();
@@ -43,7 +39,7 @@ public class MainActivityUnitTest {
             "SIN","COS","TAN","COT","SEC","CSC","ASIN","ACOS","ATAN","ACOT","ASEC","ACSC",
             "SINH","COSH","TANH","ASINH","ACOSH","ATANH",">DEG",">RAD",
             "AND","OR","XOR","NOT",">BIN",">OCT",">DEC",">HEX",
-            "ZN","ZB","NCR","NPR","MEAN","VAR","S",
+            "Zn","Zb","NCR","NPR","MEAN","VAR","S",
             "M1","M2","M3","M4","M5","M6",">M1",">M2",">M3",">M4",">M5",">M6",
             "L","R"
     };
@@ -66,11 +62,12 @@ public class MainActivityUnitTest {
     TODO: 100% coverage
      */
 
-    /**
-     * Terms that involve +,-,*,/
-     */
+
+
+        /**
+         * Terms that involve +,-,*,/
+         */
     @Test public void testSimpleTerms(){
-        assertEquals("Math Error",calcTerm(((int) (Math.random()*1000) + 1)+"/0"));
         for(int i=0; i<iterationsSubtests; i++){
             int op1 = (int) (Math.random()*1000) + 1;
             int op2 = (int) (Math.random()*1000) + 1;
@@ -111,6 +108,9 @@ public class MainActivityUnitTest {
             //Check the division of zero by any number.
             assertTrue(testEquation("0/"+op1,"0"));
         }
+
+
+
     }
 
 
@@ -287,8 +287,9 @@ public class MainActivityUnitTest {
 
     @Test public void testStatisticFunctions() {
         currentMode = new RoboMenuItem(R.id.statistic);
+
         for(int i=0; i<iterationsSubtests; i++) {
-            int a = (int) ((Math.random() * 1000));
+            int a = ((int) ((Math.random() * 1000))) + 10;
             int b = a+100;
 
             int n = (int) ((Math.random() * 1000));
@@ -296,9 +297,12 @@ public class MainActivityUnitTest {
 
             double x = ((Math.random() * 1000) - 500);
 
-            calcTerm("ZN("+a+")"); int result = Integer.valueOf(((EditText) mainActivity.findViewById(R.id.eT_ausgabe)).getText().toString());
+            calcTerm("Zn"+a);
+            String output = ((EditText) mainActivity.findViewById(R.id.eT_ausgabe)).getText().toString();
+            assertTrue("output: "+output+", "+a,output.matches("[0-9]+"));
+            Integer result = Integer.valueOf(output);
             assertTrue(result > 0); assertTrue(result <= a);  //0 < result < a
-            calcTerm("ZB("+a+"R"+b+")");  result = Integer.valueOf(((EditText) mainActivity.findViewById(R.id.eT_ausgabe)).getText().toString());
+            calcTerm("Zb("+a+"R"+b+")");  result = Integer.valueOf(((EditText) mainActivity.findViewById(R.id.eT_ausgabe)).getText().toString());
             assertTrue(result > a); assertTrue(result <= b);  //0 < result < a
             assertTrue(testEquation("NPR("+n+"R"+r+")",n+"!"+"/("+n+"-"+r+")!")); //nPr(n,r)=n!/(n−r)!
             assertTrue(testEquation("NCR("+n+"R"+r+")","NPR("+n+"R"+r+")/"+r+"!")); //nCr(n,r)=nPr(n,r)/r!
@@ -403,8 +407,6 @@ public class MainActivityUnitTest {
             assertTrue(resembles(String.valueOf(a),result)); mainActivity.findViewById(R.id.btn_clearall).performClick();
         }
     }
-
-
 
     @Test public void testNavigationButtons(){
         MainActivity mainActivity = Robolectric.setupActivity(MainActivity.class);
@@ -541,6 +543,8 @@ public class MainActivityUnitTest {
         for(int i=0; i<fun1.length; i++){
             B[i].performClick(); assertEquals(INPUT.getText().toString(),fun1[i]); S[0].performClick(); assertEquals(OUTPUT.getText().toString(),INPUT.getText().toString()); S[1].performClick();
         }
+
+
     }
 
     @Test public void testText(){
@@ -584,8 +588,9 @@ public class MainActivityUnitTest {
         assertEquals(0,mainActivity.getSelectionStartAusgabe()); assertEquals(0,mainActivity.getSelectionEndAusgabe());
         end = ((int) Math.random()*mainActivity.eT_ausgabe.length()); mainActivity.setSelectionAusgabe(0,end);
         assertEquals(0,mainActivity.getSelectionStartAusgabe()); assertEquals(end,mainActivity.getSelectionEndAusgabe());
-
     }
+
+
 
     public static boolean resembles(String output, String expectedResult){
         double tolerance = 1/Math.pow(10,toleranceDigits);
@@ -638,14 +643,14 @@ public class MainActivityUnitTest {
 
     private boolean testEquation(String equation){
         assertTrue(equation.contains("="));
+        //System.out.println("testEquation input: "+equation);
         String term = equation.split("=")[0]; String expectedResult = equation.split("=")[1];
         if(!(expectedResult.matches("Math Error") || expectedResult.matches("[0-9]+") || expectedResult.matches("[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?"))){
             expectedResult = calcTerm(expectedResult);
         }
         String output = calcTerm(term);
         if(output.equals(expectedResult)){ return true; }
-        //System.out.println("tE output: "+output);
-        //System.out.println("tE result: "+expectedResult);
+        //System.out.println("testEquation result: "+output+" ?= "+expectedResult);
         assertTrue(output.matches("Math Error") || output.matches("[0-9]+") || output.matches("[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?"));
         assertTrue(expectedResult.matches("Math Error") || expectedResult.matches("[0-9]+") || expectedResult.matches("[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?"));
 
@@ -667,16 +672,21 @@ public class MainActivityUnitTest {
     }
 
     private String calcTerm(String term){
-        mainActivity = Robolectric.setupActivity(MainActivity.class);
+        mainActivity.findViewById(R.id.btn_clearall).performClick();
         mainActivity.onOptionsItemSelected(currentMode);
         RoboMenuItem mode = currentMode;
-        initMapIdToView(mainActivity); //TODO: ineffizient
+        mainActivity.setSelectionEingabe(0,0);
+        mainActivity.eT_eingabe.requestFocus();
 
         //System.out.println("calcTerm: \""+term+"\"");
-        String[] splitted = StringUtils.split(term,delimiters);
+        String[] splitted = StringUtils.split(term);
         boolean inputShouldEqualtTerm = true; boolean containsOutputFunctions = false;
-        //System.out.println("cT  "+Arrays.toString(splitted));
+        //System.out.println("cT  "+ Arrays.toString(splitted));
+        assertEquals("",mainActivity.eT_eingabe.getText().toString()); assertEquals("",mainActivity.eT_ausgabe.getText().toString());
         for(String s: splitted){
+           // System.out.println("cT input["+mainActivity.getSelectionStartEingabe()+","+mainActivity.getSelectionEndEingabe()+"]: "+
+           //         ((EditText) mainActivity.findViewById(R.id.eT_eingabe)).getText().toString());
+           // System.out.println("cT output: "+((EditText) mainActivity.findViewById(R.id.eT_ausgabe)).getText().toString());
             if(s.isEmpty())break;
             if(idToViewMap.containsKey(s) && (idToViewMap.get(s) instanceof Button)){
                 if(s.contains(">"))containsOutputFunctions = true;
@@ -690,8 +700,6 @@ public class MainActivityUnitTest {
                 //System.out.println("unknown lexical unit: "+s);
                 assertTrue("calcTerm: Button doesnt exist: "+s,false);
             }
-            //System.out.println("cT input: "+((EditText) mainActivity.findViewById(R.id.eT_eingabe)).getText().toString());
-            //System.out.println("cT output: "+((EditText) mainActivity.findViewById(R.id.eT_ausgabe)).getText().toString());
         }
         if(!containsOutputFunctions)mainActivity.findViewById(R.id.btn_eq).performClick();
         //System.out.println("cT final output: "+((EditText) mainActivity.findViewById(R.id.eT_ausgabe)).getText().toString()+"\n\n");
@@ -699,7 +707,8 @@ public class MainActivityUnitTest {
         return ((EditText) mainActivity.findViewById(R.id.eT_ausgabe)).getText().toString();
     }
 
-    private void initMapIdToView(MainActivity mainActivity){
+    @Before
+    public void initMapIdToView(){
         Button[] B = new Button[]{mainActivity.findViewById(R.id.btn_11),mainActivity.findViewById(R.id.btn_12),mainActivity.findViewById(R.id.btn_13),
                 mainActivity.findViewById(R.id.btn_14),mainActivity.findViewById(R.id.btn_15),mainActivity.findViewById(R.id.btn_16),
                 mainActivity.findViewById(R.id.btn_21),mainActivity.findViewById(R.id.btn_22),mainActivity.findViewById(R.id.btn_23),
@@ -735,7 +744,7 @@ public class MainActivityUnitTest {
         for(int i=0; i<12; i++) {if(fun1[i].equals(""))continue;idToViewMap.put(fun1[i], B[i]);idToModeMap.put(fun1[i],  new RoboMenuItem(R.id.hyper));}
         fun1 = new String[]{"AND","OR","XOR","NOT",">BIN",">OCT",">DEC",">HEX","","","",""};
         for(int i=0; i<12; i++) {if(fun1[i].equals(""))continue;idToViewMap.put(fun1[i], B[i]);idToModeMap.put(fun1[i],  new RoboMenuItem(R.id.logic));}
-        fun1 = new String[]{"ZN","ZB","NCR","NPR","MEAN","VAR","S","","","","",""};
+        fun1 = new String[]{"Zn","Zb","NCR","NPR","MEAN","VAR","S","","","","",""};
         for(int i=0; i<12; i++) {if(fun1[i].equals(""))continue;idToViewMap.put(fun1[i], B[i]);idToModeMap.put(fun1[i],  new RoboMenuItem(R.id.statistic));}
         fun1 = new String[]{"M1","M2","M3","M4","M5","M6",">M1",">M2",">M3",">M4",">M5",">M6"};
         for(int i=0; i<12; i++) {if(fun1[i].equals(""))continue;idToViewMap.put(fun1[i], B[i]);idToModeMap.put(fun1[i],  new RoboMenuItem(R.id.memory));}

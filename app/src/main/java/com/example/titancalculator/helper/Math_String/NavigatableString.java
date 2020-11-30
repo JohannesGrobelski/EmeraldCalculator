@@ -6,7 +6,7 @@ public class NavigatableString{
 
     private ContentString contentString;
 
-    public NavigatableString(String mode){
+    public NavigatableString(){
         contentString = new NumberString();
     }
 
@@ -18,13 +18,9 @@ public class NavigatableString{
         String c = contentString.getContent();
         if(c.equals(""))return;
         else{
-            String res = removeCharacter(c,position-1);
+            String res = removeCharacter(c,position);
             contentString.setContent(res);
         }
-    }
-
-    public String trim(){
-        return contentString.trim();
     }
 
     public int getLength(){return contentString.getLength();}
@@ -45,28 +41,11 @@ public class NavigatableString{
         contentString.setContent(a);
     }
 
-    public static String removeCharacter(String originalString, int index){
+    private String removeCharacter(String originalString, int index){
         if(index < 0 || index > originalString.length())return originalString;
         StringBuffer newString = new StringBuffer(originalString);
         newString.deleteCharAt(index);
         String c = newString.toString();
-        /*
-        //fix
-        c = c.replace("P","");
-        c = c.replace("I","");
-        c = c.replace("Z","");
-        c = c.replace("n","");
-        c = c.replace("b","");
-        c = c.replace("P","");
-        c = c.replace("P","");
-        c = c.replace("\u00B3","");
-        c = c.replace("LO","");
-        c = c.replace("LG","");
-        c = c.replace("OG","");
-        c = c.replace("L","");
-        c = c.replace("B","");
-        */
-
         return newString.toString();
     }
 
@@ -77,9 +56,7 @@ public class NavigatableString{
         return newString.toString();
     }
 
-    public String getResult(){
-        return ((NumberString) contentString).getResult();
-    }
+    public String getResult(){    return ((NumberString) contentString).getResult();  }
 
     public String normalToScientific(){
         return ((NumberString) contentString).normalToScientific();
@@ -124,15 +101,15 @@ public class NavigatableString{
         else return "";
     }
 
-    public String getDisplayableString(){
-        return ((NumberString)contentString).getDisplayableString(((NumberString)contentString).content);
-    }
+    public String getDisplayableString(){   return ((NumberString)contentString).getContent();  }
 
-    public void setMeanMode(String mode){
-        ((NumberString)contentString).setMean_mode(mode);
-    }
+    public void setMeanMode(String mode){((NumberString)contentString).setMeanMode(mode);}
+    public String getMeanMode(){return ((NumberString)contentString).getMeanMode();}
+
 
     public void setVarMode(String mode){
-        ((NumberString)contentString).setVar_mode(mode);
+        ((NumberString)contentString).setVarMode(mode);
     }
+    public String getVarMode(){return ((NumberString)contentString).getVarMode();}
+
 }

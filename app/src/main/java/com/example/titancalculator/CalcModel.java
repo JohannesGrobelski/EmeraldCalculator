@@ -19,7 +19,7 @@ public class CalcModel {
 
     //state variables (incl. getter and setters)
         Context context;
-        NavigatableString InputString = new NavigatableString("content");
+        NavigatableString InputString = new NavigatableString();
         int startSelection, endSelection;
         String OutputString = "";
         private static String[] memory = new String[6];

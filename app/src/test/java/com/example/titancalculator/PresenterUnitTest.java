@@ -2,15 +2,12 @@ package com.example.titancalculator;
 
 import android.content.Context;
 
-import com.example.titancalculator.helper.StringUtils;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
-import org.robolectric.fakes.RoboMenuItem;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

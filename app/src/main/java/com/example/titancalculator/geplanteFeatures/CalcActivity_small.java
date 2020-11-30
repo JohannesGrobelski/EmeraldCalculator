@@ -31,7 +31,6 @@ import com.example.titancalculator.R;
 import com.example.titancalculator.geplanteFeatures.notUsedHelper.ArrayUtils;
 import com.example.titancalculator.geplanteFeatures.helper.MainDisplay.OnSwipeTouchListener;
 import com.example.titancalculator.geplanteFeatures.helper.MainDisplay.SettingsApplier;
-import com.example.titancalculator.helper.Math_String.MathEvaluator;
 import com.example.titancalculator.helper.Math_String.NavigatableString;
 import com.example.titancalculator.helper.Math_String.NumberString;
 
@@ -247,7 +246,7 @@ public class CalcActivity_small extends AppCompatActivity {
         //setzt hintergrundbild
 
 
-        I = new NavigatableString("content");
+        I = new NavigatableString();
 
         eingabeSetText("");
 
@@ -791,8 +790,6 @@ public class CalcActivity_small extends AppCompatActivity {
 
         //Math Settings
         solve_inst_pref = PreferenceManager.getDefaultSharedPreferences(CalcActivity_small.this).getBoolean("solve_inst_pref",false);
-        MathEvaluator.applySettings(CalcActivity_small.this);
-
     }
 
     public boolean checkPermissionForReadExtertalStorage(Context context) {

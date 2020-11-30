@@ -31,6 +31,7 @@
     </style>
 
     <style name="NumberFlatButton" parent="FlatButton">
+
         <item name="background">@drawable/button_number</item>
         <item name="android:textColor">@color/primary_dark</item>
     </style>

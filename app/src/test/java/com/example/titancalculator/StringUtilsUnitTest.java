@@ -1,29 +1,26 @@
 package com.example.titancalculator;
 
-import com.example.titancalculator.helper.StringUtils;
+import com.example.titancalculator.helper.Math_String.StringUtils;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
-import static com.example.titancalculator.helper.StringUtils.concatenate;
-import static com.example.titancalculator.helper.StringUtils.deleteSpan;
-import static com.example.titancalculator.helper.StringUtils.findLongestMatch;
-import static com.example.titancalculator.helper.StringUtils.insertString;
-import static com.example.titancalculator.helper.StringUtils.occurences;
-import static com.example.titancalculator.helper.StringUtils.randomString;
-import static com.example.titancalculator.helper.StringUtils.repeat;
-import static com.example.titancalculator.helper.StringUtils.replace;
-import static com.example.titancalculator.helper.StringUtils.split;
+import static com.example.titancalculator.helper.Math_String.StringUtils.concatenate;
+import static com.example.titancalculator.helper.Math_String.StringUtils.deleteSpan;
+import static com.example.titancalculator.helper.Math_String.StringUtils.findLongestMatch;
+import static com.example.titancalculator.helper.Math_String.StringUtils.insertString;
+import static com.example.titancalculator.helper.Math_String.StringUtils.occurences;
+import static com.example.titancalculator.helper.Math_String.StringUtils.randomString;
+import static com.example.titancalculator.helper.Math_String.StringUtils.repeat;
+import static com.example.titancalculator.helper.Math_String.StringUtils.replace;
+import static com.example.titancalculator.helper.Math_String.StringUtils.split;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class StringUtilsUnitTest {
@@ -44,31 +41,17 @@ public class StringUtilsUnitTest {
 
     @Test
     public void testSplit(){
-        assertArrayEquals(new String[0],split("abcde","abcde".split("")));
-        assertArrayEquals(new String[0],split("","abcde".split("")));
-        assertArrayEquals(new String[0],split("","".split("")));
-        assertArrayEquals("abcde".split(""),split("abcde","".split("")));
-        assertArrayEquals(new String[]{"abcde"},split("abcde",new String[0]));
+        assertArrayEquals("1+2".split(""),split("1+2"));
+        assertArrayEquals(new String[]{""},split(""));
+        //assertArrayEquals("1+2".split(""),split("1+2","".split("")));
 
-        assertArrayEquals(new String[]{"PR9QFYH62N38XQKPN", "PPF0P", "I40AG", "LM2QNDR9NWC2A", "V0DM957PDZ", "VFQFQ", "35A"},
-                split("UI40AGSVFQFQJ35ASLM2QNDR9NWC2AUV0DM957PDZBPR9QFYH62N38XQKPNSBPPF0PBJJ", new String[]{"O", "S", "B", "U", "J"}));
-
-
-        for(int ti=0;ti<testIterations;ti++) {
+        for(int ti=0;ti<testIterations/10;ti++) {
             String randomInput = StringUtils.randomString(Math.max(36,((int) (Math.random()*testIterations))+1));
-            String[] randomDelimiters = StringUtils.randomString(Math.max(5,((int) (Math.random()*10)))).split("");
-            randomDelimiters =  Arrays.copyOf(Arrays.stream(randomDelimiters).distinct().toArray(), Arrays.stream(randomDelimiters).distinct().toArray().length, String[].class);
-            //System.out.println(randomInput+" "+Arrays.toString(randomDelimiters));
-            String[] splitted = split(randomInput,randomDelimiters);
-
+            //System.out.println(ti+": "+randomInput);
+            String[] splitted = split(randomInput);
+            //System.out.println(ti+": "+Arrays.toString(splitted));
             int lengthSplitted = 0;
             for(String subsplit: splitted){
-                for(String d: randomDelimiters){
-                    if(subsplit.contains(d)){
-                        System.out.println(d+" in "+Arrays.toString(splitted));
-                        assertTrue(!subsplit.contains(d));
-                    }
-                }
                 lengthSplitted += subsplit.length();
             }
             assertTrue(lengthSplitted<=randomInput.length());
@@ -76,11 +59,10 @@ public class StringUtilsUnitTest {
     }
 
     //actualy used
-
     @Test
     public void testDeleteSpan(){
-        for(int ti=0;ti<Math.sqrt(testIterations);ti++){
-            String randomInput = StringUtils.randomString(((int) (Math.max(20,testIterations))+1));
+        for(int ti=0;ti<((int) (Math.sqrt(testIterations)));ti++){
+            String randomInput = StringUtils.randomString(((int) (Math.max(20,Math.sqrt(testIterations)))+1));
             assertEquals(randomInput,deleteSpan(randomInput,0,0));
             assertEquals(randomInput,deleteSpan(randomInput,-1,0));
             assertEquals(randomInput,deleteSpan(randomInput,0,-1));
@@ -105,9 +87,11 @@ public class StringUtilsUnitTest {
             assertEquals(randomInput,repeat(randomInput,-1));
             assertEquals("",repeat(randomInput,0));
             assertEquals(randomInput,repeat(randomInput,1));
+
             int repetitions = ((int) (Math.random()*10)+5);
             String repeat = repeat(randomInput,repetitions);
-            for(int i=0;i<repetitions;i++)repeat = repeat.replaceFirst(randomInput,"");
+            assertEquals(repetitions*randomInput.length(),repeat.length());
+            repeat = repeat.replace(randomInput,"");
             assertEquals("",repeat.replace(randomInput,""));
         }
     }
@@ -165,9 +149,9 @@ public class StringUtilsUnitTest {
     }
 
     @Test
-    public void findLongestMatchTest() {
+    public void testFindLongestMatchTest() {
         for (int ti = 0; ti < testIterations; ti++) {
-            String repeat = new String(new char[20]).replace("\0", "ABCDEFGHI");
+            String repeat = new String(new char[20]).replace("\0", "1+2FGHI");
             System.out.println();
             String random = shuffleString(repeat);
 
@@ -187,7 +171,7 @@ public class StringUtilsUnitTest {
 
 
     @Test
-    public void concatenateTest() {
+    public void testConcatenate() {
         assertArrayEquals(new String[0],concatenate(new String[0],new String[0]));
         for (int ti = 0; ti < testIterations; ti++) {
             String a = randomString(((int) (Math.random()*10)+1));

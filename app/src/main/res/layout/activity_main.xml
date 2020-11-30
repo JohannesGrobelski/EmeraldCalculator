@@ -92,7 +92,7 @@
         <Button
             android:id="@+id/btn_11" android:tag="btn11"
             style="@style/FunctionFlatButton"
-
+            android:tint = "@drawable/touchselector"
             android:text="@string/PI"
             app:autoSizeStepGranularity="10sp"
             app:autoSizeTextType="uniform" />

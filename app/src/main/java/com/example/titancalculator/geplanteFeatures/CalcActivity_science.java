@@ -42,7 +42,7 @@ import com.example.titancalculator.helper.Math_String.MathEvaluator;
 import com.example.titancalculator.helper.Math_String.NavigatableString;
 import com.example.titancalculator.helper.Math_String.NumberString;
 import com.example.titancalculator.geplanteFeatures.notUsedHelper.ShakeListener;
-import com.example.titancalculator.helper.StringUtils;
+import com.example.titancalculator.helper.Math_String.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -357,7 +357,7 @@ public class CalcActivity_science extends AppCompatActivity {
             }
         });
         //setzt hintergrundbild
-        I = new NavigatableString("content");
+        I = new NavigatableString();
 
         eingabeSetText("");
         //find
@@ -1634,7 +1634,6 @@ public class CalcActivity_science extends AppCompatActivity {
         Typeface serif = Typeface.create("SERIF", Typeface.NORMAL);
         //Math Settings
         solve_inst_pref = PreferenceManager.getDefaultSharedPreferences(CalcActivity_science.this).getBoolean("solve_inst_pref", false);
-        MathEvaluator.applySettings(CalcActivity_science.this);
 
         String mean_mode = PreferenceManager.getDefaultSharedPreferences(CalcActivity_science.this).getString("mean_mode", "AriMit");
         String var_mode = PreferenceManager.getDefaultSharedPreferences(CalcActivity_science.this).getString("var_mode", "AriVar");

@@ -1,6 +1,11 @@
 package com.example.titancalculator;
 
+import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.DrawFilter;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
@@ -19,7 +24,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.titancalculator.geplanteFeatures.helper.MainDisplay.SettingsApplier;
-import com.example.titancalculator.helper.StringUtils;
+import com.example.titancalculator.helper.Math_String.StringUtils;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static android.graphics.Color.*;
 
 /** View implemented by Activity, will contain a reference to the presenter.
   * The only thing that the view will do is to call a method from the Presenter every time there is an interface action.
@@ -121,6 +131,7 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         Button[] allButtons = {btn_11,btn_12,btn_13,btn_14,btn_15,btn_16,btn_21,btn_22,btn_23,btn_24,btn_25,btn_26,btn_FUN,btn_clear,btn_clearall,btn_LINKS,btn_RECHTS,btn_1,btn_2,btn_3,btn_4,btn_5,btn_6,btn_7,btn_8,btn_9,btn_open_bracket,btn_close_bracket,btn_add,btn_sub,btn_mul,btn_div,btn_com,btn_sep,btn_ans,btn_eq};
+        final Map<Button, Drawable> backgrounds = new HashMap<>();
         for(Button btn: allButtons){
            // Log.d("",getResources().getResourceEntryName(btn.getId()));
             btn.setOnTouchListener(new View.OnTouchListener() {

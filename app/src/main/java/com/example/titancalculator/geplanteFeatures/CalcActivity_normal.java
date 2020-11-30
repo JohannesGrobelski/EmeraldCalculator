@@ -42,7 +42,7 @@ import com.example.titancalculator.helper.Math_String.MathEvaluator;
 import com.example.titancalculator.helper.Math_String.NavigatableString;
 import com.example.titancalculator.helper.Math_String.NumberString;
 import com.example.titancalculator.geplanteFeatures.notUsedHelper.ShakeListener;
-import com.example.titancalculator.helper.StringUtils;
+import com.example.titancalculator.helper.Math_String.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -359,7 +359,7 @@ public class CalcActivity_normal extends AppCompatActivity {
 
         //setzt hintergrundbild
 
-        I = new NavigatableString("content");
+        I = new NavigatableString();
 
         eingabeSetText("");
 
@@ -1591,8 +1591,6 @@ public class CalcActivity_normal extends AppCompatActivity {
 
         //Math Settings
         solve_inst_pref = PreferenceManager.getDefaultSharedPreferences(CalcActivity_normal.this).getBoolean("solve_inst_pref",false);
-        MathEvaluator.applySettings(CalcActivity_normal.this);
-
     }
 
     public boolean checkPermissionForReadExtertalStorage(Context context) {

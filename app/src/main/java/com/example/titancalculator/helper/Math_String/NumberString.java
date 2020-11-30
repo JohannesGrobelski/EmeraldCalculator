@@ -1,7 +1,6 @@
 package com.example.titancalculator.helper.Math_String;
 
 import com.example.titancalculator.geplanteFeatures.MathString.ContentString;
-import com.example.titancalculator.helper.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,8 +23,6 @@ public class NumberString extends ContentString {
     public static int predec_places = 25;
 
     static String last_answer="";
-    String content="";
-
     /**
      * transform String like numberX1numberX2...XNnumber
      * to X1(number,X2(number,...(XN(number,number)...)
@@ -237,7 +234,7 @@ public class NumberString extends ContentString {
 
     public String normalToScientific(){
         String i = getCalcuableString(content);
-        String c = MathEvaluator.evaluate(i,7,7);
+        String c = MathEvaluator.evaluate(i,7,15);
         if(!c.equals("Math Error"))last_answer = c;
         return c;
     }
@@ -250,27 +247,27 @@ public class NumberString extends ContentString {
     }
 
     public String getPercent(){
-        return MathEvaluator.evaluate("("+getCalcuableString(content)+")*100",predec_places,7);
+        return MathEvaluator.evaluate("("+getCalcuableString(content)+")*100",predec_places,15);
     }
 
     public static String toPercent(String input){
-        return MathEvaluator.evaluate("("+input+")*100",predec_places,20);
+        return MathEvaluator.evaluate("("+input+")*100",predec_places,15);
     }
 
     public String getInvert(){
-        return MathEvaluator.evaluate("-("+getCalcuableString(content)+")",predec_places,7);
+        return MathEvaluator.evaluate("-("+getCalcuableString(content)+")",predec_places,15);
     }
 
     public static String toInvert(String input){
-        return MathEvaluator.evaluate("-("+input+")",predec_places,20);
+        return MathEvaluator.evaluate("-("+input+")",predec_places,15);
     }
 
     public String getReciproke() {
-        return MathEvaluator.evaluate("1/(" + getCalcuableString(content)+")", predec_places, 7);
+        return MathEvaluator.evaluate("1/(" + getCalcuableString(content)+")", predec_places, 15);
     }
 
     public static String toReciproke(String input) {
-        return MathEvaluator.evaluate("1/(" + input+")", predec_places, 20);
+        return MathEvaluator.evaluate("1/(" + input+")", predec_places, 15);
     }
 
     public String toFraction(){
@@ -291,17 +288,19 @@ public class NumberString extends ContentString {
         return getDisplayableString(MathEvaluator.toDEG(res));
     }
 
-    public void setMean_mode(String mode){
+    public void setMeanMode(String mode){
         if(mode.equals("AriMit") || mode.equals("GeoMit") || mode.equals("HarMit") ){
             mean_mode = mode;
         }
     }
+    public String getMeanMode(){return mean_mode;}
 
-    public void setVar_mode(String mode){
+    public void setVarMode(String mode){
         if(mode.equals("AriVar") || mode.equals("GeoVar") || mode.equals("HarVar") ){
             var_mode = mode;
         }
     }
+    public String getVarMode(){return var_mode;}
 
     public String getDisplayableString(String a) {
         a = a.replace("ROOT","√");
@@ -317,15 +316,13 @@ public class NumberString extends ContentString {
                 Integer r = (int) Math.floor(a);
                 return Arrays.deepToString(MathEvaluator.PFZ(r).toArray()).replace("[","(").replace("]",")").replace(" ","");
             }else return res;
-        } catch (Exception ex){
-            return res;
-        }
+        } catch (Exception ex){ return res; }
     }
 
     @Override public String getContent(){
         return getDisplayableString(content);
     }
-    @Override public boolean setContent(String a){content = a; return true;}
+    @Override public void setContent(String a){content = a;}
 
     public static boolean sameOpeningClosingBrackets(String input){
         int closing = 0; int opening = 0;
