@@ -14,7 +14,12 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
- * - test properties with random values
+ * TODO: For all self-defined functions:
+ *       ANS   "π","e","^","LOG","LN","LB","³√","√","³","²","10^x","!",
+ *             "PFZ","GCD","LCM","∑","∏",">%",">A/B",">x\u207B\u00B9",">+/-","MIN","MAX",
+ *             ">DEG",">RAD",
+ *             "AND","OR","XOR","NOT"
+ *             "Zn","Zb","NCR","NPR","MEAN","VAR","S",
  * TODO: test random values
  * TODO: test extreme values
  * TODO: test incorrect values (result: Math Error): for all:

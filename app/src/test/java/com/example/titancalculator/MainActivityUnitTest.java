@@ -27,9 +27,8 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = 28)
-
 public class MainActivityUnitTest {
-    private static int iterationsSubtests = 1000;
+    private static int iterationsSubtests = 10;
     private static double toleranceDigits = 10;
     private Map<String, View> idToViewMap = new HashMap<>();
     private Map<String, RoboMenuItem> idToModeMap = new HashMap<>();
@@ -61,13 +60,12 @@ public class MainActivityUnitTest {
     }
     TODO: 100% coverage
      */
-
-
-
         /**
          * Terms that involve +,-,*,/
          */
     @Test public void testSimpleTerms(){
+        calcTerm("-48.370724610365045+-15.606885665491266");
+
         for(int i=0; i<iterationsSubtests; i++){
             int op1 = (int) (Math.random()*1000) + 1;
             int op2 = (int) (Math.random()*1000) + 1;
@@ -108,11 +106,7 @@ public class MainActivityUnitTest {
             //Check the division of zero by any number.
             assertTrue(testEquation("0/"+op1,"0"));
         }
-
-
-
     }
-
 
     @Test public void testBasicFunctions(){
         currentMode = new RoboMenuItem(R.id.basic);
@@ -409,7 +403,6 @@ public class MainActivityUnitTest {
     }
 
     @Test public void testNavigationButtons(){
-        MainActivity mainActivity = Robolectric.setupActivity(MainActivity.class);
         mainActivity.findViewById(R.id.btn_1).performClick();
         int pos1 = ((EditText) mainActivity.findViewById(R.id.eT_eingabe)).getSelectionStart();
         mainActivity.findViewById(R.id.btn_LINKS).performClick();
@@ -432,7 +425,6 @@ public class MainActivityUnitTest {
     }
 
     @Test public void testANSFunction(){
-        MainActivity mainActivity = Robolectric.setupActivity(MainActivity.class);
         mainActivity.findViewById(R.id.btn_clearall).performClick();
         mainActivity.findViewById(R.id.btn_1).performClick();
         mainActivity.findViewById(R.id.btn_add).performClick();
@@ -455,7 +447,6 @@ public class MainActivityUnitTest {
     }
 
     @Test public void testDisplayFunctions(){
-        MainActivity mainActivity = Robolectric.setupActivity(MainActivity.class);
         Button[] B = new Button[]{mainActivity.findViewById(R.id.btn_11),mainActivity.findViewById(R.id.btn_12),mainActivity.findViewById(R.id.btn_13),
                 mainActivity.findViewById(R.id.btn_14),mainActivity.findViewById(R.id.btn_15),mainActivity.findViewById(R.id.btn_16),
                 mainActivity.findViewById(R.id.btn_21),mainActivity.findViewById(R.id.btn_22),mainActivity.findViewById(R.id.btn_23),
@@ -594,9 +585,8 @@ public class MainActivityUnitTest {
 
     public static boolean resembles(String output, String expectedResult){
         double tolerance = 1/Math.pow(10,toleranceDigits);
-
         if(expectedResult.equals("Math Error") || output.equals("Math Error")){
-            System.out.println("resembleS Math Error: "+output+" "+expectedResult);
+            //System.out.println("resembleS Math Error: "+output+" "+expectedResult);
             return expectedResult.equals(output);
         }
         int minlength = Math.min(Math.min(expectedResult.length(),output.length()),20);
@@ -679,12 +669,12 @@ public class MainActivityUnitTest {
         mainActivity.eT_eingabe.requestFocus();
 
         //System.out.println("calcTerm: \""+term+"\"");
-        String[] splitted = StringUtils.split(term);
+        String[] splitted = StringUtils.splitTokens(term);
         boolean inputShouldEqualtTerm = true; boolean containsOutputFunctions = false;
         //System.out.println("cT  "+ Arrays.toString(splitted));
         assertEquals("",mainActivity.eT_eingabe.getText().toString()); assertEquals("",mainActivity.eT_ausgabe.getText().toString());
         for(String s: splitted){
-           // System.out.println("cT input["+mainActivity.getSelectionStartEingabe()+","+mainActivity.getSelectionEndEingabe()+"]: "+
+           //System.out.println("cT input["+mainActivity.getSelectionStartEingabe()+","+mainActivity.getSelectionEndEingabe()+"]: "+
            //         ((EditText) mainActivity.findViewById(R.id.eT_eingabe)).getText().toString());
            // System.out.println("cT output: "+((EditText) mainActivity.findViewById(R.id.eT_ausgabe)).getText().toString());
             if(s.isEmpty())break;
@@ -697,7 +687,7 @@ public class MainActivityUnitTest {
                     for(int i=0; i<s.length(); i++)mainActivity.findViewById(R.id.btn_RECHTS).performClick();
                 }
             } else {
-                //System.out.println("unknown lexical unit: "+s);
+                System.out.println("unknown lexical unit: "+s);
                 assertTrue("calcTerm: Button doesnt exist: "+s,false);
             }
         }

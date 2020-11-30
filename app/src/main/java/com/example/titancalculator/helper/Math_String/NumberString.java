@@ -234,7 +234,7 @@ public class NumberString extends ContentString {
 
     public String normalToScientific(){
         String i = getCalcuableString(content);
-        String c = MathEvaluator.evaluate(i,7,15);
+        String c = MathEvaluator.evaluate(i,7,7);
         if(!c.equals("Math Error"))last_answer = c;
         return c;
     }

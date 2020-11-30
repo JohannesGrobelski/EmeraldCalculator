@@ -20,8 +20,12 @@ public class StringUtils {
             "MEAN",">A/B",">x\u207B\u00B9",">+/-","SINH","COSH","TANH",">DEG",">RAD",">BIN",">OCT",">DEC",">HEX","10^x","ASIN","ACOS","ATAN","ACOT","ASEC","ACSC",
             "MIN","MAX","NCR","NPR","VAR",">M1",">M2",">M3",">M4",">M5",">M6","ANS","SIN","COS","TAN","COT","SEC","CSC","AND","OR","XOR","NOT","LOG","PFZ","GCD","LCM",
             ">%","LN","LB","Zn","Zb",
-            "∑","∏","1","2","3","4","5","6","7","8","9","0",".",",","*","/","+","-","(",")","π","e","^","³√","√","³","²","!","S","M1","M2","M3","M4","M5","M6","L","R"
+            "∑","∏","1","2","3","4","5","6","7","8","9","0",".",",","*","/","+","-","(",")","π","e","^","³√","√","³","²","!","S","M1","M2","M3","M4","M5","M6",
+
     };
+
+    static String[] allTokens = StringUtils.concatenate(mathTokens,new String[]{"L","R"});
+
 
     /**
      * @param a
@@ -141,12 +145,12 @@ public class StringUtils {
         return saltStr;
     }
 
-    /**Splits the inputstring by an array of delimiters
-     * @param input
-     * @return
-     * */
-    public static String[] split(String input) {
+    public static String[] splitMathTokens(String input) {
         return split(input,mathTokens);
+    }
+
+    public static String[] splitTokens(String input) {
+        return split(input,allTokens);
     }
 
      /**Splits the inputstring by an array of delimiters
@@ -158,20 +162,19 @@ public class StringUtils {
         if(delimiters.length == 0) return new String[]{input};
         //System.out.println("split: \""+input+"\"");
         LinkedList<String> output = new LinkedList<>();
+
+
         while (input.length() > 0) {
             //System.out.println("   splitInput: "+input);
             //System.out.println("   splitArray: "+Arrays.toString(output.toArray(new String[output.size()])));
-            boolean contains = false;
             for(String delimiter : delimiters) {
                 //System.out.println("    "+input+" startsWith "+delimiter+": "+input.startsWith(delimiter));
                 if (input.startsWith(delimiter)) {
-                    contains=true;
                     output.add(delimiter);
                     input = input.substring(delimiter.length());
                     break;
                 }
             }
-            assert(contains);
         }
         return output.toArray(new String[output.size()]);
     }

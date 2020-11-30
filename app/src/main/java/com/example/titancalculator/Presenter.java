@@ -26,13 +26,20 @@ public class Presenter {
     public void toogleScientificNotation(){calcModel.toogleScientificNotation();}
     public void setNavI(String text){calcModel.setIText(text);}
 
-
+    /**
+     * add text to et_eingabe (delete selection, add text)
+     * first update model, set et_eingabe to inputstring (model)
+     * @param text
+     */
     public void eingabeAddText(String text){
-        if(view.getSelectionEndEingabe() != view.getSelectionStartEingabe()){text = deleteSpan(text,view.getSelectionEndEingabe(),view.getSelectionStartEingabe());}
-        calcModel.eingabeAddText(text,view.getSelectionStartEingabe());
-        int selection = view.getSelectionEndEingabe() + 1;
+        if(view.getSelectionEndEingabe() != view.getSelectionStartEingabe()){
+            String delete = deleteSpan(view.eingabeGetText(),view.getSelectionStartEingabe(),view.getSelectionEndEingabe());
+            calcModel.setIText(delete);
+        }
+        int selection = view.getSelectionStartEingabe();
+        calcModel.eingabeAddText(text,selection);
         view.eingabeSetText(calcModel.getIText());
-        if(selection >= 0)view.setSelectionEingabe(selection);
+        if(selection >= 0)view.setSelectionEingabe(selection+text.length());
     }
 
     public String inputBtn(String identifier){

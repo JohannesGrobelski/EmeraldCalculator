@@ -4,7 +4,6 @@ import com.example.titancalculator.helper.Math_String.StringUtils;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -17,10 +16,9 @@ import static com.example.titancalculator.helper.Math_String.StringUtils.occuren
 import static com.example.titancalculator.helper.Math_String.StringUtils.randomString;
 import static com.example.titancalculator.helper.Math_String.StringUtils.repeat;
 import static com.example.titancalculator.helper.Math_String.StringUtils.replace;
-import static com.example.titancalculator.helper.Math_String.StringUtils.split;
+import static com.example.titancalculator.helper.Math_String.StringUtils.splitMathTokens;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class StringUtilsUnitTest {
@@ -39,16 +37,20 @@ public class StringUtilsUnitTest {
         }
     }
 
+
+
     @Test
     public void testSplit(){
-        assertArrayEquals("1+2".split(""),split("1+2"));
-        assertArrayEquals(new String[]{""},split(""));
+        //assertArrayEquals("1+2".split(""),split("1+2"));
+        //assertArrayEquals(new String[]{""},split(""));
         //assertArrayEquals("1+2".split(""),split("1+2","".split("")));
 
-        for(int ti=0;ti<testIterations/10;ti++) {
-            String randomInput = StringUtils.randomString(Math.max(36,((int) (Math.random()*testIterations))+1));
+
+
+        for(int ti=0;ti<testIterations;ti++) {
+            String randomInput = StringUtils.randomString(Math.min(100,((int) (Math.random()*testIterations/10))+1));
             //System.out.println(ti+": "+randomInput);
-            String[] splitted = split(randomInput);
+            String[] splitted = splitMathTokens(randomInput);
             //System.out.println(ti+": "+Arrays.toString(splitted));
             int lengthSplitted = 0;
             for(String subsplit: splitted){
@@ -56,6 +58,10 @@ public class StringUtilsUnitTest {
             }
             assertTrue(lengthSplitted<=randomInput.length());
         }
+
+
+
+
     }
 
     //actualy used

@@ -147,7 +147,6 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
             });
         }
 
-
         btn_FUN.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View view) {
                 if(LN2.getVisibility() == View.VISIBLE){
@@ -315,8 +314,7 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
             }
         });
         btn_close_bracket.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View view) {
-                eT_eingabe.clearFocus(); presenter.inputBtn(")");
+            @Override public void onClick(View view) {presenter.inputBtn(")");
             }
         });
         btn_add.setOnClickListener(new View.OnClickListener() {

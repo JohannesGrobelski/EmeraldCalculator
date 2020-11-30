@@ -9,7 +9,8 @@
     android:layout_weight="10"
     android:background="#FFFFFF"
     android:orientation="vertical"
-    tools:context=".geplanteFeatures.ChooserActivity">
+    tools:context=".geplanteFeatures.ChooserActivity"
+    android:clickable="false">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -31,7 +32,8 @@
         android:baselineAligned="false"
         android:elevation="1sp"
         android:orientation="vertical"
-        android:visibility="visible">
+        android:visibility="visible"
+        android:clickable="false">
 
         <EditText
             android:id="@+id/eT_eingabe"
@@ -87,7 +89,8 @@
         android:layout_weight="1"
         android:background="@color/accent"
         android:measureWithLargestChild="true"
-        android:visibility="visible">
+        android:visibility="visible"
+        android:clickable="false">
 
         <Button
             android:id="@+id/btn_11" android:tag="btn11"
@@ -146,7 +149,8 @@
         android:layout_weight="1"
         android:background="@color/accent"
         android:measureWithLargestChild="true"
-        android:visibility="visible">
+        android:visibility="visible"
+        android:clickable="false">
 
         <Button
             android:id="@+id/btn_21" android:tag="btn21"
@@ -206,7 +210,8 @@
 
         android:layout_weight="1"
         android:background="@color/primary_dark"
-        android:measureWithLargestChild="true">
+        android:measureWithLargestChild="true"
+        android:clickable="false">
 
 
         <Button
@@ -261,7 +266,8 @@
 
         android:background="@color/primary_light"
         android:layout_weight="1"
-        android:measureWithLargestChild="true">
+        android:measureWithLargestChild="true"
+        android:clickable="false">
 
 
         <Button
@@ -314,7 +320,8 @@
 
         android:background="@color/primary_light"
         android:layout_weight="1"
-        android:elevation="0sp">
+        android:elevation="0sp"
+        android:clickable="false">
 
         <Button
             android:id="@+id/btn_4"
@@ -364,7 +371,8 @@
 
         android:background="@color/primary_light"
         android:layout_weight="1"
-        android:elevation="0sp">
+        android:elevation="0sp"
+        android:clickable="false">
 
         <Button
             android:id="@+id/btn_1"
@@ -414,7 +422,8 @@
 
         android:background="@color/primary_light"
         android:layout_weight="1"
-        android:elevation="0sp">
+        android:elevation="0sp"
+        android:clickable="false">
 
         <Button
             android:id="@+id/btn_0"

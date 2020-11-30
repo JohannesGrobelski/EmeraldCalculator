@@ -86,6 +86,7 @@ public class PresenterUnitTest {
 
     //functions
         for(int mode=0; mode<modes.length; mode++){
+            if(modes[mode].equals("memory"))continue;
             calcModel.setMode(modes[mode]);
             presenter.setMode(modes[mode]);
             for(int i=0; i<12; i++){

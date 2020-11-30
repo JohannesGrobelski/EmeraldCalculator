@@ -154,7 +154,6 @@ public class NumberStringUnitTest {
             assertEquals(outputsNormal[i], numberString.scientificToNormal());
             assertEquals(outputsScientific[i], numberString.normalToScientific());
         }
-
     }
 
     @Test
@@ -166,7 +165,6 @@ public class NumberStringUnitTest {
         numberString.setContent("ATANSIN8"); ans = numberString.normalToScientific(); assertEquals("7.9231381",ans);
 
         numberString.setContent("ANS"); numberString.normalToScientific(); assertEquals("7.9231381",ans);
-
     }
 
     @Test
