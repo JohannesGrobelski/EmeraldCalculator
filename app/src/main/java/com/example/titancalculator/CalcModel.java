@@ -3,11 +3,15 @@ package com.example.titancalculator;
 import android.content.Context;
 import android.util.Log;
 
-import com.example.titancalculator.helper.Math_String.NavigatableString;
+import com.example.titancalculator.helper.Math_String.MathEvaluator;
+import com.example.titancalculator.helper.Math_String.NavigatableNumberString;
+import com.example.titancalculator.helper.Math_String.NumberString;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /** The model is the only gateway to the domain layer or business logic.
   */
@@ -19,225 +23,303 @@ public class CalcModel {
 
     //state variables (incl. getter and setters)
         Context context;
-        NavigatableString InputString = new NavigatableString();
+        NavigatableNumberString InputString = new NavigatableNumberString();
         int startSelection, endSelection;
         String OutputString = "";
         private static String[] memory = new String[6];
+
+        public CalcModel(Context c){this.context = c;}
 
         public static String[] getMemory() {return memory;}
         public static String getMemory(int index) {if(index<6 && index>=0)return memory[index]; else {System.out.println(index); assert(false); return "";}}
         public static void setMemory(String[] memory) {if(memory.length == CalcModel.memory.length)CalcModel.memory = memory;}
         public static void setMemory(String mem, int index) {if(index<6 && index>=0)CalcModel.memory[index] = mem;}
+        public void setOuputString(String res) {OutputString = res;}
         public String getOutputString() {return OutputString;}
         public void setOutputString(String OutputString) {this.OutputString = OutputString;}
-        public void setIText(String text) {InputString.setText(text);}
-        public String getIText() {return InputString.getDisplayableString();}
-
-        //methods of InputString
-        public String inputStringGetDisplayableString(){return InputString.getDisplayableString();}
-        public String inputStringGetResult(){return InputString.getResult();}
-        public String inputStringNormalToScientific(){return InputString.normalToScientific();}
-        public String inputStringScientificToNormal(){return InputString.scientificToNormal();}
+        public void setInputText(String text) {InputString.setText(text);}
+        public String getInputText() {return InputString.getDisplayableString();}
 
     //auxiliary variables
         String current_Callback = "";
 
     //setting variables
-        private int base;
+        private String last_answer="";
         private String mode = "basic";
         private String language = "";
-        private boolean solve_inst_pref = false;
         private boolean scientificNotation = false;
+        public String mean_mode = "AriMit";
+        public String var_mode = "AriVar";
+
+        public int dec_places = 5;
+        public int predec_places = 25;
 
         public String getMode() {return mode;}
         public void setMode(String mode) {this.mode = mode;}
         public String getLanguage() {return language;}
         public void setLanguage(String language) {this.language = language;}
         public boolean isScientificNotation() {return scientificNotation;}
+        public void toogleScientificNotation(){scientificNotation = !scientificNotation;}
 
-    public CalcModel(Context c){
-            this.context = c;
-    }
-
-    public String translInputBtn11(){
-        switch(mode){
-            case "basic": {return("π"); }
-            case "basic2": {ausgabeSetText(InputString.getPFZ()); return ">PFZ";}
-            case "trigo":  {return("SIN"); }
-            case "statistic":  {return("Zn()"); }
-            case "hyper":  {return("SINH"); }
-            case "logic":  {return("AND(,)"); }
-            case "memory":  {return "M1";}
-            default:  {if(enableLog)Log.e("CalcMode","unknown Mode"); return "";}
-        }
-    }
-    
-    public String translInputBtn12(){
-        switch(mode){
-            case "basic": {return("e"); }
-            case "basic2": {
-                if (language.equals("german") || language.equals("deutsch")) {
-                    return("GGT(,)");
-                }
-                return("GCD(,)");
-            }
-            case "trigo":  {return("COS"); }
-            case "statistic":  {return("Zb(,)"); }
-            case "hyper":  {return("COSH"); }
-            case "logic":  {return("OR(,)"); }
-            case "memory":  {return "M2";}
-            default:  {if(enableLog)Log.e("CalcMode","unknown Mode"); return "";}
-        }
-    }
-
-    public String translInputBtn13(){
-        switch(mode){
-            case "basic": {return("^");}
-            case "basic2": {
-                if (language.equals("german") || language.equals("deutsch")) {
-                    return ("KGV(,)");
-                }
-                return("LCM(,)");
-            }
-            case "trigo":  {return("TAN"); }
-            case "statistic":  {return("C"); }
-            case "hyper":  {return("TANH"); }
-            case "logic":  {return("XOR(,)"); }
-            case "memory":  {return "M3";}
-            default:  {if(enableLog)Log.e("CalcMode","unknown Mode"); return "";}
-        }
-    }
-
-    public String translInputBtn14(){
-        switch(mode){
-            case "basic": {return("LOG"); }
-            case "basic2": {return("∑(,)"); }
-            case "trigo":  {return("COT"); }
-            case "statistic":  {return("P"); }
-            case "hyper":  {return("ASINH"); }
-            case "logic":  {return("NOT()"); }
-            case "memory":  {return "M4";}
-            default:  {if(enableLog)Log.e("CalcMode","unknown Mode"); return "";}
-        }
-    }
-
-    public String translInputBtn15(){
-        switch(mode){
-            case "basic": {return("LN"); }
-            case "basic2": {return("∏(,)"); }
-            case "trigo":  {return("SEC"); }
-            case "statistic":  {return("MEAN()"); }
-            case "hyper":  {return("ACOSH"); }
-            case "logic":  {return "";} //ausgabeSetText(InputString.getBIN()); return ">BIN";}
-            case "memory":  {return "M5";}
-            default:  {if(enableLog)Log.e("CalcMode","unknown Mode"); return "";}
-        }
-    }
-
-    public String translInputBtn16(){
-        switch(mode){
-            case "basic": {return("LB");}
-            case "basic2": {return "";}
-            case "trigo":  {return("CSC"); }
-            case "statistic":  {return("VAR()"); }
-            case "hyper":  {return("ATANH"); }
-            case "logic":  {return "";} //ausgabeSetText(InputString.getOCT()); return ">OCT";}
-            case "memory":  {return "M6";}
-            default:  {if(enableLog)Log.e("CalcMode","unknown Mode"); return "";}
-        }
-    }
-
-    public String translInputBtn21(){
-        switch(mode){
-            case "basic": {return("³√"); }
-            case "basic2": {
-                ausgabeSetText(InputString.getPercent());
-                OutputString = InputString.getPercent();
-                ausgabeSetText(OutputString); return ">%";}
-            case "trigo":  {return("ASIN"); }
-            case "statistic":  {return("√(VAR())"); }
-            case "hyper":  {ausgabeSetText(InputString.getDEG()); return ">DEG";}
-            case "logic":  {return "";} //ausgabeSetText(InputString.getDEC()); return ">DEC";}
-            case "memory":  {return ">M1";}
-            default:  {if(enableLog)Log.e("CalcMode","unknown Mode"); return "";}
-        }
-    }
-
-    public String translInputBtn22(){
-        switch(mode){
-            case "basic": {return("√"); }
-            case "basic2": {ausgabeSetText(InputString.getBruch()); return ">A/B";}
-            case "trigo":  {return("ACOS"); }
-            case "statistic":  {return(""); }
-            case "hyper":  {ausgabeSetText(InputString.getRAD()); return ">RAD";}
-            case "logic":  {return "";} //ausgabeSetText(InputString.getHEX()); return ">HEX";}
-            case "memory":  {return ">M2";}
-            default:  {if(enableLog)Log.e("CalcMode","unknown Mode"); return "";}
-        }
-    }
-
-    public String translInputBtn23(){
-        switch(mode){
-            case "basic": {return("³"); }
-            case "basic2": {ausgabeSetText(InputString.getReciproke()); return ">x\u207B\u00B9";}
-            case "trigo":  {return("ATAN");}
-            case "statistic":  {return "";}
-            case "hyper":  {return("");}
-            case "logic":  {return "";}
-            case "memory":  {return ">M3";}
-            default:  {if(enableLog)Log.e("CalcMode","unknown Mode"); return "";}
-        }
-    }
-
-    public String translInputBtn24(){
-        switch(mode){
-            case "basic": {return("²"); }
-            case "basic2": {ausgabeSetText(InputString.getInvert()); return ">+/-";}
-            case "trigo":  {return("ACOT");}
-            case "statistic":  {return "";}
-            case "hyper":  {return(""); }
-            case "logic":  {return "";}
-            case "memory":  {return ">M4";}
-            default:  {if(enableLog)Log.e("CalcMode","unknown Mode"); return "";}
-        }
-    }
-
-    public String translInputBtn25(){
-        switch(mode){
-            case "basic": {return("10^"); }
-            case "basic2": {return("MIN(,)"); }
-            case "trigo":  {return("ASEC"); }
-            case "statistic":  {return "";}
-            case "hyper":  {return "";}
-            case "logic":  {return "";}
-            case "memory":  {return ">M5";}
-            default:  {if(enableLog)Log.e("CalcMode","unknown Mode"); return "";}
-        }
-    }
-
-    public String translInputBtn26(){
-        switch(mode){
-            case "basic": {return("!"); }
-            case "basic2": {return("MAX(,)"); }
-            case "trigo":  {return "ACSC";}
-            case "statistic":  {return "";}
-            case "hyper":  {return "";}
-            case "logic":  {return "";}
-            case "memory":  {return ">M6";}
-            default:  {if(enableLog)Log.e("CalcMode","unknown Mode"); return "";}
-        }
-    }
 
     //methods
-    public void eingabeAddText(String i, int selectionStart) {
+    public void addInputText(String i, int selectionStart) {
         if(selectionStart < 0)InputString.concatenateText(i);
         else InputString.addText(i,selectionStart);
     }
 
-    public void ausgabeSetText(String res) {OutputString = res;}
+    public boolean isConsistent(){
+        //TODO: implement
+        return true;
+    }
 
-    public void toogleScientificNotation(){scientificNotation = !scientificNotation;}
+    public String getResult(){
+        if(isScientificNotation())return getScientificResult();
+        else return calculateResult();
+    }
 
+    private String calculateResult(){
+        String input = getCalcuableString(InputString.getContent());
+        String c = MathEvaluator.evaluate(input,predec_places,dec_places);
+        if(!c.equals("Math Error"))last_answer = c;
+        return c;
+    }
+
+    public String getScientificResult(){
+        String input = InputString.getDisplayableString();
+        String c = MathEvaluator.evaluate(input,7,7);
+        if(!c.equals("Math Error"))last_answer = c;
+        return c;
+    }
+
+    public void setMeanMode(String mode){
+        if(mode.equals("AriMit") || mode.equals("GeoMit") || mode.equals("HarMit") ){
+            mean_mode = mode;
+        }
+    }
+    public String getMeanMode(){return mean_mode;}
+
+    public void setVarMode(String mode){
+        if(mode.equals("AriVar") || mode.equals("GeoVar") || mode.equals("HarVar") ){
+            var_mode = mode;
+        }
+    }
+    public String getVarMode(){return var_mode;}
+
+    public String getDisplayableString(String a){
+        return NavigatableNumberString.getDisplayableString(a);
+    }
+
+    public String getCalcuableString(String a){
+        //language settings
+        a = a.replaceAll("LCM","KGV");
+        a = a.replaceAll("GCD","GGT");
+
+        a = a.replace("³√","3ROOT");
+        for(String r: NumberString.replacements.keySet()){
+            a = a.replace(r,NumberString.replacements.get(r));
+        }
+
+        //I: fix; sonst: PI -> P(I)
+        a = NumberString.paraInComplex(a);
+
+        for(String f: NumberString.functions_paraIn){
+            a = a.replace(f.toLowerCase(),f);
+        }
+
+        a = NumberString.parenthesise(a);
+
+        //after paraIn (because of AT(ANS)INH)
+        Matcher matcherANS = Pattern.compile("ANS").matcher(a);
+        while(matcherANS.find()){
+            if(matcherANS.group().matches("[^A-Z]*ANS[^A-Z]*")){ //excludes inputs like "ATAN(ASINH(57.860802) = atANSinh57.860802"
+                a = a.replace("ANS",last_answer);
+            }
+            else {
+                //System.out.println(a);
+            }
+        }
+
+
+        //settings
+        a = a.replaceAll("MEAN",mean_mode);
+        a = a.replaceAll("VAR",var_mode);
+
+        return a;
+    }
+
+    /**
+     * returns output text of buttons btn_11 .. btn_26 dependend of the mode
+     * @param index
+     * @return
+     */
+    public String translateInputButton(int index){
+                switch(index) {
+                    case 11: {
+                        switch(mode){
+                            case "basic": {return("π"); }
+                            case "basic2": {
+                                setOuputString(MathEvaluator.toPFZ(InputString.getContent())); return ">PFZ";}
+                            case "trigo":  {return("SIN"); }
+                            case "statistic":  {return("Zn()"); }
+                            case "hyper":  {return("SINH"); }
+                            case "logic":  {return("AND(,)"); }
+                            case "memory":  {return "M1";}
+                            default:  {if(enableLog)Log.e("CalcMode","unknown Mode: "+mode); return "";}
+                        }
+                    }
+                    case 12: {
+                        switch(mode){
+                            case "basic": {return("e"); }
+                            case "basic2": {
+                                if (language.equals("german") || language.equals("deutsch")) {
+                                    return("GGT(,)");
+                                }
+                                return("GCD(,)");
+                            }
+                            case "trigo":  {return("COS"); }
+                            case "statistic":  {return("Zb(,)"); }
+                            case "hyper":  {return("COSH"); }
+                            case "logic":  {return("OR(,)"); }
+                            case "memory":  {return "M2";}
+                            default:  {if(enableLog)Log.e("CalcMode","unknown Mode: "+mode); return "";}
+                        }
+                    }
+                    case 13: {
+                        switch(mode){
+                            case "basic": {return("^");}
+                            case "basic2": {
+                                if (language.equals("german") || language.equals("deutsch")) {
+                                    return ("KGV(,)");
+                                }
+                                return("LCM(,)");
+                            }
+                            case "trigo":  {return("TAN"); }
+                            case "statistic":  {return("C"); }
+                            case "hyper":  {return("TANH"); }
+                            case "logic":  {return("XOR(,)"); }
+                            case "memory":  {return "M3";}
+                            default:  {if(enableLog)Log.e("CalcMode","unknown Mode: "+mode); return "";}
+                        }
+                    }
+                    case 14: {
+                        switch(mode){
+                            case "basic": {return("LOG"); }
+                            case "basic2": {return("∑(,)"); }
+                            case "trigo":  {return("COT"); }
+                            case "statistic":  {return("P"); }
+                            case "hyper":  {return("ASINH"); }
+                            case "logic":  {return("NOT()"); }
+                            case "memory":  {return "M4";}
+                            default:  {if(enableLog)Log.e("CalcMode","unknown Mode: "+mode); return "";}
+                        }
+                    }
+                    case 15: {
+                        switch(mode){
+                            case "basic": {return("LN"); }
+                            case "basic2": {return("∏(,)"); }
+                            case "trigo":  {return("SEC"); }
+                            case "statistic":  {return("MEAN()"); }
+                            case "hyper":  {return("ACOSH"); }
+                            case "logic":  {return "";} //setOuputString(InputString.getBIN()); return ">BIN";}
+                            case "memory":  {return "M5";}
+                            default:  {if(enableLog)Log.e("CalcMode","unknown Mode: "+mode); return "";}
+                        }
+                    }
+                    case 16: {
+                        switch(mode){
+                            case "basic": {return("LB");}
+                            case "basic2": {return "";}
+                            case "trigo":  {return("CSC"); }
+                            case "statistic":  {return("VAR()"); }
+                            case "hyper":  {return("ATANH"); }
+                            case "logic":  {return "";} //setOuputString(InputString.getOCT()); return ">OCT";}
+                            case "memory":  {return "M6";}
+                            default:  {if(enableLog)Log.e("CalcMode","unknown Mode: "+mode); return "";}
+                        }
+                    }
+                    case 21: {
+                        switch(mode){
+                            case "basic": {return("³√"); }
+                            case "basic2": {
+                                setOuputString(MathEvaluator.toPercent(InputString.getContent()));
+                                return ">%";}
+                            case "trigo":  {return("ASIN"); }
+                            case "statistic":  {return("√(VAR())"); }
+                            case "hyper":  {
+                                setOuputString(MathEvaluator.toDEG(InputString.getContent())); return ">DEG";}
+                            case "logic":  {return "";} //setOuputString(InputString.getDEC()); return ">DEC";}
+                            case "memory":  {return ">M1";}
+                            default:  {if(enableLog)Log.e("CalcMode","unknown Mode: "+mode); return "";}
+                        }
+                    }
+                    case 22: {
+                        switch(mode){
+                            case "basic": {return("√"); }
+                            case "basic2": {
+                                setOuputString(MathEvaluator.toFraction(InputString.getContent())); return ">A/B";}
+                            case "trigo":  {return("ACOS"); }
+                            case "statistic":  {return(""); }
+                            case "hyper":  {
+                                setOuputString(MathEvaluator.toRAD(InputString.getContent())); return ">RAD";}
+                            case "logic":  {return "";} //setOuputString(InputString.getHEX()); return ">HEX";}
+                            case "memory":  {return ">M2";}
+                            default:  {if(enableLog)Log.e("CalcMode","unknown Mode: "+mode); return "";}
+                        }
+                    }
+                    case 23: {
+                        switch(mode){
+                            case "basic": {return("³"); }
+                            case "basic2": {
+                                setOuputString(MathEvaluator.toReciproke(InputString.getContent())); return ">x\u207B\u00B9";}
+                            case "trigo":  {return("ATAN");}
+                            case "statistic":  {return "";}
+                            case "hyper":  {return("");}
+                            case "logic":  {return "";}
+                            case "memory":  {return ">M3";}
+                            default:  {if(enableLog)Log.e("CalcMode","unknown Mode: "+mode); return "";}
+                        }
+                    }
+                    case 24: {
+                        switch(mode){
+                            case "basic": {return("²"); }
+                            case "basic2": {
+                                setOuputString(MathEvaluator.toInvert(InputString.getContent())); return ">+/-";}
+                            case "trigo":  {return("ACOT");}
+                            case "statistic":  {return "";}
+                            case "hyper":  {return(""); }
+                            case "logic":  {return "";}
+                            case "memory":  {return ">M4";}
+                            default:  {if(enableLog)Log.e("CalcMode","unknown Mode: "+mode); return "";}
+                        }
+                    }
+                    case 25: {
+                        switch(mode){
+                            case "basic": {return("10^"); }
+                            case "basic2": {return("MIN(,)"); }
+                            case "trigo":  {return("ASEC"); }
+                            case "statistic":  {return "";}
+                            case "hyper":  {return "";}
+                            case "logic":  {return "";}
+                            case "memory":  {return ">M5";}
+                            default:  {if(enableLog)Log.e("CalcMode","unknown Mode: "+mode); return "";}
+                        }
+                    }
+                    case 26: {
+                        switch(mode){
+                            case "basic": {return("!"); }
+                            case "basic2": {return("MAX(,)"); }
+                            case "trigo":  {return "ACSC";}
+                            case "statistic":  {return "";}
+                            case "hyper":  {return "";}
+                            case "logic":  {return "";}
+                            case "memory":  {return ">M6";}
+                            default:  {if(enableLog)Log.e("CalcMode","unknown Mode: "+mode); return "";}
+                        }
+                    }
+                    default:  {if(enableLog)Log.e("CalcMode","unknown Button: "+index); return "";}
+                }
+        }
 
     /*
     //persistency
@@ -314,16 +396,16 @@ public class CalcModel {
         if (fct.startsWith("btn")) return "";
         //"PI","E","NCR","NPR","%","!N","^","A/B","x\u207B\u00B9","+/-","√","\u00B3√","LOG","LN","LB","SIN","COS","TAN","ASIN","ATAN","ASINH","ACOSH","ATANH","SINH","COSH","TANH"};
         if (fct.equals(">%")) {
-            ausgabeSetText(InputString.getPercent());
+            setOuputString(InputString.getPercent());
             return ">%";
         } else if (fct.equals("A/B")) {
-            ausgabeSetText(InputString.toFraction());
+            setOuputString(InputString.toFraction());
             return "A/B";
         } else if (fct.equals("x\u207B\u00B9")) {
-            ausgabeSetText(InputString.getReciproke());
+            setOuputString(InputString.getReciproke());
             return "x\u207B\u00B9";
         } else if (fct.equals("+/-")) {
-            ausgabeSetText(InputString.getInvert());
+            setOuputString(InputString.getInvert());
             return "+/-";
         }
         String A = fct;

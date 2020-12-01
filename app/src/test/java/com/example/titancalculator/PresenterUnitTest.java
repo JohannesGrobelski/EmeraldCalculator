@@ -43,39 +43,39 @@ public class PresenterUnitTest {
     }
 
     @Test
-    public void testEingabe(){
+    public void testInput(){
     //inputClearOne with Selection
-        assertTrue(((MainActivity) presenter.view).eT_eingabe.hasFocus());
-        presenter.inputClearAll(); presenter.eingabeAddText("1+1");
-        ((MainActivity) presenter.view).setSelectionEingabe(0);
-        ((MainActivity) presenter.view).eT_eingabe.requestFocus();
-        presenter.inputClearOne(); inputEquals("1+1");
-        ((MainActivity) presenter.view).setSelectionEingabe(1);
-        presenter.inputClearOne(); inputEquals("+1");
-        ((MainActivity) presenter.view).setSelectionEingabe(2);
-        presenter.inputClearOne(); inputEquals("+");
-        presenter.inputClearAll(); presenter.eingabeAddText("1+1");
-        ((MainActivity) presenter.view).setSelectionEingabe(0,1);
-        ((MainActivity) presenter.view).eT_eingabe.requestFocus();
-        presenter.inputClearOne(); inputEquals("+1");
+        assertTrue(((MainActivity) presenter.view).eT_input.hasFocus());
+        presenter.inputButton("⌧"); presenter.addInputText("1+1");
+        ((MainActivity) presenter.view).setSelectionInput(0);
+        ((MainActivity) presenter.view).eT_input.requestFocus();
+        presenter.inputButton("⌫"); inputEquals("1+1");
+        ((MainActivity) presenter.view).setSelectionInput(1);
+        presenter.inputButton("⌫"); inputEquals("+1");
+        ((MainActivity) presenter.view).setSelectionInput(2);
+        presenter.inputButton("⌫"); inputEquals("+");
+        presenter.inputButton("⌧"); presenter.addInputText("1+1");
+        ((MainActivity) presenter.view).setSelectionInput(0,1);
+        ((MainActivity) presenter.view).eT_input.requestFocus();
+        presenter.inputButton("⌫"); inputEquals("+1");
 
 
-    //eingabeAddText, inputClearOne, inputClearAll, sinputEqual
-        presenter.inputClearAll(); inputEquals("");
-        presenter.eingabeAddText("hello"); inputEquals("hello"); presenter.inputEqual(); presenter.calcModel.getOutputString().equals("Math Error");
-        presenter.inputClearAll(); inputEquals("");
-        presenter.eingabeAddText("1+1"); presenter.inputEqual(); presenter.calcModel.getOutputString().equals("2");
+    //addInputText, inputClearOne, inputClearAll, sinputEqual
+        presenter.inputButton("⌧"); inputEquals("");
+        presenter.addInputText("hello"); inputEquals("hello"); presenter.inputButton("="); presenter.calcModel.getOutputString().equals("Math Error");
+        presenter.inputButton("⌧"); inputEquals("");
+        presenter.addInputText("1+1"); presenter.inputButton("="); presenter.calcModel.getOutputString().equals("2");
         for(int i=0;i<"1+1".length()+1;i++){
             inputEquals("1+1".substring(0,"1+1".length()-i));
-            presenter.inputClearOne();
+            presenter.inputButton("⌫");
         }
-        presenter.inputClearOne(); inputEquals("");
-        presenter.inputClearAll(); inputEquals("");
+        presenter.inputButton("⌫"); inputEquals("");
+        presenter.inputButton("⌧"); inputEquals("");
 
-        presenter.eingabeAddText("1+1"); presenter.calcModel.setIText(""); presenter.inputEqual(); presenter.calcModel.getOutputString().equals("2");
-        presenter.eingabeAddText("10^10"); presenter.inputEqual(); presenter.calcModel.getOutputString().equals("10000000000");
-        presenter.toogleScientificNotation(); presenter.inputEqual(); presenter.calcModel.getOutputString().equals("10E10");
-        presenter.toogleScientificNotation(); presenter.inputEqual(); presenter.calcModel.getOutputString().equals("10000000000");
+        presenter.addInputText("1+1"); presenter.calcModel.setInputText(""); presenter.inputButton("="); presenter.calcModel.getOutputString().equals("2");
+        presenter.addInputText("10^10"); presenter.inputButton("="); presenter.calcModel.getOutputString().equals("10000000000");
+        presenter.inputButtonLongClick("="); presenter.inputButton("="); presenter.calcModel.getOutputString().equals("10E10");
+        presenter.inputButtonLongClick("="); presenter.inputButton("="); presenter.calcModel.getOutputString().equals("10000000000");
 
 
     }
@@ -90,22 +90,22 @@ public class PresenterUnitTest {
             calcModel.setMode(modes[mode]);
             presenter.setMode(modes[mode]);
             for(int i=0; i<12; i++){
-                btn[i/6][i%6] = presenter.inputBtn(String.valueOf((i/6)+1)+String.valueOf((i%6)+1));
-                if(!modesModes[mode][i].contains(">"))inputEquals(modesModes[mode][i]); presenter.inputClearAll();
+                btn[i/6][i%6] = presenter.inputButton(String.valueOf((i/6)+1)+String.valueOf((i%6)+1));
+                if(!modesModes[mode][i].contains(">"))inputEquals(modesModes[mode][i]); presenter.inputButton("⌧");
             }
             for(int i=0; i<12; i++){if(!modesModes[mode][i].contains(">"))assertEquals(modesModes[mode][i],btn[i/6][i%6]);}
         }
 
         calcModel.setMode("basic2"); presenter.setMode("basic2"); presenter.calcModel.setLanguage("german");
-        assertEquals("GGT(,)",presenter.inputBtn("12"));
-        assertEquals("KGV(,)",presenter.inputBtn("13"));
+        assertEquals("GGT(,)",presenter.inputButton("12"));
+        assertEquals("KGV(,)",presenter.inputButton("13"));
 
     //numbers
-        for(int i=0; i<=9; i++){assertEquals(String.valueOf(i),presenter.inputBtn(String.valueOf(i)));}
+        for(int i=0; i<=9; i++){assertEquals(String.valueOf(i),presenter.inputButton(String.valueOf(i)));}
 
     //other identifiers
         String[] otherIdentifiers = new String[]{".",",","ANS","(",")","+","-","*","/"};
-        for(String id: otherIdentifiers){assertEquals(id,presenter.inputBtn(id));}
+        for(String id: otherIdentifiers){assertEquals(id,presenter.inputButton(id));}
     }
 
 
@@ -127,33 +127,31 @@ public class PresenterUnitTest {
         for(int mode=0; mode<modes.length; mode++){
             calcModel.setMode(modes[mode]);
             presenter.setMode(modes[mode]);
-            presenter.assignModeFct();
             if(modes[mode].equals("unknown"))for(int i=0; i<12; i++){assertEquals(modesModes[mode-1][i],presenter.view.getBtnText((((i/6)+1)*10)+((i%6)+1)));}
             else for(int i=0; i<12; i++){assertEquals(modesModes[mode][i],presenter.view.getBtnText((((i/6)+1)*10)+((i%6)+1)));}
-
         }
 
         calcModel.setMode("basic2"); presenter.setMode("basic2"); presenter.calcModel.setLanguage("german");
-        assertEquals("GGT(,)",presenter.inputBtn("12"));
-        assertEquals("KGV(,)",presenter.inputBtn("13"));
+        assertEquals("GGT(,)",presenter.inputButton("12"));
+        assertEquals("KGV(,)",presenter.inputButton("13"));
 
     //numbers
-        for(int i=0; i<=9; i++){assertEquals(String.valueOf(i),presenter.inputBtn(String.valueOf(i)));}
+        for(int i=0; i<=9; i++){assertEquals(String.valueOf(i),presenter.inputButton(String.valueOf(i)));}
 
     //other identifiers
         String[] otherIdentifiers = new String[]{".",",","ANS","(",")","+","-","*","/"};
-        for(String id: otherIdentifiers){assertEquals(id,presenter.inputBtn(id));}
+        for(String id: otherIdentifiers){assertEquals(id,presenter.inputButton(id));}
     }
 
     @Test
     public void testGetterSetter(){
-    //getMode(),setMode(String),toogleScientificNotation()
+    //getMode(),setMode(String),inputButtonLongClick("=")
         assertEquals("basic",presenter.getMode()); presenter.setMode("basic2"); assertEquals("basic2",presenter.getMode());
-        assertFalse(presenter.calcModel.isScientificNotation()); presenter.toogleScientificNotation(); assertTrue(presenter.calcModel.isScientificNotation());
+        assertFalse(presenter.calcModel.isScientificNotation()); presenter.inputButtonLongClick("="); assertTrue(presenter.calcModel.isScientificNotation());
     }
 
     private void inputEquals(String input){
-        assertEquals(input,presenter.calcModel.getIText());
-        assertEquals(input,mainActivity.eT_eingabe.getText().toString());
+        assertEquals(input,presenter.calcModel.getInputText());
+        assertEquals(input,mainActivity.eT_input.getText().toString());
     }
 }

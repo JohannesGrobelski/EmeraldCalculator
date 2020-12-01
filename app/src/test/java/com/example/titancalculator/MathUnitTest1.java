@@ -35,7 +35,7 @@ public class MathUnitTest1 {
     public void mathEvTime(){
         //assertEquals(MathEvaluator.evaluate(NumberString.getCalcuableString("√4"),10),"2");
         long start,end; start = System.currentTimeMillis(); int originalIterationsSubtests = iterationsSubtests; iterationsSubtests = 1;
-        MathEvaluator.evaluate(NumberString.getCalcuableString("√√√5"));
+        MathEvaluator.evaluate("ROOTROOTROOT5");
         testBasicFunctions();
         testBasic2Functions();
         testTrigoAndHyperFunctions();
@@ -46,6 +46,30 @@ public class MathUnitTest1 {
         iterationsSubtests = originalIterationsSubtests;
     }
 
+    @Test
+    public void testNumberStringFunctions(){
+        //getPercent(), toPercent(..), getInvert(), toInvert(..), getReciproke(), toReciproke(..), toFraction(), getRAD(), getDEG(), getPFZ()
+        assertEquals("110", MathEvaluator.toPercent("1.1"));
+        assertEquals("-25", MathEvaluator.toInvert("25"));
+        assertEquals("0.2", MathEvaluator.toReciproke("5"));
+        assertEquals("0.3490658503988659", MathEvaluator.toRAD("20"));
+        assertEquals("1145.9155902616465", MathEvaluator.toDEG("20"));
+        assertEquals("(2,2,2)", MathEvaluator.toPFZ("8"));
+        assertEquals("7.2", MathEvaluator.toPFZ("7.2"));
+        assertEquals("1.22", MathEvaluator.toPFZ("1.22"));
+
+        //errors
+        String[] inputs = {"%","a",""};
+        for(int i=0;i<3;i++) {
+            assertEquals("Math Error", MathEvaluator.toPercent(inputs[i]));
+            assertEquals("Math Error", MathEvaluator.toInvert(inputs[i]));
+            assertEquals("Math Error", MathEvaluator.toReciproke(inputs[i]));
+            assertEquals("Math Error", MathEvaluator.toRAD(inputs[i]));
+            assertEquals("Math Error", MathEvaluator.toDEG(inputs[i]));
+            assertEquals("Math Error", MathEvaluator.toPFZ(inputs[i]));
+        }
+
+    }
 
 
     @Test public void testBasicFunctions(){
@@ -302,7 +326,6 @@ public class MathUnitTest1 {
 
         assertTrue(resembles(calcTerm("ROOT(VAR(1,2,3))"),"0.81649658092772603273242802"));
         assertTrue(resembles(calcTerm("ROOT(VAR(1.12,124.12,12.241,-12.124124,40783420,-792.2))"),"15199132.952412"));
-
     }
 
 
@@ -311,9 +334,9 @@ public class MathUnitTest1 {
             int a = (int) ((Math.random() * 1000) - 500);
             double x = ((Math.random() * 1000) - 500);
 
-            assertTrue(resembles(NumberString.toPercent(String.valueOf(x)),String.valueOf(x*100))); //toPercent(x) = x*100
-            assertTrue(resembles(NumberString.toInvert(String.valueOf(x)),String.valueOf(-x))); //inverse(x) = -x
-            assertTrue(resembles(NumberString.toReciproke(String.valueOf(x)),String.valueOf(1/x))); //inverse(x) = 1/x
+            assertTrue(resembles(MathEvaluator.toPercent(String.valueOf(x)),String.valueOf(x*100))); //toPercent(x) = x*100
+            assertTrue(resembles(MathEvaluator.toInvert(String.valueOf(x)),String.valueOf(-x))); //inverse(x) = -x
+            assertTrue(resembles(MathEvaluator.toReciproke(String.valueOf(x)),String.valueOf(1/x))); //inverse(x) = 1/x
 
             final int  p = (int) ((Math.random() * 1000) - 500);
             String PFZ = MathEvaluator.toPFZ(p);  PFZ = PFZ.replace(",","*").replace("(","").replace(")","");
@@ -327,12 +350,9 @@ public class MathUnitTest1 {
         }
     }
 
-    @Test public void testFormat(){
-        NumberString numberString = new NumberString(); numberString.setContent("1.2*10^15"); assertEquals("1.2E15",numberString.normalToScientific());
-    }
+
 
     private String calcTerm(String term){
-        term = NumberString.getCalcuableString(term);
         return MathEvaluator.evaluate(term,100,1000);
     }
 

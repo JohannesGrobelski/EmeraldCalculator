@@ -24,6 +24,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.preference.PreferenceManager;
 
+import com.example.titancalculator.MainActivity;
 import com.example.titancalculator.R;
 import com.example.titancalculator.geplanteFeatures.helper.MainDisplay.SettingsApplier;
 import com.example.titancalculator.helper.Math_String.MathEvaluator;
@@ -109,7 +110,7 @@ public class ConversionActivity extends AppCompatActivity implements  PopupMenu.
                 startActivity(settingsIntent);
             case R.id.taschenrechner:
                 Intent mainIntent = new Intent(this,
-                        ChooserActivity.class);
+                        MainActivity.class);
                 startActivity(mainIntent);
             default:
                 return super.onContextItemSelected(item);
@@ -317,11 +318,6 @@ public class ConversionActivity extends AppCompatActivity implements  PopupMenu.
         super.onResume();
         applySettings();
 
-        try {
-            SettingsApplier.setBackgroundImage(ConversionActivity.this,conv_background);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -426,11 +422,7 @@ public class ConversionActivity extends AppCompatActivity implements  PopupMenu.
             }
         });
 
-        try {
-            SettingsApplier.setBackgroundImage(ConversionActivity.this,conv_background);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
 
         btn_auswahl.setOnClickListener(new View.OnClickListener() {
             @Override

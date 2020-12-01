@@ -75,11 +75,7 @@ public class ConstantsActivity extends AppCompatActivity {
         applySettings();
         initMaps();
 
-        try {
-            SettingsApplier.setBackgroundImage(ConstantsActivity.this,const_background);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
     }
 
 
@@ -239,12 +235,6 @@ public class ConstantsActivity extends AppCompatActivity {
         });
 
 
-        try {
-            SettingsApplier.setBackgroundImage(ConstantsActivity.this,const_background);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
     }
 
     private void setUpMeasure(String cat) {
@@ -367,7 +357,6 @@ public class ConstantsActivity extends AppCompatActivity {
             tV_cur_const.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
-                    CalcActivity_science.hideKeyboard(ConstantsActivity.this);
                     //v.performClick();
                     return false;
                 }
@@ -378,7 +367,6 @@ public class ConstantsActivity extends AppCompatActivity {
             tV_cur_const_val.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
-                    CalcActivity_science.hideKeyboard(ConstantsActivity.this);
                     //v.performClick();
                     return false;
                 }

@@ -18,14 +18,14 @@ public class NumberStringUnitTest {
 
     @Test
     public void paraIn2SimpleTest(){
-        assertTrue("wrong: 768ROOT22",NumberString.getCalcuableString("768ROOT22").equals("ROOT(768,22)"));
-        assertTrue("wrong: 768C22",NumberString.getCalcuableString("768C22").equals("C(768,22)"));
-        assertTrue("wrong: 1.2ROOT3ROOT4",NumberString.getCalcuableString("1.2ROOT3ROOT4").equals("ROOT(1.2,ROOT(3,4))"));
+        assertTrue("wrong: 768ROOT22",("768ROOT22").equals("ROOT(768,22)"));
+        assertTrue("wrong: 768C22",("768C22").equals("C(768,22)"));
+        assertTrue("wrong: 1.2ROOT3ROOT4",("1.2ROOT3ROOT4").equals("ROOT(1.2,ROOT(3,4))"));
         for(int i=0; i<testIterationen; i++){
             for(String para: NumberString.functions_paraIn){
                 String number1 = numbergenerator();
                 String number2 = numbergenerator();
-                String result = NumberString.getCalcuableString(number1+para+number2);
+                String result = (number1+para+number2);
                 assertTrue("wrong: "+result,result.equals(para+"("+number1+","+number2+")"));
             }
         }
@@ -33,20 +33,20 @@ public class NumberStringUnitTest {
 
     @Test
     public void paraIn2SimpleEncapsulation(){
-       // assertTrue("wrong: ³√³√9",NumberString.getCalcuableString("³√³√9").equals("ROOT(3,ROOT(3,9))"));
-       // assertTrue("wrong: 1.2ROOT3ROOT4",NumberString.getCalcuableString("1.2ROOT3ROOT4").equals("ROOT(1.2,ROOT(3,4))"));
+       // assertTrue("wrong: ³√³√9",("³√³√9").equals("ROOT(3,ROOT(3,9))"));
+       // assertTrue("wrong: 1.2ROOT3ROOT4",("1.2ROOT3ROOT4").equals("ROOT(1.2,ROOT(3,4))"));
 
-        assertEquals("ASINACOT.",NumberString.getCalcuableString("ASINACOT."));
+        assertEquals("ASINACOT.",("ASINACOT."));
         assertEquals("Math Error",MathEvaluator.evaluate("ASINACOT."));
-        assertEquals("ASIN(ACOT(.2))",NumberString.getCalcuableString("ASINACOT.2"));
+        assertEquals("ASIN(ACOT(.2))",("ASINACOT.2"));
         assertEquals(MathEvaluator.evaluate("ASIN(ACOT(.2))"),MathEvaluator.evaluate("ASIN(ACOT(0.2))"));
-        assertEquals("ASIN(ACOT(2.))",NumberString.getCalcuableString("ASINACOT2."));
+        assertEquals("ASIN(ACOT(2.))",("ASINACOT2."));
         assertEquals(MathEvaluator.evaluate("ASIN(ACOT(2.))"),MathEvaluator.evaluate("ASIN(ACOT(2.0))"));
 
-        assertEquals("ASIN(ACOT(2))",NumberString.getCalcuableString("ASINACOT2"));
-        assertEquals("ASIN(ACOT(-2))",NumberString.getCalcuableString("ASINACOT-2"));
-        assertEquals("ASIN(ACOT(2.2))",NumberString.getCalcuableString("ASINACOT2.2"));
-        assertEquals("ASIN(ACOT(-2.2))",NumberString.getCalcuableString("ASINACOT-2.2"));
+        assertEquals("ASIN(ACOT(2))",("ASINACOT2"));
+        assertEquals("ASIN(ACOT(-2))",("ASINACOT-2"));
+        assertEquals("ASIN(ACOT(2.2))",("ASINACOT2.2"));
+        assertEquals("ASIN(ACOT(-2.2))",("ASINACOT-2.2"));
     }
 
     @Test
@@ -92,9 +92,7 @@ public class NumberStringUnitTest {
         for(int i=0; i<testIterationen; i++) {
             for (String para : NumberString.functions_parentIn) {
                 String number1 = numbergenerator();
-                String result = NumberString.getCalcuableString(para + number1);
-                if (para.equals("MEAN")) result = result.replaceAll(NumberString.mean_mode, "MEAN");
-                if (para.equals("VAR")) result = result.replaceAll(NumberString.var_mode, "VAR");
+                String result = (para + number1);
                 assertTrue("wrong: " + result, result.equals(para + "(" + number1 + ")"));
             }
         }
@@ -106,10 +104,8 @@ public class NumberStringUnitTest {
             for (String para1 : NumberString.functions_parentIn) {
                 for (String para2 : NumberString.functions_parentIn) {
                     String number1 = numbergenerator();
-                    String result = NumberString.getCalcuableString(para1+para2+number1);
+                    String result = (para1+para2+number1);
                     //System.out.println(result+" = "+para1+"("+para2+"("+number1+"))");
-                    result = result.replaceAll(NumberString.mean_mode, "MEAN");
-                    result = result.replaceAll(NumberString.var_mode, "VAR");
                     assertTrue("wrong: " + result, result.equals(para1+ "(" + para2 + "(" + number1 + "))"));
                 }
             }
@@ -141,80 +137,6 @@ public class NumberStringUnitTest {
         }
     }
 
-    @Test
-    public void testScientific(){
-        NumberString numberString = new NumberString();
 
-        String[] inputs = {"1","5.5","10^10"};
-        String[] outputsNormal = {"1","5.5","10000000000"};
-        String[] outputsScientific = {"1","5.5","1E10"};
-
-        for(int i=0;i<inputs.length;i++){
-            numberString.setContent(inputs[i]);
-            assertEquals(outputsNormal[i], numberString.scientificToNormal());
-            assertEquals(outputsScientific[i], numberString.normalToScientific());
-        }
-    }
-
-    @Test
-    public void testANS(){
-        NumberString numberString = new NumberString();
-        numberString.setContent("1+1"); String ans = numberString.scientificToNormal();
-        assertEquals("2",ans);
-        numberString.setContent("ANS*2"); ans = numberString.scientificToNormal(); assertEquals("4",ans);
-        numberString.setContent("ATANSIN8"); ans = numberString.normalToScientific(); assertEquals("7.9231381",ans);
-
-        numberString.setContent("ANS"); numberString.normalToScientific(); assertEquals("7.9231381",ans);
-    }
-
-    @Test
-    public void testGetterSetter(){
-        NumberString numberString = new NumberString();
-        //getPercent(), toPercent(..), getInvert(), toInvert(..), getReciproke(), toReciproke(..), toFraction(), getRAD(), getDEG(), getPFZ()
-
-        numberString.setContent("1.1"); assertEquals("110", numberString.getPercent());
-        assertEquals("-250", numberString.toPercent("-2.5"));
-        numberString.setContent("25"); assertEquals("-25", numberString.getInvert());
-        assertEquals("222.2", numberString.toInvert("-222.2"));
-        numberString.setContent("5"); assertEquals("0.2", numberString.getReciproke());
-        assertEquals("0.02", numberString.toReciproke("50"));
-        numberString.setContent("0.5"); assertEquals("1/2", numberString.toFraction());
-        numberString.setContent("20"); assertEquals("0.3490658503988659", numberString.getRAD());
-        numberString.setContent("20"); assertEquals("1145.9155902616465", numberString.getDEG());
-        numberString.setContent("8"); assertEquals("(2,2,2)", numberString.getPFZ());
-        numberString.setContent("7.2"); assertEquals("7.2", numberString.getPFZ());
-        numberString.setContent("1.22"); assertEquals("1.22", numberString.getPFZ());
-
-        //errors
-        String[] inputs = {"%","a",""};
-        for(int i=0;i<3;i++) {
-            numberString.setContent(inputs[i]);
-            assertEquals("Math Error", numberString.getPercent());
-            assertEquals("Math Error", numberString.toPercent(inputs[i]));
-            assertEquals("Math Error", numberString.getInvert());
-            assertEquals("Math Error", numberString.toInvert(inputs[i]));
-            assertEquals("Math Error", numberString.getReciproke());
-            assertEquals("Math Error", numberString.toReciproke(inputs[i]));
-            assertEquals("Math Error", numberString.toFraction());
-            assertEquals("Math Error", numberString.getRAD());
-            assertEquals("Math Error", numberString.getDEG());
-            assertEquals("Math Error", numberString.getPFZ());
-        }
-
-        //setVarMode(), setMeanMode()
-        String[] modes = new String[]{"Ari","Geo","Har"};
-        for(String mode: modes){
-            numberString.setMeanMode(mode+"Mit"); assertEquals(mode+"Mit",NumberString.mean_mode); assertEquals(NumberString.mean_mode,numberString.getMeanMode());
-            numberString.setVarMode(mode+"Var"); assertEquals(mode+"Var",NumberString.var_mode); assertEquals(NumberString.var_mode,numberString.getVarMode());
-        }
-        numberString.setMeanMode("unknown"); assertEquals("HarMit",NumberString.mean_mode); assertEquals(NumberString.mean_mode,numberString.getMeanMode());
-        numberString.setVarMode("unknown"); assertEquals("HarVar",NumberString.var_mode); assertEquals(NumberString.var_mode,numberString.getVarMode());
-        //getContent(), setContent(...)
-        String content = "1+1"; numberString.setContent(content); assertEquals(content,numberString.getContent());
-
-        //TODO: getDisplayableString()
-
-
-    }
 
 }

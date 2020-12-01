@@ -17,7 +17,6 @@ import org.robolectric.annotation.Config;
 import org.robolectric.fakes.RoboMenuItem;
 
 import java.text.DecimalFormat;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -341,7 +340,7 @@ public class MainActivityUnitTest {
         mainActivity.findViewById(R.id.btn_clearall).performClick();
 
         calcTerm("1+224*124");
-        mainActivity.setSelectionEingabe(0,5);
+        mainActivity.setSelectionInput(0,5);
         mainActivity.findViewById(R.id.btn_23).performClick();
         mainActivity.findViewById(R.id.btn_clearall).performClick();
         mainActivity.findViewById(R.id.btn_13).performClick();
@@ -349,7 +348,7 @@ public class MainActivityUnitTest {
         mainActivity.findViewById(R.id.btn_clearall).performClick();
 
         calcTerm("1+224*124");
-        mainActivity.setSelectionEingabe(2,9);
+        mainActivity.setSelectionInput(2,9);
         mainActivity.findViewById(R.id.btn_23).performClick();
         mainActivity.findViewById(R.id.btn_clearall).performClick();
         mainActivity.findViewById(R.id.btn_13).performClick();
@@ -358,7 +357,7 @@ public class MainActivityUnitTest {
 
         calcTerm("101*9");
         mainActivity.findViewById(R.id.eT_ausgabe).requestFocus();
-        mainActivity.setSelectionAusgabe(0,3);
+        mainActivity.setSelectionOutput(0,3);
         mainActivity.findViewById(R.id.btn_24).performClick();
         mainActivity.findViewById(R.id.btn_clearall).performClick();
         mainActivity.findViewById(R.id.btn_14).performClick();
@@ -367,7 +366,7 @@ public class MainActivityUnitTest {
 
         calcTerm("101*9");
         mainActivity.findViewById(R.id.eT_ausgabe).requestFocus();
-        mainActivity.setSelectionAusgabe(0,2);
+        mainActivity.setSelectionOutput(0,2);
         mainActivity.findViewById(R.id.btn_25).performClick();
         mainActivity.findViewById(R.id.btn_clearall).performClick();
         mainActivity.findViewById(R.id.btn_15).performClick();
@@ -376,7 +375,7 @@ public class MainActivityUnitTest {
 
         calcTerm("101*9");
         mainActivity.findViewById(R.id.eT_ausgabe).requestFocus();
-        mainActivity.setSelectionAusgabe(1,3);
+        mainActivity.setSelectionOutput(1,3);
         mainActivity.findViewById(R.id.btn_25).performClick();
         mainActivity.findViewById(R.id.btn_clearall).performClick();
         mainActivity.findViewById(R.id.btn_15).performClick();
@@ -542,43 +541,25 @@ public class MainActivityUnitTest {
         String random1 = StringUtils.randomString(10);
         String random2 = StringUtils.randomString(5);
 
-        //test: eingabeSetText, eingabeAddText, eingabeGetText, eingabeClearAll, eingabeClearOne
-        assertEquals(mainActivity.eT_eingabe.getText().toString(),"");
-        mainActivity.eingabeSetText(random1); assertEquals(mainActivity.eT_eingabe.getText().toString(),random1);
-        mainActivity.eingabeAddText(random2); assertEquals(mainActivity.eT_eingabe.getText().toString(),random2+random1);
-        mainActivity.eingabeClearAll(); assertEquals(mainActivity.eT_eingabe.getText().toString(),"");
+        //test: setSelectionStartInput(start),setSelectionStartInput(start,end),getSelectionStartInput,getSelectionEndInput
+        mainActivity.eT_input.requestFocus();
+        assertEquals(mainActivity.eT_input.getText().toString(),"");
+        assertEquals(mainActivity.getSelectionStartInput(), mainActivity.getSelectionEndInput());
+        assertEquals(0,mainActivity.getSelectionStartInput());
+        mainActivity.setSelectionInput(0);
+        assertEquals(0,mainActivity.getSelectionStartInput()); assertEquals(0,mainActivity.getSelectionEndInput());
+        int end = ((int) Math.random()*mainActivity.eT_input.length()); mainActivity.setSelectionInput(0,end);
+        assertEquals(0,mainActivity.getSelectionStartInput()); assertEquals(end,mainActivity.getSelectionEndInput());
 
-        mainActivity.eingabeAddText(random1); assertEquals(mainActivity.eT_eingabe.getText().toString(),random1);
-        mainActivity.eingabeAddText(random2); assertEquals(mainActivity.eT_eingabe.getText().toString(),random1+random2);
-        mainActivity.eingabeClearOne(); assertEquals(mainActivity.eT_eingabe.getText().toString(),random1+random2.substring(0,random2.length()-1));
-        for(int i=0; i<14; i++){mainActivity.eingabeClearOne();} assertEquals(mainActivity.eT_eingabe.getText().toString(),"");
-        mainActivity.eingabeClearOne(); assertEquals(mainActivity.eT_eingabe.getText().toString(),"");
-        assertEquals(mainActivity.eT_eingabe.getText().toString(),mainActivity.eingabeGetText());
-
-        assertEquals(mainActivity.eT_ausgabe.getText().toString(),"");
-        mainActivity.ausgabeSetText(random1); assertEquals(mainActivity.eT_ausgabe.getText().toString(),random1);
-        mainActivity.ausgabeSetText(random2); assertEquals(mainActivity.eT_ausgabe.getText().toString(),random2);
-        mainActivity.eingabeClearAll(); assertEquals(mainActivity.eT_ausgabe.getText().toString(),"");
-
-        //test: setSelectionStartEingabe(start),setSelectionStartEingabe(start,end),getSelectionStartEingabe,getSelectionEndEingabe
-        mainActivity.eT_eingabe.requestFocus();
-        assertEquals(mainActivity.eT_eingabe.getText().toString(),"");
-        assertEquals(mainActivity.getSelectionStartEingabe(), mainActivity.getSelectionEndEingabe());
-        assertEquals(0,mainActivity.getSelectionStartEingabe());
-        mainActivity.setSelectionEingabe(0);
-        assertEquals(0,mainActivity.getSelectionStartEingabe()); assertEquals(0,mainActivity.getSelectionEndEingabe());
-        int end = ((int) Math.random()*mainActivity.eT_eingabe.length()); mainActivity.setSelectionEingabe(0,end);
-        assertEquals(0,mainActivity.getSelectionStartEingabe()); assertEquals(end,mainActivity.getSelectionEndEingabe());
-
-        //test: setSelectionStartAusgabe(start),setSelectionStartAusgabe(start,end),getSelectionStartAusgabe,getSelectionEndAusgabe
-        mainActivity.eT_ausgabe.requestFocus();
-        assertEquals(mainActivity.eT_ausgabe.getText().toString(),"");
-        assertEquals(mainActivity.getSelectionStartAusgabe(), mainActivity.getSelectionEndAusgabe());
-        assertEquals(0,mainActivity.getSelectionStartAusgabe());
-        mainActivity.setSelectionAusgabe(0);
-        assertEquals(0,mainActivity.getSelectionStartAusgabe()); assertEquals(0,mainActivity.getSelectionEndAusgabe());
-        end = ((int) Math.random()*mainActivity.eT_ausgabe.length()); mainActivity.setSelectionAusgabe(0,end);
-        assertEquals(0,mainActivity.getSelectionStartAusgabe()); assertEquals(end,mainActivity.getSelectionEndAusgabe());
+        //test: setSelectionStartOutput(start),setSelectionStartOutput(start,end),getSelectionStartOutput,getSelectionEndOutput
+        mainActivity.eT_output.requestFocus();
+        assertEquals(mainActivity.eT_output.getText().toString(),"");
+        assertEquals(mainActivity.getSelectionStartOutput(), mainActivity.getSelectionEndOutput());
+        assertEquals(0,mainActivity.getSelectionStartOutput());
+        mainActivity.setSelectionOutput(0);
+        assertEquals(0,mainActivity.getSelectionStartOutput()); assertEquals(0,mainActivity.getSelectionEndOutput());
+        end = ((int) Math.random()*mainActivity.eT_output.length()); mainActivity.setSelectionOutput(0,end);
+        assertEquals(0,mainActivity.getSelectionStartOutput()); assertEquals(end,mainActivity.getSelectionEndOutput());
     }
 
 
@@ -665,16 +646,16 @@ public class MainActivityUnitTest {
         mainActivity.findViewById(R.id.btn_clearall).performClick();
         mainActivity.onOptionsItemSelected(currentMode);
         RoboMenuItem mode = currentMode;
-        mainActivity.setSelectionEingabe(0,0);
-        mainActivity.eT_eingabe.requestFocus();
+        mainActivity.setSelectionInput(0,0);
+        mainActivity.eT_input.requestFocus();
 
         //System.out.println("calcTerm: \""+term+"\"");
         String[] splitted = StringUtils.splitTokens(term);
         boolean inputShouldEqualtTerm = true; boolean containsOutputFunctions = false;
         //System.out.println("cT  "+ Arrays.toString(splitted));
-        assertEquals("",mainActivity.eT_eingabe.getText().toString()); assertEquals("",mainActivity.eT_ausgabe.getText().toString());
+        assertEquals("",mainActivity.eT_input.getText().toString()); assertEquals("",mainActivity.eT_output.getText().toString());
         for(String s: splitted){
-           //System.out.println("cT input["+mainActivity.getSelectionStartEingabe()+","+mainActivity.getSelectionEndEingabe()+"]: "+
+           //System.out.println("cT input["+mainActivity.getSelectionStartInput()+","+mainActivity.getSelectionEndInput()+"]: "+
            //         ((EditText) mainActivity.findViewById(R.id.eT_eingabe)).getText().toString());
            // System.out.println("cT output: "+((EditText) mainActivity.findViewById(R.id.eT_ausgabe)).getText().toString());
             if(s.isEmpty())break;

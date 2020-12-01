@@ -93,11 +93,7 @@ public class HistoryActivity extends AppCompatActivity {
             }
         });
 
-        try {
-            SettingsApplier.setBackgroundImage(HistoryActivity.this,hist_background);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
     }
 
     private void setHistAdap(){

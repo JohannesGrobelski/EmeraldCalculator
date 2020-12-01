@@ -2,7 +2,7 @@ package com.example.titancalculator;
 
 import android.content.Context;
 
-import com.example.titancalculator.CalcModel;
+import com.example.titancalculator.helper.Math_String.MathEvaluator;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -38,10 +38,10 @@ public class CalcModelUnitTest {
         for(int mode=0; mode<modes.length; mode++){
             //System.out.println("mode: "+modes[mode]);
             calcModel.setMode(modes[mode]);
-            btn[0][0] = calcModel.translInputBtn11(); btn[0][1] = calcModel.translInputBtn12(); btn[0][2] = calcModel.translInputBtn13();
-            btn[0][3] = calcModel.translInputBtn14(); btn[0][4] = calcModel.translInputBtn15(); btn[0][5] = calcModel.translInputBtn16();
-            btn[1][0] = calcModel.translInputBtn21(); btn[1][1] = calcModel.translInputBtn22(); btn[1][2] = calcModel.translInputBtn23();
-            btn[1][3] = calcModel.translInputBtn24(); btn[1][4] = calcModel.translInputBtn25(); btn[1][5] = calcModel.translInputBtn26();
+            btn[0][0] = calcModel.translateInputButton(11); btn[0][1] = calcModel.translateInputButton(12); btn[0][2] = calcModel.translateInputButton(13);
+            btn[0][3] = calcModel.translateInputButton(14); btn[0][4] = calcModel.translateInputButton(15); btn[0][5] = calcModel.translateInputButton(16);
+            btn[1][0] = calcModel.translateInputButton(21); btn[1][1] = calcModel.translateInputButton(22); btn[1][2] = calcModel.translateInputButton(23);
+            btn[1][3] = calcModel.translateInputButton(24); btn[1][4] = calcModel.translateInputButton(25); btn[1][5] = calcModel.translateInputButton(26);
 
             for(int i=0; i<12; i++){
                 //System.out.println("mode: "+btn[i/6][i%6]+", transl:"+modesModes[mode][i]);
@@ -50,29 +50,29 @@ public class CalcModelUnitTest {
             //System.out.println("\n\n");
         }
         calcModel.setMode("basic2"); calcModel.setLanguage("german");
-        assertEquals("GGT(,)",calcModel.translInputBtn12());
-        assertEquals("KGV(,)",calcModel.translInputBtn13());
+        assertEquals("GGT(,)",calcModel.translateInputButton(12));
+        assertEquals("KGV(,)",calcModel.translateInputButton(13));
 
         calcModel.enableLog=false;
         calcModel.setMode("unknown");
-        btn[0][0] = calcModel.translInputBtn11(); btn[0][1] = calcModel.translInputBtn12(); btn[0][2] = calcModel.translInputBtn13();
-        btn[0][3] = calcModel.translInputBtn14(); btn[0][4] = calcModel.translInputBtn15(); btn[0][5] = calcModel.translInputBtn16();
-        btn[1][0] = calcModel.translInputBtn21(); btn[1][1] = calcModel.translInputBtn22(); btn[1][2] = calcModel.translInputBtn23();
-        btn[1][3] = calcModel.translInputBtn24(); btn[1][4] = calcModel.translInputBtn25(); btn[1][5] = calcModel.translInputBtn26();
+        btn[0][0] = calcModel.translateInputButton(11); btn[0][1] = calcModel.translateInputButton(12); btn[0][2] = calcModel.translateInputButton(13);
+        btn[0][3] = calcModel.translateInputButton(14); btn[0][4] = calcModel.translateInputButton(15); btn[0][5] = calcModel.translateInputButton(16);
+        btn[1][0] = calcModel.translateInputButton(21); btn[1][1] = calcModel.translateInputButton(22); btn[1][2] = calcModel.translateInputButton(23);
+        btn[1][3] = calcModel.translateInputButton(24); btn[1][4] = calcModel.translateInputButton(25); btn[1][5] = calcModel.translateInputButton(26);
         for(int i=0; i<12; i++){assertEquals("",btn[i/6][i%6]);}
     }
 
     @Test
     public void testSnEingabeAusgabeOps(){
-        //toogleScientificNotation,eingabeAddText,ausgabeSetText,
+        //toogleScientificNotation,addInputText,setOuputString,
 
         assertFalse(calcModel.isScientificNotation());
         calcModel.toogleScientificNotation(); assertTrue(calcModel.isScientificNotation());
         calcModel.toogleScientificNotation(); assertFalse(calcModel.isScientificNotation());
 
-        calcModel.ausgabeSetText(""); assertTrue(calcModel.getOutputString().isEmpty());
-        calcModel.ausgabeSetText("1+1"); assertTrue(calcModel.getOutputString().equals("1+1"));
-        calcModel.eingabeAddText("2+2",0); assertTrue(calcModel.getIText().equals("2+2"));
+        calcModel.setOuputString(""); assertTrue(calcModel.getOutputString().isEmpty());
+        calcModel.setOuputString("1+1"); assertTrue(calcModel.getOutputString().equals("1+1"));
+        calcModel.addInputText("2+2",0); assertTrue(calcModel.getInputText().equals("2+2"));
     }
 
     @Test
@@ -88,19 +88,74 @@ public class CalcModelUnitTest {
 
     @Test
     public void testGettersAndSetters(){
-        //getMode(),setMode(String),getLanguage(),setLanguage(String),isScientificNotation(),setOutputString(String),setIText()
+        //getMode(),setMode(String),getLanguage(),setLanguage(String),isScientificNotation(),setOutputString(String),setInput()
         init();
         assertEquals("basic",calcModel.getMode()); calcModel.setMode("basic"); assertEquals("basic",calcModel.getMode());
         assertEquals("",calcModel.getLanguage()); calcModel.setLanguage("english"); assertEquals("english",calcModel.getLanguage());
         assertEquals(false,calcModel.isScientificNotation()); calcModel.toogleScientificNotation(); assertEquals(true,calcModel.isScientificNotation());
         assertEquals("",calcModel.getOutputString()); calcModel.setOutputString("2"); assertEquals("2",calcModel.getOutputString());
-        assertEquals("",calcModel.getIText()); calcModel.setIText("1+1");
-            assertEquals("1+1",calcModel.getIText());
-            assertEquals("1+1",calcModel.inputStringGetDisplayableString());
-            assertEquals("2",calcModel.inputStringGetResult());
-            assertEquals("2",calcModel.inputStringNormalToScientific());
-            assertEquals("2",calcModel.inputStringScientificToNormal());
+        assertEquals("",calcModel.getInputText()); calcModel.setInputText("1+1");
+            assertEquals("1+1",calcModel.getInputText());
+            assertEquals("1+1",calcModel.getDisplayableString("1+1"));
+            assertEquals("2",calcModel.getResult());
+            assertEquals("2",calcModel.getResult());
+            assertEquals("2",calcModel.getScientificResult());
 
     }
+
+
+    @Test
+    public void testScientific(){
+        String[] inputs = {"1","5.5","10^10"};
+        String[] outputsNormal = {"1","5.5","10000000000"};
+        String[] outputsScientific = {"1","5.5","1E10"};
+        for(int i=0;i<inputs.length;i++){
+            calcModel.setInputText(inputs[i]);
+            assertEquals(outputsNormal[i], calcModel.getResult());
+            assertEquals(outputsScientific[i], calcModel.getScientificResult());
+        }
+    }
+
+    @Test
+    public void testANS(){
+        calcModel.setInputText("1+1"); String ans = calcModel.getResult();
+        assertEquals("2",ans);
+        calcModel.setInputText("ANS*2"); ans = calcModel.getResult(); assertEquals("4",ans);
+        calcModel.setInputText("ATANSIN8"); ans = calcModel.getResult(); assertEquals("7.9231381",ans);
+
+        calcModel.setInputText("ANS"); calcModel.getScientificResult(); assertEquals("7.9231381",ans);
+    }
+
+    @Test
+    public void testGetterSetter(){
+        //setVarMode(), setMeanMode()
+        String[] modes = new String[]{"Ari","Geo","Har"};
+        for(String mode: modes){
+            calcModel.setMeanMode(mode+"Mit"); assertEquals(mode+"Mit",calcModel.mean_mode); assertEquals(calcModel.mean_mode,calcModel.getMeanMode());
+            calcModel.setVarMode(mode+"Var"); assertEquals(mode+"Var",calcModel.var_mode); assertEquals(calcModel.var_mode,calcModel.getVarMode());
+        }
+        calcModel.setMeanMode("unknown"); assertEquals("HarMit",calcModel.mean_mode); assertEquals(calcModel.mean_mode,calcModel.getMeanMode());
+        calcModel.setVarMode("unknown"); assertEquals("HarVar",calcModel.var_mode); assertEquals(calcModel.var_mode,calcModel.getVarMode());
+        //getInputText(), setContent(...)
+        String content = "1+1"; calcModel.setInputText(content); assertEquals(content,calcModel.getInputText());
+
+        //TODO: getDisplayableString()
+
+
+    }
+
+    @Test public void testMeanVarModes(){
+        //setVarMode(), setMeanMode()
+        String[] modes = new String[]{"Ari","Geo","Har"};
+        for(String mode: modes){
+            calcModel.setMeanMode(mode+"Mit"); assertEquals(mode+"Mit", calcModel.getMeanMode());
+            calcModel.setVarMode(mode+"Var"); assertEquals(mode+"Var", calcModel.getVarMode());
+        }
+        calcModel.setMeanMode("unknown"); assertEquals("HarMit", calcModel.getMeanMode());
+        calcModel.setVarMode("unknown"); assertEquals("HarVar", calcModel.getVarMode());
+        //toContent(), setContent(...)
+        String content = "1+1"; calcModel.setInputText(content); assertEquals(content, calcModel.getInputText());
+    }
+
 
 }

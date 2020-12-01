@@ -36,7 +36,7 @@
         android:clickable="false">
 
         <EditText
-            android:id="@+id/eT_eingabe"
+            android:id="@+id/eT_input"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -58,7 +58,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|adjustNothing" />
 
         <EditText
-            android:id="@+id/eT_ausgabe"
+            android:id="@+id/eT_output"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

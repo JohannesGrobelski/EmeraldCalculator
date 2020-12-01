@@ -8,6 +8,7 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
@@ -28,29 +29,59 @@ public class MathEvaluator {
     public static int pre_decimal_places_pref = 5;
     public static int decimal_places_pref = 10;
 
-    public static String toRAD(String dec) {
-		dec = dec.replace(',','.');
-		return String.valueOf(Math.toRadians(Double.valueOf(dec)));
+    public static String toRAD(String input) {
+        if(input.isEmpty() || input.equals("Math Error"))return input;
+        input = input.replace(',','.');
+		return String.valueOf(Math.toRadians(Double.valueOf(input)));
 	}
 
-	public static String toDEG(String dec) {
-		dec = dec.replace(',','.');
-		return String.valueOf(Math.toDegrees(Double.valueOf(dec)));
+	public static String toDEG(String input) {
+        if(input.isEmpty() || input.equals("Math Error"))return input;
+        input = input.replace(',','.');
+		return String.valueOf(Math.toDegrees(Double.valueOf(input)));
 	}
+
+    public static String toPFZ(String input){
+        if(input.isEmpty() || input.equals("Math Error"))return input;
+        try{
+            Double a = Double.parseDouble(input);
+            if((a == Math.floor(a)) && !Double.isInfinite(a)) {
+                Integer r = (int) Math.floor(a);
+                return Arrays.deepToString(MathEvaluator.PFZ(r).toArray()).replace("[","(").replace("]",")").replace(" ","");
+            }else return input;
+        } catch (Exception ex){ return input; }
+    }
+
+
+    public static String toPercent(String input){
+        if(input.isEmpty() || input.equals("Math Error"))return input;
+        return MathEvaluator.evaluate("("+input+")*100",5,15);
+    }
+
+    public static String toInvert(String input){
+        if(input.isEmpty() || input.equals("Math Error"))return input;
+        return MathEvaluator.evaluate("-("+input+")",5,15);
+    }
+
+    public static String toReciproke(String input) {
+        if(input.isEmpty() || input.equals("Math Error"))return input;
+        return MathEvaluator.evaluate("1/(" + input+")", 5, 15);
+    }
 
 
     /**
-     * @param dec
+     * @param input
      * @return a fraction representing the input
      */
-    public static String toFraction(String dec) {
-		dec = dec.replace(',','.');
-		if(!dec.contains("."))return dec;
+    public static String toFraction(String input) {
+        if(input.isEmpty() || input.equals("Math Error"))return input;
+        input = input.replace(',','.');
+		if(!input.contains("."))return input;
 
-		//convert dec to fraction (abc.def to abcdef/1000000)
-        int postdecimalPlaces = dec.substring(dec.indexOf('.')+1).length();
+		//convert input to fraction (abc.def to abcdef/1000000)
+        int postdecimalPlaces = input.substring(input.indexOf('.')+1).length();
         BigInteger counter = new BigInteger("10").pow(postdecimalPlaces);
-        BigInteger denominator = new BigInteger(dec.replace(".","")) ;
+        BigInteger denominator = new BigInteger(input.replace(".","")) ;
         String fraction = denominator+"/"+counter;
 		String shortenedFraction = shortenFraction(fraction);
         return shortenedFraction;
@@ -70,34 +101,9 @@ public class MathEvaluator {
 	}
 
 
-    private static BigInteger GGT(BigInteger a, BigInteger b) {
-        return a.gcd(b);
-    }
 
 
-
-    /**
-     * Zähle kommas in richtiger Ebene
-     * richtige Ebene klammer_offen - klammer_zu <= 1
-     * @param eval: Input
-     * @param posAnfang: star
-     * @return
-     */
-	public static int getParameterNumber(String eval, int posAnfang){
-	    if(StringUtils.occurences(eval,"(") != StringUtils.occurences(eval,")"))return -1;
-	    int number_comma = 0;
-	    int klammern_offen = 0; int klammern_geschlossen = 0;
-	    while(posAnfang < eval.length()-2){
-	        ++posAnfang;
-	        char pos = eval.charAt(posAnfang);
-	        if(pos == '(')++klammern_offen;
-            if(pos == ')')++klammern_geschlossen;
-            if(pos == ',' && klammern_offen - klammern_geschlossen <= 1)++number_comma;
-        }
-        return number_comma + 1;
-    }
-
-	public static String evaluate(String input) {
+    public static String evaluate(String input) {
         input = rootToSqrt(input);
         input = logToLogb(input);
 
@@ -133,65 +139,6 @@ public class MathEvaluator {
         }
     }
 
-    private static String facCor(String input) {
-        List<String> allMatches = new ArrayList<String>();
-        Matcher m = Pattern.compile("[0-9]+\\!").matcher(input);
-        while (m.find()) {
-            allMatches.add(m.group());
-        }
-        for(int i=0; i<allMatches.size(); i++) {
-            String newEl = "!"+allMatches.get(i).replace("!", "");
-            input = input.replaceAll(allMatches.get(i),newEl);
-        }
-        return input;
-    }
-
-    private static String rootToSqrt(String input) {
-        List<String> allMatches = new ArrayList<String>();
-        Matcher m = Pattern.compile("ROOT\\(.+\\)").matcher(input);
-        while (m.find()) {
-            String s = m.group();
-            if(getParameterNumber(s,0) == 1){
-                allMatches.add(s);
-            }
-        }
-        for(String s: allMatches.toArray(new String[allMatches.size()])) {
-            String match = s.replace("ROOT","SQRT");
-            input = input.replace(s,match);
-        }
-        return input;
-    }
-
-    /**
-     wandelt log in LOGB um
-     */
-    private static String logToLogb(String input) {
-        List<String> allMatches = new ArrayList<String>();
-        Matcher m = Pattern.compile("LOG\\(.+\\)").matcher(input); //TODO: problem mit verschachtelung?
-        while (m.find()) {
-            String s = m.group();
-            if(getParameterNumber(s,0) == 1){
-                allMatches.add(s);
-            }
-        }
-        for(String s: allMatches.toArray(new String[allMatches.size()])) {
-            String match = s.replace("LOG","LOG10");
-            input = input.replace(s,match);
-        }
-        return input;
-    }
-
-    public static String toPFZ(Integer number){
-        List<Integer> pfz = PFZ(number);
-        String result = "(";
-        for(int i:pfz){
-            result += i+",";
-        }
-        result = result.substring(0,result.length()-1)+")";
-
-        return result;
-    }
-
     public static List<Integer> PFZ(Integer number){
         ArrayList<Integer> pfzList = new ArrayList<>();
         for(int i = 2; i< number; i++) {
@@ -205,7 +152,18 @@ public class MathEvaluator {
         return pfzList;
     }
 
-    public static String format(BigDecimal input){
+    public static String toPFZ(Integer number){
+        List<Integer> pfz = PFZ(number);
+        String result = "(";
+        for(int i:pfz){
+            result += i+",";
+        }
+        result = result.substring(0,result.length()-1)+")";
+
+        return result;
+    }
+
+    private static String format(BigDecimal input){
         int realDecPlaces = input.toString().substring(input.toPlainString().indexOf(".")+1).length();
         input = input.setScale(Math.min(realDecPlaces,decimal_places_pref),BigDecimal.ROUND_HALF_UP);
 
@@ -225,4 +183,58 @@ public class MathEvaluator {
             return formatter.format(input).replaceAll("E0","");
         }
     }
+
+    private static BigInteger GGT(BigInteger a, BigInteger b) {
+        return a.gcd(b);
+    }
+
+    private static String facCor(String input) {
+        List<String> allMatches = new ArrayList<String>();
+        Matcher m = Pattern.compile("[0-9]+\\!").matcher(input);
+        while (m.find()) {
+            allMatches.add(m.group());
+        }
+        for(int i=0; i<allMatches.size(); i++) {
+            String newEl = "!"+allMatches.get(i).replace("!", "");
+            input = input.replaceAll(allMatches.get(i),newEl);
+        }
+        return input;
+    }
+
+    private static String rootToSqrt(String input) {
+        List<String> allMatches = new ArrayList<String>();
+        Matcher m = Pattern.compile("ROOT\\(.+\\)").matcher(input);
+        while (m.find()) {
+            String s = m.group();
+            if(StringUtils.getParameterNumber(s,0) == 1){
+                allMatches.add(s);
+            }
+        }
+        for(String s: allMatches.toArray(new String[allMatches.size()])) {
+            String match = s.replace("ROOT","SQRT");
+            input = input.replace(s,match);
+        }
+        return input;
+    }
+
+    /**
+     wandelt log in LOGB um
+     */
+    private static String logToLogb(String input) {
+        List<String> allMatches = new ArrayList<String>();
+        Matcher m = Pattern.compile("LOG\\(.+\\)").matcher(input); //TODO: problem mit verschachtelung?
+        while (m.find()) {
+            String s = m.group();
+            if(StringUtils.getParameterNumber(s,0) == 1){
+                allMatches.add(s);
+            }
+        }
+        for(String s: allMatches.toArray(new String[allMatches.size()])) {
+            String match = s.replace("LOG","LOG10");
+            input = input.replace(s,match);
+        }
+        return input;
+    }
+
+
 }

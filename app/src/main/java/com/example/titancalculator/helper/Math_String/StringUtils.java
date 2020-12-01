@@ -195,4 +195,24 @@ public class StringUtils {
         }
     }
 
+    /**
+     * Zähle kommas in richtiger Ebene
+     * richtige Ebene klammer_offen - klammer_zu <= 1
+     * @param eval: Input
+     * @param posAnfang: star
+     * @return
+     */
+	public static int getParameterNumber(String eval, int posAnfang){
+	    if(occurences(eval,"(") != occurences(eval,")"))return -1;
+	    int number_comma = 0;
+	    int klammern_offen = 0; int klammern_geschlossen = 0;
+	    while(posAnfang < eval.length()-2){
+	        ++posAnfang;
+	        char pos = eval.charAt(posAnfang);
+	        if(pos == '(')++klammern_offen;
+            if(pos == ')')++klammern_geschlossen;
+            if(pos == ',' && klammern_offen - klammern_geschlossen <= 1)++number_comma;
+        }
+        return number_comma + 1;
+    }
 }

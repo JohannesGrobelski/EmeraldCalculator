@@ -3,26 +3,18 @@ package com.example.titancalculator.helper.Math_String;
 import com.example.titancalculator.geplanteFeatures.MathString.ContentString;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class NumberString extends ContentString {
-    private static HashMap<String, String> replacements = new HashMap<String, String>() {{
+    public static HashMap<String, String> replacements = new HashMap<String, String>() {{
         put("²","^2");  put("√","ROOT"); put("³","^3"); put("∏","MULP"); put("∑","SUME"); put("π","PI"); put("PI",String.valueOf(Math.PI));
     }};
     public static String[] functions_parentIn = {"ASINH","ACOSH","ATANH","ASIN","ACOS","ATAN","ACOT","ASEC","ACSC","SINH","COSH","TANH","SIN","COS","TAN","COT","MEAN","ROOT","LN","LB","LOG","P","R","C"};
     public static String[] functions_paraIn = {"ROOT","LOG","P","C","R"};
 
-    public static String mean_mode = "AriMit";
-    public static String var_mode = "AriVar";
-
-    public static int dec_places = 5;
-    public static int predec_places = 25;
-
-    static String last_answer="";
     /**
      * transform String like numberX1numberX2...XNnumber
      * to X1(number,X2(number,...(XN(number,number)...)
@@ -187,140 +179,9 @@ public class NumberString extends ContentString {
         return match;
     }
 
-    public static String getCalcuableString(String a){
-        //language settings
-        a = a.replaceAll("LCM","KGV");
-        a = a.replaceAll("GCD","GGT");
-
-        a = a.replace("³√","3ROOT");
-        for(String r: replacements.keySet()){
-            a = a.replace(r,replacements.get(r));
-        }
-
-        //I: fix; sonst: PI -> P(I)
-        a = NumberString.paraInComplex(a);
-
-        for(String f: functions_paraIn){
-            a = a.replace(f.toLowerCase(),f);
-        }
-
-        a = NumberString.parenthesise(a);
-
-        //after paraIn (because of AT(ANS)INH)
-        Matcher matcherANS = Pattern.compile("ANS").matcher(a);
-        while(matcherANS.find()){
-            if(matcherANS.group().matches("[^A-Z]*ANS[^A-Z]*")){ //excludes inputs like "ATAN(ASINH(57.860802) = atANSinh57.860802"
-                a = a.replace("ANS",last_answer);
-            }
-            else {
-                //System.out.println(a);
-            }
-        }
-
-
-        //settings
-        a = a.replaceAll("MEAN",mean_mode);
-        a = a.replaceAll("VAR",var_mode);
-
-        return a;
-    }
-
-    String getResult(){
-        String i = getCalcuableString(content);
-        String c = MathEvaluator.evaluate(i,predec_places,dec_places);
-        if(!c.equals("Math Error"))last_answer = c;
-        return c;
-    }
-
-    public String normalToScientific(){
-        String i = getCalcuableString(content);
-        String c = MathEvaluator.evaluate(i,7,7);
-        if(!c.equals("Math Error"))last_answer = c;
-        return c;
-    }
-
-    public String scientificToNormal(){
-        String i = getCalcuableString(content);
-        String c = MathEvaluator.evaluate(i,predec_places,1000);
-        if(!c.equals("Math Error"))last_answer = c;
-        return c;
-    }
-
-    public String getPercent(){
-        return MathEvaluator.evaluate("("+getCalcuableString(content)+")*100",predec_places,15);
-    }
-
-    public static String toPercent(String input){
-        return MathEvaluator.evaluate("("+input+")*100",predec_places,15);
-    }
-
-    public String getInvert(){
-        return MathEvaluator.evaluate("-("+getCalcuableString(content)+")",predec_places,15);
-    }
-
-    public static String toInvert(String input){
-        return MathEvaluator.evaluate("-("+input+")",predec_places,15);
-    }
-
-    public String getReciproke() {
-        return MathEvaluator.evaluate("1/(" + getCalcuableString(content)+")", predec_places, 15);
-    }
-
-    public static String toReciproke(String input) {
-        return MathEvaluator.evaluate("1/(" + input+")", predec_places, 15);
-    }
-
-    public String toFraction(){
-        String res = getResult();
-        if(res.isEmpty() || res.equals("Math Error"))return res;
-        return getDisplayableString(MathEvaluator.toFraction(res));
-    }
-
-    public String getRAD(){
-        String res = getResult();
-        if(res.isEmpty() || res.equals("Math Error"))return res;
-        return getDisplayableString(MathEvaluator.toRAD(res));
-    }
-
-    public String getDEG(){
-        String res = getResult();
-        if(res.isEmpty() || res.equals("Math Error"))return res;
-        return getDisplayableString(MathEvaluator.toDEG(res));
-    }
-
-    public void setMeanMode(String mode){
-        if(mode.equals("AriMit") || mode.equals("GeoMit") || mode.equals("HarMit") ){
-            mean_mode = mode;
-        }
-    }
-    public String getMeanMode(){return mean_mode;}
-
-    public void setVarMode(String mode){
-        if(mode.equals("AriVar") || mode.equals("GeoVar") || mode.equals("HarVar") ){
-            var_mode = mode;
-        }
-    }
-    public String getVarMode(){return var_mode;}
-
-    public String getDisplayableString(String a) {
-        a = a.replace("ROOT","√");
-        return a;
-    }
-
-    public String getPFZ(){
-        String res = getResult();
-        if(res.isEmpty() || res.equals("Math Error"))return res;
-        try{
-            Double a = Double.parseDouble(res);
-            if((a == Math.floor(a)) && !Double.isInfinite(a)) {
-                Integer r = (int) Math.floor(a);
-                return Arrays.deepToString(MathEvaluator.PFZ(r).toArray()).replace("[","(").replace("]",")").replace(" ","");
-            }else return res;
-        } catch (Exception ex){ return res; }
-    }
 
     @Override public String getContent(){
-        return getDisplayableString(content);
+        return NavigatableNumberString.getDisplayableString(content);
     }
     @Override public void setContent(String a){content = a;}
 

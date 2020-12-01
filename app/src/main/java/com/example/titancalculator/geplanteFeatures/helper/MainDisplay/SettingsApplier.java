@@ -37,9 +37,6 @@ import com.example.titancalculator.R;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
-import static com.example.titancalculator.geplanteFeatures.CalcActivity_science.checkPermissionForReadExtertalStorage;
-import static com.example.titancalculator.geplanteFeatures.CalcActivity_science.requestPermissionForReadExtertalStorage;
-
 public class SettingsApplier {
     public static int haptic_feedback_duration=0;
 
@@ -71,28 +68,6 @@ public class SettingsApplier {
     public static boolean vibrate_on=false;
 
 
-    public static void setBackgroundImage(Context c, View view) throws Exception {
-        if(!PreferenceManager.getDefaultSharedPreferences(c).getBoolean("use_backgroundimage",false)){
-           return;
-        }
-        String path = PreferenceManager.getDefaultSharedPreferences(c).getString("backgroundimage", "");
-        //String path = "";
-        if(path.equals(""))return;
-        if(!checkPermissionForReadExtertalStorage(c))requestPermissionForReadExtertalStorage(c);
-        try{
-            //Toast.makeText(c,"BI: "+path,Toast.LENGTH_LONG).show();
-            Resources res = c.getResources();
-            Bitmap bitmap = BitmapFactory.decodeFile(path);
-            BitmapDrawable bd = new BitmapDrawable(res, bitmap);
-            view.setBackground(bd);
-        } catch (Exception e){
-            // Toast t =  Toast.makeText(c,"Could not draw Backgroundimage:"+e.getMessage(),Toast.LENGTH_LONG).show();
-            Log.e("IMAGEERROR",path);
-            Log.e("IMAGEERROR", e.getMessage());
-
-
-        }
-    }
 
     /**
      * @param b
