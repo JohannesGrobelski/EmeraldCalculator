@@ -1,4 +1,4 @@
-package com.example.titancalculator;
+package com.example.titancalculator.unittests;
 
 import com.example.titancalculator.helper.Math_String.StringUtils;
 
@@ -22,7 +22,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class StringUtilsUnitTest {
-    int testIterations = 10000;
+    int testIterations = 1000;
 
     @Test
     public void testRandomString(){

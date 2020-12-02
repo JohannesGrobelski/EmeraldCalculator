@@ -1,10 +1,12 @@
-package com.example.titancalculator;
+package com.example.titancalculator.unittests;
 
 import org.junit.Test;
 
 import com.example.titancalculator.helper.Math_String.MathEvaluator;
 import com.example.titancalculator.helper.Math_String.NumberString;
 
+import static com.example.titancalculator.helper.Math_String.NumberString.paraInComplex;
+import static com.example.titancalculator.helper.Math_String.NumberString.parenthesise;
 import static org.junit.Assert.*;
 
 /**
@@ -14,18 +16,18 @@ import static org.junit.Assert.*;
  */
 
 public class NumberStringUnitTest {
-    int testIterationen = 100;
+    int testIterationen = 10;
 
     @Test
     public void paraIn2SimpleTest(){
-        assertTrue("wrong: 768ROOT22",("768ROOT22").equals("ROOT(768,22)"));
-        assertTrue("wrong: 768C22",("768C22").equals("C(768,22)"));
-        assertTrue("wrong: 1.2ROOT3ROOT4",("1.2ROOT3ROOT4").equals("ROOT(1.2,ROOT(3,4))"));
+        assertTrue("wrong: 768ROOT22",paraInComplex("768ROOT22").equals("ROOT(768,22)"));
+        assertTrue("wrong: 768C22",paraInComplex("768C22").equals("C(768,22)"));
+        assertTrue("wrong: 1.2ROOT3ROOT4",paraInComplex("1.2ROOT3ROOT4").equals("ROOT(1.2,ROOT(3,4))"));
         for(int i=0; i<testIterationen; i++){
             for(String para: NumberString.functions_paraIn){
                 String number1 = numbergenerator();
                 String number2 = numbergenerator();
-                String result = (number1+para+number2);
+                String result = paraInComplex(number1+para+number2);
                 assertTrue("wrong: "+result,result.equals(para+"("+number1+","+number2+")"));
             }
         }
@@ -36,17 +38,17 @@ public class NumberStringUnitTest {
        // assertTrue("wrong: ³√³√9",("³√³√9").equals("ROOT(3,ROOT(3,9))"));
        // assertTrue("wrong: 1.2ROOT3ROOT4",("1.2ROOT3ROOT4").equals("ROOT(1.2,ROOT(3,4))"));
 
-        assertEquals("ASINACOT.",("ASINACOT."));
+        assertEquals("ASINACOT.",paraInComplex("ASINACOT."));
         assertEquals("Math Error",MathEvaluator.evaluate("ASINACOT."));
-        assertEquals("ASIN(ACOT(.2))",("ASINACOT.2"));
+        assertEquals("ASIN(ACOT(.2))",parenthesise("ASINACOT.2"));
         assertEquals(MathEvaluator.evaluate("ASIN(ACOT(.2))"),MathEvaluator.evaluate("ASIN(ACOT(0.2))"));
-        assertEquals("ASIN(ACOT(2.))",("ASINACOT2."));
+        assertEquals("ASIN(ACOT(2.))",parenthesise("ASINACOT2."));
         assertEquals(MathEvaluator.evaluate("ASIN(ACOT(2.))"),MathEvaluator.evaluate("ASIN(ACOT(2.0))"));
 
-        assertEquals("ASIN(ACOT(2))",("ASINACOT2"));
-        assertEquals("ASIN(ACOT(-2))",("ASINACOT-2"));
-        assertEquals("ASIN(ACOT(2.2))",("ASINACOT2.2"));
-        assertEquals("ASIN(ACOT(-2.2))",("ASINACOT-2.2"));
+        assertEquals("ASIN(ACOT(2))",parenthesise("ASINACOT2"));
+        assertEquals("ASIN(ACOT(-2))",parenthesise("ASINACOT-2"));
+        assertEquals("ASIN(ACOT(2.2))",parenthesise("ASINACOT2.2"));
+        assertEquals("ASIN(ACOT(-2.2))",parenthesise("ASINACOT-2.2"));
     }
 
     @Test
@@ -92,7 +94,7 @@ public class NumberStringUnitTest {
         for(int i=0; i<testIterationen; i++) {
             for (String para : NumberString.functions_parentIn) {
                 String number1 = numbergenerator();
-                String result = (para + number1);
+                String result = parenthesise(para + number1);
                 assertTrue("wrong: " + result, result.equals(para + "(" + number1 + ")"));
             }
         }
@@ -104,7 +106,7 @@ public class NumberStringUnitTest {
             for (String para1 : NumberString.functions_parentIn) {
                 for (String para2 : NumberString.functions_parentIn) {
                     String number1 = numbergenerator();
-                    String result = (para1+para2+number1);
+                    String result = parenthesise(para1+para2+number1);
                     //System.out.println(result+" = "+para1+"("+para2+"("+number1+"))");
                     assertTrue("wrong: " + result, result.equals(para1+ "(" + para2 + "(" + number1 + "))"));
                 }

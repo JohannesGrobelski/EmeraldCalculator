@@ -10,19 +10,15 @@ public class NavigatableNumberString {
         contentString = new NumberString();
     }
 
-    public static String getDisplayableString(String a) {
-        a = a.replace("ROOT","√");
-        return a;
+    public static String getDisplayableString(String a) {a = a.replace("ROOT","√");return a;}
+    public String getContent(){return contentString.getContent();}
+    public int getLength(){return contentString.getLength();}
+    public void setText(String a) {
+        contentString.setContent(a);
     }
+    public String getDisplayableString(){ return ((NumberString)contentString).getContent();}
 
-    public String getContent(){
-        return contentString.getContent();
-    }
-
-
-    public void clearAll(){
-        contentString.setContent("");
-    }
+    public void clearAll(){contentString.setContent("");}
 
     public void clear(int position){
         String c = contentString.getContent();
@@ -32,8 +28,6 @@ public class NavigatableNumberString {
             contentString.setContent(res);
         }
     }
-
-    public int getLength(){return contentString.getLength();}
 
     public void addText(String a,int position) {
         if(a == null || a.isEmpty() || a.equals("") || position < 0)return;
@@ -47,15 +41,10 @@ public class NavigatableNumberString {
         contentString.setContent(contentString.getContent() + a);
     }
 
-    public void setText(String a) {
-        contentString.setContent(a);
-    }
-
     private String removeCharacter(String originalString, int index){
         if(index < 0 || index > originalString.length())return originalString;
         StringBuffer newString = new StringBuffer(originalString);
         newString.deleteCharAt(index);
-        String c = newString.toString();
         return newString.toString();
     }
 
@@ -65,7 +54,4 @@ public class NavigatableNumberString {
         newString.insert(index, stringToBeInserted);
         return newString.toString();
     }
-
-
-    public String getDisplayableString(){   return ((NumberString)contentString).getContent();  }
 }

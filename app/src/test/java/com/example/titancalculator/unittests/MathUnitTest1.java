@@ -1,5 +1,7 @@
-package com.example.titancalculator;
+package com.example.titancalculator.unittests;
 
+import com.example.titancalculator.CalcModel;
+import com.example.titancalculator.MainActivity;
 import com.example.titancalculator.helper.Math_String.MathEvaluator;
 import com.example.titancalculator.helper.Math_String.NumberString;
 
@@ -7,10 +9,12 @@ import org.junit.Test;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import static com.example.titancalculator.MainActivityUnitTest.resembles;
+import static com.example.titancalculator.helper.Math_String.MathEvaluator.resembles;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -28,7 +32,10 @@ import static org.junit.Assert.assertTrue;
 
  */
 public class MathUnitTest1 {
-    static int iterationsSubtests = 100;
+    static int iterationsSubtests = 10;
+    private String mean_mode = "AriMit";
+    private String var_mode = "AriVar";
+    private String last_answer = "";
 
 
     @Test
@@ -61,12 +68,12 @@ public class MathUnitTest1 {
         //errors
         String[] inputs = {"%","a",""};
         for(int i=0;i<3;i++) {
-            assertEquals("Math Error", MathEvaluator.toPercent(inputs[i]));
-            assertEquals("Math Error", MathEvaluator.toInvert(inputs[i]));
-            assertEquals("Math Error", MathEvaluator.toReciproke(inputs[i]));
-            assertEquals("Math Error", MathEvaluator.toRAD(inputs[i]));
-            assertEquals("Math Error", MathEvaluator.toDEG(inputs[i]));
-            assertEquals("Math Error", MathEvaluator.toPFZ(inputs[i]));
+            assertEquals("Math Error", MathEvaluator.toPercent(calcTerm(inputs[i])));
+            assertEquals("Math Error", MathEvaluator.toInvert(calcTerm(inputs[i])));
+            assertEquals("Math Error", MathEvaluator.toReciproke(calcTerm(inputs[i])));
+            assertEquals("Math Error", MathEvaluator.toRAD(calcTerm(inputs[i])));
+            assertEquals("Math Error", MathEvaluator.toDEG(calcTerm(inputs[i])));
+            assertEquals("Math Error", MathEvaluator.toPFZ(calcTerm(inputs[i])));
         }
 
     }
@@ -82,10 +89,12 @@ public class MathUnitTest1 {
         assertTrue(testEquation("0.5!","Math Error"));
         assertTrue(testEquation("1!","1"));
         assertTrue(testEquation("5!","120"));
-
+        NumberFormat formatter = new DecimalFormat("###.#####################");
         for(int i=0; i<iterationsSubtests; i++) {
-            double op1 = (Math.random() * 10) - 0; //TODO: negative numbers
-            double op2 = (Math.random() * 10) - 0; //TODO: bigger numbers
+            double OP1 = Double.parseDouble(String.valueOf((Math.random() * 10) - 0)); //TODO: negative numbers
+            double OP2 = Double.parseDouble(String.valueOf((Math.random() * 10) - 0)); //TODO: negative numbers
+            String op1 = formatter.format(OP1).replace(",",".");
+            String op2 = formatter.format(OP1).replace(",",".");
             double op3 = Math.random() * 10;
             assertTrue(testEquation(op1+"+"+op2,op2+"+"+op1)); //a+b = b+a
             assertTrue(testEquation(op1+"*"+op2,op2+"*"+op1)); //a*b = b*a
@@ -128,6 +137,9 @@ public class MathUnitTest1 {
     }
 
     @Test public void testBasic2Functions() {
+        assertTrue(testEquation(String.valueOf(0),"SUME("+0+","+-161+")")); //sum(b,a) with b>a = 0
+
+
         for(int i=0; i<iterationsSubtests; i++) {
             int inta = (int) ((Math.random() * 1000) - 500); //TODO: negative numbers
             int intb = (int) ((Math.random() * 1000) - 500); //TODO: negative numbers
@@ -168,7 +180,14 @@ public class MathUnitTest1 {
             assertTrue(min<=max);
 
             assertTrue(testEquation("SUME("+min+","+max+")","SUME("+min+","+q+")+SUME("+(q+1)+","+max+")")); //sum(i=1...n)ak = sum(i=1...m)ak+sum(i=m+1...n)
-            assertTrue(testEquation(String.valueOf(0),"SUME("+max+","+min+")")); //sum(b,a) with b>a = 0
+            if(max!=min){
+                assertTrue(min!=max);
+                if(!testEquation(String.valueOf(0),"SUME("+max+","+min+")")){
+                    System.out.println("min: "+min+",max: "+max);
+                    System.out.println(min+"=="+max+": "+(max==min));
+                }
+                assertTrue(testEquation(String.valueOf(0),"SUME("+max+","+min+")")); //sum(b,a) with b>a = 0
+            }
             assertTrue(testEquation(String.valueOf(max),"SUME("+max+","+max+")")); //sum(a,a) = a
 
             max = min+((int) (Math.random()*15) + 1); q = min + (int) (Math.random()*(Math.abs(min-max) / 2));
@@ -189,8 +208,11 @@ public class MathUnitTest1 {
 
     @Test public void testTrigoAndHyperFunctions() {
         //random values
-        assertTrue(resembles(calcTerm("COS(9)"),"0.9876883405951377261900402476934372607584068615898804349239048016"));
-        assertTrue(resembles(calcTerm("SIN(7.2284977183385335)"),"0.12582667507334807"));
+        //assertTrue(resembles(calcTerm("COS(9)"),"0.9876883405951377261900402476934372607584068615898804349239048016"));
+        //assertTrue(resembles(calcTerm("SIN(7.2284977183385335)"),"0.12582667507334807"));
+        System.out.println(calcTerm("π"));
+        assertTrue(resembles(MathEvaluator.toDEG(calcTerm("π")),"180")); //DEG(π) = 180
+
 
         double x = (Math.random() * 10) + 1; //TODO: negative numbers
         double y = (Math.random() * 10) + 1; //TODO: bigger numbers
@@ -320,12 +342,12 @@ public class MathUnitTest1 {
         assertTrue(resembles(calcTerm("VAR(1,2,3)"),calcTerm("VAR(2,1,3)")));
 
         //s
-        assertTrue(resembles(calcTerm("ROOT(VAR(0))"),"0"));
-        assertTrue(resembles(calcTerm("ROOT(VAR(1))"),"0"));
-        assertTrue(resembles(calcTerm("ROOT(VAR(-1.214))"),"0"));
+        assertTrue(resembles(calcTerm("√(VAR(0))"),"0"));
+        assertTrue(resembles(calcTerm("√(VAR(1))"),"0"));
+        assertTrue(resembles(calcTerm("√(VAR(-1.214))"),"0"));
 
-        assertTrue(resembles(calcTerm("ROOT(VAR(1,2,3))"),"0.81649658092772603273242802"));
-        assertTrue(resembles(calcTerm("ROOT(VAR(1.12,124.12,12.241,-12.124124,40783420,-792.2))"),"15199132.952412"));
+        assertTrue(resembles(calcTerm("√(VAR(1,2,3))"),"0.81649658092772603273242802"));
+        assertTrue(resembles(calcTerm("√(VAR(1.12,124.12,12.241,-12.124124,40783420,-792.2))"),"15199132.952412"));
     }
 
 
@@ -340,6 +362,8 @@ public class MathUnitTest1 {
 
             final int  p = (int) ((Math.random() * 1000) - 500);
             String PFZ = MathEvaluator.toPFZ(p);  PFZ = PFZ.replace(",","*").replace("(","").replace(")","");
+            if(!resembles(calcTerm(PFZ),String.valueOf(p)))System.out.println(PFZ+" "+calcTerm(PFZ)+" "+p);
+
             assertTrue(resembles(calcTerm(PFZ),String.valueOf(p))); //calc(transformation(PFZ(x))) = x
 
             String fraction = MathEvaluator.toFraction(String.valueOf(x));
@@ -352,8 +376,10 @@ public class MathUnitTest1 {
 
 
 
+
     private String calcTerm(String term){
-        return MathEvaluator.evaluate(term,100,1000);
+        String input = getCalcuableString(term);
+        return MathEvaluator.evaluate(input,100,1000);
     }
 
     private boolean testEquation(String term, String result) {
@@ -386,4 +412,42 @@ public class MathUnitTest1 {
         return true;
     }
 
+    public String getCalcuableString(String a){
+        //language settings
+        a = a.replaceAll("LCM","KGV");
+        a = a.replaceAll("GCD","GGT");
+
+        a = a.replace("³√","3ROOT");
+        for(String r: NumberString.replacements.keySet()){
+            a = a.replace(r,NumberString.replacements.get(r));
+        }
+
+        //I: fix; sonst: PI -> P(I)
+        a = NumberString.paraInComplex(a);
+
+        for(String f: NumberString.functions_paraIn){
+            a = a.replace(f.toLowerCase(),f);
+        }
+
+        a = NumberString.parenthesise(a);
+
+        //after paraIn (because of AT(ANS)INH)
+        Matcher matcherANS = Pattern.compile("ANS").matcher(a);
+        while(matcherANS.find()){
+            if(matcherANS.group().matches("[^A-Z]*ANS[^A-Z]*")){ //excludes inputs like "ATAN(ASINH(57.860802) = atANSinh57.860802"
+                a = a.replace("ANS",last_answer);
+            }
+            else {
+                //System.out.println(a);
+            }
+        }
+
+
+        //settings
+        a = a.replaceAll("MEAN",mean_mode);
+        a = a.replaceAll("VAR",var_mode);
+
+
+        return a;
+    }
 }

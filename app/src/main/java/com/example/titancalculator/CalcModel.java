@@ -16,19 +16,36 @@ import java.util.regex.Pattern;
 /** The model is the only gateway to the domain layer or business logic.
   */
 public class CalcModel {
-    public boolean enableLog = true;
+    //debug settings
+        public boolean enableLog = true;
     //static data
         public static int precisionDigits = 10;
         public static Set<String> noImmidiateOps = new HashSet<>(Arrays.asList("³√", "ROOT", "√", "LOG", "P", "C", "%"));
 
+        public static String[] modes = {"basic","basic2","trigo","hyper","logic","statistic","memory","unknown"};
+        public static String[] modeBasicFunctionality = {"π","e","^","LOG","LN","LB","³√","√","³","²","10^","!"};
+        public static String[] modeBasic2Functionality = {">PFZ","GCD(,)","LCM(,)","∑(,)","∏(,)","",">%",">A/B",">x\u207B\u00B9",">+/-","MIN(,)","MAX(,)"};
+        public static String[] modeTrigoFunctionality = {"SIN","COS","TAN","COT","SEC","CSC","ASIN","ACOS","ATAN","ACOT","ASEC","ACSC"};
+        public static String[] modeHyperFunctionality = {"SINH","COSH","TANH","ASINH","ACOSH","ATANH",">DEG",">RAD","","","",""};
+        public static String[] modeLogicFunctionality = {"AND(,)","OR(,)","XOR(,)","NOT()","","","","","","","",""};
+        public static String[] modeStatisticFunctionality = {"Zn()","Zb(,)","C","P","MEAN()","VAR()","√(VAR())","","","","",""};
+        public static String[] modeMemoryFunctionality = {"M1","M2","M3","M4","M5","M6",">M1",">M2",">M3",">M4",">M5",">M6"};
+        public static String[] modeUnknown = {"","","","","","","","","","","",""};
+        public static String[][] modesModesFunctionality = {modeBasicFunctionality, modeBasic2Functionality, modeTrigoFunctionality, modeHyperFunctionality, modeLogicFunctionality, modeStatisticFunctionality, modeMemoryFunctionality,modeUnknown};
+        public static String[] modeBasicText = {"π","e","^","LOG","LN","LB","³√","√","x³","x²","10^x","!"};
+        public static String[] modeBasic2Text = {"PFZ","GCD","LCM","∑","∏","",">%",">A/B",">x\u207B\u00B9",">+/-","MIN","MAX"};
+        public static String[] modeTrigoText = {"SIN","COS","TAN","COT","SEC","CSC","ASIN","ACOS","ATAN","ACOT","ASEC","ACSC"};
+        public static String[] modeHyperText = {"SINH","COSH","TANH","ASINH","ACOSH","ATANH",">DEG",">RAD","","","",""};
+        public static String[] modeLogicText = {"AND","OR","XOR","NOT","","","","","","","",""};
+        public static String[] modeStatisticText = {"ZN","ZB","NCR","NPR","MEAN","VAR","S","","","","",""};
+        public static String[] modeMemoryText = {"M1","M2","M3","M4","M5","M6",">M1",">M2",">M3",">M4",">M5",">M6"};
+        public static String[][] modesModesText = {modeBasicText, modeBasic2Text, modeTrigoText, modeHyperText, modeLogicText, modeStatisticText, modeMemoryText,modeUnknown};
+
     //state variables (incl. getter and setters)
-        Context context;
         NavigatableNumberString InputString = new NavigatableNumberString();
         int startSelection, endSelection;
         String OutputString = "";
         private static String[] memory = new String[6];
-
-        public CalcModel(Context c){this.context = c;}
 
         public static String[] getMemory() {return memory;}
         public static String getMemory(int index) {if(index<6 && index>=0)return memory[index]; else {System.out.println(index); assert(false); return "";}}
@@ -51,7 +68,7 @@ public class CalcModel {
         public String mean_mode = "AriMit";
         public String var_mode = "AriVar";
 
-        public int dec_places = 5;
+        public int dec_places = precisionDigits;
         public int predec_places = 25;
 
         public String getMode() {return mode;}
@@ -149,11 +166,67 @@ public class CalcModel {
     }
 
     /**
-     * returns output text of buttons btn_11 .. btn_26 dependend of the mode
      * @param index
-     * @return
+     * @return the button text of function buttons (btn_11 .. btn_26) according to functionality
      */
-    public String translateInputButton(int index){
+    public String getFunctionButtonText(int index){
+        switch(mode){
+            case "basic": {
+                switch(index){
+                    case 11: {return "π";} case 12: {return "e";} case 13: {return "^";} case 14: {return "LOG";} case 15: {return "LN";} case 16: {return "LB";}
+                    case 21: {return"³√";} case 22: {return"√";} case 23: {return"x³";} case 24: {return"x²";} case 25: {return"10^x";} case 26: {return"!";}
+                }
+            }
+            case "basic2": {
+                switch(index){
+                    case 11: {return"PFZ";}
+                    case 12: {if (getLanguage().equals("german") || getLanguage().equals("deutsch")){return"GGT";} else {return"GCD";}}
+                    case 13: {if (getLanguage().equals("german") || getLanguage().equals("deutsch")){return"KGV";} else {return"LCM";}}
+                    case 14: {return"∑";} case 15: {return"∏";} case 16: {return"";}
+                    case 21: {return">%";} case 22: {return">A/B";} case 23: {return">x\u207B\u00B9";} case 24: {return">+/-";} case 25: {return"MIN";} case 26: {return"MAX";}
+                }
+            }
+            case "trigo": {
+                switch(index){
+                    case 11: {return"SIN";} case 12: {return"COS";} case 13: {return"TAN";} case 14: {return"COT";} case 15: {return"SEC";} case 16: {return"CSC";}
+                    case 21: {return"ASIN";} case 22: {return"ACOS";} case 23: {return"ATAN";} case 24: {return"ACOT";} case 25: {return"ASEC";} case 26: {return"ACSC";}
+                }
+           }
+            case "hyper": {
+                switch(index){
+                    case 11: {return"SINH";} case 12: {return"COSH";} case 13: {return"TANH";} case 14: {return"ASINH";} case 15: {return"ACOSH";} case 16: {return"ATANH";}
+                    case 21: {return">DEG";} case 22: {return">RAD";} case 23: {return"";} case 24: {return"";}  case 25: {return"";}  case 26: {return"";}
+                }
+            }
+            case "statistic": {
+                switch(index){
+                    case 11: {return"ZN";} case 12: {return"ZB";} case 13: {return"NCR";} case 14: {return"NPR";} case 15: {return"MEAN";} case 16: {return"VAR";}
+                    case 21: {return"S";} case 22: {return"";} case 23: {return"";} case 24: {return"";} case 25: {return"";} case 26: {return"";}
+                }
+            }
+            case "logic": {
+                switch(index){
+                    case 11: {return"AND";} case 12: {return"OR";} case 13: {return"XOR";} case 14: {return"NOT";} case 15: {return"";} case 16: {return"";}
+                    case 21: {return"";} case 22: {return"";} case 23: {return"";} case 24: {return"";} case 25: {return"";} case 26: {return"";}
+                }
+            }
+            case "memory": {
+                switch (index) {
+                    case 11: {return"M1";} case 12: {return"M2";} case 13: {return"M3";} case 14: {return"M4";} case 15: {return"M5";} case 16: {return"M6";}
+                    case 21: {return">M1";} case 22: {return">M2";} case 23: {return">M3";} case 24: {return">M4";} case 25: {return">M5";} case 26: {return">M6";}
+                }
+            }
+        }
+        return "";
+    }
+
+
+        /**
+         * returns output text of buttons btn_11 .. btn_26 dependend of the mode
+         * @param index
+         * @return
+         */
+    public String getFunctionButtonFunctionality(int index){
                 switch(index) {
                     case 11: {
                         switch(mode){

@@ -1,4 +1,4 @@
-package com.example.titancalculator;
+package com.example.titancalculator.unittests;
 
 import com.example.titancalculator.helper.Math_String.NavigatableNumberString;
 

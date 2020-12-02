@@ -21,7 +21,6 @@ public class StringUtils {
             "MIN","MAX","NCR","NPR","VAR",">M1",">M2",">M3",">M4",">M5",">M6","ANS","SIN","COS","TAN","COT","SEC","CSC","AND","OR","XOR","NOT","LOG","PFZ","GCD","LCM",
             ">%","LN","LB","Zn","Zb",
             "∑","∏","1","2","3","4","5","6","7","8","9","0",".",",","*","/","+","-","(",")","π","e","^","³√","√","³","²","!","S","M1","M2","M3","M4","M5","M6",
-
     };
 
     static String[] allTokens = StringUtils.concatenate(mathTokens,new String[]{"L","R"});

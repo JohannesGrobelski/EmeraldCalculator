@@ -15,6 +15,9 @@ public class NumberString extends ContentString {
     public static String[] functions_parentIn = {"ASINH","ACOSH","ATANH","ASIN","ACOS","ATAN","ACOT","ASEC","ACSC","SINH","COSH","TANH","SIN","COS","TAN","COT","MEAN","ROOT","LN","LB","LOG","P","R","C"};
     public static String[] functions_paraIn = {"ROOT","LOG","P","C","R"};
 
+    @Override public String getContent(){return NavigatableNumberString.getDisplayableString(content);}
+    @Override public void setContent(String a){content = a;}
+
     /**
      * transform String like numberX1numberX2...XNnumber
      * to X1(number,X2(number,...(XN(number,number)...)
@@ -105,27 +108,28 @@ public class NumberString extends ContentString {
      * @return
      */
     public static String parenthesise(String input){
-        //check for Strings like X1X2...number
         String match = "";
         do{
             match = findLongestParenthesisable(input);
             input = input.replace(match,parenthesiseSub(match));
-        }
-        while(!match.isEmpty());
+        } while(!match.isEmpty());
 
         for(String s: functions_parentIn){
             input = input.replaceAll(s.toLowerCase(), s);
         }
-
         return input;
     }
 
+    /**
+     * @param input
+     * @return transform functionParenthesisable into function(Parenthesisable)
+     * with Parenthesisable beeing a number or another function(Parenthesisable)
+     */
     private static String parenthesiseSub(String input){
         if(input.isEmpty())return input;
         int para = 0;
         StringBuilder save =  new StringBuilder("");
         //boolean isnumber = false;
-
         for(String s: functions_parentIn){
             input = input.replace(s,s+"(");
             input = input.replace("((","(");
@@ -159,6 +163,10 @@ public class NumberString extends ContentString {
         return input;
     }
 
+    /**
+     * @param input
+     * @return finds longest Parenthesisable with Parenthesisable beeing a number or another function(Parenthesisable)
+     */
     public static String findLongestParenthesisable(String input){
         String subpattern = "";
         for(String s: functions_parentIn){subpattern+=s+"|";} subpattern = subpattern.substring(0,subpattern.length()-1);
@@ -179,12 +187,10 @@ public class NumberString extends ContentString {
         return match;
     }
 
-
-    @Override public String getContent(){
-        return NavigatableNumberString.getDisplayableString(content);
-    }
-    @Override public void setContent(String a){content = a;}
-
+    /**
+     * @param input
+     * @return number of opening brackets match number of closing bracket
+     */
     public static boolean sameOpeningClosingBrackets(String input){
         int closing = 0; int opening = 0;
         for(int i = 0; i<input.length(); i++){
@@ -193,5 +199,4 @@ public class NumberString extends ContentString {
         }
         return opening == closing;
     }
-
 }

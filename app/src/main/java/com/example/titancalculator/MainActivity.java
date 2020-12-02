@@ -25,10 +25,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /** View implemented by Activity, will contain a reference to the presenter.
-  * The only thing that the view will do is to call a method from the Presenter every time there is an interface action.
+  * The only thing that the view does is to call a method from the Presenter every time there is an interface action.
   */
 public class MainActivity extends AppCompatActivity implements Presenter.View {
-    Presenter presenter;
+    private Presenter presenter;
     //auxiliary variables
     boolean eT_input_hasFocus = true;
 
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
     @Override public boolean onOptionsItemSelected(MenuItem item) {
         String idName = getResources().getResourceEntryName(item.getItemId());
         presenter.setMode(idName);
-        toolbar.setTitle(item.toString());
+        setViewsAccordingToMode(item.toString());
         return true;
     }
 
@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new Presenter(this,this);
+        presenter = new Presenter(this);
         SettingsApplier.applySettings(MainActivity.this);
         setContentView(R.layout.activity_main);
         setTitle("Calculator");
@@ -126,6 +126,11 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
                 }
             });
         }
+        setOnClickListeners();
+
+    }
+
+    public void setOnClickListeners(){
         btn_FUN.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View view) {
                 if(LN2.getVisibility() == View.VISIBLE){
@@ -144,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
         });
         btn_clearall.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View view) {
-               presenter.inputButton("⌧");
+                presenter.inputButton("⌧");
             }
         });
         //L2
@@ -155,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
         });
         btn_12.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View view) {
-               presenter.inputButton("12");
+                presenter.inputButton("12");
             }
         });
         btn_13.setOnClickListener(new View.OnClickListener() {
@@ -288,8 +293,7 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
         });
         //G2
         btn_open_bracket.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View view) {
-                presenter.inputButton("(");
+            @Override public void onClick(View view) {presenter.inputButton("(");
             }
         });
         btn_close_bracket.setOnClickListener(new View.OnClickListener() {
@@ -327,6 +331,14 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
         });
     }
 
+    public void setViewsAccordingToMode(String mode){
+        btn_11.setText(presenter.getFunctionButtonText(11)); btn_12.setText(presenter.getFunctionButtonText(12)); btn_13.setText(presenter.getFunctionButtonText(13));
+        btn_14.setText(presenter.getFunctionButtonText(14)); btn_15.setText(presenter.getFunctionButtonText(15)); btn_16.setText(presenter.getFunctionButtonText(16));
+        btn_21.setText(presenter.getFunctionButtonText(21)); btn_22.setText(presenter.getFunctionButtonText(22)); btn_23.setText(presenter.getFunctionButtonText(23));
+        btn_24.setText(presenter.getFunctionButtonText(24)); btn_25.setText(presenter.getFunctionButtonText(25)); btn_26.setText(presenter.getFunctionButtonText(26));
+        toolbar.setTitle(mode);
+    }
+
     @Override public void setBtnText(int index, String text){
         switch(index){
             case 11:{btn_11.setText(text); break;}
@@ -361,30 +373,25 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
         }
     }
 
-    @Override public void setSelectionInput(int selectionInput) {
-        eT_input.setSelection(selectionInput);}
-    @Override public void setSelectionInput(int selectionInputStart, int selectionInputEnd) {
-        eT_input.setSelection(selectionInputStart, selectionInputEnd);}
-    @Override public void setSelectionOutput(int selectionOutput) {
-        eT_output.setSelection(selectionOutput);}
-    @Override public void setSelectionOutput(int selectionOutputStart, int selectionOutputEnd) {
-        eT_output.setSelection(selectionOutputStart, selectionOutputEnd);}
+    @Override public void setSelectionInput(int selectionInput) {eT_input.setSelection(selectionInput);}
+    @Override public void setSelectionInput(int selectionInputStart, int selectionInputEnd) {eT_input.setSelection(selectionInputStart, selectionInputEnd);}
+    @Override public void setSelectionOutput(int selectionOutput) {eT_output.setSelection(selectionOutput);}
+    @Override public void setSelectionOutput(int selectionOutputStart, int selectionOutputEnd) {eT_output.setSelection(selectionOutputStart, selectionOutputEnd);}
 
-    @Override public void setInputText(String i) {
-        eT_input.setText(i);}
-
+    @Override public void setInputText(String i) {eT_input.setText(i);}
     @Override public void setOutputText(String res) {
         eT_output.setText(res);
     }
 
-    @Override public void clearFocusInput() {
-        eT_input.clearFocus();}
-    @Override public void clearFocusOutput() {
-        eT_output.clearFocus();}
+    @Override public void clearFocusInput() {eT_input.clearFocus();}
+    @Override public void clearFocusOutput() {eT_output.clearFocus();}
     @Override public boolean hasFocusInput() {return eT_input.hasFocus();}
     @Override public boolean hasFocusOutput() {return eT_output.hasFocus();}
+    @Override public void requestFocusInput() {eT_input.requestFocus();}
+    @Override public void requestFocusOutput() {eT_output.requestFocus();}
 
-    @Override public String getInputText() {
+    @Override public String getInputText() {return eT_input.getText().toString();}
+    @Override public String getOutputText() {
         return eT_input.getText().toString();
     }
     @Override public int getSelectionStartInput() {

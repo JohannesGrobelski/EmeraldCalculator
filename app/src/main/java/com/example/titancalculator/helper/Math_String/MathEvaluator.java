@@ -1,5 +1,6 @@
 package com.example.titancalculator.helper.Math_String;
 
+import com.example.titancalculator.CalcModel;
 import com.example.titancalculator.evalex.Expression;
 
 import java.math.BigDecimal;
@@ -15,31 +16,29 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
+
 /**
  * Evaluates Expressions with doubles ([0-9]+,?[0-9]*and Operators /,*,+,-
  * @author Johannes
  *
  */
 public class MathEvaluator {
-    public static char[] digit_alphabet = "0123456789abcdefghijklmnopqrstuvwxyz".toCharArray();
-    public static String[] digit_alphabet_groups = {"1-9", "a-i", "j-r", "s-z"};
-    public static String[] int_digit_alphabet_groups = {"1-9", "10-18", "19-27", "28-36"};
-
     //Math Settings
+    private static double toleranceDigits = CalcModel.precisionDigits;
     public static int pre_decimal_places_pref = 5;
     public static int decimal_places_pref = 10;
 
     public static String toRAD(String input) {
         if(input.isEmpty() || input.equals("Math Error"))return input;
         input = input.replace(',','.');
-		return String.valueOf(Math.toRadians(Double.valueOf(input)));
-	}
+        return String.valueOf(Math.toRadians(Double.valueOf(input)));
+    }
 
-	public static String toDEG(String input) {
+    public static String toDEG(String input) {
         if(input.isEmpty() || input.equals("Math Error"))return input;
         input = input.replace(',','.');
-		return String.valueOf(Math.toDegrees(Double.valueOf(input)));
-	}
+        return String.valueOf(Math.toDegrees(Double.valueOf(input)));
+    }
 
     public static String toPFZ(String input){
         if(input.isEmpty() || input.equals("Math Error"))return input;
@@ -51,7 +50,6 @@ public class MathEvaluator {
             }else return input;
         } catch (Exception ex){ return input; }
     }
-
 
     public static String toPercent(String input){
         if(input.isEmpty() || input.equals("Math Error"))return input;
@@ -68,51 +66,42 @@ public class MathEvaluator {
         return MathEvaluator.evaluate("1/(" + input+")", 5, 15);
     }
 
-
-    /**
-     * @param input
-     * @return a fraction representing the input
-     */
     public static String toFraction(String input) {
         if(input.isEmpty() || input.equals("Math Error"))return input;
         input = input.replace(',','.');
-		if(!input.contains("."))return input;
+        if(!input.contains("."))return input;
 
-		//convert input to fraction (abc.def to abcdef/1000000)
+        //convert input to fraction (abc.def to abcdef/1000000)
         int postdecimalPlaces = input.substring(input.indexOf('.')+1).length();
         BigInteger counter = new BigInteger("10").pow(postdecimalPlaces);
         BigInteger denominator = new BigInteger(input.replace(".","")) ;
         String fraction = denominator+"/"+counter;
-		String shortenedFraction = shortenFraction(fraction);
+        String shortenedFraction = shortenFraction(fraction);
         return shortenedFraction;
-	}
-	
-	public static String shortenFraction(String fraction) {
+    }
+
+    public static String shortenFraction(String fraction) {
         BigInteger A = new BigInteger(fraction.substring(0,fraction.indexOf('/')));
         BigInteger B = new BigInteger(fraction.substring(fraction.indexOf('/')+1));
 
         BigInteger GGT = new BigInteger("-1");
         while(!GGT.equals(BigInteger.ONE)) {
             GGT = GGT(A,B);
-			A = A.divide(GGT);
-			B = B.divide(GGT);
+            A = A.divide(GGT);
+            B = B.divide(GGT);
         }
-		return A+"/"+B;
-	}
-
-
-
+        return A+"/"+B;
+    }
 
     public static String evaluate(String input) {
         input = rootToSqrt(input);
         input = logToLogb(input);
 
-        if(input.contains("!"))input = facCor(input);
-        //input = baseConversion(input,base,10);
+        if(input.contains("!"))input = factorialCorrection(input);
         Expression expression = new Expression(input);
-
         try {
-            //System.out.println("1. "+expression.eval().toString());
+            System.out.println(expression.toString());
+            System.out.println("1. "+expression.eval().toString());
             expression.setPrecision(decimal_places_pref + 1);
             String res = format(expression.eval()).toString();
             return res;
@@ -121,12 +110,12 @@ public class MathEvaluator {
     }
 
     public static String evaluate(String input,int predec_places, int dec_places) {
-	    decimal_places_pref = dec_places; //TODO: ineffizient
-	    pre_decimal_places_pref = predec_places;
+        decimal_places_pref = dec_places; //TODO: ineffizient
+        pre_decimal_places_pref = predec_places;
 
         input = rootToSqrt(input);
         input = logToLogb(input);
-        if(input.contains("!"))input = facCor(input);
+        if(input.contains("!"))input = factorialCorrection(input);
         Expression expression = new Expression(input);
 
         try {
@@ -153,13 +142,13 @@ public class MathEvaluator {
     }
 
     public static String toPFZ(Integer number){
+        if(number < 2)return String.valueOf(number);
         List<Integer> pfz = PFZ(number);
         String result = "(";
         for(int i:pfz){
             result += i+",";
         }
         result = result.substring(0,result.length()-1)+")";
-
         return result;
     }
 
@@ -188,7 +177,11 @@ public class MathEvaluator {
         return a.gcd(b);
     }
 
-    private static String facCor(String input) {
+    /**
+     * @param input
+     * @return converts a! to !a (correction for Expression)
+     */
+    private static String factorialCorrection(String input) {
         List<String> allMatches = new ArrayList<String>();
         Matcher m = Pattern.compile("[0-9]+\\!").matcher(input);
         while (m.find()) {
@@ -201,6 +194,10 @@ public class MathEvaluator {
         return input;
     }
 
+    /**
+     * @param input
+     * @return transforms root to sqrt
+     */
     private static String rootToSqrt(String input) {
         List<String> allMatches = new ArrayList<String>();
         Matcher m = Pattern.compile("ROOT\\(.+\\)").matcher(input);
@@ -218,7 +215,8 @@ public class MathEvaluator {
     }
 
     /**
-     wandelt log in LOGB um
+     * @param input
+     * @return transforms log to LogB
      */
     private static String logToLogb(String input) {
         List<String> allMatches = new ArrayList<String>();
@@ -236,5 +234,59 @@ public class MathEvaluator {
         return input;
     }
 
+    /**
+     * @param output
+     * @param expectedResult
+     * @return checks whether the deviation from output and expectedResult is within the tolerance range (toleranceDigits)
+     */
+    public static boolean resembles(double expectedResult, double output){
+        if(Math.abs(Double.valueOf(output) - Double.valueOf(expectedResult)) < 0.0000000001){return true;
+        } else{
+            System.out.println("resembles false: "+output+" "+expectedResult);
+            return false;
+        }
+    }
 
+    /**
+     * @param output
+     * @param expectedResult
+     * @return checks whether the deviation from output and expectedResult is within the tolerance range (toleranceDigits)
+     */
+    public static boolean resembles(String expectedResult, String output,int toleranceDigits){
+        double tolerance = 1/Math.pow(10,toleranceDigits);
+
+        int minlength = Math.min(Math.min(expectedResult.length(),output.length()),20);
+        if(expectedResult.startsWith(".") || expectedResult.startsWith("-."))expectedResult=expectedResult.replace(".","0."); //TODO: solve better
+        if(output.startsWith(expectedResult.substring(0,Math.min(minlength, CalcModel.precisionDigits)))){return true;}
+        else{
+            if(Math.abs(Double.valueOf(output) - Double.valueOf(expectedResult)) < tolerance){return true;
+            } else{
+                System.out.println("resembleS false: "+output+" "+expectedResult+" dif:"+Math.abs(Double.valueOf(output) - Double.valueOf(expectedResult)));
+                return false;
+            }
+        }
+    }
+
+    /**
+     * @param output
+     * @param expectedResult
+     * @return checks whether the deviation from output and expectedResult is within the tolerance range (toleranceDigits)
+     */
+    public static boolean resembles(String output, String expectedResult){
+        double tolerance = 1/Math.pow(10, toleranceDigits);
+        if(expectedResult.equals("Math Error") || output.equals("Math Error")){
+            //System.out.println("resembleS Math Error: "+output+" "+expectedResult);
+            return expectedResult.equals(output);
+        }
+        int minlength = Math.min(Math.min(expectedResult.length(),output.length()),20);
+        if(expectedResult.startsWith(".") || expectedResult.startsWith("-."))expectedResult=expectedResult.replace(".","0."); //TODO: solve better
+        if(output.startsWith(expectedResult.substring(0,Math.min(minlength, CalcModel.precisionDigits)))){return true;}
+        else{
+            if(Math.abs(Double.valueOf(output) - Double.valueOf(expectedResult)) < tolerance){return true;
+            } else{
+                System.out.println("resembleS false: "+output+" "+expectedResult);
+                return false;
+            }
+        }
+    }
 }

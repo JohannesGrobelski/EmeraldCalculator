@@ -1380,8 +1380,9 @@ public class Expression {
 				assertNotNull(parameters.get(0));
 				double a = parameters.get(0).doubleValue();
 				double b = parameters.get(1).doubleValue();
-				if(a > b)return BigDecimal.ZERO;
+
 				if(a == b)return new BigDecimal(a);
+				if(a > b)return BigDecimal.ZERO;
 				BigDecimal sum = BigDecimal.ZERO;
 				for(double i=a; i<=b; i++){
 					sum = sum.add(BigDecimal.valueOf(i));
