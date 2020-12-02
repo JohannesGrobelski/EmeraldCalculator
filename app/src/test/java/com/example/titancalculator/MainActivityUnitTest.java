@@ -1,4 +1,4 @@
-package com.example.titancalculator.unittests;
+package com.example.titancalculator;
 
 import android.view.MenuItem;
 import android.view.View;
@@ -154,6 +154,7 @@ public class MainActivityUnitTest {
             B[i].performClick(); assertEquals(INPUT.getText().toString(),fun1[i]); S[0].performClick(); assertEquals(OUTPUT.getText().toString(),INPUT.getText().toString()); S[1].performClick();
         }
     }
+
 
     @Test public void testText(){
         String random1 = StringUtils.randomString(10);

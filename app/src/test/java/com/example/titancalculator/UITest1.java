@@ -39,7 +39,7 @@ public class UITest1 {
                 mainActivity.findViewById(R.id.btn_sub),mainActivity.findViewById(R.id.btn_add),
                 mainActivity.findViewById(R.id.btn_ANS),mainActivity.findViewById(R.id.btn_eq),
             //inputs
-                mainActivity.findViewById(R.id.eT_eingabe),mainActivity.findViewById(R.id.eT_ausgabe),mainActivity.findViewById(R.id.toolbar)
+                mainActivity.findViewById(R.id.eT_input),mainActivity.findViewById(R.id.eT_output),mainActivity.findViewById(R.id.toolbar)
         };
     }
 

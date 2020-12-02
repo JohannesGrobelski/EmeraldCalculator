@@ -1,9 +1,7 @@
 package com.example.titancalculator.unittests;
 
-import com.example.titancalculator.CalcModel;
-import com.example.titancalculator.MainActivity;
 import com.example.titancalculator.helper.Math_String.MathEvaluator;
-import com.example.titancalculator.helper.Math_String.NumberString;
+import com.example.titancalculator.helper.Math_String.StringUtils;
 
 import org.junit.Test;
 
@@ -418,18 +416,18 @@ public class MathUnitTest1 {
         a = a.replaceAll("GCD","GGT");
 
         a = a.replace("³√","3ROOT");
-        for(String r: NumberString.replacements.keySet()){
-            a = a.replace(r,NumberString.replacements.get(r));
+        for(String r: StringUtils.replacements.keySet()){
+            a = a.replace(r, StringUtils.replacements.get(r));
         }
 
         //I: fix; sonst: PI -> P(I)
-        a = NumberString.paraInComplex(a);
+        a = StringUtils.paraInComplex(a);
 
-        for(String f: NumberString.functions_paraIn){
+        for(String f: StringUtils.functions_paraIn){
             a = a.replace(f.toLowerCase(),f);
         }
 
-        a = NumberString.parenthesise(a);
+        a = StringUtils.parenthesise(a);
 
         //after paraIn (because of AT(ANS)INH)
         Matcher matcherANS = Pattern.compile("ANS").matcher(a);

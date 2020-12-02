@@ -1,17 +1,17 @@
 package com.example.titancalculator;
 
-import android.content.Context;
 import android.util.Log;
 
 import com.example.titancalculator.helper.Math_String.MathEvaluator;
-import com.example.titancalculator.helper.Math_String.NavigatableNumberString;
-import com.example.titancalculator.helper.Math_String.NumberString;
+import com.example.titancalculator.helper.Math_String.StringUtils;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static com.example.titancalculator.helper.Math_String.StringUtils.insertString;
 
 /** The model is the only gateway to the domain layer or business logic.
   */
@@ -42,7 +42,7 @@ public class CalcModel {
         public static String[][] modesModesText = {modeBasicText, modeBasic2Text, modeTrigoText, modeHyperText, modeLogicText, modeStatisticText, modeMemoryText,modeUnknown};
 
     //state variables (incl. getter and setters)
-        NavigatableNumberString InputString = new NavigatableNumberString();
+        String InputString = "";
         int startSelection, endSelection;
         String OutputString = "";
         private static String[] memory = new String[6];
@@ -54,8 +54,8 @@ public class CalcModel {
         public void setOuputString(String res) {OutputString = res;}
         public String getOutputString() {return OutputString;}
         public void setOutputString(String OutputString) {this.OutputString = OutputString;}
-        public void setInputText(String text) {InputString.setText(text);}
-        public String getInputText() {return InputString.getDisplayableString();}
+        public void setInputText(String text) {InputString=(text);}
+        public String getInputText() {return StringUtils.getDisplayableString(InputString);}
 
     //auxiliary variables
         String current_Callback = "";
@@ -81,8 +81,8 @@ public class CalcModel {
 
     //methods
     public void addInputText(String i, int selectionStart) {
-        if(selectionStart < 0)InputString.concatenateText(i);
-        else InputString.addText(i,selectionStart);
+        if(selectionStart < 0)InputString = InputString+i;
+        else InputString = StringUtils.insertString(InputString,i,selectionStart);
     }
 
     public boolean isConsistent(){
@@ -96,14 +96,14 @@ public class CalcModel {
     }
 
     private String calculateResult(){
-        String input = getCalcuableString(InputString.getContent());
+        String input = getCalcuableString(InputString);
         String c = MathEvaluator.evaluate(input,predec_places,dec_places);
         if(!c.equals("Math Error"))last_answer = c;
         return c;
     }
 
     public String getScientificResult(){
-        String input = InputString.getDisplayableString();
+        String input = StringUtils.getDisplayableString(InputString);
         String c = MathEvaluator.evaluate(input,7,7);
         if(!c.equals("Math Error"))last_answer = c;
         return c;
@@ -123,28 +123,24 @@ public class CalcModel {
     }
     public String getVarMode(){return var_mode;}
 
-    public String getDisplayableString(String a){
-        return NavigatableNumberString.getDisplayableString(a);
-    }
-
     public String getCalcuableString(String a){
         //language settings
         a = a.replaceAll("LCM","KGV");
         a = a.replaceAll("GCD","GGT");
 
         a = a.replace("³√","3ROOT");
-        for(String r: NumberString.replacements.keySet()){
-            a = a.replace(r,NumberString.replacements.get(r));
+        for(String r: StringUtils.replacements.keySet()){
+            a = a.replace(r, StringUtils.replacements.get(r));
         }
 
         //I: fix; sonst: PI -> P(I)
-        a = NumberString.paraInComplex(a);
+        a = StringUtils.paraInComplex(a);
 
-        for(String f: NumberString.functions_paraIn){
+        for(String f: StringUtils.functions_paraIn){
             a = a.replace(f.toLowerCase(),f);
         }
 
-        a = NumberString.parenthesise(a);
+        a = StringUtils.parenthesise(a);
 
         //after paraIn (because of AT(ANS)INH)
         Matcher matcherANS = Pattern.compile("ANS").matcher(a);
@@ -232,7 +228,7 @@ public class CalcModel {
                         switch(mode){
                             case "basic": {return("π"); }
                             case "basic2": {
-                                setOuputString(MathEvaluator.toPFZ(InputString.getContent())); return ">PFZ";}
+                                setOuputString(MathEvaluator.toPFZ(InputString)); return ">PFZ";}
                             case "trigo":  {return("SIN"); }
                             case "statistic":  {return("Zn()"); }
                             case "hyper":  {return("SINH"); }
@@ -315,12 +311,12 @@ public class CalcModel {
                         switch(mode){
                             case "basic": {return("³√"); }
                             case "basic2": {
-                                setOuputString(MathEvaluator.toPercent(InputString.getContent()));
+                                setOuputString(MathEvaluator.toPercent(InputString));
                                 return ">%";}
                             case "trigo":  {return("ASIN"); }
                             case "statistic":  {return("√(VAR())"); }
                             case "hyper":  {
-                                setOuputString(MathEvaluator.toDEG(InputString.getContent())); return ">DEG";}
+                                setOuputString(MathEvaluator.toDEG(InputString)); return ">DEG";}
                             case "logic":  {return "";} //setOuputString(InputString.getDEC()); return ">DEC";}
                             case "memory":  {return ">M1";}
                             default:  {if(enableLog)Log.e("CalcMode","unknown Mode: "+mode); return "";}
@@ -330,11 +326,11 @@ public class CalcModel {
                         switch(mode){
                             case "basic": {return("√"); }
                             case "basic2": {
-                                setOuputString(MathEvaluator.toFraction(InputString.getContent())); return ">A/B";}
+                                setOuputString(MathEvaluator.toFraction(InputString)); return ">A/B";}
                             case "trigo":  {return("ACOS"); }
                             case "statistic":  {return(""); }
                             case "hyper":  {
-                                setOuputString(MathEvaluator.toRAD(InputString.getContent())); return ">RAD";}
+                                setOuputString(MathEvaluator.toRAD(InputString)); return ">RAD";}
                             case "logic":  {return "";} //setOuputString(InputString.getHEX()); return ">HEX";}
                             case "memory":  {return ">M2";}
                             default:  {if(enableLog)Log.e("CalcMode","unknown Mode: "+mode); return "";}
@@ -344,7 +340,7 @@ public class CalcModel {
                         switch(mode){
                             case "basic": {return("³"); }
                             case "basic2": {
-                                setOuputString(MathEvaluator.toReciproke(InputString.getContent())); return ">x\u207B\u00B9";}
+                                setOuputString(MathEvaluator.toReciproke(InputString)); return ">x\u207B\u00B9";}
                             case "trigo":  {return("ATAN");}
                             case "statistic":  {return "";}
                             case "hyper":  {return("");}
@@ -357,7 +353,7 @@ public class CalcModel {
                         switch(mode){
                             case "basic": {return("²"); }
                             case "basic2": {
-                                setOuputString(MathEvaluator.toInvert(InputString.getContent())); return ">+/-";}
+                                setOuputString(MathEvaluator.toInvert(InputString)); return ">+/-";}
                             case "trigo":  {return("ACOT");}
                             case "statistic":  {return "";}
                             case "hyper":  {return(""); }
@@ -489,5 +485,6 @@ public class CalcModel {
         return A;
     }
      */
+
 
 }

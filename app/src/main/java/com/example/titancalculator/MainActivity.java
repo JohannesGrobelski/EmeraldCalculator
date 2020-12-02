@@ -19,7 +19,6 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.example.titancalculator.geplanteFeatures.helper.MainDisplay.SettingsApplier;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -43,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
     //Line 3
     Button btn_21; Button btn_22; Button btn_23; Button btn_24; Button btn_25; Button btn_26;
     //Line 5
-    Button btn_LINKS; Button btn_RECHTS; Spinner spinner_Base;
+    Button btn_LINKS; Button btn_RECHTS;
     //Group 1
     Button btn_1; Button btn_2; Button btn_3; Button btn_4; Button btn_5; Button btn_6; Button btn_7; Button btn_8; Button btn_9; Button btn_0;
     //Group 2
@@ -63,9 +62,7 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
     @Override
     protected void onResume() {
         super.onResume();
-        SettingsApplier.applySettings(MainActivity.this);
         setTitle("Calculator");
-        SettingsApplier.setColors(MainActivity.this);
         eT_output.setOnFocusChangeListener(focusListener);
         eT_input.setOnFocusChangeListener(focusListener);
     }
@@ -75,7 +72,6 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         presenter = new Presenter(this);
-        SettingsApplier.applySettings(MainActivity.this);
         setContentView(R.layout.activity_main);
         setTitle("Calculator");
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -92,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
         //L3
         btn_21 = findViewById(R.id.btn_21);  btn_22 = findViewById(R.id.btn_22);  btn_23 = findViewById(R.id.btn_23);  btn_24 = findViewById(R.id.btn_24);  btn_25 = findViewById(R.id.btn_25);  btn_26 = findViewById(R.id.btn_26);
         //L5
-        btn_LINKS = findViewById(R.id.btn_LINKS);  btn_RECHTS = findViewById(R.id.btn_RECHTS);  spinner_Base = findViewById(R.id.spinner_Base);
+        btn_LINKS = findViewById(R.id.btn_LINKS);  btn_RECHTS = findViewById(R.id.btn_RECHTS);
         //G1
         btn_1 = findViewById(R.id.btn_1);  btn_2 = findViewById(R.id.btn_2);  btn_3 = findViewById(R.id.btn_3);  btn_4 = findViewById(R.id.btn_4);  btn_5 = findViewById(R.id.btn_5);
         btn_6 = findViewById(R.id.btn_6);  btn_7 = findViewById(R.id.btn_7);  btn_8 = findViewById(R.id.btn_8);  btn_9 = findViewById(R.id.btn_9);  btn_0 = findViewById(R.id.btn_0);

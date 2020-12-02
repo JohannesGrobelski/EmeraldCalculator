@@ -1,53 +1,6 @@
 <resources>
     <!-- Reply Preference -->
-    <string-array name="reply_entries">
-        <item>Reply</item>
-        <item>Reply to all</item>
-    </string-array>
 
-    <string-array name="reply_values">
-        <item>reply</item>
-        <item>reply_all</item>
-    </string-array>
-
-    <string-array name="pref_example_list_titles">
-        <item>1</item>
-        <item>2</item>
-    </string-array>
-
-    <string-array name="pref_example_list_values">
-        <item>v1</item>
-        <item>v2</item>
-    </string-array>
-
-
-    <string-array name="pref_upload_quality_entries">
-        <item>360p</item>
-        <item>480p</item>
-        <item>720p</item>
-        <item>1080p</item>
-        <item>Original</item>
-    </string-array>
-    <string-array name="pref_upload_quality_values">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-    </string-array>
-
-
-    <string-array name="Button_Shapes">
-        <item>Square</item>
-        <item>Round</item>
-    </string-array>
-
-    <string-array name="Fonts">
-        <item>SANS_SERIF</item>
-        <item>SERIF</item>
-        <item>MONOSPACE</item>
-
-    </string-array>
 
     <string-array name="LayoutModesEN">
         <item>science</item>

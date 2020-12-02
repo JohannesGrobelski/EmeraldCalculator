@@ -96,7 +96,6 @@ public class CalcModelUnitTest {
         assertEquals("",calcModel.getOutputString()); calcModel.setOutputString("2"); assertEquals("2",calcModel.getOutputString());
         assertEquals("",calcModel.getInputText()); calcModel.setInputText("1+1");
             assertEquals("1+1",calcModel.getInputText());
-            assertEquals("1+1",calcModel.getDisplayableString("1+1"));
             assertEquals("2",calcModel.getResult());
             assertEquals("2",calcModel.getResult());
             assertEquals("2",calcModel.getScientificResult());
