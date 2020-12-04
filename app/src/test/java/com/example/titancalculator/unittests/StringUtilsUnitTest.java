@@ -1,5 +1,7 @@
 package com.example.titancalculator.unittests;
 
+import androidx.core.widget.TextViewCompat;
+
 import com.example.titancalculator.helper.Math_String.MathEvaluator;
 import com.example.titancalculator.helper.Math_String.StringUtils;
 
@@ -9,9 +11,12 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import static com.example.titancalculator.helper.Math_String.MathEvaluator.evaluate;
+import static com.example.titancalculator.helper.Math_String.MathEvaluator.logToLogb;
 import static com.example.titancalculator.helper.Math_String.StringUtils.concatenate;
 import static com.example.titancalculator.helper.Math_String.StringUtils.deleteSpan;
 import static com.example.titancalculator.helper.Math_String.StringUtils.findLongestMatch;
+import static com.example.titancalculator.helper.Math_String.StringUtils.getParameterNumber;
 import static com.example.titancalculator.helper.Math_String.StringUtils.insertString;
 import static com.example.titancalculator.helper.Math_String.StringUtils.occurences;
 import static com.example.titancalculator.helper.Math_String.StringUtils.paraInComplex;
@@ -212,35 +217,6 @@ public class StringUtilsUnitTest {
         return shuffled;
     }
 
-    private static String[] shuffle(String[] input){
-        List<String> asList = Arrays.asList(input);
-        Collections.shuffle(asList);
-        return asList.toArray(new String[0]);
-    }
-
-    private String shuffleString2(String string){
-        for(int i=0; i<string.length()*100; i++){
-            int randomCut1=0; int randomCut2=0;
-            randomCut1 = ((int) (Math.random()*(string.length()-2)))+1;
-            randomCut2 = ((int) (Math.random()*(string.length()-2)))+1;
-            while(randomCut1==randomCut2)randomCut2 = ((int) (Math.random()*(string.length()-2)))+1;
-            int r1 = Math.min(randomCut1,randomCut2); int r2 = Math.max(randomCut1,randomCut2);
-            String subA = string.substring(0,r1);
-            String subB = string.substring(r1,r2);
-            String subC = string.substring(r2);
-            assertEquals(subA.length()+subB.length()+subC.length(),string.length());
-            int r = (int) (Math.random()*5);
-            switch (r){
-                case 0:string = subA+subC+subB;break;
-                case 1:string = subB+subA+subC;break;
-                case 2:string = subB+subC+subA;break;
-                case 3:string = subC+subA+subB;break;
-                case 4:string = subC+subB+subA;break;
-            }
-        }
-        return string;
-    }
-
     @Test
     public void paraIn2SimpleTest(){
         assertTrue("wrong: 768ROOT22",paraInComplex("768ROOT22").equals("ROOT(768,22)"));
@@ -347,6 +323,25 @@ public class StringUtilsUnitTest {
         assertTrue(StringUtils.paraInComplex("3ROOT3ROOT(8)").matches(groupPattern));
         assertTrue(StringUtils.paraInComplex("3ROOT(3ROOT(8))").matches(groupPattern));
         System.out.println(StringUtils.paraInComplex("3ROOT(3ROOT(8))"));
+    }
+
+    @Test
+    public void testTransformations(){
+        for(int it=0;it<testIterationen;it++){
+            String function = StringUtils.functions_parentIn[((int) (Math.random()*StringUtils.functions_parentIn.length))];
+            int numberParameter = ((int) (Math.random()*20))-10;
+            if(numberParameter <=0)assertEquals(0,StringUtils.getParameterNumber(function,0));
+            else {
+               StringBuilder input = new StringBuilder(function+"(");
+               for(int i=0;i<numberParameter;i++)input.append(numbergenerator()+",");
+               input.deleteCharAt(input.length()-1); input.append(")");
+               assertEquals(numberParameter,getParameterNumber(input.toString(),0));
+            }
+        }
+
+        String input = "LOG(LOG(13))";
+        assertEquals("LOG10(LOG10(13))",logToLogb(input));
+        assertEquals("0.046863106092572215377600741703645326197147369384765625",evaluate(input));
     }
 
     public String numbergenerator(){

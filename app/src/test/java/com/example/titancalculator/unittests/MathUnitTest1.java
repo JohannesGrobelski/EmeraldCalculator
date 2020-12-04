@@ -16,18 +16,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
- * TODO: For all self-defined functions:
- *       ANS   "π","e","^","LOG","LN","LB","³√","√","³","²","10^x","!",
- *             "PFZ","GCD","LCM","∑","∏",">%",">A/B",">x\u207B\u00B9",">+/-","MIN","MAX",
- *             ">DEG",">RAD",
- *             "AND","OR","XOR","NOT"
- *             "Zn","Zb","NCR","NPR","MEAN","VAR","S",
- * TODO: test random values
- * TODO: test extreme values
- * TODO: test incorrect values (result: Math Error): for all:
-         - if (parameters.get(0).doubleValue() == 0) {throw new ExpressionException("Number must not be 0");}
-         - ..
-
+ * For all self-defined functions:
+ *      - basic: "!"
+ *      - basic2: "PFZ","GCD","LCM","∑","∏",">%",">A/B",">x\u207B\u00B9",">+/-","MIN","MAX",
+ *      - statistic: "Zn","Zb","NCR","NPR","MEAN","VAR","S",
+ * - check definition and document it
+ * - test math rules with random values
  */
 public class MathUnitTest1 {
     static int iterationsSubtests = 10;
@@ -83,14 +77,11 @@ public class MathUnitTest1 {
         assertTrue(testEquation("e^0","1"));
         assertTrue(testEquation("LN(1)","0"));
         assertTrue(testEquation("LN(e)","1"));
-        assertTrue(testEquation("0!","1"));
-        assertTrue(testEquation("0.5!","Math Error"));
-        assertTrue(testEquation("1!","1"));
-        assertTrue(testEquation("5!","120"));
+
         NumberFormat formatter = new DecimalFormat("###.#####################");
         for(int i=0; i<iterationsSubtests; i++) {
-            double OP1 = Double.parseDouble(String.valueOf((Math.random() * 10) - 0)); //TODO: negative numbers
-            double OP2 = Double.parseDouble(String.valueOf((Math.random() * 10) - 0)); //TODO: negative numbers
+            double OP1 = Double.parseDouble(String.valueOf((Math.random() * 10) - 0)); 
+            double OP2 = Double.parseDouble(String.valueOf((Math.random() * 10) - 0)); 
             String op1 = formatter.format(OP1).replace(",",".");
             String op2 = formatter.format(OP1).replace(",",".");
             double op3 = Math.random() * 10;
@@ -130,8 +121,17 @@ public class MathUnitTest1 {
             assertTrue(testEquation("LOG("+op1+")+LOG("+op2+")","LOG("+op1+"*"+op2+")")); //LOG(a) + LOG(b) = LOG(a*b)
             assertTrue(testEquation("LOG("+op1+")-LOG("+op2+")","LOG("+op1+"/"+op2+")")); //LOG(a) - LOG(b) = LOG(a/b)
             assertTrue(testEquation("LOG("+op1+"^"+op2+")",op2+"*LOG("+op1+")")); //LOG(a^b) = b*LOG(a)
-
         }
+        //test random values
+        assertTrue(testEquation("14!","87178291200"));
+        assertTrue(testEquation("27!","10888869450418352160768000000"));
+        assertTrue(testEquation("3!","6"));
+        assertTrue(testEquation("5!","120"));
+        assertTrue(testEquation("-12!","Math Error"));
+
+        assertTrue(testEquation("0!","1"));
+        assertTrue(testEquation("0.5!","Math Error"));
+        assertTrue(testEquation("1!","1"));
     }
 
     @Test public void testBasic2Functions() {
@@ -139,16 +139,17 @@ public class MathUnitTest1 {
 
 
         for(int i=0; i<iterationsSubtests; i++) {
-            int inta = (int) ((Math.random() * 1000) - 500); //TODO: negative numbers
-            int intb = (int) ((Math.random() * 1000) - 500); //TODO: negative numbers
-            int intc = (int) ((Math.random() * 1000) - 500); //TODO: negative numbers
+            int inta = (int) ((Math.random() * 1000) - 500); 
+            int intb = (int) ((Math.random() * 1000) - 500); 
+            int intc = (int) ((Math.random() * 1000) - 500); 
             int intm = (int) ((Math.random() * 1000));
 
-            double op1 = (Math.random() * 10) - 0; //TODO: negative numbers
-            double op2 = (Math.random() * 10) - 0; //TODO: bigger numbers
-            double op3 = (Math.random() * 10) - 0; //TODO: bigger numbers
+            double op1 = (Math.random() * 10) - 0; 
+            double op2 = (Math.random() * 10) - 0; 
+            double op3 = (Math.random() * 10) - 0; 
             double d = (Math.random() * 10) - 0;
 
+            System.out.println(calcTerm("GCD("+inta+",0)"));
             assertTrue(testEquation("GCD(" + inta + ",0)", String.valueOf(Math.abs(inta)))); //gcd(a, 0) = |a|, for a ≠ 0
             for(int div = 1; div<Math.min(Math.abs(inta),Math.abs(intb)); div++){ //Every common divisor of a and b is a divisor of gcd(a, b).
                 if(Math.abs(inta) % div == 0 && Math.abs(intb) % div == 0){
@@ -211,17 +212,11 @@ public class MathUnitTest1 {
         System.out.println(calcTerm("π"));
         assertTrue(resembles(MathEvaluator.toDEG(calcTerm("π")),"180")); //DEG(π) = 180
 
-
-        double x = (Math.random() * 10) + 1; //TODO: negative numbers
-        double y = (Math.random() * 10) + 1; //TODO: bigger numbers
-        int a = (int) ((Math.random() * 50) - 25); //TODO: negative numbers
-        int b = (int) ((Math.random() * 50) - 25); //TODO: negative numbers
-
         for(int i=0; i<iterationsSubtests; i++) {
-            x = (Math.random() * 10) + 1; //TODO: negative numbers
-            y = (Math.random() * 10) + 1; //TODO: bigger numbers
-            a = (int) ((Math.random() * 50) - 25); //TODO: negative numbers
-            b = (int) ((Math.random() * 50) - 25); //TODO: negative numbers
+            double x = (Math.random() * 10) + 1;
+            double y = (Math.random() * 10) + 1;
+            int a = (int) ((Math.random() * 50) - 25);
+            int b = (int) ((Math.random() * 50) - 25);
 
             assertTrue(resembles(calcTerm("SIN("+x*Math.toRadians(Math.PI)+")"),"0",2));
             if(x == ((double) ((int) x)))x += .1;
@@ -240,11 +235,6 @@ public class MathUnitTest1 {
             assertTrue(testEquation("SEC("+Math.toDegrees(Math.PI/2)+"-"+x+")","CSC("+x+")")); //sec(x) = csc(π/2 - x)
             assertTrue(testEquation("SEC("+Math.toDegrees(Math.PI/2)+"-"+x+")","CSC("+x+")")); //sec(x) = csc(π/2 - x)
             assertTrue(testEquation("CSC("+Math.toDegrees(Math.PI/2)+"-"+x+")","SEC("+x+")")); //csc(x) = sec(π/2 - x)
-
-            //here
-            //TODO: assertTrue(resembles(calcTerm("SIN("+5+Math.toRadians(2*2*Math.PI)+")"),calcTerm("SIN("+5+")")));//sin(x + 2k*π) = sin(x)
-            //TODO: assertTrue(resembles(calcTerm("COS("+x*Math.toDegrees(2*Math.PI)+")"),calcTerm("COS("+x+")")));//cos(x + 2k*π) = cos(x)
-            //TODO: assertTrue(resembles(calcTerm("TAN("+x*Math.toDegrees(2*Math.PI)+")"),calcTerm("TAN("+x+")")));//tan(x + 2k*π) = tan(x)
 
             assertTrue(testEquation("SIN(-"+x+")","-SIN("+x+")")); //sin(-x) = -sin(x)
             assertTrue(testEquation("COS(-"+x+")","COS("+x+")")); //cos(-x) = cos(x)
@@ -307,6 +297,7 @@ public class MathUnitTest1 {
         for(int i=0; i<iterationsSubtests; i++) {
             int a = (int) ((Math.random() * 1000));
             int b = a+100;
+            assertTrue(b+" not higher than "+a,b>a);  //0 < result < a
 
             int n = (int) ((Math.random() * 1000));
             int r = (int) ((Math.random() * 1000));
@@ -319,7 +310,7 @@ public class MathUnitTest1 {
             assertTrue(result+" higher than "+a+1,result <= a);  //0 < result < a
 
             result = Integer.valueOf(calcTerm("ZB("+a+","+b+")"));
-            assertTrue(result > a);
+            assertTrue(result >= a);
             assertTrue(result <= b);  //0 < result < a
 
             assertTrue(testEquation("NPR("+n+","+r+")",n+"!"+"/("+n+"-"+r+")!")); //nPr(n,r)=n!/(n−r)!
@@ -346,6 +337,15 @@ public class MathUnitTest1 {
 
         assertTrue(resembles(calcTerm("√(VAR(1,2,3))"),"0.81649658092772603273242802"));
         assertTrue(resembles(calcTerm("√(VAR(1.12,124.12,12.241,-12.124124,40783420,-792.2))"),"15199132.952412"));
+
+        int min = Integer.MAX_VALUE; int max = Integer.MIN_VALUE; int a = -24; int b = -12;
+        for(int j=0;j<500; j++){
+            int result = Integer.parseInt(MathEvaluator.evaluate("Zb("+a+","+b+")"));
+            if(result < min)min = result;
+            if(result > max)max = result;
+        }
+        assertEquals(a,min);
+        assertEquals(b,max);
     }
 
 
@@ -412,8 +412,8 @@ public class MathUnitTest1 {
 
     public String getCalcuableString(String a){
         //language settings
-        a = a.replaceAll("LCM","KGV");
-        a = a.replaceAll("GCD","GGT");
+        a = a.replaceAll("KGV","LCM");
+        a = a.replaceAll("GGT","GCD");
 
         a = a.replace("³√","3ROOT");
         for(String r: StringUtils.replacements.keySet()){

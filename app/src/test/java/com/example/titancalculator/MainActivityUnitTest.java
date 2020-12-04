@@ -12,8 +12,11 @@ import com.example.titancalculator.helper.Math_String.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 import org.robolectric.fakes.RoboMenuItem;
 
@@ -47,23 +50,14 @@ public class MainActivityUnitTest {
     private MainActivity mainActivity;
     private RoboMenuItem currentMode;
 
-    /**
-     * TODO: this throws the error: A fatal error has been detected by the Java Runtime Environment: ...
-     * # Problematic frame:
-     * # V  [jvm.dll+0x4c8180]
-     * # EXCEPTION_ACCESS_VIOLATION
-     *
-     * possible solution (needs a lot of data): https://stackoverflow.com/questions/42827364/fatal-error-jre-android-studio
+    @Mock
+    Presenter presenter;
 
-    @Before public void testSa(){
-        for(int i=0; i<800; i++){
-            assertEquals("Math Error",calcTerm(((int) (Math.random()*1000) + 1)+"/0"));
-        }
+    @Before public void setUp(){
+        MockitoAnnotations.initMocks(this);
+        mainActivity = new MainActivity(RuntimeEnvironment.application);
+        profileView.setPresenter(presenter);
     }
-    TODO: 100% coverage
-     */
-
-
 
     @Test public void testDisplayFunctions(){
         Button[] B = new Button[]{mainActivity.findViewById(R.id.btn_11),mainActivity.findViewById(R.id.btn_12),mainActivity.findViewById(R.id.btn_13),

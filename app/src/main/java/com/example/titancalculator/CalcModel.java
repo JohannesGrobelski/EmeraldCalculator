@@ -85,11 +85,6 @@ public class CalcModel {
         else InputString = StringUtils.insertString(InputString,i,selectionStart);
     }
 
-    public boolean isConsistent(){
-        //TODO: implement
-        return true;
-    }
-
     public String getResult(){
         if(isScientificNotation())return getScientificResult();
         else return calculateResult();

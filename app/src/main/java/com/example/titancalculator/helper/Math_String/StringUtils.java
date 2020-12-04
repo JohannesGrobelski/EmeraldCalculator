@@ -152,7 +152,6 @@ public class StringUtils {
     public static String[] splitMathTokens(String input) {
         return split(input,mathTokens);
     }
-
     public static String[] splitTokens(String input) {
         return split(input,allTokens);
     }
@@ -207,6 +206,7 @@ public class StringUtils {
      * @return
      */
 	public static int getParameterNumber(String eval, int posAnfang){
+	    if(!eval.contains("(") || !eval.contains(")"))return 0;
 	    if(occurences(eval,"(") != occurences(eval,")"))return -1;
 	    int number_comma = 0;
 	    int klammern_offen = 0; int klammern_geschlossen = 0;
@@ -228,7 +228,6 @@ public class StringUtils {
      * @return
      */
     public static String paraInComplex(String input){
-        //TODO: 3ROOT(3ROOT(8 wird auch als richtig erkannt weil schließende klammern nicht gezählt werden. Fehler oder Nutzerfreundlich?
         String patternFct = "("; for(String s: functions_parentIn){patternFct+=s+"|";} patternFct = patternFct.substring(0,patternFct.length()-1); patternFct += ")";
         Matcher matcherFct = Pattern.compile(patternFct).matcher(input);
         String patternNumber = "[0-9]*(\\.)?[0-9]+";
@@ -356,48 +355,7 @@ public class StringUtils {
         return result.toString();
     }
 
-    /**
-     * @param input
-     * @return transform functionParenthesisable into function(Parenthesisable)
-     * with Parenthesisable beeing a number or another function(Parenthesisable)
-     */
-    private static String parenthesiseSubAlt(String input){
-        if(input.isEmpty())return input;
-        int para = 0;
-        StringBuilder save =  new StringBuilder("");
-        //boolean isnumber = false;
-        for(String s: functions_parentIn){
-            input = input.replace(s,s+"(");
-            input = input.replace("((","(");
-            input = input.replaceAll(s, s.toLowerCase());
-        }
 
-        for(int i=0; i<input.length(); i++){
-            if(input.charAt(i) == '('){
-                ++para; continue;
-            }
-            if(String.valueOf(input.charAt(i)).matches("[0-9]") || input.charAt(i) == '.' || input.charAt(i)== '-'){
-                save.append(input.charAt(i)); //isnumber = true;
-                continue;
-            }
-            /* TODO: test to verify: not reachable => delete
-            else { //Ende der Kette
-                if(isnumber){
-                    System.out.println("isnumber2: "+input);
-                    String insert = StringUtils.repeat(")",para);
-                    input = StringUtils.insertString(input,insert,i-1);
-                    save = new StringBuilder(); para = 0;
-                    isnumber = false;
-                }
-            }
-             */
-        }
-        if(para > 0){
-            String insert = repeat(")",para);
-            input = insertString(input,insert,input.length()-1);
-        }
-        return input;
-    }
 
     /**
      * @param input

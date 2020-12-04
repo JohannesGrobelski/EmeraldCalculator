@@ -126,6 +126,11 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
 
     }
 
+    @Inject
+    public void setPresenter(Presenter presenter){
+        this.presenter = presenter;
+    }
+
     public void setOnClickListeners(){
         btn_FUN.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View view) {

@@ -150,14 +150,14 @@ public class IntegrationTestMath {
         currentMode = new RoboMenuItem(R.id.basic2);
 
         for(int i=0; i<3; i++) {
-            int inta = (int) ((Math.random() * 1000) - 500); //TODO: negative numbers
-            int intb = (int) ((Math.random() * 1000) - 500); //TODO: negative numbers
-            int intc = (int) ((Math.random() * 1000) - 500); //TODO: negative numbers
+            int inta = (int) ((Math.random() * 1000) - 500);
+            int intb = (int) ((Math.random() * 1000) - 500);
+            int intc = (int) ((Math.random() * 1000) - 500);
             int intm = (int) ((Math.random() * 1000));
 
-            double op1 = (Math.random() * 10) - 0; //TODO: negative numbers
-            double op2 = (Math.random() * 10) - 0; //TODO: bigger numbers
-            double op3 = (Math.random() * 10) - 0; //TODO: bigger numbers
+            double op1 = (Math.random() * 10) - 0;
+            double op2 = (Math.random() * 10) - 0;
+            double op3 = (Math.random() * 10) - 0;
             double d = (Math.random() * 10) - 0;
 
             Assert.assertTrue(testEquation("GCD" + inta + "R0", String.valueOf(Math.abs(inta)))); //gcd(a, 0) = |a|, for a ≠ 0
@@ -246,7 +246,6 @@ public class IntegrationTestMath {
 
     @Test public void testLogicFunctions() {
         currentMode = new RoboMenuItem(R.id.trigo);
-
 
         for(int i=0; i<iterationsSubtests; i++) {
             int a = (int) ((Math.random() * 1000) - 500);

@@ -22,6 +22,10 @@ public class Presenter {
         calcModel = new CalcModel();
     }
 
+    public void attachView(View view){
+        
+    }
+
     /**
      * propagates input from view to calcmodel and updates views output
      * @param identifier
@@ -101,7 +105,7 @@ public class Presenter {
             addInputText(identifier);
             ret =  identifier;
         }
-        if(!ret.isEmpty() && ret.substring(0,1).equals(">")){ //TODO: schlechtes Signal das Output da ist, besser?: CalcModel benachrichtigt Presenter direkt?
+        if(!ret.isEmpty() && ret.substring(0,1).equals(">")){
             view.setOutputText(calcModel.getOutputString());
             return "";
         }
@@ -149,7 +153,6 @@ public class Presenter {
      * deletes the selection or the character left of the selection
      */
     private void inputClearOne(){
-        //TODO: wenn cursor in mitte klappt es noch nicht ganz
         String text = view.getInputText(); int start = view.getSelectionStartInput(); int end = view.getSelectionEndInput();
         if(start != -1){
             if(end == start){
@@ -163,7 +166,6 @@ public class Presenter {
         view.setInputText(calcModel.getInputText());
         if(selection >= 0)view.setSelectionInput(selection);
 
-        //original//TODO: test and delete
         //setInputText("");
         //eT_input.setSelection(Math.max(0, pos - 1));
     }

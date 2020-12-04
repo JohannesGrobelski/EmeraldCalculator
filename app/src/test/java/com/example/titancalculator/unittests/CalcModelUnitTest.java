@@ -7,6 +7,9 @@ import com.example.titancalculator.CalcModel;
 import org.junit.Before;
 import org.junit.Test;
 
+import static com.example.titancalculator.CalcModel.modes;
+import static com.example.titancalculator.CalcModel.modesModesFunctionality;
+import static com.example.titancalculator.CalcModel.modesModesText;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -16,15 +19,6 @@ import static org.mockito.Mockito.mock;
 public class CalcModelUnitTest {
 
     CalcModel calcModel;
-    final private String[] modes = {"basic","basic2","trigo","hyper","logic","statistic","memory"};
-    final private String[] modeBasic = {"π","e","^","LOG","LN","LB","³√","√","³","²","10^","!"};
-    final private String[] modeBasic2 = {">PFZ","GCD(,)","LCM(,)","∑(,)","∏(,)","",">%",">A/B",">x\u207B\u00B9",">+/-","MIN(,)","MAX(,)"};
-    final private String[] modeTrigo = {"SIN","COS","TAN","COT","SEC","CSC","ASIN","ACOS","ATAN","ACOT","ASEC","ACSC"};
-    final private String[] modeHyper = {"SINH","COSH","TANH","ASINH","ACOSH","ATANH",">DEG",">RAD","","","",""};
-    final private String[] modeLogic = {"AND(,)","OR(,)","XOR(,)","NOT()","","","","","","","",""};
-    final private String[] modeStatistic = {"Zn()","Zb(,)","C","P","MEAN()","VAR()","√(VAR())","","","","",""};
-    final private String[] modeMemory = {"M1","M2","M3","M4","M5","M6",">M1",">M2",">M3",">M4",">M5",">M6"};
-    final private String[][] modesModes = {modeBasic,modeBasic2,modeTrigo,modeHyper,modeLogic,modeStatistic,modeMemory};
     private String[][] btn = new String[2][6];
 
     @Before
@@ -33,8 +27,38 @@ public class CalcModelUnitTest {
     }
 
     @Test
-    public void testModes(){
+    public void testGetFunctionButtonText(){
         for(int mode=0; mode<modes.length; mode++){
+            //System.out.println("mode: "+modes[mode]);
+            calcModel.setMode(modes[mode]);
+            btn[0][0] = calcModel.getFunctionButtonText(11); btn[0][1] = calcModel.getFunctionButtonText(12); btn[0][2] = calcModel.getFunctionButtonText(13);
+            btn[0][3] = calcModel.getFunctionButtonText(14); btn[0][4] = calcModel.getFunctionButtonText(15); btn[0][5] = calcModel.getFunctionButtonText(16);
+            btn[1][0] = calcModel.getFunctionButtonText(21); btn[1][1] = calcModel.getFunctionButtonText(22); btn[1][2] = calcModel.getFunctionButtonText(23);
+            btn[1][3] = calcModel.getFunctionButtonText(24); btn[1][4] = calcModel.getFunctionButtonText(25); btn[1][5] = calcModel.getFunctionButtonText(26);
+
+            for(int i=0; i<12; i++){
+                //System.out.println("mode: "+btn[i/6][i%6]+", transl:"+modesModes[mode][i]);
+                assertEquals(modesModesText[mode][i],btn[i/6][i%6]);
+            }
+            //System.out.println("\n\n");
+        }
+        calcModel.setMode("basic2"); calcModel.setLanguage("german");
+        assertEquals("GGT",calcModel.getFunctionButtonText(12));
+        assertEquals("KGV",calcModel.getFunctionButtonText(13));
+
+        calcModel.enableLog=false;
+        calcModel.setMode("unknown");
+        btn[0][0] = calcModel.getFunctionButtonText(11); btn[0][1] = calcModel.getFunctionButtonText(12); btn[0][2] = calcModel.getFunctionButtonText(13);
+        btn[0][3] = calcModel.getFunctionButtonText(14); btn[0][4] = calcModel.getFunctionButtonText(15); btn[0][5] = calcModel.getFunctionButtonText(16);
+        btn[1][0] = calcModel.getFunctionButtonText(21); btn[1][1] = calcModel.getFunctionButtonText(22); btn[1][2] = calcModel.getFunctionButtonText(23);
+        btn[1][3] = calcModel.getFunctionButtonText(24); btn[1][4] = calcModel.getFunctionButtonText(25); btn[1][5] = calcModel.getFunctionButtonText(26);
+        for(int i=0; i<12; i++){assertEquals("",btn[i/6][i%6]);}
+
+    }
+
+    @Test
+    public void testGetFunctionButtonFunctionality(){
+        for(int mode=0; mode<modes.length-1; mode++){
             //System.out.println("mode: "+modes[mode]);
             calcModel.setMode(modes[mode]);
             btn[0][0] = calcModel.getFunctionButtonFunctionality(11); btn[0][1] = calcModel.getFunctionButtonFunctionality(12); btn[0][2] = calcModel.getFunctionButtonFunctionality(13);
@@ -44,7 +68,7 @@ public class CalcModelUnitTest {
 
             for(int i=0; i<12; i++){
                 //System.out.println("mode: "+btn[i/6][i%6]+", transl:"+modesModes[mode][i]);
-                assertEquals(modesModes[mode][i],btn[i/6][i%6]);
+                assertEquals(modesModesFunctionality[mode][i],btn[i/6][i%6]);
             }
             //System.out.println("\n\n");
         }
@@ -136,7 +160,6 @@ public class CalcModelUnitTest {
         calcModel.setVarMode("unknown"); assertEquals("HarVar",calcModel.var_mode); assertEquals(calcModel.var_mode,calcModel.getVarMode());
         //getInputText(), setContent(...)
         String content = "1+1"; calcModel.setInputText(content); assertEquals(content,calcModel.getInputText());
-        //TODO: getDisplayableString()
     }
 
     @Test public void testMeanVarModes(){

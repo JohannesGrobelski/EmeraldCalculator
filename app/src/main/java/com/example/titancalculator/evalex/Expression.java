@@ -26,7 +26,7 @@
  */
 package com.example.titancalculator.evalex;
 
-import android.util.Log;
+import com.example.titancalculator.helper.Math_String.MathEvaluator;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -530,11 +530,16 @@ public class Expression {
 		this(expression, MathContext.DECIMAL32);
 	}
 
-	public double factorial(double a){
-		if(a<0)return Float.POSITIVE_INFINITY;
-		if(a==0 || a==1)return 1;
+	/**
+	 * definition n! = (n-1)! for n positive integers, 0! = 1! = 1
+	 * @param input
+	 * @return
+	 */
+	public BigInteger factorial(BigInteger input){
+		if(input.compareTo(BigInteger.ZERO) < 0)return BigInteger.ZERO;
+		else if(input.compareTo(BigInteger.ZERO) == 0 || input.compareTo(BigInteger.ONE) == 0 )return BigInteger.ONE;
 		else{
-			return a*factorial(a-1);
+			return input.multiply(factorial(input.min(BigInteger.ONE)));
 		}
 	}
 
@@ -559,6 +564,11 @@ public class Expression {
 				return fac(v1);
 			}
 
+			/**
+			 * definition n! = (n-1)! for n positive integers, 0! = 1! = 1
+			 * @param b
+			 * @return
+			 */
 			private BigDecimal fac(BigDecimal b){
 				if(b.compareTo(BigDecimal.ZERO) < 0)return BigDecimal.ZERO;
 				else if(b.equals(BigDecimal.ZERO))return BigDecimal.ONE;
@@ -936,23 +946,38 @@ public class Expression {
 			}
 		});
 		addFunction(new Function("P", 2) {
+			/**
+			 * P = nPr = n!/(n-r)!
+			 * @param parameters
+			 *            Parameters will be passed by the expression evaluator as a
+			 *            {@link List} of {@link BigDecimal} values.
+			 * @return
+			 */
 			@Override
 			public BigDecimal eval(List<BigDecimal> parameters) {
 				assertNotNull(parameters.get(0));
 				double n = parameters.get(0).doubleValue();
 				double r = parameters.get(1).doubleValue();
-				double d = factorial(n) / (factorial(n-r));
-				return new BigDecimal(d, mc);
+				BigDecimal d = new BigDecimal(factorial(BigInteger.valueOf((long) n)).divide(factorial(BigInteger.valueOf((long) (n-r)))),mc);
+				return d;
 			}
 		});
 		addFunction(new Function("C", 2) {
+			/**
+			 * nCr(n,r) = nPr(n,r) / r! =  (n!/(n-r)!)/r!
+			 * @param parameters
+			 *            Parameters will be passed by the expression evaluator as a
+			 *            {@link List} of {@link BigDecimal} values.
+			 * @return
+			 */
 			@Override
 			public BigDecimal eval(List<BigDecimal> parameters) {
 				assertNotNull(parameters.get(0));
 				double n = parameters.get(0).doubleValue();
 				double r = parameters.get(1).doubleValue();
-				double d = factorial(n) / (factorial(r)*factorial(n-r));
-				return new BigDecimal(d, mc);
+				BigInteger nPr = factorial(BigInteger.valueOf((long) n)).divide(factorial(BigInteger.valueOf((long) (n-r))));
+				BigDecimal d = new BigDecimal(nPr.divide(factorial(BigInteger.valueOf((long) (r)))),mc);;
+				return d;
 			}
 		});
 		addFunction(new Function("LB", 1) {
@@ -1095,6 +1120,13 @@ public class Expression {
 		});
 
 		addFunction(new Function("AriMit", -1) {
+			/**
+			 * AriMit(X1..Xn) = MEAN(X1..Xn) = SUM(X1..Xn) / n
+			 * @param parameters
+			 *            Parameters will be passed by the expression evaluator as a
+			 *            {@link List} of {@link BigDecimal} values.
+			 * @return
+			 */
 			@Override
 			public BigDecimal eval(List<BigDecimal> parameters) {
 				if (parameters.size() == 0) {
@@ -1146,6 +1178,13 @@ public class Expression {
 
 
 		addFunction(new Function("AriVar", -1) {
+			/**
+			 * AriVar(X1..Xn) = VAR(X1..Xn) = SUM(Xi - M)² / n-1, M = AriMit(X1...Xn)
+			 * @param parameters
+			 *            Parameters will be passed by the expression evaluator as a
+			 *            {@link List} of {@link BigDecimal} values.
+			 * @return
+			 */
 			@Override
 			public BigDecimal eval(List<BigDecimal> parameters) {
 				if (parameters.size() == 0) {
@@ -1158,11 +1197,7 @@ public class Expression {
 					assertNotNull(parameter);
 					sum = sum.add(parameter,mc);
 				}
-
-				System.out.println("AriVar: "+sum.toString());
 				BigDecimal ariMittel = sum.divide(BigDecimal.valueOf(parameters.size()),mc);
-				System.out.println("AriVar: "+ariMittel.toString());
-
 				sum = BigDecimal.ZERO;
 
 				for (BigDecimal parameter : parameters) {
@@ -1324,6 +1359,13 @@ public class Expression {
 			}
 		});
 		addFunction(new Function("Zn", 1) {
+			/**
+			 *
+			 * @param parameters
+			 *            Parameters will be passed by the expression evaluator as a
+			 *            {@link List} of {@link BigDecimal} values.
+			 * @return a random number between 0 and parameter
+			 */
 			@Override
 			public BigDecimal eval(List<BigDecimal> parameters) {
 				assertNotNull(parameters.get(0));
@@ -1332,16 +1374,23 @@ public class Expression {
 			}
 		});
 		addFunction(new Function("Zb", 2) {
+			/**
+			 *
+			 * @param parameters
+			 *            Parameters will be passed by the expression evaluator as a
+			 *            {@link List} of {@link BigDecimal} values.
+			 * @return a random number between parameter1 and parameter2
+			 */
 			@Override
 			public BigDecimal eval(List<BigDecimal> parameters) {
 				assertNotNull(parameters.get(0));
-				double a = Math.abs(parameters.get(0).doubleValue());
-				double b = Math.abs(parameters.get(1).doubleValue());
-				if(a < 0 || b < 0 || b <= a)return null;
-				else{
-					BigDecimal Z = BigDecimal.valueOf((Math.random()*(b-a)) + a);
-					return Z.setScale(0, RoundingMode.CEILING);
-				}
+				double a = parameters.get(0).doubleValue();
+				double b = parameters.get(1).doubleValue();
+				if(b<a)return null;
+				if(a==b)return new BigDecimal(a);
+				double dif = Math.abs(Math.max(a,b)-Math.min(a,b))+1;
+				BigDecimal Z = BigDecimal.valueOf((a + (Math.random()*dif)-1));
+				return Z.setScale(0, RoundingMode.CEILING);
 			}
 		});
 		addFunction(new Function("MULP2", 2) {
@@ -1360,6 +1409,15 @@ public class Expression {
 			}
 		});
 		addFunction(new Function("MULP", 2) {
+			/**
+			 * MULP(a,b) = a*a+1...*b-1*b with a>b
+			 * MULP(a,a) = a
+			 * MULP(b,a) = 1
+			 * @param parameters
+			 *            Parameters will be passed by the expression evaluator as a
+			 *            {@link List} of {@link BigDecimal} values.
+			 * @return
+			 */
 			@Override
 			public BigDecimal eval(List<BigDecimal> parameters) {
 				assertNotNull(parameters.get(0));
@@ -1375,6 +1433,15 @@ public class Expression {
 			}
 		});
 		addFunction(new Function("SUME", 2) {
+			/**
+			 * SUME(a,b) = a+a+1...+b-1+b with a>b
+			 * SUME(a,a) = a
+			 * SUME(b,a) = 0
+			 * @param parameters
+			 *            Parameters will be passed by the expression evaluator as a
+			 *            {@link List} of {@link BigDecimal} values.
+			 * @return
+			 */
 			@Override
 			public BigDecimal eval(List<BigDecimal> parameters) {
 				assertNotNull(parameters.get(0));
@@ -1391,20 +1458,21 @@ public class Expression {
 			}
 		});
 
-		addFunction(new Function("KGV", 2) {
+		addFunction(new Function("LCM", 2) {
 			@Override
 			public BigDecimal eval(List<BigDecimal> parameters) {
 				assertNotNull(parameters.get(0));
 				assertNotNull(parameters.get(1));
-				return KGV(parameters.get(0),parameters.get(1));
+				return LCM(parameters.get(0),parameters.get(1));
 			}
 		});
-		addFunction(new Function("GGT", 2) {
+		addFunction(new Function("GCD", 2) {
 			@Override
 			public BigDecimal eval(List<BigDecimal> parameters) {
+				System.out.println(parameters.get(0)+" "+parameters.get(1));
 				assertNotNull(parameters.get(0));
 				assertNotNull(parameters.get(1));
-				return GGT(parameters.get(0),parameters.get(1));
+				return GCD(parameters.get(0),parameters.get(1));
 			}
 		});
 		addFunction(new Function("SQRT", 1) {
@@ -2269,17 +2337,29 @@ public class Expression {
 		return false;
 	}
 
-	private BigDecimal GGT(BigDecimal m,BigDecimal n){
-		if (n.equals(BigDecimal.ZERO))
-			return m.abs();
-		else
-			return GGT(n, m.remainder(n,mc));
+	/**
+	 * GCD(a,0) = a,  GCD(a,b) = GCD(n,m%n) if a>=b and b>0
+	 * @param a
+	 * @param b
+	 * @return
+	 */
+	private BigDecimal GCD(BigDecimal a, BigDecimal b){
+		BigInteger A = a.toBigInteger();
+		BigInteger B = b.toBigInteger();
+		return new BigDecimal(A.gcd(B));
 	}
 
-	private BigDecimal KGV(BigDecimal m,BigDecimal n){
-		BigDecimal o = GGT(m,n);
+
+	/**
+	 * LCM(a, b) = (a*b)/GCD(a,b)
+	 * @param a
+	 * @param b
+	 * @return
+	 */
+	private BigDecimal LCM(BigDecimal a, BigDecimal b){
+		BigDecimal o = GCD(a,b);
 		if(o.equals(BigDecimal.ZERO))return o;
-		BigDecimal p = (m.multiply(n)).divide(o,mc);
+		BigDecimal p = (a.multiply(b)).divide(o,mc);
 		return p.abs();
 	}
 
