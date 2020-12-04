@@ -1,6 +1,10 @@
 package com.example.titancalculator;
 
+import android.graphics.Typeface;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,6 +18,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.objectweb.asm.tree.MultiANewArrayInsnNode;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
@@ -50,13 +55,11 @@ public class MainActivityUnitTest {
     private MainActivity mainActivity;
     private RoboMenuItem currentMode;
 
-    @Mock
-    Presenter presenter;
 
     @Before public void setUp(){
+        mainActivity = Robolectric.setupActivity(MainActivity.class);
         MockitoAnnotations.initMocks(this);
-        mainActivity = new MainActivity(RuntimeEnvironment.application);
-        profileView.setPresenter(presenter);
+        currentMode = new RoboMenuItem(R.id.basic);
     }
 
     @Test public void testDisplayFunctions(){
@@ -64,10 +67,16 @@ public class MainActivityUnitTest {
                 mainActivity.findViewById(R.id.btn_14),mainActivity.findViewById(R.id.btn_15),mainActivity.findViewById(R.id.btn_16),
                 mainActivity.findViewById(R.id.btn_21),mainActivity.findViewById(R.id.btn_22),mainActivity.findViewById(R.id.btn_23),
                 mainActivity.findViewById(R.id.btn_24),mainActivity.findViewById(R.id.btn_25),mainActivity.findViewById(R.id.btn_26)};
+        Button[] A =  new Button[]{mainActivity.findViewById(R.id.btn_1),mainActivity.findViewById(R.id.btn_2),mainActivity.findViewById(R.id.btn_3),
+                mainActivity.findViewById(R.id.btn_4),mainActivity.findViewById(R.id.btn_5),mainActivity.findViewById(R.id.btn_6),
+                mainActivity.findViewById(R.id.btn_7),mainActivity.findViewById(R.id.btn_8),mainActivity.findViewById(R.id.btn_9),
+                mainActivity.findViewById(R.id.btn_0),mainActivity.findViewById(R.id.btn_com),mainActivity.findViewById(R.id.btn_sep),
+                mainActivity.findViewById(R.id.btn_open_bracket),mainActivity.findViewById(R.id.btn_close_bracket),mainActivity.findViewById(R.id.btn_mul),
+                mainActivity.findViewById(R.id.btn_div),mainActivity.findViewById(R.id.btn_add),mainActivity.findViewById(R.id.btn_sub),
+                mainActivity.findViewById(R.id.btn_ANS)};
         Button[] S = new Button[]{mainActivity.findViewById(R.id.btn_clearall),mainActivity.findViewById(R.id.btn_eq)};
         EditText INPUT  = mainActivity.findViewById(R.id.eT_input);
         EditText OUTPUT = mainActivity.findViewById(R.id.eT_output);
-
 
         for(View v: B)assertTrue(v.isShown());
         mainActivity.findViewById(R.id.btn_FUN).performClick();
@@ -78,7 +87,21 @@ public class MainActivityUnitTest {
         mainActivity.findViewById(R.id.btn_FUN).performClick();
         for(View v: B)assertTrue(v.isShown());
 
-        String[] fun1 = new String[]{"π","e","^","LOG","LN","LB","³√","√","x³","x²","10^x","!"};
+        String[] fun1 = new String[]{"1","2","3","4","5","6","7","8","9","0",".",",","(",")","*","/","+","-","ANS"};
+        for(int i=0; i<fun1.length; i++){
+            assertEquals(((Button) A[i]).getText().toString(),fun1[i]);
+        }
+        fun1 = new String[]{"1","2","3","4","5","6","7","8","9","0",".",",","(",")","*","/","+","-","ANS"};
+        for(int i=0; i<fun1.length; i++){
+            A[i].performClick(); assertEquals(INPUT.getText().toString(),fun1[i]); S[0].performClick(); assertEquals(OUTPUT.getText().toString(),INPUT.getText().toString()); S[1].performClick();
+        }
+
+        //not tested in functionality: FUN, deleteAll, delete, L, R, =
+        Button[] nT = new Button[]{mainActivity.findViewById(R.id.btn_FUN),mainActivity.findViewById(R.id.btn_clear),mainActivity.findViewById(R.id.btn_clearall),
+                                   mainActivity.findViewById(R.id.btn_LINKS),mainActivity.findViewById(R.id.btn_RECHTS),mainActivity.findViewById(R.id.btn_eq) };
+        for(Button button: nT) {button.performClick();} mainActivity.findViewById(R.id.btn_eq).performLongClick();
+
+        fun1 = new String[]{"π","e","^","LOG","LN","LB","³√","√","x³","x²","10^x","!"};
         for(int i=0; i<fun1.length; i++){
             assertEquals(((Button) B[i]).getText().toString(),fun1[i]);
         }
@@ -147,6 +170,24 @@ public class MainActivityUnitTest {
         for(int i=0; i<fun1.length; i++){
             B[i].performClick(); assertEquals(INPUT.getText().toString(),fun1[i]); S[0].performClick(); assertEquals(OUTPUT.getText().toString(),INPUT.getText().toString()); S[1].performClick();
         }
+
+        //test setButtonText
+        fun2 = new String[]{"a","b","c","d","e","f","g","h","i","j","k","l"};
+        for(int i=0; i<fun2.length; i++){
+            mainActivity.setBtnText((((10*((i/6)+1))+(i%6))+1),fun2[i]);
+        }
+        for(int i=0; i<fun1.length; i++){
+            assertEquals(fun2[i],mainActivity.getBtnText((((10*((i/6)+1))+(i%6))+1)));
+        }
+    }
+
+    @Test public void testTouch() throws InterruptedException {
+        Button one = mainActivity.findViewById(R.id.btn_1);
+
+        one.dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), (int) MotionEvent.ACTION_DOWN, 0, 0, 0));
+        assertEquals(1,one.getTypeface().getStyle());
+        one.dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), (int) MotionEvent.ACTION_UP, 0, 0, 0));
+        assertEquals(0,one.getTypeface().getStyle());
     }
 
 
@@ -173,6 +214,13 @@ public class MainActivityUnitTest {
         assertEquals(0,mainActivity.getSelectionStartOutput()); assertEquals(0,mainActivity.getSelectionEndOutput());
         end = ((int) Math.random()*mainActivity.getOutputText().length()); mainActivity.setSelectionOutput(0,end);
         assertEquals(0,mainActivity.getSelectionStartOutput()); assertEquals(end,mainActivity.getSelectionEndOutput());
+
+        mainActivity.requestFocusInput();
+        mainActivity.setInputText("1+2");
+        mainActivity.setSelectionInput(0,0); assertEquals("",mainActivity.getSelection());
+        mainActivity.setSelectionInput(0,1); assertEquals("1",mainActivity.getSelection());
+        mainActivity.setSelectionInput(2,3); assertEquals("2",mainActivity.getSelection());
+
     }
 
     @Test public void testModeSwitch(){
@@ -187,11 +235,7 @@ public class MainActivityUnitTest {
         }
     }
 
-    @Before
-    public void before(){
-        mainActivity = Robolectric.setupActivity(MainActivity.class);
-        currentMode = new RoboMenuItem(R.id.basic);
-    }
+
 
 
 

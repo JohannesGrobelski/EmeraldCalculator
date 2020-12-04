@@ -1,10 +1,12 @@
 package com.example.titancalculator;
 
+import android.content.Context;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.AttributeSet;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -22,6 +24,8 @@ import androidx.appcompat.widget.Toolbar;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.inject.Inject;
 
 /** View implemented by Activity, will contain a reference to the presenter.
   * The only thing that the view does is to call a method from the Presenter every time there is an interface action.
@@ -71,7 +75,6 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new Presenter(this);
         setContentView(R.layout.activity_main);
         setTitle("Calculator");
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -104,6 +107,8 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.modes_EN, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        setPresenter(new Presenter());
         presenter.setMode("basic");
 
         Button[] allButtons = {btn_11,btn_12,btn_13,btn_14,btn_15,btn_16,btn_21,btn_22,btn_23,btn_24,btn_25,btn_26,btn_FUN,btn_clear,btn_clearall,btn_LINKS,btn_RECHTS,btn_1,btn_2,btn_3,btn_4,btn_5,btn_6,btn_7,btn_8,btn_9,btn_open_bracket,btn_close_bracket,btn_add,btn_sub,btn_mul,btn_div,btn_com,btn_sep,btn_ans,btn_eq};
@@ -113,22 +118,34 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
             btn.setOnTouchListener(new View.OnTouchListener() {
                 @Override public boolean onTouch(View view, MotionEvent motionEvent) {
                     if (motionEvent.getAction() == android.view.MotionEvent.ACTION_DOWN) {
-                        ((Button)view).setTypeface(null, Typeface.BOLD);
+                        ((Button)view).setTypeface(Typeface.DEFAULT_BOLD, Typeface.BOLD);
                     }
                     else if (motionEvent.getAction() == android.view.MotionEvent.ACTION_UP) {
-                        ((Button)view).setTypeface(null, Typeface.NORMAL);
+                        ((Button)view).setTypeface(Typeface.DEFAULT, Typeface.NORMAL);
                     }
                     return false;
                 }
             });
         }
         setOnClickListeners();
+    }
 
+    @Override
+    public void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        presenter.attachView(this);
+    }
+
+    @Override
+    public void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        presenter.detachView();
     }
 
     @Inject
     public void setPresenter(Presenter presenter){
         this.presenter = presenter;
+        presenter.attachView(this);
     }
 
     public void setOnClickListeners(){
@@ -435,23 +452,25 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
         if (eT_input.hasFocus()) {
             selStart = eT_input.getSelectionStart();
             selEnd = eT_input.getSelectionEnd();
-            if (selStart >= 0 && selEnd > 0 && selStart < selEnd) {
+            System.out.println(selStart+" "+selEnd);
+            if (selStart >= 0 && selEnd > 0 && selStart < selEnd
+                    && selEnd <= eT_input.getText().length() && selStart <= eT_input.getText().length()  ) {
                 selection = eT_input.getText().toString().substring(selStart, selEnd);
             } else {
-                selection = eT_input.getText().toString();
+                selection = "";
             }
         } else if (eT_output.hasFocus()) {
             selStart = eT_output.getSelectionStart();
             selEnd = eT_output.getSelectionEnd();
-            if (selStart >= 0 && selEnd > 0 && selStart < selEnd) {
+            if (selStart >= 0 && selEnd > 0 && selStart < selEnd
+                    && selEnd <= eT_output.getText().length() && selStart <= eT_output.getText().length()  ) {
                 selection = eT_output.getText().toString().substring(selStart, selEnd);
             } else {
-                selection = eT_output.getText().toString();
+                selection = "";
             }
         } else {
             selection = eT_input.getText().toString();
         }
-        //selection funzt net (siehe memory)
         return selection;
     }
 

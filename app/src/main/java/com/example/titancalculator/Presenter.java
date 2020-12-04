@@ -17,15 +17,17 @@ public class Presenter {
     private CalcModel calcModel;
     private View view;
 
-    public Presenter(View view){
-        this.view = view;
+    public Presenter(){
         calcModel = new CalcModel();
     }
 
     public void attachView(View view){
-        
+        this.view = view;
     }
 
+    public void detachView(){
+        this.view = null;
+    }
     /**
      * propagates input from view to calcmodel and updates views output
      * @param identifier

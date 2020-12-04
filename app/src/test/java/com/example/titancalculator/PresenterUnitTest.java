@@ -23,9 +23,9 @@ import static org.mockito.Mockito.mock;
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = 28)
 public class PresenterUnitTest {
-    Context context;
     CalcModel calcModel;
     Presenter presenter;
+
     private MainActivity mainActivity;
     private String[][] btn = new String[2][6];
 
@@ -33,7 +33,8 @@ public class PresenterUnitTest {
     public void init(){
         mainActivity = Robolectric.setupActivity(MainActivity.class);
         calcModel = new CalcModel();
-        presenter = new Presenter(mainActivity);
+        presenter = new Presenter();
+        presenter.attachView(mainActivity);
     }
 
     @Test
