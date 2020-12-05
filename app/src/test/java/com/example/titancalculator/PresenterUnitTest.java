@@ -1,11 +1,5 @@
 package com.example.titancalculator;
 
-import android.content.Context;
-
-import com.example.titancalculator.CalcModel;
-import com.example.titancalculator.MainActivity;
-import com.example.titancalculator.Presenter;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,9 +10,7 @@ import org.robolectric.annotation.Config;
 import static com.example.titancalculator.CalcModel.modes;
 import static com.example.titancalculator.CalcModel.modesModesFunctionality;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = 28)
@@ -68,8 +60,8 @@ public class PresenterUnitTest {
 
         presenter.addInputText("1+1"); calcModel.setInputText(""); presenter.inputButton("="); calcModel.getOutputString().equals("2");
         presenter.addInputText("10^10"); presenter.inputButton("="); calcModel.getOutputString().equals("10000000000");
-        presenter.inputButtonLongClick("="); presenter.inputButton("="); calcModel.getOutputString().equals("10E10");
-        presenter.inputButtonLongClick("="); presenter.inputButton("="); calcModel.getOutputString().equals("10000000000");
+        presenter.inputButton("="); calcModel.getOutputString().equals("10E10");
+        presenter.inputButton("="); calcModel.getOutputString().equals("10000000000");
 
 
     }
@@ -119,7 +111,6 @@ public class PresenterUnitTest {
     public void testGetterSetter(){
     //getMode(),setMode(String),inputButtonLongClick("=")
         assertEquals("basic",presenter.getMode()); presenter.setMode("basic2"); assertEquals("basic2",presenter.getMode());
-        assertFalse(calcModel.isScientificNotation()); presenter.inputButtonLongClick("="); assertTrue(calcModel.isScientificNotation());
     }
 
     private void inputEquals(String input){
