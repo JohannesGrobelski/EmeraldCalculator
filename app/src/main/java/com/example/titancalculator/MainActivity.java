@@ -1,12 +1,11 @@
 package com.example.titancalculator;
 
-import android.content.Context;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
-import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -15,7 +14,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -40,17 +38,15 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
     LinearLayout science_background;
     LinearLayout display;
     //Line 1
-    Button btn_FUN; Button btn_clear; Button btn_clearall;
+    Button btn_FUN; Button btn_clear_all;
     //Line 2
     Button btn_11; Button btn_12;Button btn_13;Button btn_14;Button btn_15;Button btn_16;
     //Line 3
     Button btn_21; Button btn_22; Button btn_23; Button btn_24; Button btn_25; Button btn_26;
-    //Line 5
-    Button btn_LINKS; Button btn_RECHTS;
     //Group 1
     Button btn_1; Button btn_2; Button btn_3; Button btn_4; Button btn_5; Button btn_6; Button btn_7; Button btn_8; Button btn_9; Button btn_0;
     //Group 2
-    Button btn_open_bracket; Button btn_close_bracket; Button btn_add; Button btn_sub; Button btn_mul; Button btn_div; Button btn_com; Button btn_sep; Button btn_ans; Button btn_eq;
+    Button btn_open_bracket; Button btn_close_bracket; Button btn_add; Button btn_sub; Button btn_mul; Button btn_div; Button btn_com; Button btn_sep; Button btn_eq_ans;
     EditText eT_input; EditText eT_output;
     LinearLayout LN2; LinearLayout LN3; LinearLayout LN4;
 
@@ -85,20 +81,18 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
         display = findViewById(R.id.display);
         science_background = findViewById(R.id.science_background);
         //L1
-        btn_FUN = findViewById(R.id.btn_FUN); btn_clear = findViewById(R.id.btn_clear); btn_clearall = findViewById(R.id.btn_clearall);
+        btn_FUN = findViewById(R.id.btn_FUN); btn_clear_all = findViewById(R.id.btn_clear_all);
         //L2
         btn_11 = findViewById(R.id.btn_11);  btn_12 = findViewById(R.id.btn_12);  btn_13 = findViewById(R.id.btn_13);  btn_14 = findViewById(R.id.btn_14);  btn_15 = findViewById(R.id.btn_15);  btn_16 = findViewById(R.id.btn_16);
         //L3
         btn_21 = findViewById(R.id.btn_21);  btn_22 = findViewById(R.id.btn_22);  btn_23 = findViewById(R.id.btn_23);  btn_24 = findViewById(R.id.btn_24);  btn_25 = findViewById(R.id.btn_25);  btn_26 = findViewById(R.id.btn_26);
-        //L5
-        btn_LINKS = findViewById(R.id.btn_LINKS);  btn_RECHTS = findViewById(R.id.btn_RECHTS);
         //G1
         btn_1 = findViewById(R.id.btn_1);  btn_2 = findViewById(R.id.btn_2);  btn_3 = findViewById(R.id.btn_3);  btn_4 = findViewById(R.id.btn_4);  btn_5 = findViewById(R.id.btn_5);
         btn_6 = findViewById(R.id.btn_6);  btn_7 = findViewById(R.id.btn_7);  btn_8 = findViewById(R.id.btn_8);  btn_9 = findViewById(R.id.btn_9);  btn_0 = findViewById(R.id.btn_0);
-        btn_com = findViewById(R.id.btn_com);  btn_sep = findViewById(R.id.btn_sep);  btn_ans = findViewById(R.id.btn_ANS);
+        btn_com = findViewById(R.id.btn_com);  btn_sep = findViewById(R.id.btn_sep);
         //G2
         btn_open_bracket = findViewById(R.id.btn_open_bracket);  btn_close_bracket = findViewById(R.id.btn_close_bracket);
-        btn_add = findViewById(R.id.btn_add);  btn_sub = findViewById(R.id.btn_sub);  btn_mul = findViewById(R.id.btn_mul);  btn_div = findViewById(R.id.btn_div);  btn_eq = findViewById(R.id.btn_eq);
+        btn_add = findViewById(R.id.btn_add);  btn_sub = findViewById(R.id.btn_sub);  btn_mul = findViewById(R.id.btn_mul);  btn_div = findViewById(R.id.btn_div);  btn_eq_ans = findViewById(R.id.btn_eq_ANS);
         LN2 = findViewById(R.id.LN2);  LN3 = findViewById(R.id.LN3);  LN4 = findViewById(R.id.LN4);
 
         eT_output.setOnFocusChangeListener(focusListener);
@@ -111,10 +105,10 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
         setPresenter(new Presenter());
         presenter.setMode("basic");
 
-        Button[] allButtons = {btn_11,btn_12,btn_13,btn_14,btn_15,btn_16,btn_21,btn_22,btn_23,btn_24,btn_25,btn_26,btn_FUN,btn_clear,btn_clearall,btn_LINKS,btn_RECHTS,btn_1,btn_2,btn_3,btn_4,btn_5,btn_6,btn_7,btn_8,btn_9,btn_open_bracket,btn_close_bracket,btn_add,btn_sub,btn_mul,btn_div,btn_com,btn_sep,btn_ans,btn_eq};
+        Button[] allButtons = {btn_11,btn_12,btn_13,btn_14,btn_15,btn_16,btn_21,btn_22,btn_23,btn_24,btn_25,btn_26,btn_FUN,btn_clear_all,btn_1,btn_2,btn_3,btn_4,btn_5,btn_6,btn_7,btn_8,btn_9,btn_open_bracket,btn_close_bracket,btn_add,btn_sub,btn_mul,btn_div,btn_com,btn_sep,btn_eq_ans};
         final Map<Button, Drawable> backgrounds = new HashMap<>();
         for(Button btn: allButtons){
-           // Log.d("",getResources().getResourceEntryName(btn.getId()));
+            Log.d("btn_touch",getResources().getResourceEntryName(btn.getId()));
             btn.setOnTouchListener(new View.OnTouchListener() {
                 @Override public boolean onTouch(View view, MotionEvent motionEvent) {
                     if (motionEvent.getAction() == android.view.MotionEvent.ACTION_DOWN) {
@@ -160,14 +154,16 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
                 }
             }
         });
-        btn_clear.setOnClickListener(new View.OnClickListener() {
+        btn_clear_all.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View view) {
                 presenter.inputButton("⌫");
             }
         });
-        btn_clearall.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View view) {
+        btn_clear_all.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
                 presenter.inputButton("⌧");
+                return true;
             }
         });
         //L2
@@ -232,16 +228,6 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
                 presenter.inputButton("26");
             }
         });
-        btn_LINKS.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View view) {
-                presenter.inputButton("L");
-            }
-        });
-        btn_RECHTS.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View view) {
-                presenter.inputButton("R");
-            }
-        });
         //G1
         btn_1.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View view) {
@@ -304,11 +290,6 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
                 presenter.inputButton(",");
             }
         });
-        btn_ans.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View view) {
-                presenter.inputButton("ANS");
-            }
-        });
         //G2
         btn_open_bracket.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View view) {presenter.inputButton("(");
@@ -338,14 +319,14 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
                 presenter.inputButton("/");
             }
         });
-        btn_eq.setOnClickListener(new View.OnClickListener() {
+        btn_eq_ans.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View view) {
                 presenter.inputButton("=");
             }
         });
-        btn_eq.setLongClickable(true);
-        btn_eq.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override public boolean onLongClick(View view) {presenter.inputButtonLongClick("=");return false;}
+        btn_eq_ans.setLongClickable(true);
+        btn_eq_ans.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override public boolean onLongClick(View view) {presenter.inputButton("ANS");return false;}
         });
     }
 

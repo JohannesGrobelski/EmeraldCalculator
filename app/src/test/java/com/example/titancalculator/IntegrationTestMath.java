@@ -423,17 +423,17 @@ public class IntegrationTestMath {
         mainActivity.findViewById(R.id.btn_1).performClick();
         mainActivity.findViewById(R.id.btn_add).performClick();
         mainActivity.findViewById(R.id.btn_1).performClick();
-        mainActivity.findViewById(R.id.btn_eq).performClick();
+        mainActivity.findViewById(R.id.btn_eq_ANS).performClick();
         mainActivity.findViewById(R.id.btn_clearall).performClick();
-        mainActivity.findViewById(R.id.btn_ANS).performClick();
-        mainActivity.findViewById(R.id.btn_eq).performClick();
+        mainActivity.findViewById(R.id.btn_clear_all).performClick();
+        mainActivity.findViewById(R.id.btn_eq_ANS).performClick();
         String ans2 = ((EditText) mainActivity.findViewById(R.id.eT_output)).getText().toString();
 
         mainActivity.findViewById(R.id.btn_clearall).performClick();
-        mainActivity.findViewById(R.id.btn_ANS).performClick();
+        mainActivity.findViewById(R.id.btn_clear_all).performClick();
         mainActivity.findViewById(R.id.btn_mul).performClick();
         mainActivity.findViewById(R.id.btn_2).performClick();
-        mainActivity.findViewById(R.id.btn_eq).performClick();
+        mainActivity.findViewById(R.id.btn_eq_ANS).performClick();
         String ans3 = ((EditText) mainActivity.findViewById(R.id.eT_output)).getText().toString();
 
         Assert.assertEquals(ans2,"2");
@@ -459,7 +459,7 @@ public class IntegrationTestMath {
         Assert.assertTrue(expectedResult.matches("Math Error") || expectedResult.matches("[0-9]+") || expectedResult.matches("[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?"));
 
         if(output.contains("E") && !output.contains("Math Error")){
-            mainActivity.findViewById(R.id.btn_eq).performLongClick();
+            mainActivity.findViewById(R.id.btn_eq_ANS).performLongClick();
             output = ((EditText) mainActivity.findViewById(R.id.eT_output)).getText().toString();
         }
         if(!expectedResult.equals("Math Error")){
@@ -508,7 +508,7 @@ public class IntegrationTestMath {
         }
         System.out.println("cT final input: "+((EditText) mainActivity.findViewById(R.id.eT_input)).getText().toString()+"\n\n");
         System.out.println("cT final output: "+((EditText) mainActivity.findViewById(R.id.eT_output)).getText().toString()+"\n\n");
-        if(!containsOutputFunctions)mainActivity.findViewById(R.id.btn_eq).performClick();
+        if(!containsOutputFunctions)mainActivity.findViewById(R.id.btn_eq_ANS).performClick();
         if(inputShouldEqualtTerm) Assert.assertEquals(((EditText) mainActivity.findViewById(R.id.eT_input)).getText().toString(),term);
         return ((EditText) mainActivity.findViewById(R.id.eT_output)).getText().toString();
     }

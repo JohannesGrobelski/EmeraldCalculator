@@ -26,14 +26,15 @@
         android:id="@+id/display"
         style="@android:style/TextAppearance.DeviceDefault.Medium"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:layout_height="match_parent"
+        android:layout_weight=".8"
 
+        android:background="@color/white"
         android:baselineAligned="false"
+        android:clickable="false"
         android:elevation="1sp"
         android:orientation="vertical"
-        android:visibility="visible"
-        android:clickable="false">
+        android:visibility="visible">
 
         <EditText
             android:id="@+id/eT_input"
@@ -48,9 +49,9 @@
             android:fontFamily="monospace"
             android:inputType="textNoSuggestions"
             android:maxLines="1"
+
+
             android:paddingLeft="5sp"
-
-
             android:textAlignment="textStart"
             android:textColor="@color/primary_dark"
             android:textSize="60sp"
@@ -63,20 +64,20 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="0dp"
-            android:layout_weight="1"
+            android:layout_weight="2"
 
             android:background="#00464646"
+            android:cursorVisible="false"
             android:fontFamily="monospace"
             android:inputType="textNoSuggestions"
             android:maxLines="1"
             android:paddingLeft="5sp"
-            android:textAlignment="textStart"
 
+            android:textAlignment="textStart"
             android:textColor="@color/primary_dark"
             android:textSize="60sp"
             android:visibility="visible"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustNothing"
-            android:cursorVisible="false"/>
+            android:windowSoftInputMode="stateAlwaysHidden|adjustNothing" />
 
     </LinearLayout>
 
@@ -210,8 +211,10 @@
 
         android:layout_weight="1"
         android:background="@color/primary_dark"
+        android:clickable="false"
         android:measureWithLargestChild="true"
-        android:clickable="false">
+        android:visibility="gone"
+        tools:visibility="gone">
 
 
         <Button
@@ -219,43 +222,11 @@
             style="@style/SpecialFlatButton"
 
             android:text="FUN"
+            android:visibility="gone"
             app:autoSizeStepGranularity="10sp"
-            app:autoSizeTextType="uniform" />
+            app:autoSizeTextType="uniform"
+            tools:visibility="gone" />
 
-
-        <Button
-            android:id="@+id/btn_clearall"
-            style="@style/SpecialFlatButton"
-
-            android:text="@string/CLEAR_ALL"
-            app:autoSizeStepGranularity="10sp"
-            app:autoSizeTextType="uniform" />
-
-        <Button
-            android:id="@+id/btn_clear"
-            style="@style/SpecialFlatButton"
-
-            android:text="@string/CLEAR"
-            app:autoSizeStepGranularity="10sp"
-            app:autoSizeTextType="uniform" />
-
-
-        <Button
-            android:id="@+id/btn_LINKS"
-            style="@style/SpecialFlatButton"
-
-            android:text="@string/LEFTARROW"
-            app:autoSizeStepGranularity="10sp"
-            app:autoSizeTextType="uniform" />
-
-
-        <Button
-            android:id="@+id/btn_RECHTS"
-            style="@style/SpecialFlatButton"
-
-            android:text="@string/RIGHTARROW"
-            app:autoSizeStepGranularity="10sp"
-            app:autoSizeTextType="uniform" />
 
     </LinearLayout>
 
@@ -362,6 +333,7 @@
             android:text="@string/DIV"
             app:autoSizeStepGranularity="10sp"
             app:autoSizeTextType="uniform" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -413,6 +385,7 @@
             android:text="@string/ADD"
             app:autoSizeStepGranularity="10sp"
             app:autoSizeTextType="uniform" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -450,19 +423,20 @@
             app:autoSizeTextType="uniform" />
 
         <Button
-            android:id="@+id/btn_ANS"
+            android:id="@+id/btn_clear_all"
             style="@style/NumberFlatButton"
 
-            android:text="@string/ANS"
+            android:text="@string/CLEAR_ALL"
             app:autoSizeStepGranularity="10sp"
             app:autoSizeTextType="uniform" />
 
         <Button
-            android:id="@+id/btn_eq"
+            android:id="@+id/btn_eq_ANS"
             style="@style/NumberFlatButton"
 
-            android:text="="
+            android:text="= ANS"
             app:autoSizeStepGranularity="10sp"
             app:autoSizeTextType="uniform" />
+
     </LinearLayout>
 </LinearLayout>

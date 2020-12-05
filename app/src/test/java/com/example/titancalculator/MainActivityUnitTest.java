@@ -1,7 +1,5 @@
 package com.example.titancalculator;
 
-import android.graphics.Typeface;
-import android.os.Handler;
 import android.os.SystemClock;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -9,26 +7,20 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.example.titancalculator.MainActivity;
-import com.example.titancalculator.R;
 import com.example.titancalculator.helper.Math_String.StringUtils;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.objectweb.asm.tree.MultiANewArrayInsnNode;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 import org.robolectric.fakes.RoboMenuItem;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.example.titancalculator.CalcModel.modesModesFunctionality;
 import static com.example.titancalculator.CalcModel.modesModesText;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -73,8 +65,8 @@ public class MainActivityUnitTest {
                 mainActivity.findViewById(R.id.btn_0),mainActivity.findViewById(R.id.btn_com),mainActivity.findViewById(R.id.btn_sep),
                 mainActivity.findViewById(R.id.btn_open_bracket),mainActivity.findViewById(R.id.btn_close_bracket),mainActivity.findViewById(R.id.btn_mul),
                 mainActivity.findViewById(R.id.btn_div),mainActivity.findViewById(R.id.btn_add),mainActivity.findViewById(R.id.btn_sub),
-                mainActivity.findViewById(R.id.btn_ANS)};
-        Button[] S = new Button[]{mainActivity.findViewById(R.id.btn_clearall),mainActivity.findViewById(R.id.btn_eq)};
+                mainActivity.findViewById(R.id.btn_clear_all)};
+        Button[] S = new Button[]{mainActivity.findViewById(R.id.btn_clearall),mainActivity.findViewById(R.id.btn_eq_ANS)};
         EditText INPUT  = mainActivity.findViewById(R.id.eT_input);
         EditText OUTPUT = mainActivity.findViewById(R.id.eT_output);
 
@@ -98,8 +90,8 @@ public class MainActivityUnitTest {
 
         //not tested in functionality: FUN, deleteAll, delete, L, R, =
         Button[] nT = new Button[]{mainActivity.findViewById(R.id.btn_FUN),mainActivity.findViewById(R.id.btn_clear),mainActivity.findViewById(R.id.btn_clearall),
-                                   mainActivity.findViewById(R.id.btn_LINKS),mainActivity.findViewById(R.id.btn_RECHTS),mainActivity.findViewById(R.id.btn_eq) };
-        for(Button button: nT) {button.performClick();} mainActivity.findViewById(R.id.btn_eq).performLongClick();
+                                   mainActivity.findViewById(R.id.btn_LINKS),mainActivity.findViewById(R.id.btn_RECHTS),mainActivity.findViewById(R.id.btn_eq_ANS) };
+        for(Button button: nT) {button.performClick();} mainActivity.findViewById(R.id.btn_eq_ANS).performLongClick();
 
         fun1 = new String[]{"π","e","^","LOG","LN","LB","³√","√","x³","x²","10^x","!"};
         for(int i=0; i<fun1.length; i++){

@@ -37,7 +37,7 @@ public class UITest1 {
                 mainActivity.findViewById(R.id.btn_open_bracket),mainActivity.findViewById(R.id.btn_close_bracket),
                 mainActivity.findViewById(R.id.btn_mul),mainActivity.findViewById(R.id.btn_div),
                 mainActivity.findViewById(R.id.btn_sub),mainActivity.findViewById(R.id.btn_add),
-                mainActivity.findViewById(R.id.btn_ANS),mainActivity.findViewById(R.id.btn_eq),
+                mainActivity.findViewById(R.id.btn_clear_all),mainActivity.findViewById(R.id.btn_eq_ANS),
             //inputs
                 mainActivity.findViewById(R.id.eT_input),mainActivity.findViewById(R.id.eT_output),mainActivity.findViewById(R.id.toolbar)
         };

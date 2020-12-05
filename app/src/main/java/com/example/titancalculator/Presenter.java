@@ -28,13 +28,7 @@ public class Presenter {
     public void detachView(){
         this.view = null;
     }
-    /**
-     * propagates input from view to calcmodel and updates views output
-     * @param identifier
-     */
-    public void inputButtonLongClick(String identifier){
-        if(identifier.equals("="))calcModel.toogleScientificNotation();
-    }
+
 
     /**
      * propagates input from view to calcmodel and updates views output
