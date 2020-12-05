@@ -120,6 +120,9 @@ public class Presenter {
     }
 
     public void setMode(String mode){calcModel.setMode(mode);}
+    public void nextMode(){calcModel.nextMode();}
+    public void previousMode(){calcModel.previousMode();}
+
     public String getFunctionButtonText(int index){return calcModel.getFunctionButtonText(index);}
     public String getMode(){return calcModel.getMode();}
 

@@ -14,11 +14,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+
+import com.example.titancalculator.helper.Math_String.OnSwipeTouchListener;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -395,7 +398,11 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
                 presenter.inputButtonLong("26"); return true;
             }
         });
-       
+
+        toolbar.setOnTouchListener(new OnSwipeTouchListener(MainActivity.this) {
+            public void onSwipeRight() {presenter.previousMode(); setViewsAccordingToMode(presenter.getMode());}
+            public void onSwipeLeft() {presenter.nextMode(); setViewsAccordingToMode(presenter.getMode());}
+        });
     }
 
     public void setViewsAccordingToMode(String mode){

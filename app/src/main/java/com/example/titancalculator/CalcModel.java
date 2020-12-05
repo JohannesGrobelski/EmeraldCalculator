@@ -1,7 +1,5 @@
 package com.example.titancalculator;
 
-import android.util.Log;
-
 import com.example.titancalculator.helper.Math_String.MathEvaluator;
 import com.example.titancalculator.helper.Math_String.StringUtils;
 
@@ -12,8 +10,6 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.example.titancalculator.helper.Math_String.StringUtils.insertString;
-
 /** The model is the only gateway to the domain layer or business logic.
   */
 public class CalcModel {
@@ -22,13 +18,14 @@ public class CalcModel {
     //static data
         public static int precisionDigits = 10;
         public static Set<String> noImmidiateOps = new HashSet<>(Arrays.asList("³√", "ROOT", "√", "LOG", "P", "C", "%"));
-        public static String[] modes = {"basic","advanced","trigo","hyper","logic","statistic","memory","unknown"};
+        public static String[] modes = {"basic","advanced","trigo","logic","statistic","memory",};
+        public static String[] theoreticalModes = {"basic","advanced","trigo","logic","statistic","memory","unknown"};
 
         public static String[] modeBasicText                 = {"π","SIN","COS","TAN","LOG","LN","e","√","x²","^","!",">A/B"};
         public static String[] modeBasicFunctionality        = {"π","SIN","COS","TAN","LOG","LN","e","√","²","^","!",">A/B"};
 
-        public static String[] modeBasic2Text = {"PFZ","GCD","LCM","∑","∏","",">%",">A/B",">x\u207B\u00B9",">+/-","MIN","MAX"};
-        public static String[] modeBasic2Functionality = {">PFZ","GCD(,)","LCM(,)","∑(,)","∏(,)","",">%",">A/B",">x\u207B\u00B9",">+/-","MIN(,)","MAX(,)"};
+        public static String[] modeAdvancedText = {"PFZ","GCD","LCM","∑","∏","LB",">%",">A/B",">x\u207B\u00B9",">+/-","MIN","MAX"};
+        public static String[] modeAdvancedFunctionality = {">PFZ","GCD(,)","LCM(,)","∑(,)","∏(,)","LB",">%",">A/B",">x\u207B\u00B9",">+/-","MIN(,)","MAX(,)"};
 
         public static String[] modeTrigoText = {"SIN","COS","TAN","COT","SEC","CSC","SINH","COSH","TANH","COTH","SECH","CSCH"};
         public static String[] modeTrigoFunctionality = {"SIN","COS","TAN","COT","SEC","CSC","SINH","COSH","TANH","COTH","SECH","CSCH"};
@@ -43,8 +40,8 @@ public class CalcModel {
         public static String[] modeMemoryFunctionality = {"M1","M2","M3","M4","M5","M6",">M1",">M2",">M3",">M4",">M5",">M6"};
 
         public static String[] modeUnknown = {"","","","","","","","","","","",""};
-        public static String[][] modesModesText = {modeBasicText, modeBasic2Text, modeTrigoText, modeLogicText, modeStatisticText, modeMemoryText,modeUnknown};
-        public static String[][] modesModesFunctionality = {modeBasicFunctionality, modeBasic2Functionality, modeTrigoFunctionality, modeLogicFunctionality, modeStatisticFunctionality, modeMemoryFunctionality,modeUnknown};
+        public static String[][] modesModesText = {modeBasicText, modeAdvancedText, modeTrigoText, modeLogicText, modeStatisticText, modeMemoryText,modeUnknown};
+        public static String[][] modesModesFunctionality = {modeBasicFunctionality, modeAdvancedFunctionality, modeTrigoFunctionality, modeLogicFunctionality, modeStatisticFunctionality, modeMemoryFunctionality,modeUnknown};
 
         public static HashMap<String,String> inverseFunction=  new HashMap<String, String>() {{
             put("SIN", "ASIN"); put("COS", "ACOS"); put("TAN", "ATAN"); put("COT", "ACOT"); put("SEC", "ASEC"); put("CSC", "ACSC");
@@ -87,7 +84,9 @@ public class CalcModel {
         public void setLanguage(String language) {this.language = language;}
         public boolean isScientificNotation() {return scientificNotation;}
         public void toogleScientificNotation(){scientificNotation = !scientificNotation;}
-
+        public void nextMode() {mode = modes[(findMode(mode)+1)%modes.length];}
+        public void previousMode() {int i = (findMode(mode)-1)%modes.length; if(i==-1)mode = modes[modes.length-1]; else mode = modes[i];}
+        private int findMode(String mode){for(int i=0;i<modes.length;i++){if(modes[i].equals(mode))return i;}return 0;}
 
     //methods
     public void addInputText(String i, int selectionStart) {
@@ -174,7 +173,7 @@ public class CalcModel {
         int i = (index%10 + ((index/10)-1)*6)-1;
         switch(mode){
             case "basic": {return modeBasicText[i];}
-            case "advanced": {return modeBasic2Text[i];}
+            case "advanced": {return modeAdvancedText[i];}
             case "trigo": {return modeTrigoText[i];}
             case "statistic": {return modeStatisticText[i];}
             case "logic": {return modeLogicText[i];}
@@ -194,7 +193,7 @@ public class CalcModel {
         int i = (index%10 + ((index/10)-1)*6)-1;
         switch(mode){
             case "basic": {output =  modeBasicFunctionality[i]; break;}
-            case "advanced": {output =  modeBasic2Functionality[i]; break;}
+            case "advanced": {output =  modeAdvancedFunctionality[i]; break;}
             case "trigo": {output =  modeTrigoFunctionality[i]; break;}
             case "statistic": {output =  modeStatisticFunctionality[i]; break;}
             case "logic": {output =  modeLogicFunctionality[i]; break;}
