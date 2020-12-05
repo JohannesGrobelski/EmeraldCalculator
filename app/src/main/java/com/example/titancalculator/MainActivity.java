@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
     boolean eT_input_hasFocus = true;
 
     //VIEWS
-    Toolbar toolbar;
+    Toolbar toolbar; TextView toolbarTitle;
     LinearLayout science_background;
     LinearLayout display;
     //Line 1
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
         String idName = getResources().getResourceEntryName(item.getItemId());
         presenter.setMode(idName);
         setViewsAccordingToMode(item.toString());
+
         return true;
     }
 
@@ -76,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
         setContentView(R.layout.activity_main);
         setTitle("Calculator");
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbarTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
         setSupportActionBar(toolbar);
         science_background = findViewById(R.id.science_background);
         eT_input = findViewById(R.id.eT_input);
@@ -125,6 +128,7 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
         }
         prepareViews();
         presenter.setMode("basic"); setViewsAccordingToMode("basic");
+
     }
 
     @Override
@@ -145,7 +149,12 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
         presenter.attachView(this);
     }
 
+    /**
+     * sets onClickListener (all buttons), onLongClickListener (btn_11..btn_26), OnSwipeTouchListener (toolbar),
+     * disables textSuggestions (et_input,et_output),
+     */
     public void prepareViews(){
+
         btn_clear_all.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View view) {
                 presenter.inputButton("⌫");
@@ -390,9 +399,9 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
             public void onSwipeLeft() {presenter.nextMode(); setViewsAccordingToMode(presenter.getMode());}
         });
 
+
         eT_input.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
         eT_output.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
-
     }
 
     public void setViewsAccordingToMode(String mode){
@@ -401,6 +410,9 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
         btn_21.setText(presenter.getFunctionButtonText(21)); btn_22.setText(presenter.getFunctionButtonText(22)); btn_23.setText(presenter.getFunctionButtonText(23));
         btn_24.setText(presenter.getFunctionButtonText(24)); btn_25.setText(presenter.getFunctionButtonText(25)); btn_26.setText(presenter.getFunctionButtonText(26));
         toolbar.setTitle(mode);
+        setSupportActionBar(toolbar);
+        toolbarTitle.setText(toolbar.getTitle());
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
     @Override public void setBtnText(int index, String text){
