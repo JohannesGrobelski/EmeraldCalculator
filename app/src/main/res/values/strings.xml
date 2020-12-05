@@ -1,7 +1,7 @@
 <resources>
 
     <string name="BASIC_DE">STANDART</string>
-    <string name="BASIC2_DE">STANDART2</string>
+    <string name="ADVANCED_DE">ERWEITERT</string>
 
     //Modes
     <string name="TRIGO_DE">TRIGO</string>
@@ -103,13 +103,11 @@
     <string name="saveDesignDE">speichern</string>
     <string-array name="modes_EN">
         <item>BASIC</item>
-        <item>BASIC2</item>
+        <item>ADVANCED</item>
         <item>TRIGO</item>
-        <item>HYPER</item>
         <item>LOGIC</item>
         <item>STATISTIC</item>
         <item>MEMORY</item>
-        <item>USER</item>
     </string-array>
     <string-array name="languagesNames_EN">
         <item>english</item>

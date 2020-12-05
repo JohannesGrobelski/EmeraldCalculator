@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
     Button btn_open_bracket; Button btn_close_bracket; Button btn_add; Button btn_sub; Button btn_mul; Button btn_div; Button btn_com; Button btn_sep; Button btn_eq_ans;
     EditText eT_input; EditText eT_output;
     LinearLayout LN2; LinearLayout LN3; LinearLayout LN4;
-
+    Button[] allButtons;
     @Override public boolean onCreateOptionsMenu(Menu menu) {getMenuInflater().inflate(R.menu.menu_modes, menu); return true;}
 
     @Override public boolean onOptionsItemSelected(MenuItem item) {
@@ -94,6 +94,9 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
         btn_open_bracket = findViewById(R.id.btn_open_bracket);  btn_close_bracket = findViewById(R.id.btn_close_bracket);
         btn_add = findViewById(R.id.btn_add);  btn_sub = findViewById(R.id.btn_sub);  btn_mul = findViewById(R.id.btn_mul);  btn_div = findViewById(R.id.btn_div);  btn_eq_ans = findViewById(R.id.btn_eq_ANS);
         LN2 = findViewById(R.id.LN2);  LN3 = findViewById(R.id.LN3);  LN4 = findViewById(R.id.LN4);
+        allButtons = new Button[] {btn_11,btn_12,btn_13,btn_14,btn_15,btn_16,btn_21,btn_22,btn_23,btn_24,btn_25,btn_26,btn_FUN,btn_clear_all,btn_1,btn_2,btn_3,btn_4,btn_5,btn_6,btn_7,btn_8,btn_9,btn_open_bracket,btn_close_bracket,btn_add,btn_sub,btn_mul,btn_div,btn_com,btn_sep,btn_eq_ans};
+
+
 
         eT_output.setOnFocusChangeListener(focusListener);
         eT_input.setOnFocusChangeListener(focusListener);
@@ -105,7 +108,6 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
         setPresenter(new Presenter());
         presenter.setMode("basic");
 
-        Button[] allButtons = {btn_11,btn_12,btn_13,btn_14,btn_15,btn_16,btn_21,btn_22,btn_23,btn_24,btn_25,btn_26,btn_FUN,btn_clear_all,btn_1,btn_2,btn_3,btn_4,btn_5,btn_6,btn_7,btn_8,btn_9,btn_open_bracket,btn_close_bracket,btn_add,btn_sub,btn_mul,btn_div,btn_com,btn_sep,btn_eq_ans};
         final Map<Button, Drawable> backgrounds = new HashMap<>();
         for(Button btn: allButtons){
             Log.d("btn_touch",getResources().getResourceEntryName(btn.getId()));
@@ -122,6 +124,7 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
             });
         }
         setOnClickListeners();
+        presenter.setMode("basic"); setViewsAccordingToMode("basic");
     }
 
     @Override
@@ -328,6 +331,71 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
         btn_eq_ans.setOnLongClickListener(new View.OnLongClickListener() {
             @Override public boolean onLongClick(View view) {presenter.inputButton("ANS");return false;}
         });
+
+
+        //L2
+        btn_11.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override public boolean onLongClick(View view) {
+                presenter.inputButtonLong("11"); return true;
+            }
+        });
+        btn_12.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override public boolean onLongClick(View view) {
+                presenter.inputButtonLong("12"); return true;
+            }
+        });
+        btn_13.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override public boolean onLongClick(View view) {
+                presenter.inputButtonLong("13"); return true;
+            }
+        });
+        btn_14.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override public boolean onLongClick(View view) {
+                presenter.inputButtonLong("14"); return true;
+            }
+        });
+        btn_15.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override public boolean onLongClick(View view) {
+                presenter.inputButtonLong("15"); return true;
+            }
+        });
+        btn_16.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override public boolean onLongClick(View view) {
+                presenter.inputButtonLong("16"); return true;
+            }
+        });
+        //L3
+        btn_21.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override public boolean onLongClick(View view) {
+                presenter.inputButtonLong("21"); return true;
+            }
+        });
+        btn_22.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override public boolean onLongClick(View view) {
+                presenter.inputButtonLong("22"); return true;
+            }
+        });
+        btn_23.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override public boolean onLongClick(View view) {
+                presenter.inputButtonLong("23"); return true;
+            }
+        });
+        btn_24.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override public boolean onLongClick(View view) {
+                presenter.inputButtonLong("24"); return true;
+            }
+        });
+        btn_25.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override public boolean onLongClick(View view) {
+                presenter.inputButtonLong("25"); return true;
+            }
+        });
+        btn_26.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override public boolean onLongClick(View view) {
+                presenter.inputButtonLong("26"); return true;
+            }
+        });
+       
     }
 
     public void setViewsAccordingToMode(String mode){

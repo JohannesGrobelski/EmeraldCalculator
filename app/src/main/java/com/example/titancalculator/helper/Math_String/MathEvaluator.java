@@ -77,7 +77,8 @@ public class MathEvaluator {
         //convert input to fraction (x1_x2_x3.xd1_xd2_xd3...xdn to x1_x2_x3xd1_xd2_xd3...xdn/10^n)
         int postdecimalPlaces = input.substring(input.indexOf('.')+1).length();
         BigInteger counter = new BigInteger("10").pow(postdecimalPlaces);
-        BigInteger denominator = new BigInteger(input.replace(".","")) ;
+        input = input.replace(".","");
+        BigInteger denominator = new BigInteger(input) ;
         String fraction = denominator+"/"+counter;
         String shortenedFraction = shortenFraction(fraction);
         return shortenedFraction;

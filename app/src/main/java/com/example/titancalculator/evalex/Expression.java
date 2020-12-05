@@ -26,6 +26,7 @@
  */
 package com.example.titancalculator.evalex;
 
+import com.example.titancalculator.MainActivity;
 import com.example.titancalculator.helper.Math_String.MathEvaluator;
 
 import java.math.BigDecimal;
@@ -906,6 +907,16 @@ public class Expression {
                 return new BigDecimal(d, mc);
             }
         });
+		addFunction(new Function("NAND", 2) {
+			@Override
+			public BigDecimal eval(List<BigDecimal> parameters) {
+				assertNotNull(parameters.get(0));
+				long base =  Math.round(parameters.get(0).doubleValue());
+				long n = Math.round(parameters.get(1).doubleValue());
+				double d = ~(base & n);
+				return new BigDecimal(d, mc);
+			}
+		});
         addFunction(new Function("OR", 2) {
             @Override
             public BigDecimal eval(List<BigDecimal> parameters) {
@@ -916,6 +927,16 @@ public class Expression {
                 return new BigDecimal(d, mc);
             }
         });
+		addFunction(new Function("NOR", 2) {
+			@Override
+			public BigDecimal eval(List<BigDecimal> parameters) {
+				assertNotNull(parameters.get(0));
+				long base =  Math.round(parameters.get(0).doubleValue());
+				long n = Math.round(parameters.get(1).doubleValue());
+				double d = ~(base | n);
+				return new BigDecimal(d, mc);
+			}
+		});
         addFunction(new Function("XOR", 2) {
             @Override
             public BigDecimal eval(List<BigDecimal> parameters) {
@@ -1093,12 +1114,63 @@ public class Expression {
 			@Override
 			public BigDecimal eval(List<BigDecimal> parameters) {
 				assertNotNull(parameters.get(0));
-				/** Formula: atanh(x) = 0.5*ln((1 + x)/(1 - x)) */
+				/** Formula: atanh(x) =  (1/2)*ln((1 + x)/(1 - x)) */
 				if (Math.abs(parameters.get(0).doubleValue()) > 1 || Math.abs(parameters.get(0).doubleValue()) == 1) {
 					throw new ExpressionException("Number must be |x| < 1");
 				}
 				double d = 0.5
 						* Math.log((1 + parameters.get(0).doubleValue()) / (1 - parameters.get(0).doubleValue()));
+				return new BigDecimal(d, mc);
+			}
+		});
+		addFunction(new Function("ACOTH", 1) {
+			@Override
+			public BigDecimal eval(List<BigDecimal> parameters) {
+				assertNotNull(parameters.get(0));
+				/** Formula: acoth(x) = (1/2)*ln((x + 1)/(x - 1)), x != -1|1*/
+				if (Math.abs(parameters.get(0).doubleValue()) == -1 || Math.abs(parameters.get(0).doubleValue()) == 1) {
+					throw new ExpressionException("Number must not be |x| == 1");
+				}
+				double d = 0.5
+						* Math.log((parameters.get(0).doubleValue()+1) / (parameters.get(0).doubleValue()-1));
+				return new BigDecimal(d, mc);
+			}
+		});
+		addFunction(new Function("ACSCH", 1) {
+			@Override
+			public BigDecimal eval(List<BigDecimal> parameters) {
+				assertNotNull(parameters.get(0));
+				/** Formula:
+				 * acsch(x) = ln((1 - sqrt(1 + x^2))/x) for x < 0
+				 * acsch(x) = ln((1 + sqrt(1 + x^2))/x) for x > 0.
+				 */
+				double x = Math.abs(parameters.get(0).doubleValue());
+				if (x== 0) {
+					throw new ExpressionException("Number must not be 0");
+				}
+				double d = 0;
+				double term = Math.sqrt(1+(x*x));
+				if (x < 0) {
+					d = Math.log((1-term)/x);
+				} else if(x> 0){
+					d = Math.log((1+term)/x);
+				}
+				return new BigDecimal(d, mc);
+			}
+		});
+		addFunction(new Function("ASECH", 1) {
+			@Override
+			public BigDecimal eval(List<BigDecimal> parameters) {
+				assertNotNull(parameters.get(0));
+				/** Formula:
+				 * asech(x) = ln((1 + sqrt(1 - x^2))/x).
+				 */
+				double x = Math.abs(parameters.get(0).doubleValue());
+				if (x<=0 || x>1) {
+					throw new ExpressionException("Number must must be between 0 and 1");
+				}
+				double term = Math.sqrt(1-(x*x));
+				double d = Math.log((1+term)/x);
 				return new BigDecimal(d, mc);
 			}
 		});

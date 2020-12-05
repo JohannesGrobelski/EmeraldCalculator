@@ -6,6 +6,7 @@ import com.example.titancalculator.helper.Math_String.MathEvaluator;
 import com.example.titancalculator.helper.Math_String.StringUtils;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -21,19 +22,16 @@ public class CalcModel {
     //static data
         public static int precisionDigits = 10;
         public static Set<String> noImmidiateOps = new HashSet<>(Arrays.asList("³√", "ROOT", "√", "LOG", "P", "C", "%"));
-        public static String[] modes = {"basic","basic2","trigo","hyper","logic","statistic","memory","unknown"};
+        public static String[] modes = {"basic","advanced","trigo","hyper","logic","statistic","memory","unknown"};
 
-        public static String[] modeBasicText = {"π","e","^","LOG","LN","LB","³√","√","x³","x²","10^x","!"};
-        public static String[] modeBasicFunctionality = {"π","e","^","LOG","LN","LB","³√","√","³","²","10^","!"};
+        public static String[] modeBasicText                 = {"π","SIN","COS","TAN","LOG","LN","e","√","x²","^","!",">A/B"};
+        public static String[] modeBasicFunctionality        = {"π","SIN","COS","TAN","LOG","LN","e","√","²","^","!",">A/B"};
 
         public static String[] modeBasic2Text = {"PFZ","GCD","LCM","∑","∏","",">%",">A/B",">x\u207B\u00B9",">+/-","MIN","MAX"};
         public static String[] modeBasic2Functionality = {">PFZ","GCD(,)","LCM(,)","∑(,)","∏(,)","",">%",">A/B",">x\u207B\u00B9",">+/-","MIN(,)","MAX(,)"};
 
-        public static String[] modeTrigoText = {"SIN","COS","TAN","COT","SEC","CSC","ASIN","ACOS","ATAN","ACOT","ASEC","ACSC"};
-        public static String[] modeTrigoFunctionality = {"SIN","COS","TAN","COT","SEC","CSC","ASIN","ACOS","ATAN","ACOT","ASEC","ACSC"};
-
-        public static String[] modeHyperText = {"SINH","COSH","TANH","ASINH","ACOSH","ATANH",">DEG",">RAD","","","",""};
-        public static String[] modeHyperFunctionality = {"SINH","COSH","TANH","ASINH","ACOSH","ATANH",">DEG",">RAD","","","",""};
+        public static String[] modeTrigoText = {"SIN","COS","TAN","COT","SEC","CSC","SINH","COSH","TANH","COTH","SECH","CSCH"};
+        public static String[] modeTrigoFunctionality = {"SIN","COS","TAN","COT","SEC","CSC","SINH","COSH","TANH","COTH","SECH","CSCH"};
 
         public static String[] modeLogicText = {"AND","OR","XOR","NOT","","","","","","","",""};
         public static String[] modeLogicFunctionality = {"AND(,)","OR(,)","XOR(,)","NOT()","","","","","","","",""};
@@ -45,9 +43,14 @@ public class CalcModel {
         public static String[] modeMemoryFunctionality = {"M1","M2","M3","M4","M5","M6",">M1",">M2",">M3",">M4",">M5",">M6"};
 
         public static String[] modeUnknown = {"","","","","","","","","","","",""};
-        public static String[][] modesModesText = {modeBasicText, modeBasic2Text, modeTrigoText, modeHyperText, modeLogicText, modeStatisticText, modeMemoryText,modeUnknown};
-        public static String[][] modesModesFunctionality = {modeBasicFunctionality, modeBasic2Functionality, modeTrigoFunctionality, modeHyperFunctionality, modeLogicFunctionality, modeStatisticFunctionality, modeMemoryFunctionality,modeUnknown};
+        public static String[][] modesModesText = {modeBasicText, modeBasic2Text, modeTrigoText, modeLogicText, modeStatisticText, modeMemoryText,modeUnknown};
+        public static String[][] modesModesFunctionality = {modeBasicFunctionality, modeBasic2Functionality, modeTrigoFunctionality, modeLogicFunctionality, modeStatisticFunctionality, modeMemoryFunctionality,modeUnknown};
 
+        public static HashMap<String,String> inverseFunction=  new HashMap<String, String>() {{
+            put("SIN", "ASIN"); put("COS", "ACOS"); put("TAN", "ATAN"); put("COT", "ACOT"); put("SEC", "ASEC"); put("CSC", "ACSC");
+            put("SINH", "ASINH"); put("COSH", "ACOSH"); put("TANH", "ATANH"); put("COTH", "ACOTH"); put("SECH", "ASECH"); put("CSCH", "ACSCH");
+            put("²","√"); put("√","²");put("²","√"); put("³","3√"); put("LN","e^"); put("LOG","10^"); put("AND","NAND"); put("OR","NOR");
+        }};
     //state variables (incl. getter and setters)
         String InputString = "";
         int startSelection, endSelection;
@@ -171,9 +174,8 @@ public class CalcModel {
         int i = (index%10 + ((index/10)-1)*6)-1;
         switch(mode){
             case "basic": {return modeBasicText[i];}
-            case "basic2": {return modeBasic2Text[i];}
+            case "advanced": {return modeBasic2Text[i];}
             case "trigo": {return modeTrigoText[i];}
-            case "hyper": {return modeHyperText[i];}
             case "statistic": {return modeStatisticText[i];}
             case "logic": {return modeLogicText[i];}
             case "memory": {return modeMemoryText[i];}
@@ -192,9 +194,8 @@ public class CalcModel {
         int i = (index%10 + ((index/10)-1)*6)-1;
         switch(mode){
             case "basic": {output =  modeBasicFunctionality[i]; break;}
-            case "basic2": {output =  modeBasic2Functionality[i]; break;}
+            case "advanced": {output =  modeBasic2Functionality[i]; break;}
             case "trigo": {output =  modeTrigoFunctionality[i]; break;}
-            case "hyper": {output =  modeHyperFunctionality[i]; break;}
             case "statistic": {output =  modeStatisticFunctionality[i]; break;}
             case "logic": {output =  modeLogicFunctionality[i]; break;}
             case "memory": {output =  modeMemoryFunctionality[i]; break;}
@@ -210,6 +211,18 @@ public class CalcModel {
         }
         return output;
     }
+
+    /**
+     * returns output text of buttons btn_11 .. btn_26 dependend of the mode
+     * @param index
+     * @return
+     */
+    public String getInverseFunctionButtonFunctionality(int index){
+        String function = getFunctionButtonFunctionality(index);
+        if(inverseFunction.containsKey(function))return inverseFunction.get(function);
+        else return "";
+    }
+
         
 
     /*
@@ -256,7 +269,7 @@ public class CalcModel {
     private static String returnmode(String mode){
         switch(mode){
             case "STANDART": {return "basic";}
-            case "STANDART2": {return "basic2";}
+            case "STANDART2": {return "advanced";}
             case "STATISTIK": {return "statistic";}
             case "NUTZER": {return "user";}
             case "LOGISCH": {return "logic";}

@@ -2,12 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/basic"
         android:title="@string/BASIC_DE" />
-    <item android:id="@+id/basic2"
-        android:title="@string/BASIC2_DE" />
+    <item android:id="@+id/advanced"
+        android:title="@string/ADVANCED_DE" />
     <item android:id="@+id/trigo"
         android:title="@string/TRIGO_DE" />
-    <item android:id="@+id/hyper"
-    android:title="@string/HYPER_DE" />
     <item android:id="@+id/logic"
         android:title="@string/LOGIC_DE" />
     <item android:id="@+id/statistic"

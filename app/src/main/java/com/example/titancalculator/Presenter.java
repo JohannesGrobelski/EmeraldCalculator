@@ -30,6 +30,17 @@ public class Presenter {
     }
 
 
+    public String inputButtonLong(String identifier){
+        String ret = "";
+        if(identifier.matches("[1-2][1-6]")){
+            int nr = Integer.valueOf(identifier);
+            ret = calcModel.getInverseFunctionButtonFunctionality(nr);
+            System.out.println(identifier+" "+calcModel.getFunctionButtonText(nr)+" "+ret);
+            if(!ret.isEmpty())addInputText(ret);
+        }
+        return ret;
+    }
+
     /**
      * propagates input from view to calcmodel and updates views output
      * @param identifier
