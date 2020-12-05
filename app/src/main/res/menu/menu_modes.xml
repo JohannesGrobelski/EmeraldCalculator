@@ -2,8 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/basic"
         android:title="@string/BASIC_DE" />
-    <item android:id="@+id/advanced"
-        android:title="@string/ADVANCED_DE" />
+    <item android:title="@string/ADVANCED_DE" />
     <item android:id="@+id/trigo"
         android:title="@string/TRIGO_DE" />
     <item android:id="@+id/logic"

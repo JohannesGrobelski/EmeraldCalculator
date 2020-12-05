@@ -175,9 +175,6 @@ public class Presenter {
         int selection = Math.max(0,start- 1);
         view.setInputText(calcModel.getInputText());
         if(selection >= 0)view.setSelectionInput(selection);
-
-        //setInputText("");
-        //eT_input.setSelection(Math.max(0, pos - 1));
     }
 
     /**

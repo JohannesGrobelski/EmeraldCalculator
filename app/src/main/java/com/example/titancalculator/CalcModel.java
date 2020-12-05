@@ -1,5 +1,8 @@
 package com.example.titancalculator;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
 import com.example.titancalculator.helper.Math_String.MathEvaluator;
 import com.example.titancalculator.helper.Math_String.StringUtils;
 
@@ -49,15 +52,17 @@ public class CalcModel {
             put("²","√"); put("√","²");put("²","√"); put("³","3√"); put("LN","e^"); put("LOG","10^"); put("AND","NAND"); put("OR","NOR");
         }};
     //state variables (incl. getter and setters)
+        PersistentModel persistentModel = new PersistentModel();
         String InputString = "";
         int startSelection, endSelection;
         String OutputString = "";
-        private static String[] memory = new String[6];
 
-        public static String[] getMemory() {return memory;}
-        public static String getMemory(int index) {if(index<6 && index>=0)return memory[index]; else {System.out.println(index); assert(false); return "";}}
-        public static void setMemory(String[] memory) {if(memory.length == CalcModel.memory.length)CalcModel.memory = memory;}
-        public static void setMemory(String mem, int index) {if(index<6 && index>=0)CalcModel.memory[index] = mem;}
+        public String[] getMemory() {return persistentModel.getMemory();}
+        public String getMemory(int index) {return persistentModel.getMemory(index);}
+        public void setMemory(String[] memory) {persistentModel.setMemory(memory);}
+        public void setMemory(String mem, int index) {persistentModel.setMemory(mem,index);}
+
+
         public void setOuputString(String res) {OutputString = res;}
         public String getOutputString() {return OutputString;}
         public void setOutputString(String OutputString) {this.OutputString = OutputString;}
@@ -222,103 +227,6 @@ public class CalcModel {
         else return "";
     }
 
-        
-
-    /*
-    //persistency
-
-    public void saveMemory(String[] Memory) {
-        String MEMS = ArrayUtils.arrayToString(Memory);
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.context);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("MEMORY", MEMS);
-        editor.commit();
-    }
-
-    private static boolean checkPermissionForReadExtertalStorage(Context context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            int result = context.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
-            return result == PackageManager.PERMISSION_GRANTED;
-        }
-        return false;
-    }
-
-    private static void requestPermissionForReadExtertalStorage(Context context) throws Exception {
-        try {
-            ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                    Integer.parseInt(Manifest.permission.READ_EXTERNAL_STORAGE));
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw e;
-        }
-    }
-
-    public String[] loadMemory() {
-        String MEMS = PreferenceManager.getDefaultSharedPreferences(this.context).getString("MEMORY", "");
-        String[] memarray = ArrayUtils.stringToArray(MEMS);
-        if(enableLog)Log.e("array mem", Arrays.toString(memarray));
-        String[] res = new String[6];
-        for (int i = 0; i < 6; i++) {
-            if (i < memarray.length) res[i] = memarray[i];
-            else res[i] = "";
-        }
-        return res;
-    }
-
-    private static String returnmode(String mode){
-        switch(mode){
-            case "STANDART": {return "basic";}
-            case "STANDART2": {return "advanced";}
-            case "STATISTIK": {return "statistic";}
-            case "NUTZER": {return "user";}
-            case "LOGISCH": {return "logic";}
-            case "SPEICHER": {return "memory";}
-            default: return mode;
-        }
-    }
-
-    private void setBase(int Base) {
-        if (Base <= 1) {
-            return;
-        } else {
-            base = Base;
-        }
-    }
-
-    private int getBase() {
-        if (base == 0) {
-            String baseString = PreferenceManager.getDefaultSharedPreferences(context).getString("base", "10");
-            if (baseString == null) {
-                setBase(0);
-            } else base = Integer.parseInt(baseString);
-        }
-        return base;
-    }
-
-    private String transUserInputBtnFct(String fct) {
-        if (fct.startsWith("btn")) return "";
-        //"PI","E","NCR","NPR","%","!N","^","A/B","x\u207B\u00B9","+/-","√","\u00B3√","LOG","LN","LB","SIN","COS","TAN","ASIN","ATAN","ASINH","ACOSH","ATANH","SINH","COSH","TANH"};
-        if (fct.equals(">%")) {
-            setOuputString(InputString.getPercent());
-            return ">%";
-        } else if (fct.equals("A/B")) {
-            setOuputString(InputString.toFraction());
-            return "A/B";
-        } else if (fct.equals("x\u207B\u00B9")) {
-            setOuputString(InputString.getReciproke());
-            return "x\u207B\u00B9";
-        } else if (fct.equals("+/-")) {
-            setOuputString(InputString.getInvert());
-            return "+/-";
-        }
-        String A = fct;
-        A = A.replace("NCR", "C");
-        A = A.replace("NCR", "C");
-        A = A.replace("!N", "!");
-        A = A.replace("x\u207B\u00B9", "C");
-        return A;
-    }
-     */
 
 
 }

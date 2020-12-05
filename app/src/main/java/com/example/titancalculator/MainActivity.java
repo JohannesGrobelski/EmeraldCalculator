@@ -1,5 +1,6 @@
 package com.example.titancalculator;
 
+import android.content.Context;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -33,6 +34,7 @@ import javax.inject.Inject;
   */
 public class MainActivity extends AppCompatActivity implements Presenter.View {
     private Presenter presenter;
+    private static Context context;
     //auxiliary variables
     boolean eT_input_hasFocus = true;
 
@@ -56,10 +58,10 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
     @Override public boolean onCreateOptionsMenu(Menu menu) {getMenuInflater().inflate(R.menu.menu_modes, menu); return true;}
 
     @Override public boolean onOptionsItemSelected(MenuItem item) {
+       selektieren von erweitert => fehler
         String idName = getResources().getResourceEntryName(item.getItemId());
         presenter.setMode(idName);
         setViewsAccordingToMode(item.toString());
-
         return true;
     }
 
@@ -75,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        context = getApplicationContext();
         setContentView(R.layout.activity_main);
         setTitle("Calculator");
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -531,6 +534,8 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
         }
         return selection;
     }
+
+    public static Context getContext() {return context;}
 
 
     /**

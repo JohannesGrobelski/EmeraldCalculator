@@ -6,7 +6,6 @@
     //Modes
     <string name="TRIGO_DE">TRIGO</string>
     <string name="STATS_DE">STATISTIK</string>
-    <string name="HYPER_DE">HYPER</string>
     <string name="LOGIC_DE">LOGISCH</string>
     <string name="MEMORY_DE">SPEICHER</string>
 
@@ -19,8 +18,6 @@
     <string name="ADD">+</string>
 
     <string name="SUB">-</string>
-    <string name="CLEAR">⌫</string>
-    <string name="CLEARALL">⌧</string>
     <string name="CLEAR_ALL">⌫ ⌧</string>
 
     <string name="BRACKET_OPEN">(</string>
@@ -34,56 +31,18 @@
     <string name="ROOT3">\u00B3√</string>
 
 
-    <string name="LEFTARROW">L</string>
-
-    <string name="RIGHTARROW">R</string>
-
-
-    <string name="ANS">ANS</string>
-
     <string name="LN">LN</string>
 
     <string name="LB">LB</string>
 
 
-    <string name="settingsEN">Settings</string>
-    <string name="taschenrechnerModusEN">Mode: Calc</string>
-
     //Acts
-    <string name="ConvColorEN">Colorscheme of Conversions</string>
-    <string name="ConvColorDE">Farbe in Konvertierung</string>
-    <string name="ConstColorEN">Colorscheme of Constants</string>
-    <string name="ConstColorDE">Farbe in Konstanten</string>
-    <string name="HistColorEN">Colorscheme of History</string>
-    <string name="HistColorDE">Color in Verlauf</string>
 
 
     //menu punkte
-    <string name="ActColorEN">Color of the Act buttons</string>
-    <string name="ActColorDE">Farbe der Act Buttons</string>
-    <string name="FktColorEN">Color of the fkt buttons</string>
-    <string name="FktColorDE">Farbe der fkt Buttons</string>
-    <string name="FopsColorDE">Farbe der fops Buttons</string>
-    <string name="FopsColorEN">Color of the fops buttons</string>
-    <string name="NumbersColorEN">Color of the number buttons</string>
-    <string name="NumbersColorDE">Farbe der Zahlenbuttons</string>
-    <string name="SaveColorEN">Color of the save buttons</string>
-    <string name="SaveColorDE">Farbe der save buttons</string>
-    <string name="SpecialColorEN">Color of the special buttons</string>
-    <string name="SpecialColorDE">Farbe der Spezialbuttons</string>
-    <string name="DisplayColorEN">Color of the Display</string>
-    <string name="DisplayColorDE">Farbe des Displays</string>
-    <string name="DisplayTextColorEN">Color of Text in the Display</string>
-    <string name="DisplayTextColorDE">Farbe des Text im Displays</string>
-    <string name="BackgroundColorEN">Color of the Background</string>
-    <string name="BackgroundColorDE">Farbe des Hintergrund</string>
 
 
     <string name="app_name">CUSTOM CALC</string>
-    <string name="pref_summary_colors_default">Farbe wählen</string>
-    <string name="pref_title_colors_default">Farbe wählen</string>
-    <string name="save_settings_EN">SAVE SETTINGS</string>
-    <string name="save_settings_DE">speichern</string>
 
     <!-- Preference Titles -->
 
@@ -93,14 +52,6 @@
 
 
     //pref settings
-    <string name="deleteDesignEN">delete</string>
-    <string name="saveDesignEN">save</string>
-    <string name="renameDesignEN">rename</string>
-    <string name="setDesignEN">set</string>
-    <string name="setDesignDE">setzen</string>
-    <string name="renameDesignDE">umbennen</string>
-    <string name="deleteDesignDE">löschen</string>
-    <string name="saveDesignDE">speichern</string>
     <string-array name="modes_EN">
         <item>BASIC</item>
         <item>ADVANCED</item>
@@ -108,49 +59,6 @@
         <item>LOGIC</item>
         <item>STATISTIC</item>
         <item>MEMORY</item>
-    </string-array>
-    <string-array name="languagesNames_EN">
-        <item>english</item>
-        <item>german</item>
-    </string-array>
-    <string-array name="languagesValue_EN">
-        <item>english</item>
-        <item>german</item>
-    </string-array>
-    <string-array name="languagesNames_DE">
-        <item>englisch</item>
-        <item>deutsch</item>
-    </string-array>
-    <string-array name="languagesValue_DE">
-        <item>englisch</item>
-        <item>deutsch</item>
-    </string-array>
-
-    <string-array name="mittelwert_de">
-        <item>arithmetisches Mittel</item>
-        <item>geometrisches Mittel</item>
-        <item>harmonisches Mittel</item>
-    </string-array>
-    <string-array name="mittelwert_en">
-        <item>arithmetic mean</item>
-        <item>geometric mean</item>
-        <item>harmonic mean</item>
-    </string-array>
-
-    <string-array name="varianz_de">
-        <item>arithmetische Varianz</item>
-        <item>geometrisches Varianz</item>
-        <item>harmonisches Varianz</item>
-    </string-array>
-    <string-array name="varianz_en">
-        <item>arithmetic Variance</item>
-        <item>geometric Variance</item>
-        <item>harmonic Variance</item>
-    </string-array>
-    <string-array name="varianz_val">
-        <item>AriVar</item>
-        <item>GeoVar</item>
-        <item>HarVar</item>
     </string-array>
 
 
