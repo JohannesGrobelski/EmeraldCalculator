@@ -14,7 +14,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -41,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
     LinearLayout science_background;
     LinearLayout display;
     //Line 1
-    Button btn_FUN; Button btn_clear_all;
+    Button btn_clear_all;
     //Line 2
     Button btn_11; Button btn_12;Button btn_13;Button btn_14;Button btn_15;Button btn_16;
     //Line 3
@@ -51,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
     //Group 2
     Button btn_open_bracket; Button btn_close_bracket; Button btn_add; Button btn_sub; Button btn_mul; Button btn_div; Button btn_com; Button btn_sep; Button btn_eq_ans;
     EditText eT_input; EditText eT_output;
-    LinearLayout LN2; LinearLayout LN3; LinearLayout LN4;
+    LinearLayout LN2; LinearLayout LN3;
     Button[] allButtons;
     @Override public boolean onCreateOptionsMenu(Menu menu) {getMenuInflater().inflate(R.menu.menu_modes, menu); return true;}
 
@@ -84,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
         display = findViewById(R.id.display);
         science_background = findViewById(R.id.science_background);
         //L1
-        btn_FUN = findViewById(R.id.btn_FUN); btn_clear_all = findViewById(R.id.btn_clear_all);
+        btn_clear_all = findViewById(R.id.btn_clear_all);
         //L2
         btn_11 = findViewById(R.id.btn_11);  btn_12 = findViewById(R.id.btn_12);  btn_13 = findViewById(R.id.btn_13);  btn_14 = findViewById(R.id.btn_14);  btn_15 = findViewById(R.id.btn_15);  btn_16 = findViewById(R.id.btn_16);
         //L3
@@ -96,10 +95,8 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
         //G2
         btn_open_bracket = findViewById(R.id.btn_open_bracket);  btn_close_bracket = findViewById(R.id.btn_close_bracket);
         btn_add = findViewById(R.id.btn_add);  btn_sub = findViewById(R.id.btn_sub);  btn_mul = findViewById(R.id.btn_mul);  btn_div = findViewById(R.id.btn_div);  btn_eq_ans = findViewById(R.id.btn_eq_ANS);
-        LN2 = findViewById(R.id.LN2);  LN3 = findViewById(R.id.LN3);  LN4 = findViewById(R.id.LN4);
-        allButtons = new Button[] {btn_11,btn_12,btn_13,btn_14,btn_15,btn_16,btn_21,btn_22,btn_23,btn_24,btn_25,btn_26,btn_FUN,btn_clear_all,btn_1,btn_2,btn_3,btn_4,btn_5,btn_6,btn_7,btn_8,btn_9,btn_open_bracket,btn_close_bracket,btn_add,btn_sub,btn_mul,btn_div,btn_com,btn_sep,btn_eq_ans};
-
-
+        LN2 = findViewById(R.id.LN2);  LN3 = findViewById(R.id.LN3);
+        allButtons = new Button[] {btn_11,btn_12,btn_13,btn_14,btn_15,btn_16,btn_21,btn_22,btn_23,btn_24,btn_25,btn_26,btn_clear_all,btn_1,btn_2,btn_3,btn_4,btn_5,btn_6,btn_7,btn_8,btn_9,btn_open_bracket,btn_close_bracket,btn_add,btn_sub,btn_mul,btn_div,btn_com,btn_sep,btn_eq_ans};
 
         eT_output.setOnFocusChangeListener(focusListener);
         eT_input.setOnFocusChangeListener(focusListener);
@@ -126,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
                 }
             });
         }
-        setOnClickListeners();
+        prepareViews();
         presenter.setMode("basic"); setViewsAccordingToMode("basic");
     }
 
@@ -148,18 +145,7 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
         presenter.attachView(this);
     }
 
-    public void setOnClickListeners(){
-        btn_FUN.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View view) {
-                if(LN2.getVisibility() == View.VISIBLE){
-                    LN2.setVisibility(View.GONE);
-                    LN3.setVisibility(View.GONE);
-                } else {
-                    LN2.setVisibility(View.VISIBLE);
-                    LN3.setVisibility(View.VISIBLE);
-                }
-            }
-        });
+    public void prepareViews(){
         btn_clear_all.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View view) {
                 presenter.inputButton("⌫");
@@ -403,6 +389,10 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
             public void onSwipeRight() {presenter.previousMode(); setViewsAccordingToMode(presenter.getMode());}
             public void onSwipeLeft() {presenter.nextMode(); setViewsAccordingToMode(presenter.getMode());}
         });
+
+        eT_input.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+        eT_output.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+
     }
 
     public void setViewsAccordingToMode(String mode){
