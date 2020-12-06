@@ -1430,7 +1430,7 @@ public class Expression {
 				return toRound.setScale(0, RoundingMode.CEILING);
 			}
 		});
-		addFunction(new Function("Zn", 1) {
+		addFunction(new Function("RAND", 1) {
 			/**
 			 *
 			 * @param parameters
@@ -1440,12 +1440,13 @@ public class Expression {
 			 */
 			@Override
 			public BigDecimal eval(List<BigDecimal> parameters) {
+				System.out.println("RAND");
 				assertNotNull(parameters.get(0));
 				BigDecimal Z = BigDecimal.valueOf(Math.random()*Math.abs(parameters.get(0).doubleValue()));
 				return Z.setScale(0, RoundingMode.CEILING);
 			}
 		});
-		addFunction(new Function("Zb", 2) {
+		addFunction(new Function("RANDB", 2) {
 			/**
 			 *
 			 * @param parameters

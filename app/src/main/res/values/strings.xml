@@ -1,48 +1,38 @@
 <resources>
-
-    <string name="BASIC_DE">STANDART</string>
-    <string name="ADVANCED_DE">ERWEITERT</string>
-
     //Modes
-    <string name="TRIGO_DE">TRIGO</string>
-    <string name="STATS_DE">STATISTIK</string>
-    <string name="LOGIC_DE">LOGISCH</string>
-    <string name="MEMORY_DE">SPEICHER</string>
+    <string name="basic_mode1">BASIC</string>
+    <string name="advanced_mode2">ADVANCED</string>
+    <string name="trigo_mode3">TRIGO</string>
+    <string name="stats_mode4">STATISTIC</string>
+    <string name="logic_mode5">LOGIC</string>
+    <string name="memory_mode6">MEMORY</string>
 
+    <string name="primefactorization">PF</string>
+    <string name="greatest_common_denominator">GCD</string>
+    <string name="least_common_multiply">LCM</string>
 
-    <string name="MUL">*</string>
+    <string name="random_number" translatable="false">RAND</string>
 
-    <string name="DIV">/</string>
-
-    <string name="POT">^</string>
-    <string name="ADD">+</string>
-
-    <string name="SUB">-</string>
-    <string name="CLEAR_ALL">⌫ ⌧</string>
-
-    <string name="BRACKET_OPEN">(</string>
-    <string name="BRACKET_CLOSE">)</string>
-    <string name="DECLOG">LOG</string>
-
-    <string name="e">e</string>
-    <string name="PI">π</string>
-
-    <string name="ROOT">√</string>
-    <string name="ROOT3">\u00B3√</string>
-
-
-    <string name="LN">LN</string>
-
-    <string name="LB">LB</string>
-
-
-    //Acts
-
-
-    //menu punkte
 
 
     <string name="app_name">CUSTOM CALC</string>
+
+    //not changing
+    <string name="MUL" translatable="false">*</string>
+    <string name="DIV" translatable="false">/</string>
+    <string name="POT" translatable="false">^</string>
+    <string name="ADD" translatable="false">+</string>
+    <string name="SUB" translatable="false">-</string>
+    <string name="CLEAR_ALL" translatable="false">⌫ ⌧</string>
+    <string name="BRACKET_OPEN" translatable="false">(</string>
+    <string name="BRACKET_CLOSE" translatable="false">)</string>
+    <string name="DECLOG" translatable="false">LOG</string>
+    <string name="e" translatable="false">e</string>
+    <string name="PI" translatable="false">π</string>
+    <string name="ROOT" translatable="false">√</string>
+    <string name="ROOT3" translatable="false">\u00B3√</string>
+    <string name="LN" translatable="false">LN</string>
+    <string name="LB" translatable="false">LB</string>
 
     <!-- Preference Titles -->
 
@@ -50,6 +40,11 @@
 
     <!-- Sync Preferences -->
 
+
+    <!-- -
+    This is an ad unit ID for an interstitial test ad. Replace with your own interstitial ad unit id.
+    For more information, see https://support.google.com/admob/answer/3052638
+<!- -->
 
     //pref settings
     <string-array name="modes_EN">
@@ -60,12 +55,4 @@
         <item>STATISTIC</item>
         <item>MEMORY</item>
     </string-array>
-
-
-    <!-- -
-    This is an ad unit ID for an interstitial test ad. Replace with your own interstitial ad unit id.
-    For more information, see https://support.google.com/admob/answer/3052638
-<!- -->
-
-
 </resources>

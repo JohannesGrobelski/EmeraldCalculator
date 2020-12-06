@@ -21,8 +21,7 @@ public class CalcModel {
     //static data
         public static int precisionDigits = 10;
         public static Set<String> noImmidiateOps = new HashSet<>(Arrays.asList("³√", "ROOT", "√", "LOG", "P", "C", "%"));
-        public static String[] modes = {"basic","advanced","trigo","logic","statistic","memory",};
-        public static String[] theoreticalModes = {"basic","advanced","trigo","logic","statistic","memory","unknown"};
+        public static String[] modes;
 
         public static String[] modeBasicText                 = {"π","SIN","COS","TAN","LOG","LN","e","√","x²","^","!",">A/B"};
         public static String[] modeBasicFunctionality        = {"π","SIN","COS","TAN","LOG","LN","e","√","²","^","!",">A/B"};
@@ -36,8 +35,8 @@ public class CalcModel {
         public static String[] modeLogicText = {"AND","OR","XOR","NOT","","","","","","","",""};
         public static String[] modeLogicFunctionality = {"AND(,)","OR(,)","XOR(,)","NOT()","","","","","","","",""};
 
-        public static String[] modeStatisticText = {"ZN","ZB","NCR","NPR","MEAN","VAR","S","","","","",""};
-        public static String[] modeStatisticFunctionality = {"Zn()","Zb(,)","C","P","MEAN()","VAR()","√(VAR())","","","","",""};
+        public static String[] modeStatisticText = {"RAND","RANDB","nCr","nPr","MEAN","VAR","S","","","","",""};
+        public static String[] modeStatisticFunctionality = {"RAND()","RANDB(,)","C","P","MEAN()","VAR()","√(VAR())","","","","",""};
 
         public static String[] modeMemoryText = {"M1","M2","M3","M4","M5","M6",">M1",">M2",">M3",">M4",">M5",">M6"};
         public static String[] modeMemoryFunctionality = {"M1","M2","M3","M4","M5","M6",">M1",">M2",">M3",">M4",">M5",">M6"};
@@ -51,6 +50,15 @@ public class CalcModel {
             put("SINH", "ASINH"); put("COSH", "ACOSH"); put("TANH", "ATANH"); put("COTH", "ACOTH"); put("SECH", "ASECH"); put("CSCH", "ACSCH");
             put("²","√"); put("√","²");put("²","√"); put("³","3√"); put("LN","e^"); put("LOG","10^"); put("AND","NAND"); put("OR","NOR");
         }};
+        public static void setModes(String[] Modes){modes = Modes;}
+        public static void translatePrimeFactorization(String translation){if(modeAdvancedText[0].equals("PFZ"))modeAdvancedText[0] = translation;}
+        public static void translateGreatestCommonDenominator(String translation){if(modeAdvancedText[1].equals("GCD")){modeAdvancedText[1] = translation;modeAdvancedFunctionality[1] = translation+"(,)";}}
+        public static void translateLeastCommonMultiply(String translation){if(modeAdvancedText[2].equals("LCM")){modeAdvancedText[2] = translation;modeAdvancedFunctionality[2] = translation+"(,)";}}
+        public static void translateRandomNumber(String translation){if(modeStatisticText[3].equals("ZN")){
+            modeStatisticText[0] = translation;modeStatisticText[1] = translation;
+            modeStatisticFunctionality[0] = translation+"()";modeStatisticFunctionality[1] = translation+"(,)";
+        }}
+
     //state variables (incl. getter and setters)
         PersistentModel persistentModel = new PersistentModel();
         String InputString = "";
@@ -74,7 +82,7 @@ public class CalcModel {
 
     //setting variables
         private String last_answer="";
-        private String mode = "basic";
+        private int mode = 0;
         private String language = "";
         private boolean scientificNotation = false;
         public String mean_mode = "AriMit";
@@ -83,15 +91,14 @@ public class CalcModel {
         public int dec_places = precisionDigits;
         public int predec_places = 25;
 
-        public String getMode() {return mode;}
-        public void setMode(String mode) {this.mode = mode;}
+        public int getMode() {return mode;}
+        public void setMode(int mode) {this.mode = mode;}
         public String getLanguage() {return language;}
         public void setLanguage(String language) {this.language = language;}
         public boolean isScientificNotation() {return scientificNotation;}
         public void toogleScientificNotation(){scientificNotation = !scientificNotation;}
-        public void nextMode() {mode = modes[(findMode(mode)+1)%modes.length];}
-        public void previousMode() {int i = (findMode(mode)-1)%modes.length; if(i==-1)mode = modes[modes.length-1]; else mode = modes[i];}
-        private int findMode(String mode){for(int i=0;i<modes.length;i++){if(modes[i].equals(mode))return i;}return 0;}
+        public void nextMode() {mode = (mode+1)%modes.length;}
+        public void previousMode() {int i = mode = (mode+-1)%modes.length; if(i==-1)mode = modes.length-1; else mode = i;}
 
     //methods
     public void addInputText(String i, int selectionStart) {
@@ -134,8 +141,8 @@ public class CalcModel {
 
     public String getCalcuableString(String a){
         //language settings
-        a = a.replaceAll("LCM","KGV");
-        a = a.replaceAll("GCD","GGT");
+        a = a.replaceAll(modeAdvancedText[1],"GCD");
+        a = a.replaceAll(modeAdvancedText[2],"LCM");
 
         a = a.replace("³√","3ROOT");
         for(String r: StringUtils.replacements.keySet()){
@@ -177,12 +184,12 @@ public class CalcModel {
     public String getFunctionButtonText(int index){
         int i = (index%10 + ((index/10)-1)*6)-1;
         switch(mode){
-            case "basic": {return modeBasicText[i];}
-            case "advanced": {return modeAdvancedText[i];}
-            case "trigo": {return modeTrigoText[i];}
-            case "statistic": {return modeStatisticText[i];}
-            case "logic": {return modeLogicText[i];}
-            case "memory": {return modeMemoryText[i];}
+            case 0: {return modeBasicText[i];}
+            case 1: {return modeAdvancedText[i];}
+            case 2: {return modeTrigoText[i];}
+            case 3: {return modeStatisticText[i];}
+            case 4: {return modeLogicText[i];}
+            case 5: {return modeMemoryText[i];}
         }
         return "";
     }
@@ -197,12 +204,12 @@ public class CalcModel {
         String output = "";
         int i = (index%10 + ((index/10)-1)*6)-1;
         switch(mode){
-            case "basic": {output =  modeBasicFunctionality[i]; break;}
-            case "advanced": {output =  modeAdvancedFunctionality[i]; break;}
-            case "trigo": {output =  modeTrigoFunctionality[i]; break;}
-            case "statistic": {output =  modeStatisticFunctionality[i]; break;}
-            case "logic": {output =  modeLogicFunctionality[i]; break;}
-            case "memory": {output =  modeMemoryFunctionality[i]; break;}
+            case 0: {output =  modeBasicFunctionality[i]; break;}
+            case 1: {output =  modeAdvancedFunctionality[i]; break;}
+            case 2: {output =  modeTrigoFunctionality[i]; break;}
+            case 3: {output =  modeStatisticFunctionality[i]; break;}
+            case 4: {output =  modeLogicFunctionality[i]; break;}
+            case 5: {output =  modeMemoryFunctionality[i]; break;}
         }
         switch(output){
             case ((">PFZ")):{setOuputString(MathEvaluator.toPFZ(InputString));break;}

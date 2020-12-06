@@ -1,11 +1,14 @@
 package com.example.titancalculator;
 
 import android.content.Context;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -35,6 +38,8 @@ import javax.inject.Inject;
 public class MainActivity extends AppCompatActivity implements Presenter.View {
     private Presenter presenter;
     private static Context context;
+    private static String[] menuItems;
+    private static String[] menuItemsID;
     //auxiliary variables
     boolean eT_input_hasFocus = true;
 
@@ -55,13 +60,29 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
     EditText eT_input; EditText eT_output;
     LinearLayout LN2; LinearLayout LN3;
     Button[] allButtons;
-    @Override public boolean onCreateOptionsMenu(Menu menu) {getMenuInflater().inflate(R.menu.menu_modes, menu); return true;}
+
+    @Override public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_modes, menu);
+        menuItems = new String[menu.size()];
+        menuItemsID = new String[menu.size()];
+        for(int i=0; i<menu.size(); i++){
+            menuItems[i] = menu.getItem(i).toString();
+            menuItemsID[i] = getResources().getResourceEntryName(menu.getItem(i).getItemId());
+        }
+        CalcModel.modes = menuItems;
+        setViewsAccordingToMode(CalcModel.modes[presenter.getMode()]);
+        return true;
+    }
 
     @Override public boolean onOptionsItemSelected(MenuItem item) {
-       selektieren von erweitert => fehler
+       //selektieren von erweitert => fehler
         String idName = getResources().getResourceEntryName(item.getItemId());
-        presenter.setMode(idName);
-        setViewsAccordingToMode(item.toString());
+        int indexMenuItem = 0;
+        for(int i=0; i<menuItems.length; i++){
+            if(menuItemsID[i].equals(idName))indexMenuItem = i;
+        }
+        presenter.setMode(indexMenuItem);
+        setViewsAccordingToMode(idName);
         return true;
     }
 
@@ -108,11 +129,12 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
         eT_input.setOnFocusChangeListener(focusListener);
         disableSoftInputFromAppearing(eT_input);
 
+
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.modes_EN, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         setPresenter(new Presenter());
-        presenter.setMode("basic");
+        presenter.setMode(0);
 
         final Map<Button, Drawable> backgrounds = new HashMap<>();
         for(Button btn: allButtons){
@@ -130,8 +152,8 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
             });
         }
         prepareViews();
-        presenter.setMode("basic"); setViewsAccordingToMode("basic");
-
+        presenter.setMode(0); setViewsAccordingToMode("basic");
+        localization();
     }
 
     @Override
@@ -157,7 +179,6 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
      * disables textSuggestions (et_input,et_output),
      */
     public void prepareViews(){
-
         btn_clear_all.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View view) {
                 presenter.inputButton("⌫");
@@ -398,13 +419,14 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
         });
 
         toolbar.setOnTouchListener(new OnSwipeTouchListener(MainActivity.this) {
-            public void onSwipeRight() {presenter.previousMode(); setViewsAccordingToMode(presenter.getMode());}
-            public void onSwipeLeft() {presenter.nextMode(); setViewsAccordingToMode(presenter.getMode());}
+            public void onSwipeRight() {presenter.previousMode(); setViewsAccordingToMode(CalcModel.modes[presenter.getMode()]);}
+            public void onSwipeLeft() {presenter.nextMode(); setViewsAccordingToMode(CalcModel.modes[presenter.getMode()]);}
         });
 
 
         eT_input.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
         eT_output.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+
     }
 
     public void setViewsAccordingToMode(String mode){
@@ -416,6 +438,20 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
         setSupportActionBar(toolbar);
         toolbarTitle.setText(toolbar.getTitle());
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+    }
+
+    public void localization(){
+        Configuration conf = getResources().getConfiguration();
+        conf.locale = getResources().getConfiguration().locale;
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        Resources resources = new Resources(getAssets(), metrics, conf);
+
+        CalcModel.translatePrimeFactorization(resources.getString(R.string.primefactorization));
+        CalcModel.translateGreatestCommonDenominator(resources.getString(R.string.greatest_common_denominator));
+        CalcModel.translateLeastCommonMultiply(resources.getString(R.string.least_common_multiply));
+        CalcModel.translateRandomNumber(resources.getString(R.string.random_number));
+
     }
 
     @Override public void setBtnText(int index, String text){

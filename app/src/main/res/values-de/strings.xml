@@ -1,0 +1,39 @@
+<resources>
+    //Modes
+    <string name="basic_mode1">STANDART</string>
+    <string name="advanced_mode2">ERWEITERT</string>
+    <string name="trigo_mode3">TRIGO</string>
+    <string name="stats_mode4">STATISTIK</string>
+    <string name="logic_mode5">LOGISCH</string>
+    <string name="memory_mode6">SPEICHER</string>
+
+    <string name="primefactorization">PFZ</string>
+    <string name="greatest_common_denominator">GGT</string>
+    <string name="least_common_multiply">KGV</string>
+
+
+
+
+
+    //Acts
+
+
+    //menu punkte
+
+
+    <string name="app_name">EMERALD Calculator</string>
+
+    <!-- Preference Titles -->
+
+    <!-- Messages Preferences -->
+
+    <!-- Sync Preferences -->
+
+
+    <!-- -
+    This is an ad unit ID for an interstitial test ad. Replace with your own interstitial ad unit id.
+    For more information, see https://support.google.com/admob/answer/3052638
+<!- -->
+
+
+</resources>

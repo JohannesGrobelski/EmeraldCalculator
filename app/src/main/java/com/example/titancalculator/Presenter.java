@@ -60,51 +60,51 @@ public class Presenter {
             int nr = Integer.valueOf(identifier);
             switch (nr){
                 case 11: {
-                    if(calcModel.getMode().equals("memory")){replaceSelection(calcModel.getMemory(0)); break;}
+                    if(calcModel.getMode() == 5){replaceSelection(calcModel.getMemory(0)); break;}
                     ret = calcModel.getFunctionButtonFunctionality(11);
                     if(!ret.contains(">")) addInputText(calcModel.getFunctionButtonFunctionality(11)); break;}
                 case 12: {
-                    if(calcModel.getMode().equals("memory")){replaceSelection(calcModel.getMemory(1)); break;}
+                    if(calcModel.getMode() == 5){replaceSelection(calcModel.getMemory(1)); break;}
                     ret = calcModel.getFunctionButtonFunctionality(12);
                     if(!ret.contains(">")) addInputText(calcModel.getFunctionButtonFunctionality(12)); break;}
                 case 13: {
-                    if(calcModel.getMode().equals("memory")){replaceSelection(calcModel.getMemory(2)); break;}
+                    if(calcModel.getMode() == 5){replaceSelection(calcModel.getMemory(2)); break;}
                     ret = calcModel.getFunctionButtonFunctionality(13);
                     if(!ret.contains(">")) addInputText(calcModel.getFunctionButtonFunctionality(13)); break;}
                 case 14: {
-                    if(calcModel.getMode().equals("memory")){replaceSelection(calcModel.getMemory(3)); break;}
+                    if(calcModel.getMode() == 5){replaceSelection(calcModel.getMemory(3)); break;}
                     ret = calcModel.getFunctionButtonFunctionality(14);
                     if(!ret.contains(">")) addInputText(calcModel.getFunctionButtonFunctionality(14)); break;}
                 case 15: {
-                    if(calcModel.getMode().equals("memory")){replaceSelection(calcModel.getMemory(4)); break;}
+                    if(calcModel.getMode() == 5){replaceSelection(calcModel.getMemory(4)); break;}
                     ret = calcModel.getFunctionButtonFunctionality(15);
                     if(!ret.contains(">")) addInputText(calcModel.getFunctionButtonFunctionality(15)); break;}
                 case 16: {
-                    if(calcModel.getMode().equals("memory")){replaceSelection(calcModel.getMemory(5)); break;}
+                    if(calcModel.getMode() == 5){replaceSelection(calcModel.getMemory(5)); break;}
                     ret = calcModel.getFunctionButtonFunctionality(16);
                     if(!ret.contains(">")) addInputText(calcModel.getFunctionButtonFunctionality(16)); break;}
                 case 21: {
-                    if(calcModel.getMode().equals("memory")){calcModel.setMemory(getSelection(),0); /*calcModel.saveMemory(calcModel.getMemory));*/}
+                    if(calcModel.getMode() == 5){calcModel.setMemory(getSelection(),0); /*calcModel.saveMemory(calcModel.getMemory));*/}
                     ret = calcModel.getFunctionButtonFunctionality(21);
                     if(!ret.contains(">")) addInputText(calcModel.getFunctionButtonFunctionality(21)); break;}
                 case 22: {
-                    if(calcModel.getMode().equals("memory")){calcModel.setMemory(getSelection(),1); /*calcModel.saveMemory(calcModel.getMemory));*/}
+                    if(calcModel.getMode() == 5){calcModel.setMemory(getSelection(),1); /*calcModel.saveMemory(calcModel.getMemory));*/}
                     ret = calcModel.getFunctionButtonFunctionality(22);
                     if(!ret.contains(">")) addInputText(calcModel.getFunctionButtonFunctionality(22)); break;}
                 case 23: {
-                    if(calcModel.getMode().equals("memory")){calcModel.setMemory(getSelection(),2); /*calcModel.saveMemory(calcModel.getMemory));*/}
+                    if(calcModel.getMode() == 5){calcModel.setMemory(getSelection(),2); /*calcModel.saveMemory(calcModel.getMemory));*/}
                     ret = calcModel.getFunctionButtonFunctionality(23);
                     if(!ret.contains(">")) addInputText(calcModel.getFunctionButtonFunctionality(23)); break;}
                 case 24: {
-                    if(calcModel.getMode().equals("memory")){calcModel.setMemory(getSelection(),3); /*calcModel.saveMemory(calcModel.getMemory));*/}
+                    if(calcModel.getMode() == 5){calcModel.setMemory(getSelection(),3); /*calcModel.saveMemory(calcModel.getMemory));*/}
                     ret = calcModel.getFunctionButtonFunctionality(24);
                     if(!ret.contains(">")) addInputText(calcModel.getFunctionButtonFunctionality(24)); break;}
                 case 25: {
-                    if(calcModel.getMode().equals("memory")){calcModel.setMemory(getSelection(),4); /*calcModel.saveMemory(calcModel.getMemory));*/}
+                    if(calcModel.getMode() == 5){calcModel.setMemory(getSelection(),4); /*calcModel.saveMemory(calcModel.getMemory));*/}
                     ret = calcModel.getFunctionButtonFunctionality(25);
                     if(!ret.contains(">")) addInputText(calcModel.getFunctionButtonFunctionality(25)); break;}
                 case 26: {
-                    if(calcModel.getMode().equals("memory")){calcModel.setMemory(getSelection(),5); /*calcModel.saveMemory(calcModel.getMemory));*/}
+                    if(calcModel.getMode() == 5){calcModel.setMemory(getSelection(),5); /*calcModel.saveMemory(calcModel.getMemory));*/}
                     ret = calcModel.getFunctionButtonFunctionality(26);
                     if(!ret.contains(">")) addInputText(calcModel.getFunctionButtonFunctionality(26)); break;}
             }
@@ -119,12 +119,12 @@ public class Presenter {
         return ret;
     }
 
-    public void setMode(String mode){calcModel.setMode(mode);}
+    public void setMode(int mode){calcModel.setMode(mode);}
     public void nextMode(){calcModel.nextMode();}
     public void previousMode(){calcModel.previousMode();}
 
     public String getFunctionButtonText(int index){return calcModel.getFunctionButtonText(index);}
-    public String getMode(){return calcModel.getMode();}
+    public int getMode(){return calcModel.getMode();}
 
     /**
      * replace selected text with text

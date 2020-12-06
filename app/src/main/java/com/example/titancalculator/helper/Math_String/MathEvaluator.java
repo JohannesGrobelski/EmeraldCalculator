@@ -126,6 +126,8 @@ public class MathEvaluator {
         Expression expression = new Expression(input);
         try {
             expression.setPrecision(100);
+            System.out.println("evaluate: "+expression.toString());
+
             String res = format(expression.eval()).toString();
             return res;
         }
