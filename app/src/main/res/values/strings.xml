@@ -33,6 +33,29 @@
     <string name="ROOT3" translatable="false">\u00B3√</string>
     <string name="LN" translatable="false">LN</string>
     <string name="LB" translatable="false">LB</string>
+    <string name="x_cube" translatable="false">x³</string>
+    <string name="x_squared" translatable="false">x²</string>
+    <string name="ten_power_x" translatable="false">10^x</string>
+    <string name="factorial" translatable="false">!</string>
+    <string name="seven" translatable="false">7</string>
+    <string name="eight" translatable="false">8</string>
+    <string name="nine" translatable="false">9</string>
+    <string name="four" translatable="false">4</string>
+    <string name="five" translatable="false">5</string>
+    <string name="six" translatable="false">6</string>
+    <string name="one" translatable="false">1</string>
+    <string name="two" translatable="false">2</string>
+    <string name="three" translatable="false">3</string>
+    <string name="zero" translatable="false">0</string>
+    <string name="comma" translatable="false">.</string>
+    <string name="seperator" translatable="false">,</string>
+    <string name="equal_answer" translatable="false">= ANS</string>
+    <string name="sin" translatable="false">SIN</string>
+    <string name="cos" translatable="false">COS</string>
+    <string name="tan" translatable="false">TAN</string>
+    <string name="power" translatable="false">^</string>
+    <string name="to_fraction" translatable="false"><![CDATA[>A/B]]></string>
+    <string name="ans" translatable="false">= ANS</string>
 
     <!-- Preference Titles -->
 

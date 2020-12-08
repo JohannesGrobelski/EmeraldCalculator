@@ -1,10 +1,8 @@
 package com.example.titancalculator;
 
-import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
@@ -24,11 +22,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-
 import com.example.titancalculator.helper.Math_String.OnSwipeTouchListener;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -37,7 +31,6 @@ import javax.inject.Inject;
   */
 public class MainActivity extends AppCompatActivity implements Presenter.View {
     private Presenter presenter;
-    private static Context context;
     private static String[] menuItems;
     private static String[] menuItemsID;
     //auxiliary variables
@@ -48,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
     LinearLayout science_background;
     LinearLayout display;
     //Line 1
-    Button btn_clear_all;
+    Button btn_clear_all; public Button btn_left; public Button btn_right;
     //Line 2
     Button btn_11; Button btn_12;Button btn_13;Button btn_14;Button btn_15;Button btn_16;
     //Line 3
@@ -58,7 +51,6 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
     //Group 2
     Button btn_open_bracket; Button btn_close_bracket; Button btn_add; Button btn_sub; Button btn_mul; Button btn_div; Button btn_com; Button btn_sep; Button btn_eq_ans;
     EditText eT_input; EditText eT_output;
-    LinearLayout LN2; LinearLayout LN3;
     Button[] allButtons;
 
     @Override public boolean onCreateOptionsMenu(Menu menu) {
@@ -75,7 +67,6 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
     }
 
     @Override public boolean onOptionsItemSelected(MenuItem item) {
-       //selektieren von erweitert => fehler
         String idName = getResources().getResourceEntryName(item.getItemId());
         int indexMenuItem = 0;
         for(int i=0; i<menuItems.length; i++){
@@ -98,7 +89,6 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        context = getApplicationContext();
         setContentView(R.layout.activity_main);
         setTitle("Calculator");
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -122,13 +112,12 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
         //G2
         btn_open_bracket = findViewById(R.id.btn_open_bracket);  btn_close_bracket = findViewById(R.id.btn_close_bracket);
         btn_add = findViewById(R.id.btn_add);  btn_sub = findViewById(R.id.btn_sub);  btn_mul = findViewById(R.id.btn_mul);  btn_div = findViewById(R.id.btn_div);  btn_eq_ans = findViewById(R.id.btn_eq_ANS);
-        LN2 = findViewById(R.id.LN2);  LN3 = findViewById(R.id.LN3);
+        btn_left = new Button(this); btn_right = new Button(this);
         allButtons = new Button[] {btn_11,btn_12,btn_13,btn_14,btn_15,btn_16,btn_21,btn_22,btn_23,btn_24,btn_25,btn_26,btn_clear_all,btn_1,btn_2,btn_3,btn_4,btn_5,btn_6,btn_7,btn_8,btn_9,btn_open_bracket,btn_close_bracket,btn_add,btn_sub,btn_mul,btn_div,btn_com,btn_sep,btn_eq_ans};
 
         eT_output.setOnFocusChangeListener(focusListener);
         eT_input.setOnFocusChangeListener(focusListener);
-        disableSoftInputFromAppearing(eT_input);
-
+        disableSoftInputFromAppearing(eT_input); disableSoftInputFromAppearing(eT_output);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.modes_EN, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -136,24 +125,12 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
         setPresenter(new Presenter());
         presenter.setMode(0);
 
-        final Map<Button, Drawable> backgrounds = new HashMap<>();
-        for(Button btn: allButtons){
-            Log.d("btn_touch",getResources().getResourceEntryName(btn.getId()));
-            btn.setOnTouchListener(new View.OnTouchListener() {
-                @Override public boolean onTouch(View view, MotionEvent motionEvent) {
-                    if (motionEvent.getAction() == android.view.MotionEvent.ACTION_DOWN) {
-                        ((Button)view).setTypeface(Typeface.DEFAULT_BOLD, Typeface.BOLD);
-                    }
-                    else if (motionEvent.getAction() == android.view.MotionEvent.ACTION_UP) {
-                        ((Button)view).setTypeface(Typeface.DEFAULT, Typeface.NORMAL);
-                    }
-                    return false;
-                }
-            });
-        }
         prepareViews();
         presenter.setMode(0); setViewsAccordingToMode("basic");
         localization();
+        requestFocusInput();
+        setSupportActionBar(toolbar);
+
     }
 
     @Override
@@ -176,9 +153,24 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
 
     /**
      * sets onClickListener (all buttons), onLongClickListener (btn_11..btn_26), OnSwipeTouchListener (toolbar),
-     * disables textSuggestions (et_input,et_output),
+     * disables textSuggestions (et_input,et_output), onTouchlistener (all Buttons)
      */
     public void prepareViews(){
+        for(Button btn: allButtons){
+            Log.d("btn_touch",getResources().getResourceEntryName(btn.getId()));
+            btn.setOnTouchListener(new View.OnTouchListener() {
+                @Override public boolean onTouch(View view, MotionEvent motionEvent) {
+                    if (motionEvent.getAction() == android.view.MotionEvent.ACTION_DOWN) {
+                        ((Button)view).setTypeface(Typeface.DEFAULT_BOLD, Typeface.BOLD);
+                    }
+                    else if (motionEvent.getAction() == android.view.MotionEvent.ACTION_UP) {
+                        ((Button)view).setTypeface(Typeface.DEFAULT, Typeface.NORMAL);
+                    }
+                    return false;
+                }
+            });
+        }
+
         btn_clear_all.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View view) {
                 presenter.inputButton("⌫");
@@ -353,8 +345,16 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
         btn_eq_ans.setOnLongClickListener(new View.OnLongClickListener() {
             @Override public boolean onLongClick(View view) {presenter.inputButton("ANS");return false;}
         });
-
-
+        btn_left.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {presenter.inputButton("L");
+            }
+        });
+        btn_right.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {presenter.inputButton("R");
+            }
+        });
         //L2
         btn_11.setOnLongClickListener(new View.OnLongClickListener() {
             @Override public boolean onLongClick(View view) {
@@ -423,10 +423,8 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
             public void onSwipeLeft() {presenter.nextMode(); setViewsAccordingToMode(CalcModel.modes[presenter.getMode()]);}
         });
 
-
         eT_input.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
         eT_output.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
-
     }
 
     public void setViewsAccordingToMode(String mode){
@@ -434,12 +432,14 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
         btn_14.setText(presenter.getFunctionButtonText(14)); btn_15.setText(presenter.getFunctionButtonText(15)); btn_16.setText(presenter.getFunctionButtonText(16));
         btn_21.setText(presenter.getFunctionButtonText(21)); btn_22.setText(presenter.getFunctionButtonText(22)); btn_23.setText(presenter.getFunctionButtonText(23));
         btn_24.setText(presenter.getFunctionButtonText(24)); btn_25.setText(presenter.getFunctionButtonText(25)); btn_26.setText(presenter.getFunctionButtonText(26));
-        toolbar.setTitle(mode);
-        setSupportActionBar(toolbar);
-        toolbarTitle.setText(toolbar.getTitle());
+        toolbar.setTitle("");
+        toolbarTitle.setText(mode);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
+    /**
+     * set localization of button names and functionality
+     */
     public void localization(){
         Configuration conf = getResources().getConfiguration();
         conf.locale = getResources().getConfiguration().locale;
@@ -451,7 +451,6 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
         CalcModel.translateGreatestCommonDenominator(resources.getString(R.string.greatest_common_denominator));
         CalcModel.translateLeastCommonMultiply(resources.getString(R.string.least_common_multiply));
         CalcModel.translateRandomNumber(resources.getString(R.string.random_number));
-
     }
 
     @Override public void setBtnText(int index, String text){
@@ -484,14 +483,14 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
             case 24:{return btn_24.getText().toString();}
             case 25:{return btn_25.getText().toString();}
             case 26:{return btn_26.getText().toString();}
-            default:{System.out.println("wrong i:"+i);assert(false);return "";}
+            default:{return "";}
         }
     }
 
-    @Override public void setSelectionInput(int selectionInput) {eT_input.setSelection(selectionInput);}
-    @Override public void setSelectionInput(int selectionInputStart, int selectionInputEnd) {eT_input.setSelection(selectionInputStart, selectionInputEnd);}
-    @Override public void setSelectionOutput(int selectionOutput) {eT_output.setSelection(selectionOutput);}
-    @Override public void setSelectionOutput(int selectionOutputStart, int selectionOutputEnd) {eT_output.setSelection(selectionOutputStart, selectionOutputEnd);}
+    @Override public void setSelectionInput(int selectionInput) {try{eT_input.setSelection(selectionInput);}catch(Exception e){}}
+    @Override public void setSelectionInput(int selectionInputStart, int selectionInputEnd) {try{eT_input.setSelection(selectionInputStart, selectionInputEnd);}catch(Exception e){}}
+    @Override public void setSelectionOutput(int selectionOutput) {try{eT_output.setSelection(selectionOutput);}catch(Exception e){}}
+    @Override public void setSelectionOutput(int selectionOutputStart, int selectionOutputEnd) {try{eT_output.setSelection(selectionOutputStart, selectionOutputEnd);}catch(Exception e){}}
 
     @Override public void setInputText(String i) {eT_input.setText(i);}
     @Override public void setOutputText(String res) {
@@ -507,7 +506,7 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
 
     @Override public String getInputText() {return eT_input.getText().toString();}
     @Override public String getOutputText() {
-        return eT_input.getText().toString();
+        return eT_output.getText().toString();
     }
     @Override public int getSelectionStartInput() {
         if(eT_input.hasFocus()){return eT_input.getSelectionStart();}
@@ -571,22 +570,14 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
         return selection;
     }
 
-    public static Context getContext() {return context;}
-
-
     /**
      * Disable soft keyboard from appearing, use in conjunction with android:windowSoftInputMode="stateAlwaysHidden|adjustNothing"
      * @param editText
      */
     public static void disableSoftInputFromAppearing(EditText editText) {
-        if (Build.VERSION.SDK_INT >= 11) {
-            editText.setRawInputType(InputType.TYPE_CLASS_TEXT);
-            editText.setTextIsSelectable(true);
-            editText.setShowSoftInputOnFocus(false);
-        } else {
-            editText.setRawInputType(InputType.TYPE_NULL);
-            editText.setFocusable(true);
-        }
+        editText.setRawInputType(InputType.TYPE_CLASS_TEXT);
+        editText.setTextIsSelectable(true);
+        editText.setShowSoftInputOnFocus(false);
     }
 
     /* fullscreen

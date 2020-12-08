@@ -1,18 +1,19 @@
-package com.example.titancalculator;
+package com.example.titancalculator.optionalTests;
 
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.titancalculator.CalcModel;
+import com.example.titancalculator.MainActivity;
+import com.example.titancalculator.R;
 import com.example.titancalculator.helper.Math_String.MathEvaluator;
 import com.example.titancalculator.helper.Math_String.StringUtils;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
-import org.robolectric.RobolectricTestRunner;
 import org.robolectric.fakes.RoboMenuItem;
 
 import java.text.DecimalFormat;
@@ -20,11 +21,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-@RunWith(RobolectricTestRunner.class)
-public class IntegrationTestMath {
+public class ComplexMathIntegrationTest {
     private String[][] btn = new String[2][6];
 
     private static int iterationsSubtests = 10;
@@ -36,7 +33,7 @@ public class IntegrationTestMath {
             "SIN","COS","TAN","COT","SEC","CSC","ASIN","ACOS","ATAN","ACOT","ASEC","ACSC",
             "SINH","COSH","TANH","ASINH","ACOSH","ATANH",">DEG",">RAD",
             "AND","OR","XOR","NOT",">BIN",">OCT",">DEC",">HEX",
-            "Zn","Zb","NCR","NPR","MEAN","VAR","S",
+            "RAND","RANDB","NCR","NPR","MEAN","VAR","S",
             "M1","M2","M3","M4","M5","M6",">M1",">M2",">M3",">M4",">M5",">M6",
             "L","R"
     };
@@ -44,6 +41,52 @@ public class IntegrationTestMath {
     private MainActivity mainActivity;
     private RoboMenuItem currentMode;
 
+
+    @Before
+    public void Before(){
+        mainActivity = Robolectric.setupActivity(MainActivity.class);
+        currentMode = new RoboMenuItem(R.id.basic);
+
+        Button[] B = new Button[]{mainActivity.findViewById(R.id.btn_11),mainActivity.findViewById(R.id.btn_12),mainActivity.findViewById(R.id.btn_13),
+                mainActivity.findViewById(R.id.btn_14),mainActivity.findViewById(R.id.btn_15),mainActivity.findViewById(R.id.btn_16),
+                mainActivity.findViewById(R.id.btn_21),mainActivity.findViewById(R.id.btn_22),mainActivity.findViewById(R.id.btn_23),
+                mainActivity.findViewById(R.id.btn_24),mainActivity.findViewById(R.id.btn_25),mainActivity.findViewById(R.id.btn_26)};
+
+        idToViewMap.put("1",mainActivity.findViewById(R.id.btn_1));
+        idToViewMap.put("2",mainActivity.findViewById(R.id.btn_2));
+        idToViewMap.put("3",mainActivity.findViewById(R.id.btn_3));
+        idToViewMap.put("4",mainActivity.findViewById(R.id.btn_4));
+        idToViewMap.put("5",mainActivity.findViewById(R.id.btn_5));
+        idToViewMap.put("6",mainActivity.findViewById(R.id.btn_6));
+        idToViewMap.put("7",mainActivity.findViewById(R.id.btn_7));
+        idToViewMap.put("8",mainActivity.findViewById(R.id.btn_8));
+        idToViewMap.put("9",mainActivity.findViewById(R.id.btn_9));
+        idToViewMap.put("0",mainActivity.findViewById(R.id.btn_0));
+        idToViewMap.put(",",mainActivity.findViewById(R.id.btn_sep));
+        idToViewMap.put(".",mainActivity.findViewById(R.id.btn_com));
+
+        idToViewMap.put("+",mainActivity.findViewById(R.id.btn_add));
+        idToViewMap.put("-",mainActivity.findViewById(R.id.btn_sub));
+        idToViewMap.put("*",mainActivity.findViewById(R.id.btn_mul));
+        idToViewMap.put("/",mainActivity.findViewById(R.id.btn_div));
+        idToViewMap.put("(",mainActivity.findViewById(R.id.btn_open_bracket));
+        idToViewMap.put(")",mainActivity.findViewById(R.id.btn_close_bracket));
+
+        String[] fun1 = CalcModel.modeBasicFunctionality;
+        for(int i=0; i<12; i++) {if(fun1[i].equals(""))continue;idToViewMap.put(fun1[i], B[i]);idToModeMap.put(fun1[i], new RoboMenuItem(R.id.basic));}
+        fun1 = CalcModel.modeAdvancedText;
+        for(int i=0; i<12; i++) {if(fun1[i].equals(""))continue;idToViewMap.put(fun1[i], B[i]);idToModeMap.put(fun1[i],  new RoboMenuItem(R.id.advanced));}
+        fun1 = CalcModel.modeTrigoFunctionality;
+        for(int i=0; i<12; i++) {if(fun1[i].equals(""))continue;idToViewMap.put(fun1[i], B[i]);idToModeMap.put(fun1[i],  new RoboMenuItem(R.id.trigo));}
+        fun1 = CalcModel.modeStatisticFunctionality;
+        for(int i=0; i<12; i++) {if(fun1[i].equals(""))continue;idToViewMap.put(fun1[i], B[i]);idToModeMap.put(fun1[i],  new RoboMenuItem(R.id.statistic));}
+        fun1 = CalcModel.modeLogicFunctionality;
+        for(int i=0; i<12; i++) {if(fun1[i].equals(""))continue;idToViewMap.put(fun1[i], B[i]);idToModeMap.put(fun1[i],  new RoboMenuItem(R.id.logic));}
+        fun1 = CalcModel.modeMemoryFunctionality;
+        for(int i=0; i<12; i++) {if(fun1[i].equals(""))continue;idToViewMap.put(fun1[i], B[i]);idToModeMap.put(fun1[i],  new RoboMenuItem(R.id.memory));}
+        idToViewMap.put("L",mainActivity.btn_left);
+        idToViewMap.put("R",mainActivity.btn_right);
+    }
 
 
     /**
@@ -147,7 +190,7 @@ public class IntegrationTestMath {
     }
 
     @Test public void testBasic2Functions() {
-        currentMode = new RoboMenuItem(R.id.basic2);
+        currentMode = new RoboMenuItem(R.id.advanced);
 
         for(int i=0; i<3; i++) {
             int inta = (int) ((Math.random() * 1000) - 500);
@@ -160,27 +203,27 @@ public class IntegrationTestMath {
             double op3 = (Math.random() * 10) - 0;
             double d = (Math.random() * 10) - 0;
 
-            Assert.assertTrue(testEquation("GCD" + inta + "R0", String.valueOf(Math.abs(inta)))); //gcd(a, 0) = |a|, for a ≠ 0
+            Assert.assertTrue(testEquation("GCDLL" + inta + "R0", String.valueOf(Math.abs(inta)))); //gcd(a, 0) = |a|, for a ≠ 0
             for(int div = 1; div<Math.min(Math.abs(inta),Math.abs(intb)); div++){ //Every common divisor of a and b is a divisor of gcd(a, b).
                 if(Math.abs(inta) % div == 0 && Math.abs(intb) % div == 0){
-                    Assert.assertTrue(Integer.valueOf(calcTerm("GCD"+inta+"R"+intb)) % div == 0);
+                    Assert.assertTrue(Integer.valueOf(calcTerm("GCDLL"+inta+"R"+intb)) % div == 0);
                 }
             }
-            Assert.assertTrue(testEquation("GCD"+inta+"R"+intb,"GCD"+intb+"R"+inta)); // gcd(a,b) = gcd(b, a).
-            Assert.assertTrue(testEquation("LCM"+inta+"R"+intb,"LCM"+intb+"R"+inta)); // lcm(a,b) = lcm(b, a).
-            Assert.assertTrue(testEquation("GCD"+inta+"RGCD"+intb+"R"+intc,"GCD"+intc+"RGCD"+inta+"R"+intb)); //gcd(a, gcd(b, c)) = gcd(gcd(a, b), c)
-            Assert.assertTrue(testEquation("LCM"+inta+"RLCM"+intb+"R"+intc,"LCM"+intc+"RLCM"+inta+"R"+intb)); //lcm(a, lcm(b, c)) = lcm(lcm(a, b), c)
-            Assert.assertTrue(testEquation("LCM"+inta+"RGCD"+inta+"R"+intb,String.valueOf(Math.abs(inta))));//lcm(a,gcd(a,b)) = |a|
-            Assert.assertTrue(testEquation("GCD"+inta+"RLCM"+inta+"R"+intb,String.valueOf(Math.abs(inta))));//gcd(a,lcm(a,b)) = |a|
-            Assert.assertTrue(testEquation("GCD"+inta+"R"+inta,String.valueOf(Math.abs(inta)))); //gcd(a,a) = |a|
-            Assert.assertTrue(testEquation("LCM"+inta+"R"+inta,String.valueOf(Math.abs(inta)))); //lcm(a,a) = |a|
-            Assert.assertTrue(testEquation("GCD"+intm+"*"+inta+"R"+intm+"*"+intb,"(GCD"+inta+"R"+intb+")*"+intm)); //gcd(m⋅a, m⋅b) = m⋅gcd(a, b).
-            Assert.assertTrue(testEquation("LCM"+intm+"*"+inta+"R"+intm+"*"+intb,"(LCM"+inta+"R"+intb+")*"+intm)); //lcm(m⋅a, m⋅b) = m⋅lcm(a, b).
-            Assert.assertTrue(testEquation("GCD"+inta+"+("+intm+"*"+intb+")R"+intb,"(GCD"+inta+"R"+intb)); //gcd(a + m⋅b, b) = gcd(a, b).
-            Assert.assertTrue(testEquation("LCM"+inta+"+("+intm+"*"+intb+")R"+intb,"(LCM"+inta+"R"+intb)); //lcm(a + m⋅b, b) = lcm(a, b).
-            Assert.assertTrue(testEquation(String.valueOf(Integer.valueOf(calcTerm("(GCD"+inta+"R"+intb+")"))*Integer.valueOf(calcTerm("(LCM"+inta+"R"+intb+")"))),String.valueOf(Math.abs(inta*intb))));
-            Assert.assertTrue(testEquation("GCD"+inta+"R"+"LCM"+intb+"R"+intc,"LCM"+"GCD"+inta+"R"+intb+"R"+"GCD"+inta+"R"+intc)); //gcd(a, lcm(b, c)) = lcm(gcd(a, b), gcd(a, c))
-            Assert.assertTrue(testEquation("LCM"+inta+"R"+"GCD"+intb+"R"+intc,"GCD"+"LCM"+inta+"R"+intb+"R"+"LCM"+inta+"R"+intc)); //lcm(a, gcd(b, c)) = gcd(lcm(a, b), lcm(a, c))
+            Assert.assertTrue(testEquation("GCDLL"+inta+"R"+intb,"GCDLL"+intb+"R"+inta)); // gcd(a,b) = gcd(b, a).
+            Assert.assertTrue(testEquation("LCMLL"+inta+"R"+intb,"LCMLL"+intb+"R"+inta)); // lcm(a,b) = lcm(b, a).
+            Assert.assertTrue(testEquation("GCDLL"+inta+"RGCDLLL"+intb+"R"+intc,"GCDLL"+intc+"RGCDLLL"+inta+"R"+intb)); //gcd(a, gcd(b, c)) = gcd(gcd(a, b), c)
+            Assert.assertTrue(testEquation("LCMLL"+inta+"RLCMLLL"+intb+"R"+intc,"LCMLL"+intc+"RLCMLLL"+inta+"R"+intb)); //lcm(a, lcm(b, c)) = lcm(lcm(a, b), c)
+            Assert.assertTrue(testEquation("LCMLL"+inta+"RGCDLLL"+inta+"R"+intb,String.valueOf(Math.abs(inta))));//lcm(a,gcd(a,b)) = |a|
+            Assert.assertTrue(testEquation("GCDLL"+inta+"RLCMLLL"+inta+"R"+intb,String.valueOf(Math.abs(inta))));//gcd(a,lcm(a,b)) = |a|
+            Assert.assertTrue(testEquation("GCDLL"+inta+"R"+inta,String.valueOf(Math.abs(inta)))); //gcd(a,a) = |a|
+            Assert.assertTrue(testEquation("LCMLL"+inta+"R"+inta,String.valueOf(Math.abs(inta)))); //lcm(a,a) = |a|
+            Assert.assertTrue(testEquation("GCDLL"+intm+"*"+inta+"R"+intm+"*"+intb,"(GCDLL"+inta+"R"+intb+")*"+intm)); //gcd(m⋅a, m⋅b) = m⋅gcd(a, b).
+            Assert.assertTrue(testEquation("LCMLL"+intm+"*"+inta+"R"+intm+"*"+intb,"(LCMLL"+inta+"R"+intb+")*"+intm)); //lcm(m⋅a, m⋅b) = m⋅lcm(a, b).
+            //Assert.assertTrue(testEquation("GCDLL"+inta+"+("+intm+"*"+intb+")R"+intb,"GCDLL"+inta+"R"+intb)); //gcd(a + m⋅b, b) = gcd(a, b).
+            //Assert.assertTrue(testEquation("LCMLL"+inta+"+("+intm+"*"+intb+")R"+intb,"LCMLL"+inta+"R"+intb)); //lcm(a + m⋅b, b) = lcm(a, b).
+            //Assert.assertTrue(testEquation(String.valueOf(Integer.valueOf(calcTerm("(GCDLL"+inta+"R"+intb+")"))*Integer.valueOf(calcTerm("(LCMLL"+inta+"R"+intb+")"))),String.valueOf(Math.abs(inta*intb))));
+            Assert.assertTrue(testEquation("GCDLL"+inta+"R"+"LCMLL"+intb+"R"+intc,"LCMLL"+"GCDLL"+inta+"R"+intb+"R"+"GCDLL"+inta+"R"+intc)); //gcd(a, lcm(b, c)) = lcm(gcd(a, b), gcd(a, c))
+            Assert.assertTrue(testEquation("LCMLL"+inta+"R"+"GCDLL"+intb+"R"+intc,"GCDLL"+"LCMLL"+inta+"R"+intb+"R"+"LCMLL"+inta+"R"+intc)); //lcm(a, gcd(b, c)) = gcd(lcm(a, b), lcm(a, c))
             Assert.assertTrue(testEquation("∑"+"1"+"R"+intm,"("+intm+"("+intm+"+1))/2")); //∑1..m = m(m+1) / 2
             Assert.assertTrue(testEquation("MAX"+op1+"R"+op2,"-MIN"+"-"+op1+"R-"+op2)); //max(a,b) = -min(-a,-b)
             Assert.assertTrue(testEquation("MIN"+op1+"R"+op2,"-MAX"+"-"+op1+"R-"+op2)); //min(a,b) = -max(-a,-b)
@@ -284,12 +327,12 @@ public class IntegrationTestMath {
 
             double x = ((Math.random() * 1000) - 500);
 
-            calcTerm("Zn"+a);
+            calcTerm("RAND"+a);
             String output = ((EditText) mainActivity.findViewById(R.id.eT_output)).getText().toString();
             Assert.assertTrue("output: "+output+", "+a,output.matches("[0-9]+"));
             Integer result = Integer.valueOf(output);
             Assert.assertTrue(result > 0); Assert.assertTrue(result <= a);  //0 < result < a
-            calcTerm("Zb("+a+"R"+b+")");  result = Integer.valueOf(((EditText) mainActivity.findViewById(R.id.eT_output)).getText().toString());
+            calcTerm("RANDB("+a+"R"+b+")");  result = Integer.valueOf(((EditText) mainActivity.findViewById(R.id.eT_output)).getText().toString());
             Assert.assertTrue(result > a); Assert.assertTrue(result <= b);  //0 < result < a
             Assert.assertTrue(testEquation("NPR("+n+"R"+r+")",n+"!"+"/("+n+"-"+r+")!")); //nPr(n,r)=n!/(n−r)!
             Assert.assertTrue(testEquation("NCR("+n+"R"+r+")","NPR("+n+"R"+r+")/"+r+"!")); //nCr(n,r)=nPr(n,r)/r!
@@ -316,131 +359,6 @@ public class IntegrationTestMath {
         Assert.assertTrue(MathEvaluator.resembles(calcTerm("SRRRR1.12,124.12,12.241,-12.124124,40783420,-792.2"),"15199132.952412"));
     }
 
-    @Test public void testMemoryFunctions() {
-        currentMode = new RoboMenuItem(R.id.memory);
-
-        calcTerm("");
-        mainActivity.findViewById(R.id.btn_21).performClick();
-        mainActivity.findViewById(R.id.btn_clearall).performClick();
-        mainActivity.findViewById(R.id.btn_11).performClick();
-        Assert.assertEquals("",((EditText) mainActivity.findViewById(R.id.eT_input)).getText().toString());
-        mainActivity.findViewById(R.id.btn_clearall).performClick();
-
-        calcTerm("1+1");
-        mainActivity.findViewById(R.id.btn_22).performClick();
-        mainActivity.findViewById(R.id.btn_clearall).performClick();
-        mainActivity.findViewById(R.id.btn_12).performClick();
-        Assert.assertEquals("1+1",((EditText) mainActivity.findViewById(R.id.eT_input)).getText().toString());
-        mainActivity.findViewById(R.id.btn_clearall).performClick();
-
-        calcTerm("1+224*124");
-        mainActivity.setSelectionInput(0,5);
-        mainActivity.findViewById(R.id.btn_23).performClick();
-        mainActivity.findViewById(R.id.btn_clearall).performClick();
-        mainActivity.findViewById(R.id.btn_13).performClick();
-        Assert.assertEquals("1+224",((EditText) mainActivity.findViewById(R.id.eT_input)).getText().toString());
-        mainActivity.findViewById(R.id.btn_clearall).performClick();
-
-        calcTerm("1+224*124");
-        mainActivity.setSelectionInput(2,9);
-        mainActivity.findViewById(R.id.btn_23).performClick();
-        mainActivity.findViewById(R.id.btn_clearall).performClick();
-        mainActivity.findViewById(R.id.btn_13).performClick();
-        Assert.assertEquals("224*124",((EditText) mainActivity.findViewById(R.id.eT_input)).getText().toString());
-        mainActivity.findViewById(R.id.btn_clearall).performClick();
-
-        calcTerm("101*9");
-        mainActivity.findViewById(R.id.eT_output).requestFocus();
-        mainActivity.setSelectionOutput(0,3);
-        mainActivity.findViewById(R.id.btn_24).performClick();
-        mainActivity.findViewById(R.id.btn_clearall).performClick();
-        mainActivity.findViewById(R.id.btn_14).performClick();
-        Assert.assertEquals("909",((EditText) mainActivity.findViewById(R.id.eT_input)).getText().toString());
-        mainActivity.findViewById(R.id.btn_clearall).performClick();
-
-        calcTerm("101*9");
-        mainActivity.findViewById(R.id.eT_output).requestFocus();
-        mainActivity.setSelectionOutput(0,2);
-        mainActivity.findViewById(R.id.btn_25).performClick();
-        mainActivity.findViewById(R.id.btn_clearall).performClick();
-        mainActivity.findViewById(R.id.btn_15).performClick();
-        Assert.assertEquals("90",((EditText) mainActivity.findViewById(R.id.eT_input)).getText().toString());
-        mainActivity.findViewById(R.id.btn_clearall).performClick();
-
-        calcTerm("101*9");
-        mainActivity.findViewById(R.id.eT_output).requestFocus();
-        mainActivity.setSelectionOutput(1,3);
-        mainActivity.findViewById(R.id.btn_25).performClick();
-        mainActivity.findViewById(R.id.btn_clearall).performClick();
-        mainActivity.findViewById(R.id.btn_15).performClick();
-        Assert.assertEquals("09",((EditText) mainActivity.findViewById(R.id.eT_input)).getText().toString());
-        mainActivity.findViewById(R.id.btn_clearall).performClick();
-    }
-
-    @Test public void testVoids(){
-        currentMode = new RoboMenuItem(R.id.basic2);
-        for(int i=0; i<iterationsSubtests; i++) {
-            int a = (int) ((Math.random() * 1000) - 500);
-            double x = ((Math.random() * 1000) - 500);
-
-            Assert.assertTrue(MathEvaluator.resembles(calcTerm(x+">%"),calcTerm(((EditText) mainActivity.findViewById(R.id.eT_input)).getText().toString()+"*100"))); mainActivity.findViewById(R.id.btn_clearall).performClick();
-            Assert.assertTrue(MathEvaluator.resembles(calcTerm(x+">+/-"),calcTerm(((EditText) mainActivity.findViewById(R.id.eT_input)).getText().toString()+"*-1"))); mainActivity.findViewById(R.id.btn_clearall).performClick();
-            Assert.assertTrue(MathEvaluator.resembles(calcTerm("3"+">x\u207B\u00B9"),calcTerm("1/3"/*+((EditText) mainActivity.findViewById(R.id.eT_input)).getText().toString()*/))); mainActivity.findViewById(R.id.btn_clearall).performClick();
-
-            calcTerm(x+">A/B"); String output = ((EditText) mainActivity.findViewById(R.id.eT_output)).getText().toString(); String result = calcTerm(output);
-            Assert.assertTrue(MathEvaluator.resembles(String.valueOf(x),result,4)); mainActivity.findViewById(R.id.btn_clearall).performClick();
-
-            calcTerm(a+"PFZ"); output = ((EditText) mainActivity.findViewById(R.id.eT_output)).getText().toString(); result = calcTerm(output.replace("(","").replace(")","").replace(",","*"));
-            Assert.assertTrue(MathEvaluator.resembles(String.valueOf(a),result)); mainActivity.findViewById(R.id.btn_clearall).performClick();
-        }
-    }
-
-    @Test public void testNavigationButtons(){
-        mainActivity.findViewById(R.id.btn_1).performClick();
-        int pos1 = ((EditText) mainActivity.findViewById(R.id.eT_input)).getSelectionStart();
-        mainActivity.findViewById(R.id.btn_LINKS).performClick();
-        mainActivity.findViewById(R.id.btn_LINKS).performClick();
-        int pos2 = ((EditText) mainActivity.findViewById(R.id.eT_input)).getSelectionStart();
-        mainActivity.findViewById(R.id.btn_RECHTS).performClick();
-        mainActivity.findViewById(R.id.btn_RECHTS).performClick();
-        int pos3 = ((EditText) mainActivity.findViewById(R.id.eT_input)).getSelectionStart();
-        Assert.assertEquals(pos1,pos3);
-        Assert.assertEquals(pos1,pos2+1);
-
-        mainActivity.findViewById(R.id.btn_0).performClick();
-        mainActivity.findViewById(R.id.btn_LINKS).performClick();
-        mainActivity.findViewById(R.id.btn_clear).performClick();
-        System.out.println(mainActivity.getInputText());
-        String i1 = ((EditText) mainActivity.findViewById(R.id.eT_input)).getText().toString();
-        mainActivity.findViewById(R.id.btn_clearall).performClick();
-        String i2 = ((EditText) mainActivity.findViewById(R.id.eT_input)).getText().toString();
-        Assert.assertEquals(i1,"0");
-        Assert.assertEquals(i2,"");
-    }
-
-    @Test public void testANSFunction(){
-        mainActivity.findViewById(R.id.btn_clearall).performClick();
-        mainActivity.findViewById(R.id.btn_1).performClick();
-        mainActivity.findViewById(R.id.btn_add).performClick();
-        mainActivity.findViewById(R.id.btn_1).performClick();
-        mainActivity.findViewById(R.id.btn_eq_ANS).performClick();
-        mainActivity.findViewById(R.id.btn_clearall).performClick();
-        mainActivity.findViewById(R.id.btn_clear_all).performClick();
-        mainActivity.findViewById(R.id.btn_eq_ANS).performClick();
-        String ans2 = ((EditText) mainActivity.findViewById(R.id.eT_output)).getText().toString();
-
-        mainActivity.findViewById(R.id.btn_clearall).performClick();
-        mainActivity.findViewById(R.id.btn_clear_all).performClick();
-        mainActivity.findViewById(R.id.btn_mul).performClick();
-        mainActivity.findViewById(R.id.btn_2).performClick();
-        mainActivity.findViewById(R.id.btn_eq_ANS).performClick();
-        String ans3 = ((EditText) mainActivity.findViewById(R.id.eT_output)).getText().toString();
-
-        Assert.assertEquals(ans2,"2");
-        Assert.assertEquals(ans3,"4");
-    }
-
-
     private boolean testEquation(String term, String result) {
         return testEquation(term+"="+result);
     }
@@ -454,7 +372,7 @@ public class IntegrationTestMath {
         }
         String output = calcTerm(term);
         if(output.equals(expectedResult)){ return true; }
-        System.out.println("testEquation result: "+output+" ?= "+expectedResult);
+        //System.out.println("testEquation result: "+output+" ?= "+expectedResult);
         Assert.assertTrue(output.matches("Math Error") || output.matches("[0-9]+") || output.matches("[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?"));
         Assert.assertTrue(expectedResult.matches("Math Error") || expectedResult.matches("[0-9]+") || expectedResult.matches("[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?"));
 
@@ -476,17 +394,17 @@ public class IntegrationTestMath {
     }
 
     private String calcTerm(String term){
-        mainActivity.findViewById(R.id.btn_clearall).performClick();
+        mainActivity.findViewById(R.id.btn_clear_all).performClick();
         mainActivity.onOptionsItemSelected(currentMode);
         RoboMenuItem mode = currentMode;
         mainActivity.setSelectionInput(0,0);
-        mainActivity.eT_input.requestFocus();
+        mainActivity.requestFocusInput();
 
         System.out.println("calcTerm: \""+term+"\"");
         String[] splitted = StringUtils.splitTokens(term);
         boolean inputShouldEqualtTerm = true; boolean containsOutputFunctions = false;
         System.out.println("cT  "+ Arrays.toString(splitted));
-        Assert.assertEquals("",mainActivity.eT_input.getText().toString()); Assert.assertEquals("",mainActivity.eT_output.getText().toString());
+        mainActivity.findViewById(R.id.btn_clear_all).performLongClick();
         for(String s: splitted){
             System.out.println("cT input["+mainActivity.getSelectionStartInput()+","+mainActivity.getSelectionEndInput()+"]: "+s+" = "+
                     ((EditText) mainActivity.findViewById(R.id.eT_input)).getText().toString());
@@ -499,7 +417,7 @@ public class IntegrationTestMath {
                 idToViewMap.get(s).performClick();
                 if(s.length() > 1 || s.equals("∑") || s.equals("Π") || s.equals("S")){
                     inputShouldEqualtTerm = false;
-                    for(int i=0; i<s.length(); i++)mainActivity.findViewById(R.id.btn_RECHTS).performClick();
+                    for(int i=0; i<s.length(); i++)mainActivity.btn_right.performClick();
                 }
             } else {
                 System.out.println("unknown lexical unit: "+s);
@@ -511,55 +429,5 @@ public class IntegrationTestMath {
         if(!containsOutputFunctions)mainActivity.findViewById(R.id.btn_eq_ANS).performClick();
         if(inputShouldEqualtTerm) Assert.assertEquals(((EditText) mainActivity.findViewById(R.id.eT_input)).getText().toString(),term);
         return ((EditText) mainActivity.findViewById(R.id.eT_output)).getText().toString();
-    }
-
-    @Before
-    public void Before(){
-        mainActivity = Robolectric.setupActivity(MainActivity.class);
-        currentMode = new RoboMenuItem(R.id.basic);
-
-        Button[] B = new Button[]{mainActivity.findViewById(R.id.btn_11),mainActivity.findViewById(R.id.btn_12),mainActivity.findViewById(R.id.btn_13),
-                mainActivity.findViewById(R.id.btn_14),mainActivity.findViewById(R.id.btn_15),mainActivity.findViewById(R.id.btn_16),
-                mainActivity.findViewById(R.id.btn_21),mainActivity.findViewById(R.id.btn_22),mainActivity.findViewById(R.id.btn_23),
-                mainActivity.findViewById(R.id.btn_24),mainActivity.findViewById(R.id.btn_25),mainActivity.findViewById(R.id.btn_26)};
-
-        idToViewMap.put("1",mainActivity.findViewById(R.id.btn_1));
-        idToViewMap.put("2",mainActivity.findViewById(R.id.btn_2));
-        idToViewMap.put("3",mainActivity.findViewById(R.id.btn_3));
-        idToViewMap.put("4",mainActivity.findViewById(R.id.btn_4));
-        idToViewMap.put("5",mainActivity.findViewById(R.id.btn_5));
-        idToViewMap.put("6",mainActivity.findViewById(R.id.btn_6));
-        idToViewMap.put("7",mainActivity.findViewById(R.id.btn_7));
-        idToViewMap.put("8",mainActivity.findViewById(R.id.btn_8));
-        idToViewMap.put("9",mainActivity.findViewById(R.id.btn_9));
-        idToViewMap.put("0",mainActivity.findViewById(R.id.btn_0));
-        idToViewMap.put(",",mainActivity.findViewById(R.id.btn_sep));
-        idToViewMap.put(".",mainActivity.findViewById(R.id.btn_com));
-
-        idToViewMap.put("+",mainActivity.findViewById(R.id.btn_add));
-        idToViewMap.put("-",mainActivity.findViewById(R.id.btn_sub));
-        idToViewMap.put("*",mainActivity.findViewById(R.id.btn_mul));
-        idToViewMap.put("/",mainActivity.findViewById(R.id.btn_div));
-        idToViewMap.put("(",mainActivity.findViewById(R.id.btn_open_bracket));
-        idToViewMap.put(")",mainActivity.findViewById(R.id.btn_close_bracket));
-
-        String[] fun1 = new String[]{"π","e","^","LOG","LN","LB","³√","√","³","²","10^x","!"};
-        for(int i=0; i<12; i++) {if(fun1[i].equals(""))continue;idToViewMap.put(fun1[i], B[i]);idToModeMap.put(fun1[i], new RoboMenuItem(R.id.basic));}
-        fun1 = new String[]{"PFZ","GCD","LCM","∑","∏","",">%",">A/B",">x⁻¹",">+/-","MIN","MAX"};
-        for(int i=0; i<12; i++) {if(fun1[i].equals(""))continue;idToViewMap.put(fun1[i], B[i]);idToModeMap.put(fun1[i],  new RoboMenuItem(R.id.basic2));}
-        fun1 = new String[]{"SIN","COS","TAN","COT","SEC","CSC","ASIN","ACOS","ATAN","ACOT","ASEC","ACSC"};
-        for(int i=0; i<12; i++) {if(fun1[i].equals(""))continue;idToViewMap.put(fun1[i], B[i]);idToModeMap.put(fun1[i],  new RoboMenuItem(R.id.trigo));}
-        fun1 = new String[]{"SINH","COSH","TANH","ASINH","ACOSH","ATANH",">DEG",">RAD","","","",""};
-        for(int i=0; i<12; i++) {if(fun1[i].equals(""))continue;idToViewMap.put(fun1[i], B[i]);idToModeMap.put(fun1[i],  new RoboMenuItem(R.id.hyper));}
-        fun1 = new String[]{"AND","OR","XOR","NOT",">BIN",">OCT",">DEC",">HEX","","","",""};
-        for(int i=0; i<12; i++) {if(fun1[i].equals(""))continue;idToViewMap.put(fun1[i], B[i]);idToModeMap.put(fun1[i],  new RoboMenuItem(R.id.logic));}
-        fun1 = new String[]{"Zn","Zb","NCR","NPR","MEAN","VAR","S","","","","",""};
-        for(int i=0; i<12; i++) {if(fun1[i].equals(""))continue;idToViewMap.put(fun1[i], B[i]);idToModeMap.put(fun1[i],  new RoboMenuItem(R.id.statistic));}
-        fun1 = new String[]{"M1","M2","M3","M4","M5","M6",">M1",">M2",">M3",">M4",">M5",">M6"};
-        for(int i=0; i<12; i++) {if(fun1[i].equals(""))continue;idToViewMap.put(fun1[i], B[i]);idToModeMap.put(fun1[i],  new RoboMenuItem(R.id.memory));}
-        idToViewMap.put("L",mainActivity.findViewById(R.id.btn_LINKS));
-        idToViewMap.put("R",mainActivity.findViewById(R.id.btn_RECHTS));
-
-
     }
 }

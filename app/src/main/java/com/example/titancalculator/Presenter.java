@@ -116,6 +116,7 @@ public class Presenter {
             view.setOutputText(calcModel.getOutputString());
             return "";
         }
+        System.out.println("inputButton: "+ret);
         return ret;
     }
 
@@ -182,8 +183,10 @@ public class Presenter {
      */
     private void inputClearAll(){
         setInputText("");
-        view.setInputText(""); view.clearFocusInput();
-        view.setOutputText(""); view.clearFocusOutput();
+        view.setInputText("");
+        view.setOutputText("");
+        view.clearFocusOutput();
+        view.requestFocusInput();
     }
 
     /**

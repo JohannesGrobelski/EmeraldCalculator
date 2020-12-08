@@ -19,16 +19,12 @@ import static org.junit.Assert.assertTrue;
  * For all self-defined functions:
  *      - basic: "!"
  *      - basic2: "PFZ","GCD","LCM","∑","∏",">%",">A/B",">x\u207B\u00B9",">+/-","MIN","MAX",
- *      - statistic: "Zn","Zb","NCR","NPR","MEAN","VAR","S",
+ *      - statistic: "RAND","RANDB","NCR","NPR","MEAN","VAR","S",
  * - check definition and document it
  * - test math rules with random values
  */
 public class MathUnitTest1 {
-    static int iterationsSubtests = 10;
-    private String mean_mode = "AriMit";
-    private String var_mode = "AriVar";
-    private String last_answer = "";
-
+    static int iterationsSubtests = 100;
 
     @Test
     public void mathEvTime(){
@@ -149,7 +145,6 @@ public class MathUnitTest1 {
             double op3 = (Math.random() * 10) - 0; 
             double d = (Math.random() * 10) - 0;
 
-            System.out.println(calcTerm("GCD("+inta+",0)"));
             assertTrue(testEquation("GCD(" + inta + ",0)", String.valueOf(Math.abs(inta)))); //gcd(a, 0) = |a|, for a ≠ 0
             for(int div = 1; div<Math.min(Math.abs(inta),Math.abs(intb)); div++){ //Every common divisor of a and b is a divisor of gcd(a, b).
                 if(Math.abs(inta) % div == 0 && Math.abs(intb) % div == 0){
@@ -209,7 +204,6 @@ public class MathUnitTest1 {
         //random values
         //assertTrue(resembles(calcTerm("COS(9)"),"0.9876883405951377261900402476934372607584068615898804349239048016"));
         //assertTrue(resembles(calcTerm("SIN(7.2284977183385335)"),"0.12582667507334807"));
-        System.out.println(calcTerm("π"));
         assertTrue(resembles(MathEvaluator.toDEG(calcTerm("π")),"180")); //DEG(π) = 180
 
         for(int i=0; i<iterationsSubtests; i++) {
@@ -248,6 +242,7 @@ public class MathUnitTest1 {
             //more identities: http://www2.clarku.edu/faculty/djoyce/trig/identities.html
 
             double x1 = Math.random() - 0.5;
+            double x2 = Math.abs(Math.random());
 
             assertTrue(testEquation("SIN(ASIN("+x1+"))",String.valueOf(x1))); //sin(asin(x)) = x
             assertTrue(testEquation("COS(ACOS("+x1+"))",String.valueOf(x1))); //cos(acos(x)) = x
@@ -255,6 +250,13 @@ public class MathUnitTest1 {
             assertTrue(testEquation("COT(ACOT("+x1+"))",String.valueOf(x1))); //cot(acot(x)) = x
             assertTrue(testEquation("SEC(ASEC("+x+"))",String.valueOf(x))); //sec(asec(x)) = x
             assertTrue(testEquation("CSC(ACSC("+x+"))",String.valueOf(x))); //csc(acsc(x)) = x
+
+            assertTrue(testEquation("ASINH(SINH("+x1+"))",String.valueOf(x1))); //sin(asin(x)) = x
+            assertTrue(testEquation("ACOSH(COSH("+(x2)+"))",String.valueOf(x2))); //cos(acos(x)) = x
+            assertTrue(testEquation("ATANH(TANH("+x1+"))",String.valueOf(x1))); //tan(atan(x)) = x
+            assertTrue(testEquation("ACOTH(COTH("+x1+"))",String.valueOf(x1))); //cot(acot(x)) = x
+            assertTrue(testEquation("ASECH(SECH("+x+"))",String.valueOf(x))); //sec(asec(x)) = x
+            assertTrue(testEquation("ACSCH(CSCH("+x+"))",String.valueOf(x))); //csc(acsc(x)) = x
 
             assertTrue(resembles(MathEvaluator.toDEG(MathEvaluator.toRAD("0")),"0")); //DEG(RAD(0)) = 0
             assertTrue(resembles(MathEvaluator.toDEG(MathEvaluator.toRAD(String.valueOf(a))),String.valueOf(a))); //DEG(RAD(0)) = 0
@@ -304,12 +306,12 @@ public class MathUnitTest1 {
 
             double x = ((Math.random() * 1000) - 500);
 
-            int result = Integer.valueOf(calcTerm("ZN("+a+")"));
+            int result = Integer.valueOf(calcTerm("RAND("+a+")"));
 
             assertTrue("result is negative"+result,result >= 0);
             assertTrue(result+" higher than "+a+1,result <= a);  //0 < result < a
 
-            result = Integer.valueOf(calcTerm("ZB("+a+","+b+")"));
+            result = Integer.valueOf(calcTerm("RANDB("+a+","+b+")"));
             assertTrue(result >= a);
             assertTrue(result <= b);  //0 < result < a
 
@@ -340,7 +342,7 @@ public class MathUnitTest1 {
 
         int min = Integer.MAX_VALUE; int max = Integer.MIN_VALUE; int a = -24; int b = -12;
         for(int j=0;j<500; j++){
-            int result = Integer.parseInt(MathEvaluator.evaluate("Zb("+a+","+b+")"));
+            int result = Integer.parseInt(MathEvaluator.evaluate("RANDB("+a+","+b+")"));
             if(result < min)min = result;
             if(result > max)max = result;
         }
@@ -433,7 +435,8 @@ public class MathUnitTest1 {
         Matcher matcherANS = Pattern.compile("ANS").matcher(a);
         while(matcherANS.find()){
             if(matcherANS.group().matches("[^A-Z]*ANS[^A-Z]*")){ //excludes inputs like "ATAN(ASINH(57.860802) = atANSinh57.860802"
-                a = a.replace("ANS",last_answer);
+                String last_answer = "";
+                a = a.replace("ANS", last_answer);
             }
             else {
                 //System.out.println(a);
@@ -442,8 +445,10 @@ public class MathUnitTest1 {
 
 
         //settings
-        a = a.replaceAll("MEAN",mean_mode);
-        a = a.replaceAll("VAR",var_mode);
+        String mean_mode = "AriMit";
+        a = a.replaceAll("MEAN", mean_mode);
+        String var_mode = "AriVar";
+        a = a.replaceAll("VAR", var_mode);
 
 
         return a;

@@ -32,7 +32,7 @@ import static org.junit.Assert.assertTrue;
 
 public class StringUtilsUnitTest {
     int testIterations = 1000;
-    private int testIterationen = 10;
+    private int testIterationen = 100;
 
     @Test
     public void testRandomString(){
@@ -173,7 +173,6 @@ public class StringUtilsUnitTest {
     public void testFindLongestMatchTest() {
         for (int ti = 0; ti < testIterations; ti++) {
             String repeat = new String(new char[20]).replace("\0", "1+2FGHI");
-            System.out.println();
             String random = shuffleString(repeat);
 
             String searchRegex = "A+";
@@ -252,40 +251,35 @@ public class StringUtilsUnitTest {
 
     @Test
     public void paraIn2ComplexTest(){
-        String input = "650.271701ROOT828.584434ROOT292LOG36LOG270LOG163.295501"; //
-        System.out.println(StringUtils.paraInComplex(input));
-
         //produces a String like this
-        String patternFct = "("; for(String s: StringUtils.functions_parentIn){patternFct+=s+"|";} patternFct = patternFct.substring(0,patternFct.length()-1); patternFct += ")";
-        String patternNumber = "[0-9]*(\\.)?[0-9]+";
-        String groupPattern = "("+patternFct+"\\("+patternNumber+",)+"+patternNumber+"\\)+";
+        String input = "";
+        for(int ti=0;ti<testIterationen;ti++){
+            int numberOfGroups = (int)(Math.random() * 10) + 1;
+            for(int nog=0; nog<numberOfGroups; nog++){
+                //produces a String like this: numberXnumber ... Xnumber with X element of functions_paraIn (like ROOT or LOG)
+                int groupLength = (int)(Math.random() * 10) + 1;
+                String group = "";
+                for(int element=0; element<groupLength; element++) {
+                    String para = StringUtils.functions_paraIn[(int)(Math.random()* StringUtils.functions_paraIn.length)];
+                    String number1 = numbergenerator();
+                    group += number1+para;
+                }
+                group += numbergenerator();
 
-        assertFalse("ROOT(411,LOG(975,".matches(groupPattern));
-        assertTrue("LOG(857.335529,C(895,C(791.921591,989)))".matches(groupPattern));
-        assertTrue("ROOT(509.670383,245.959239)".matches(groupPattern));
-        assertTrue("P(32,317.570490)".matches(groupPattern));
-        assertTrue("LOG(582,ROOT(719,LOG(278,R(109,R(897,LOG(46,P(380,LOG(82,LOG(63,762)))))))))".matches(groupPattern));
-        assertTrue("C(442,C(997.632336,C(666,R(54,135))))".matches(groupPattern));
-
-        input = "";
-        int numberOfGroups = (int)(Math.random() * 10) + 1;
-        for(int nog=0; nog<numberOfGroups; nog++){
-            //produces a String like this: numberXnumber ... Xnumber with X element of functions_paraIn (like ROOT or LOG)
-            int groupLength = (int)(Math.random() * 10) + 1;
-            String group = "";
-            for(int element=0; element<groupLength; element++) {
-                String para = StringUtils.functions_paraIn[(int)(Math.random()* StringUtils.functions_paraIn.length)];
-                String number1 = numbergenerator();
-                group += number1+para;
+                String transformed = StringUtils.paraInComplex(group);
+                if(group.matches(transformed)){
+                    StringUtils.debug = true;
+                    StringUtils.paraInComplex(group);
+                    assertTrue(false);
+                }
+                assertTrue(StringUtils.sameOpeningClosingBrackets(group));
+                input += group + " + 2*2 + ";
             }
-            group += numbergenerator();
-            group = StringUtils.paraInComplex(group);
-            assertTrue(group.matches(groupPattern));
-            assertTrue(StringUtils.sameOpeningClosingBrackets(group));
-            input += group + " + 2*2 + ";
+            input += "9";
         }
-        input += "9";
+
     }
+
 
 
     @Test
@@ -315,14 +309,11 @@ public class StringUtilsUnitTest {
 
     @Test
     public void parathentiseSimpleTestPreBrackets(){
-        String patternFct = "("; for(String s: StringUtils.functions_parentIn){patternFct+=s+"|";} patternFct = patternFct.substring(0,patternFct.length()-1); patternFct += ")";
-        String patternNumber = "[0-9]*(\\.)?[0-9]+";
-        String groupPattern = "("+patternFct+"\\("+patternNumber+",)+"+patternNumber+"\\)+";
+        String groupPattern = "((ROOT|LOG|P|C|R)\\([0-9]*(\\.)?[0-9]+,)+[0-9]*(\\.)?[0-9]+\\)+";
 
         assertTrue(StringUtils.paraInComplex("3ROOT(8)").matches(groupPattern));
         assertTrue(StringUtils.paraInComplex("3ROOT3ROOT(8)").matches(groupPattern));
         assertTrue(StringUtils.paraInComplex("3ROOT(3ROOT(8))").matches(groupPattern));
-        System.out.println(StringUtils.paraInComplex("3ROOT(3ROOT(8))"));
     }
 
     @Test
@@ -341,7 +332,7 @@ public class StringUtilsUnitTest {
 
         String input = "LOG(LOG(13))";
         assertEquals("LOG10(LOG10(13))",logToLogb(input));
-        assertEquals("0.046863106092572215377600741703645326197147369384765625",evaluate(input));
+        assertEquals("0.0468631061",evaluate(input));
     }
 
     public String numbergenerator(){

@@ -15,6 +15,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class StringUtils {
+    public static boolean debug = false;
     public static HashMap<String, String> replacements = new HashMap<String, String>() {{
         put("²","^2");  put("√","ROOT"); put("³","^3"); put("∏","MULP"); put("∑","SUME"); put("π","PI"); put("PI",String.valueOf(Math.PI));
     }};
@@ -164,15 +165,15 @@ public class StringUtils {
     private static String[] split(String input, String[] delimiters) {
         if (input.length() == 0) return new String[]{""};
         if(delimiters.length == 0) return new String[]{input};
-        //System.out.println("split: \""+input+"\"");
+        //if(debug)System.out.println("split: \""+input+"\"");
         LinkedList<String> output = new LinkedList<>();
 
 
         while (input.length() > 0) {
-            //System.out.println("   splitInput: "+input);
-            //System.out.println("   splitArray: "+Arrays.toString(output.toArray(new String[output.size()])));
+            //if(debug)System.out.println("   splitInput: "+input);
+            //if(debug)System.out.println("   splitArray: "+Arrays.toString(output.toArray(new String[output.size()])));
             for(String delimiter : delimiters) {
-                //System.out.println("    "+input+" startsWith "+delimiter+": "+input.startsWith(delimiter));
+                //if(debug)System.out.println("    "+input+" startsWith "+delimiter+": "+input.startsWith(delimiter));
                 if (input.startsWith(delimiter)) {
                     output.add(delimiter);
                     input = input.substring(delimiter.length());
@@ -229,79 +230,100 @@ public class StringUtils {
      * @return
      */
     public static String paraInComplex(String input){
-        String patternFct = "("; for(String s: functions_parentIn){patternFct+=s+"|";} patternFct = patternFct.substring(0,patternFct.length()-1); patternFct += ")";
+        String inputClone = input;
+        input = input.replace("(",""); input = input.replace(")","");
+        String patternFct = "("; for(String s: functions_paraIn){patternFct+=s+"|";} patternFct = patternFct.substring(0,patternFct.length()-1); patternFct += ")";
         Matcher matcherFct = Pattern.compile(patternFct).matcher(input);
         String patternNumber = "[0-9]*(\\.)?[0-9]+";
-        String patternAtomic = patternNumber+patternFct+"\\(?"+patternNumber+"\\)?";
+        String patternAtomic = patternNumber+patternFct+patternNumber;
         String patternComplex = "("+patternNumber+patternFct+"\\(?"+")+"+patternNumber+"\\)*";
+        String patternResult = "("+patternFct+"\\("+patternNumber+",)+"+patternNumber+"\\)*";
 
         if(input.matches(patternAtomic)){
-            return paraInAtomic(input,patternFct);
+            return paraInAtomic(input);
         } else {
             Matcher matcherComplex = Pattern.compile(patternComplex).matcher(input);
-            while(matcherComplex.find()){
-                String originalComplex = matcherComplex.group();
-                List<String> allMatches = new ArrayList<String>();
-                Matcher matcherAtomic = Pattern.compile("(?=(" + patternAtomic + ")).").matcher(input);
-                int lastOperator = 0;
-                while (matcherAtomic.find(lastOperator)) {
-                    String atomic = matcherAtomic.group(1);
-                    if(matcherFct.find(lastOperator)){
-                        lastOperator = matcherFct.start() + 1;
+
+            for(int i=0;i<(input.length()*10);i++) {
+                if(debug)System.out.println(input);
+                if(matcherComplex.find()){
+                    String originalComplex = matcherComplex.group();
+                    List<String> allMatches = new ArrayList<String>();
+                    Matcher matcherAtomic = Pattern.compile("(?=(" + patternAtomic + ")).").matcher(input);
+                    int lastOperator = 0;
+
+                    for(int ii=0;ii<(input.length()*10);ii++){
+                        if(debug)System.out.println("  "+input);
+                        if(matcherAtomic.find(lastOperator)) {
+                            String atomic = matcherAtomic.group(1);
+                            if(matcherFct.find(lastOperator)){
+                                lastOperator = matcherFct.start() + 1;
+                            }
+                            if(!allMatches.contains(atomic))allMatches.add(atomic);
+                            if(debug)System.out.println(Arrays.toString(allMatches.toArray()));
+                        } else break;
                     }
-                    allMatches.add(atomic);
-                }
-                //for(String s: allMatches)System.out.println("allmatches: "+s);
-                String last = paraInAtomic(allMatches.get(allMatches.size()-1),patternFct);
-                //System.out.println("last: "+last);
-                allMatches.remove(allMatches.size()-1); allMatches.add(last);
-                for(int i=allMatches.size()-2; i>=0; i--){
-                    String original = allMatches.get(i);
-                    Matcher prefixNumberMatcher = Pattern.compile(patternNumber).matcher(original);
-                    prefixNumberMatcher.find(); String prefixNumber = prefixNumberMatcher.group();
-                    Matcher fctMatcher = Pattern.compile(patternFct).matcher(original);
-                    fctMatcher.find(); String FCT = fctMatcher.group();
-                    String transformed = FCT+"("+prefixNumber+","+allMatches.get(i+1)+")";
-                    allMatches.remove(i);
-                    allMatches.add(i,transformed);
-                    //System.out.println("transformed: "+allMatches.get(i));
-                    //System.out.println("--------------------------------");
-                }
-                input = input.replace(originalComplex,allMatches.get(0));
+
+                    String[] terms = paraIn_getTerms(allMatches.get(allMatches.size()-1));
+                    String transformed = terms[1]+"("+terms[0]+","+terms[2]+")";
+                    allMatches.set(allMatches.size()-1,transformed);
+                    for(int j=allMatches.size()-2; j>=0; j--){
+                        terms = paraIn_getTerms(allMatches.get(j));
+                        transformed = terms[1]+"("+terms[0]+","+allMatches.get(j+1)+")";
+                        allMatches.set(j,transformed);
+                    }
+                    input = input.replace(originalComplex,allMatches.get(0));
+                } else break;
             }
-            return input;
+            if(debug)System.out.println("result: "+input+", matches: "+input.matches(patternResult));
+            if(input.matches(patternResult))return input;
+            else return inputClone;
         }
     }
 
     /**
-     * Transforms numberXnumber to X(number,number)
-     * with X element of functions_parentIn (ROOT, LOG etc.)
-     * @param input Inputstring with form like numberXnumber
-     * @param fct regex presenting an element of function_parentIn
-     * @return Outputstring with form like X(number,number)
+     * transform numberFCTParathentised into FCT(number,Parathentised)
+     * with Parathentised beeing a number or FCT(number,Parathentised)
+     * @param input
      */
-    public static String paraInAtomic(String input, String fct){
-        Matcher matcherFct = Pattern.compile(fct).matcher(input);
-        while(matcherFct.find()){
-            String PatternNumber = "[0-9]*(\\.)?[0-9]+";
-            Matcher matcherInput = Pattern.compile(PatternNumber+fct+"\\(?"+PatternNumber+"\\)?").matcher(input);
-            while (matcherInput.find()){
-                String instance = matcherInput.group();
-                ArrayList<String> numbers = new ArrayList<>();
-                Matcher matcherInstance = Pattern.compile(PatternNumber).matcher(instance);
-                Matcher fctMatcher = Pattern.compile(fct).matcher(instance);
-                fctMatcher.find(); String FCT = fctMatcher.group();
-                while(matcherInstance.find()){
-                    numbers.add(matcherInstance.group());
-                }
-                if(numbers.size() == 2){
-                    input = input.replace(matcherInput.group(),FCT+"("+numbers.get(0)+","+numbers.get(1)+")");
-                }
+    public static String paraInAtomic(String input){
+        String[] resFirstParaFun = paraIn_getTerms(input);
+        if(resFirstParaFun.length == 3) return resFirstParaFun[1]+"("+resFirstParaFun[0]+","+resFirstParaFun[2]+")";
+        else return input;
+    }
+
+    /**
+     * transform numberFCTParathentised into new String[]{number,FCT,parathentised}
+     * @param input
+     */
+    public static String[] paraIn_getTerms(String input){
+        String[] resFirstParaFun = paraIn_getFirstParaFunction(input);
+        if(resFirstParaFun[1].isEmpty())return new String[]{input};
+        int firstIndex = Integer.valueOf(resFirstParaFun[0]) ; String firstFunction = resFirstParaFun[1];
+        String[] splitted = new String[]{
+                input.substring(0,firstIndex), firstFunction, input.substring(firstIndex+firstFunction.length())
+        };
+        return splitted;
+    }
+
+    /**
+     * the first function and its index in input
+     * @param input
+     * @return String[]{firstIndex,firstFunction}
+     *
+     */
+    public static String[] paraIn_getFirstParaFunction(String input){
+        int firstIndex = Integer.MAX_VALUE; String firstFunction = "";
+        for(String function: functions_paraIn){
+            if(input.contains(function) && input.indexOf(function) < firstIndex){
+                firstIndex = input.indexOf(function);
+                firstFunction = function;
             }
         }
-        input = input.replace(fct,fct.toLowerCase());
-        return input;
+        if(firstIndex == Integer.MAX_VALUE || firstFunction.isEmpty())return new String[]{String.valueOf(-1),""};
+        else return new String[]{String.valueOf(firstIndex),firstFunction};
     }
+
 
     /**
      * replaces all X1X2...number with X1(X2(...number))
@@ -314,7 +336,6 @@ public class StringUtils {
             match = findLongestParenthesisable(input);
             input = input.replace(match,parenthesiseSub(match));
         } while(!match.isEmpty());
-
         for(String s: functions_parentIn){
             input = input.replaceAll(s.toLowerCase(), s);
         }
@@ -341,10 +362,11 @@ public class StringUtils {
                     foundSomething = true;
                     break;
                 }
+
             }
         }
 
-        assert(!functionList.isEmpty());
+        if(functionList.isEmpty())return input;
         //2. build String
         StringBuilder result = new StringBuilder("");
         for(String function: functionList){

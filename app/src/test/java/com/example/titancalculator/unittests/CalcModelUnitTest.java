@@ -3,9 +3,15 @@ package com.example.titancalculator.unittests;
 import android.content.Context;
 
 import com.example.titancalculator.CalcModel;
+import com.example.titancalculator.helper.Math_String.StringUtils;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Stream;
 
 import static com.example.titancalculator.CalcModel.modes;
 import static com.example.titancalculator.CalcModel.modesModesFunctionality;
@@ -30,7 +36,7 @@ public class CalcModelUnitTest {
     public void testGetFunctionButtonText(){
         for(int mode=0; mode<modes.length; mode++){
             //System.out.println("mode: "+modes[mode]);
-            calcModel.setMode(modes[mode]);
+            calcModel.setMode(mode);
             btn[0][0] = calcModel.getFunctionButtonText(11); btn[0][1] = calcModel.getFunctionButtonText(12); btn[0][2] = calcModel.getFunctionButtonText(13);
             btn[0][3] = calcModel.getFunctionButtonText(14); btn[0][4] = calcModel.getFunctionButtonText(15); btn[0][5] = calcModel.getFunctionButtonText(16);
             btn[1][0] = calcModel.getFunctionButtonText(21); btn[1][1] = calcModel.getFunctionButtonText(22); btn[1][2] = calcModel.getFunctionButtonText(23);
@@ -42,12 +48,9 @@ public class CalcModelUnitTest {
             }
             //System.out.println("\n\n");
         }
-        calcModel.setMode("basic2"); calcModel.setLanguage("german");
-        assertEquals("GGT",calcModel.getFunctionButtonText(12));
-        assertEquals("KGV",calcModel.getFunctionButtonText(13));
 
         calcModel.enableLog=false;
-        calcModel.setMode("unknown");
+        calcModel.setMode(7);
         btn[0][0] = calcModel.getFunctionButtonText(11); btn[0][1] = calcModel.getFunctionButtonText(12); btn[0][2] = calcModel.getFunctionButtonText(13);
         btn[0][3] = calcModel.getFunctionButtonText(14); btn[0][4] = calcModel.getFunctionButtonText(15); btn[0][5] = calcModel.getFunctionButtonText(16);
         btn[1][0] = calcModel.getFunctionButtonText(21); btn[1][1] = calcModel.getFunctionButtonText(22); btn[1][2] = calcModel.getFunctionButtonText(23);
@@ -60,7 +63,7 @@ public class CalcModelUnitTest {
     public void testGetFunctionButtonFunctionality(){
         for(int mode=0; mode<modes.length-1; mode++){
             //System.out.println("mode: "+modes[mode]);
-            calcModel.setMode(modes[mode]);
+            calcModel.setMode(mode);
             btn[0][0] = calcModel.getFunctionButtonFunctionality(11); btn[0][1] = calcModel.getFunctionButtonFunctionality(12); btn[0][2] = calcModel.getFunctionButtonFunctionality(13);
             btn[0][3] = calcModel.getFunctionButtonFunctionality(14); btn[0][4] = calcModel.getFunctionButtonFunctionality(15); btn[0][5] = calcModel.getFunctionButtonFunctionality(16);
             btn[1][0] = calcModel.getFunctionButtonFunctionality(21); btn[1][1] = calcModel.getFunctionButtonFunctionality(22); btn[1][2] = calcModel.getFunctionButtonFunctionality(23);
@@ -72,12 +75,9 @@ public class CalcModelUnitTest {
             }
             //System.out.println("\n\n");
         }
-        calcModel.setMode("basic2"); calcModel.setLanguage("german");
-        assertEquals("GGT(,)",calcModel.getFunctionButtonFunctionality(12));
-        assertEquals("KGV(,)",calcModel.getFunctionButtonFunctionality(13));
 
         calcModel.enableLog=false;
-        calcModel.setMode("unknown");
+        calcModel.setMode(7);
         btn[0][0] = calcModel.getFunctionButtonFunctionality(11); btn[0][1] = calcModel.getFunctionButtonFunctionality(12); btn[0][2] = calcModel.getFunctionButtonFunctionality(13);
         btn[0][3] = calcModel.getFunctionButtonFunctionality(14); btn[0][4] = calcModel.getFunctionButtonFunctionality(15); btn[0][5] = calcModel.getFunctionButtonFunctionality(16);
         btn[1][0] = calcModel.getFunctionButtonFunctionality(21); btn[1][1] = calcModel.getFunctionButtonFunctionality(22); btn[1][2] = calcModel.getFunctionButtonFunctionality(23);
@@ -103,9 +103,9 @@ public class CalcModelUnitTest {
         calcModel.setMemory(new String[6]);
         //getMemory(),getMemory(int),setMemory(int[]),setMemory(int,int)
         assertArrayEquals(calcModel.getMemory(),new String[6]);
-        String[] memTest = new String[]{"1","2","3","4","5","6"}; calcModel.setMemory(memTest);
-        assertArrayEquals(calcModel.getMemory(),memTest);
-        calcModel.setMemory(new String[5]); assertArrayEquals(calcModel.getMemory(),memTest); //wrong arraysize
+        String[] memTest = new String[]{"1","2","3","4","5","6"};
+        calcModel.setMemory(memTest);
+        assertArrayEquals(calcModel.getMemory(),memTest);//wrong arraysize
         memTest[2] = "11"; calcModel.setMemory("11",2); assertArrayEquals(calcModel.getMemory(),memTest); calcModel.setMemory("11",-2);
         for(int i=0;i<6;i++){assertEquals(calcModel.getMemory(i),memTest[i]);}
     }
@@ -114,7 +114,7 @@ public class CalcModelUnitTest {
     public void testGettersAndSetters(){
         //getMode(),setMode(String),getLanguage(),setLanguage(String),isScientificNotation(),setOutputString(String),setInput()
         init();
-        assertEquals("basic",calcModel.getMode()); calcModel.setMode("basic"); assertEquals("basic",calcModel.getMode());
+        assertEquals(0,calcModel.getMode()); calcModel.setMode(0); assertEquals(0,calcModel.getMode());
         assertEquals("",calcModel.getLanguage()); calcModel.setLanguage("english"); assertEquals("english",calcModel.getLanguage());
         assertEquals(false,calcModel.isScientificNotation()); calcModel.toogleScientificNotation(); assertEquals(true,calcModel.isScientificNotation());
         assertEquals("",calcModel.getOutputString()); calcModel.setOutputString("2"); assertEquals("2",calcModel.getOutputString());
@@ -173,5 +173,42 @@ public class CalcModelUnitTest {
         calcModel.setVarMode("unknown"); assertEquals("HarVar", calcModel.getVarMode());
         //toContent(), setContent(...)
         String content = "1+1"; calcModel.setInputText(content); assertEquals(content, calcModel.getInputText());
+    }
+
+    @Test public void testGetCalculableString(){
+        String input = "TANH>A/B>PFZCOSH>M6COSHπCOT>M1∏(,)>M4MEAN()CSCHGCD(,)M5>M4√(VAR())>PFZCOTCOTHCSC^MIN(,)∑(,)MEAN()SECHTAN!πCOSM3SINHXOR(,)LOGM4COSπ∏(,)MEAN()>M2√eCOSC>M1>M1COSH>M5M3>+/-MEAN()NOT()AND(,)>M2SECHVAR()COTHM5M1>%>PFZSINHM4∑(,)TANTANH>M2";
+
+        System.out.println(calcModel.getCalcuableString(input));
+
+
+        /*
+        List<String> list = new ArrayList<>();
+        for(int i = 0; i < calcModel.modesModesFunctionality.length; i++) {
+            list.addAll(Arrays.asList(modesModesFunctionality[i])); // java.util.Arrays
+        }
+        String[] inputTerms = new String[list.size()];
+        inputTerms = list.toArray(inputTerms);
+
+
+        int testIterations = 10000;
+        for(int it=0;it<testIterations;it++){
+            input = "";
+            for(int l=0; l<100; l++){
+                int randomIndex = ((int) (Math.random()*inputTerms.length));
+                input += inputTerms[randomIndex];
+            }
+            try {
+                System.out.println(input);
+                calcModel.getCalcuableString(input);
+            } catch (Exception e){
+            }
+            if(it>0 && it%1000==0)System.out.println(it);
+        }
+
+
+         */
+
+
+
     }
 }

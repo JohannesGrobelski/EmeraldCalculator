@@ -6,9 +6,9 @@
         android:title="@string/advanced_mode2" />
     <item android:id="@+id/trigo"
         android:title="@string/trigo_mode3" />
-    <item android:id="@+id/logic"
-        android:title="@string/stats_mode4" />
     <item android:id="@+id/statistic"
+        android:title="@string/stats_mode4" />
+    <item android:id="@+id/logic"
         android:title="@string/logic_mode5" />
     <item android:id="@+id/memory"
         android:title="@string/memory_mode6" />

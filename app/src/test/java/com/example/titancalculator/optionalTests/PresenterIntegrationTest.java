@@ -1,4 +1,8 @@
-package com.example.titancalculator;
+package com.example.titancalculator.optionalTests;
+
+import com.example.titancalculator.CalcModel;
+import com.example.titancalculator.MainActivity;
+import com.example.titancalculator.Presenter;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -14,7 +18,7 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = 28)
-public class PresenterUnitTest {
+public class PresenterIntegrationTest {
     CalcModel calcModel;
     Presenter presenter;
 
@@ -32,8 +36,8 @@ public class PresenterUnitTest {
     @Test
     public void testInput(){
     //inputClearOne with Selection
-        assertTrue(mainActivity.hasFocusInput());
-        presenter.inputButton("⌧"); presenter.addInputText("1+1");
+        mainActivity.requestFocusInput();
+        presenter.inputButton("⌧"); presenter.addInputText("1+1"); inputEquals("1+1");
         mainActivity.setSelectionInput(0);
         mainActivity.requestFocusInput();
         presenter.inputButton("⌫"); inputEquals("1+1");
@@ -62,9 +66,11 @@ public class PresenterUnitTest {
         presenter.addInputText("10^10"); presenter.inputButton("="); calcModel.getOutputString().equals("10000000000");
         presenter.inputButton("="); calcModel.getOutputString().equals("10E10");
         presenter.inputButton("="); calcModel.getOutputString().equals("10000000000");
-
-
     }
+
+
+
+
 
     @Test
     public void testInputBtn(){
@@ -72,9 +78,9 @@ public class PresenterUnitTest {
 
     //functions
         for(int mode = 0; mode< modes.length; mode++){
-            if(modes[mode].equals("memory"))continue;
-            calcModel.setMode(modes[mode]);
-            presenter.setMode(modes[mode]);
+            if(mode==6)continue;
+            calcModel.setMode(mode);
+            presenter.setMode(mode);
             for(int i=0; i<12; i++){
                 btn[i/6][i%6] = presenter.inputButton(String.valueOf((i/6)+1)+String.valueOf((i%6)+1));
                 if(!modesModesFunctionality[mode][i].contains(">"))inputEquals(modesModesFunctionality[mode][i]); presenter.inputButton("⌧");
@@ -82,7 +88,7 @@ public class PresenterUnitTest {
             for(int i=0; i<12; i++){if(!modesModesFunctionality[mode][i].contains(">"))assertEquals(modesModesFunctionality[mode][i],btn[i/6][i%6]);}
         }
 
-        calcModel.setMode("basic2"); presenter.setMode("basic2"); calcModel.setLanguage("german");
+        calcModel.setMode(1); presenter.setMode(1); calcModel.setLanguage("german");
         assertEquals("GGT(,)",presenter.inputButton("12"));
         assertEquals("KGV(,)",presenter.inputButton("13"));
 
@@ -97,12 +103,12 @@ public class PresenterUnitTest {
 
     @Test
     public void testAssignModeFct(){
-        modes = new String[]{"basic","basic2","trigo","hyper","logic","statistic","memory","unknown"};
+        modes = new String[]{"basic","basic2","trigo","statistic","logic","memory","unknown"};
         calcModel.enableLog=false;
 
     //functions
         for(int mode = 0; mode< modes.length; mode++){
-            presenter.setMode(modes[mode]);
+            presenter.setMode(mode);
             assertEquals(modes[mode],presenter.getMode());
         }
     }
@@ -110,7 +116,7 @@ public class PresenterUnitTest {
     @Test
     public void testGetterSetter(){
     //getMode(),setMode(String),inputButtonLongClick("=")
-        assertEquals("basic",presenter.getMode()); presenter.setMode("basic2"); assertEquals("basic2",presenter.getMode());
+        assertEquals("basic",presenter.getMode()); presenter.setMode(1); assertEquals("basic2",presenter.getMode());
     }
 
     private void inputEquals(String input){

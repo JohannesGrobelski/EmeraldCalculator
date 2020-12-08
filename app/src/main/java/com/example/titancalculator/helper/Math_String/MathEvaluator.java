@@ -44,6 +44,7 @@ public class MathEvaluator {
             Double a = Double.parseDouble(input);
             if((a == Math.floor(a)) && !Double.isInfinite(a)) {
                 Integer r = (int) Math.floor(a);
+                if(r < 1)return "Math Error";
                 return Arrays.deepToString(MathEvaluator.PFZ(r).toArray()).replace("[","(").replace("]",")").replace(" ","");
             }else return input;
         } catch (Exception ex){ return input; }
@@ -126,8 +127,6 @@ public class MathEvaluator {
         Expression expression = new Expression(input);
         try {
             expression.setPrecision(100);
-            System.out.println("evaluate: "+expression.toString());
-
             String res = format(expression.eval()).toString();
             return res;
         }
@@ -142,7 +141,6 @@ public class MathEvaluator {
      * @return
      */
     public static List<Integer> PFZ(Integer number){
-        assert(number > 1);
         ArrayList<Integer> pfzList = new ArrayList<>();
         for(int i = 2; i< number; i++) {
             while(number%i == 0) {

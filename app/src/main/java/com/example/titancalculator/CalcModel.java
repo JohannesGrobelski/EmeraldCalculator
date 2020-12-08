@@ -21,7 +21,7 @@ public class CalcModel {
     //static data
         public static int precisionDigits = 10;
         public static Set<String> noImmidiateOps = new HashSet<>(Arrays.asList("³√", "ROOT", "√", "LOG", "P", "C", "%"));
-        public static String[] modes;
+        public static String[] modes = new String[]{"BASIC","ADVANCED","TRIGO","STATISTIC","LOGIC","MEMORY"};
 
         public static String[] modeBasicText                 = {"π","SIN","COS","TAN","LOG","LN","e","√","x²","^","!",">A/B"};
         public static String[] modeBasicFunctionality        = {"π","SIN","COS","TAN","LOG","LN","e","√","²","^","!",">A/B"};
@@ -42,8 +42,8 @@ public class CalcModel {
         public static String[] modeMemoryFunctionality = {"M1","M2","M3","M4","M5","M6",">M1",">M2",">M3",">M4",">M5",">M6"};
 
         public static String[] modeUnknown = {"","","","","","","","","","","",""};
-        public static String[][] modesModesText = {modeBasicText, modeAdvancedText, modeTrigoText, modeLogicText, modeStatisticText, modeMemoryText,modeUnknown};
-        public static String[][] modesModesFunctionality = {modeBasicFunctionality, modeAdvancedFunctionality, modeTrigoFunctionality, modeLogicFunctionality, modeStatisticFunctionality, modeMemoryFunctionality,modeUnknown};
+        public static String[][] modesModesText = {modeBasicText, modeAdvancedText, modeTrigoText, modeStatisticText, modeLogicText, modeMemoryText,modeUnknown};
+        public static String[][] modesModesFunctionality = {modeBasicFunctionality, modeAdvancedFunctionality, modeTrigoFunctionality, modeStatisticFunctionality, modeLogicFunctionality, modeMemoryFunctionality,modeUnknown};
 
         public static HashMap<String,String> inverseFunction=  new HashMap<String, String>() {{
             put("SIN", "ASIN"); put("COS", "ACOS"); put("TAN", "ATAN"); put("COT", "ACOT"); put("SEC", "ASEC"); put("CSC", "ACSC");
@@ -60,16 +60,16 @@ public class CalcModel {
         }}
 
     //state variables (incl. getter and setters)
-        PersistentModel persistentModel = new PersistentModel();
         String InputString = "";
         int startSelection, endSelection;
         String OutputString = "";
 
-        public String[] getMemory() {return persistentModel.getMemory();}
-        public String getMemory(int index) {return persistentModel.getMemory(index);}
-        public void setMemory(String[] memory) {persistentModel.setMemory(memory);}
-        public void setMemory(String mem, int index) {persistentModel.setMemory(mem,index);}
+        private String[] memory = new String[6];
 
+        public String[] getMemory() {return memory;}
+        public String getMemory(int index) {if(index<6 && index>=0)return memory[index];else return "";}
+        public void setMemory(String[] memory) {if(this.memory.length == memory.length){this.memory = memory;}}
+        public void setMemory(String mem, int index) {if(index<6 && index>=0){memory[index] = mem;}}
 
         public void setOuputString(String res) {OutputString = res;}
         public String getOutputString() {return OutputString;}
@@ -112,7 +112,9 @@ public class CalcModel {
     }
 
     private String calculateResult(){
+        System.out.println("calculateResult: "+InputString);
         String input = getCalcuableString(InputString);
+        System.out.println("evaluate: "+input);
         String c = MathEvaluator.evaluate(input,predec_places,dec_places);
         if(!c.equals("Math Error"))last_answer = c;
         return c;
@@ -155,12 +157,12 @@ public class CalcModel {
         for(String f: StringUtils.functions_paraIn){
             a = a.replace(f.toLowerCase(),f);
         }
-
         a = StringUtils.parenthesise(a);
-
+        System.out.println("test3");
         //after paraIn (because of AT(ANS)INH)
         Matcher matcherANS = Pattern.compile("ANS").matcher(a);
         while(matcherANS.find()){
+            System.out.println(a);
             if(matcherANS.group().matches("[^A-Z]*ANS[^A-Z]*")){ //excludes inputs like "ATAN(ASINH(57.860802) = atANSinh57.860802"
                 a = a.replace("ANS",last_answer);
             }
@@ -190,8 +192,8 @@ public class CalcModel {
             case 3: {return modeStatisticText[i];}
             case 4: {return modeLogicText[i];}
             case 5: {return modeMemoryText[i];}
+            default:{return "";}
         }
-        return "";
     }
 
 
@@ -210,6 +212,7 @@ public class CalcModel {
             case 3: {output =  modeStatisticFunctionality[i]; break;}
             case 4: {output =  modeLogicFunctionality[i]; break;}
             case 5: {output =  modeMemoryFunctionality[i]; break;}
+            default: return "";
         }
         switch(output){
             case ((">PFZ")):{setOuputString(MathEvaluator.toPFZ(InputString));break;}

@@ -7,7 +7,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_weight="10"
-    android:background="#FFFFFF"
     android:orientation="vertical"
     tools:context=".geplanteFeatures.ChooserActivity"
     android:clickable="false">
@@ -19,7 +18,7 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/accent"
@@ -58,7 +57,7 @@
             android:id="@+id/eT_input"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="0dp"
 
@@ -73,13 +72,14 @@
             android:textColor="@color/primary_dark"
             android:textSize="60sp"
             android:visibility="visible"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustNothing" />
+            android:windowSoftInputMode="stateAlwaysHidden|adjustNothing"
+            android:autofillHints="" />
 
         <EditText
             android:id="@+id/eT_output"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginStart="0dp"
 
             android:background="#00464646"
@@ -93,7 +93,8 @@
             android:textColor="@color/primary_dark"
             android:textSize="60sp"
             android:visibility="visible"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustNothing" />
+            android:windowSoftInputMode="stateAlwaysHidden|adjustNothing"
+            android:autofillHints="" />
 
     </LinearLayout>
 
@@ -189,7 +190,7 @@
             android:id="@+id/btn_23" android:tag="btn23"
             style="@style/FunctionFlatButton"
 
-            android:text="x³"
+            android:text="@string/x_cube"
             app:autoSizeStepGranularity="10sp"
             app:autoSizeTextType="uniform" />
 
@@ -197,7 +198,7 @@
             android:id="@+id/btn_24" android:tag="btn24"
             style="@style/FunctionFlatButton"
 
-            android:text="x²"
+            android:text="@string/x_squared"
             app:autoSizeStepGranularity="10sp"
             app:autoSizeTextType="uniform" />
 
@@ -205,7 +206,7 @@
             android:id="@+id/btn_25" android:tag="btn25"
             style="@style/FunctionFlatButton"
 
-            android:text="10^x"
+            android:text="@string/ten_power_x"
             app:autoSizeStepGranularity="10sp"
             app:autoSizeTextType="uniform" />
 
@@ -214,7 +215,7 @@
             android:id="@+id/btn_26" android:tag="btn26"
             style="@style/FunctionFlatButton"
 
-            android:text="!"
+            android:text="@string/factorial"
             app:autoSizeStepGranularity="10sp"
             app:autoSizeTextType="uniform" />
 
@@ -234,7 +235,7 @@
             android:id="@+id/btn_7"
             style="@style/NumberFlatButton"
 
-            android:text="7"
+            android:text="@string/seven"
             app:autoSizeStepGranularity="10sp"
             app:autoSizeTextType="uniform" />
 
@@ -242,7 +243,7 @@
             android:id="@+id/btn_8"
             style="@style/NumberFlatButton"
 
-            android:text="8"
+            android:text="@string/eight"
             app:autoSizeStepGranularity="10sp"
             app:autoSizeTextType="uniform" />
 
@@ -250,7 +251,7 @@
             android:id="@+id/btn_9"
             style="@style/NumberFlatButton"
 
-            android:text="9"
+            android:text="@string/nine"
             app:autoSizeStepGranularity="10sp"
             app:autoSizeTextType="uniform" />
 
@@ -286,7 +287,7 @@
             android:id="@+id/btn_4"
             style="@style/NumberFlatButton"
 
-            android:text="4"
+            android:text="@string/four"
             app:autoSizeStepGranularity="10sp"
             app:autoSizeTextType="uniform" />
 
@@ -294,7 +295,7 @@
             android:id="@+id/btn_5"
             style="@style/NumberFlatButton"
 
-            android:text="5"
+            android:text="@string/five"
             app:autoSizeStepGranularity="10sp"
             app:autoSizeTextType="uniform" />
 
@@ -302,7 +303,7 @@
             android:id="@+id/btn_6"
             style="@style/NumberFlatButton"
 
-            android:text="6"
+            android:text="@string/six"
             app:autoSizeStepGranularity="10sp"
             app:autoSizeTextType="uniform" />
 
@@ -337,7 +338,7 @@
             android:id="@+id/btn_1"
             style="@style/NumberFlatButton"
 
-            android:text="1"
+            android:text="@string/one"
             app:autoSizeStepGranularity="10sp"
             app:autoSizeTextType="uniform" />
 
@@ -345,7 +346,7 @@
             android:id="@+id/btn_2"
             style="@style/NumberFlatButton"
 
-            android:text="2"
+            android:text="@string/two"
             app:autoSizeStepGranularity="10sp"
             app:autoSizeTextType="uniform" />
 
@@ -353,7 +354,7 @@
             android:id="@+id/btn_3"
             style="@style/NumberFlatButton"
 
-            android:text="3"
+            android:text="@string/three"
             app:autoSizeStepGranularity="10sp"
             app:autoSizeTextType="uniform" />
 
@@ -388,7 +389,7 @@
             android:id="@+id/btn_0"
             style="@style/NumberFlatButton"
 
-            android:text="0"
+            android:text="@string/zero"
             app:autoSizeStepGranularity="10sp"
             app:autoSizeTextType="uniform" />
 
@@ -396,7 +397,7 @@
             android:id="@+id/btn_com"
             style="@style/NumberFlatButton"
 
-            android:text="."
+            android:text="@string/comma"
             app:autoSizeStepGranularity="10sp"
             app:autoSizeTextType="uniform" />
 
@@ -404,7 +405,7 @@
             android:id="@+id/btn_sep"
             style="@style/NumberFlatButton"
 
-            android:text=","
+            android:text="@string/seperator"
             app:autoSizeStepGranularity="10sp"
             app:autoSizeTextType="uniform" />
 
@@ -420,7 +421,7 @@
             android:id="@+id/btn_eq_ANS"
             style="@style/NumberFlatButton"
 
-            android:text="= ANS"
+            android:text="@string/equal_answer"
             app:autoSizeStepGranularity="10sp"
             app:autoSizeTextType="uniform" />
 
