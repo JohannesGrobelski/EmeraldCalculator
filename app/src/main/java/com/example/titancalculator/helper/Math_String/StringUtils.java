@@ -168,19 +168,22 @@ public class StringUtils {
         //if(debug)System.out.println("split: \""+input+"\"");
         LinkedList<String> output = new LinkedList<>();
 
-
-        while (input.length() > 0) {
-            //if(debug)System.out.println("   splitInput: "+input);
-            //if(debug)System.out.println("   splitArray: "+Arrays.toString(output.toArray(new String[output.size()])));
-            for(String delimiter : delimiters) {
-                //if(debug)System.out.println("    "+input+" startsWith "+delimiter+": "+input.startsWith(delimiter));
-                if (input.startsWith(delimiter)) {
-                    output.add(delimiter);
-                    input = input.substring(delimiter.length());
-                    break;
+        for(int i=0;i<(input.length()*3);i++){
+            if (input.length() > 0) {
+                //if(debug)System.out.println("   splitInput: "+input);
+                //if(debug)System.out.println("   splitArray: "+Arrays.toString(output.toArray(new String[output.size()])));
+                for(String delimiter : delimiters) {
+                    //if(debug)System.out.println("    "+input+" startsWith "+delimiter+": "+input.startsWith(delimiter));
+                    if (input.startsWith(delimiter)) {
+                        output.add(delimiter);
+                        input = input.substring(delimiter.length());
+                        break;
+                    }
                 }
-            }
+            } else break;
         }
+
+
         return output.toArray(new String[output.size()]);
     }
 
@@ -204,20 +207,19 @@ public class StringUtils {
      * Zähle kommas in richtiger Ebene
      * richtige Ebene klammer_offen - klammer_zu <= 1
      * @param eval: Input
-     * @param posAnfang: star
+     * @param posBeginning: star
      * @return
      */
-	public static int getParameterNumber(String eval, int posAnfang){
+	public static int getParameterNumber(String eval, int posBeginning){
 	    if(!eval.contains("(") || !eval.contains(")"))return 0;
 	    if(occurences(eval,"(") != occurences(eval,")"))return -1;
 	    int number_comma = 0;
 	    int klammern_offen = 0; int klammern_geschlossen = 0;
-	    while(posAnfang < eval.length()-2){
-	        ++posAnfang;
-	        char pos = eval.charAt(posAnfang);
-	        if(pos == '(')++klammern_offen;
-            if(pos == ')')++klammern_geschlossen;
-            if(pos == ',' && klammern_offen - klammern_geschlossen <= 1)++number_comma;
+	    for(int position=posBeginning; position<eval.length()-2;position++){
+	        char charAtPosition = eval.charAt(posBeginning);
+	        if(charAtPosition == '(')++klammern_offen;
+            if(charAtPosition == ')')++klammern_geschlossen;
+            if(charAtPosition == ',' && klammern_offen - klammern_geschlossen <= 1)++number_comma;
         }
         return number_comma + 1;
     }
@@ -331,11 +333,13 @@ public class StringUtils {
      * @return
      */
     public static String parenthesise(String input){
-        String match = "";
-        do{
-            match = findLongestParenthesisable(input);
-            input = input.replace(match,parenthesiseSub(match));
-        } while(!match.isEmpty());
+        String match = findLongestParenthesisable(input);
+        for(int i=0;i<input.length();i++){
+            if(!match.isEmpty()){
+                input = input.replace(match,parenthesiseSub(match));
+                match = findLongestParenthesisable(input);
+            } else break;
+        }
         for(String s: functions_parentIn){
             input = input.replaceAll(s.toLowerCase(), s);
         }
@@ -362,7 +366,6 @@ public class StringUtils {
                     foundSomething = true;
                     break;
                 }
-
             }
         }
 

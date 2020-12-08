@@ -161,16 +161,18 @@ public class CalcModel {
         System.out.println("test3");
         //after paraIn (because of AT(ANS)INH)
         Matcher matcherANS = Pattern.compile("ANS").matcher(a);
-        while(matcherANS.find()){
-            System.out.println(a);
-            if(matcherANS.group().matches("[^A-Z]*ANS[^A-Z]*")){ //excludes inputs like "ATAN(ASINH(57.860802) = atANSinh57.860802"
-                a = a.replace("ANS",last_answer);
-            }
-            else {
-                //System.out.println(a);
-            }
-        }
 
+        for(int i=0; i<((a.length())*3); i++){
+            if(matcherANS.find()){
+                System.out.println(a);
+                if(matcherANS.group().matches("[^A-Z]*ANS[^A-Z]*")){ //excludes inputs like "ATAN(ASINH(57.860802) = atANSinh57.860802"
+                    a = a.replace("ANS",last_answer);
+                }
+                else {
+                    //System.out.println(a);
+                }
+            } else break;
+        }
 
         //settings
         a = a.replaceAll("MEAN",mean_mode);

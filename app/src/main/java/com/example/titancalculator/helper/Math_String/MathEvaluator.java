@@ -95,11 +95,14 @@ public class MathEvaluator {
         BigInteger B = new BigInteger(fraction.substring(fraction.indexOf('/')+1));
 
         BigInteger GGT = new BigInteger("-1");
-        while(!GGT.equals(BigInteger.ONE)) {
-            GGT = GGT(A,B);
-            A = A.divide(GGT);
-            B = B.divide(GGT);
+        for(int i=0; i<(((int) (Math.log(Math.max(A.doubleValue(),B.doubleValue())) / Math.log(2)))*10); i++){
+            if(!GGT.equals(BigInteger.ONE)) {
+                GGT = GGT(A,B);
+                A = A.divide(GGT);
+                B = B.divide(GGT);
+            } else break;
         }
+
         return A+"/"+B;
     }
 
@@ -143,10 +146,13 @@ public class MathEvaluator {
     public static List<Integer> PFZ(Integer number){
         ArrayList<Integer> pfzList = new ArrayList<>();
         for(int i = 2; i< number; i++) {
-            while(number%i == 0) {
-                pfzList.add(i);
-                number = number/i;
+            for(int nmi=0;nmi<number;nmi++){
+                if(number%i == 0) {
+                    pfzList.add(i);
+                    number = number/i;
+                } else break;
             }
+
         }
         pfzList.add(number);
         pfzList.remove(Integer.valueOf(1));
@@ -196,9 +202,12 @@ public class MathEvaluator {
     private static String factorialCorrection(String input) {
         List<String> allMatches = new ArrayList<String>();
         Matcher m = Pattern.compile("-?[0-9]+\\!").matcher(input);
-        while (m.find()) {
-            allMatches.add(m.group());
+        for(int i=0;i<(input.length()*10);i++){
+            if (m.find()) {
+                allMatches.add(m.group());
+            } else break;
         }
+
         for(int i=0; i<allMatches.size(); i++) {
             String newEl = "!"+allMatches.get(i).replace("!", "");
             input = input.replaceAll(allMatches.get(i),newEl);
@@ -213,11 +222,13 @@ public class MathEvaluator {
     private static String rootToSqrt(String input) {
         List<String> allMatches = new ArrayList<String>();
         Matcher m = Pattern.compile("ROOT\\(.+\\)").matcher(input);
-        while (m.find()) {
-            String s = m.group();
-            if(StringUtils.getParameterNumber(s,0) == 1){
-                allMatches.add(s);
-            }
+        for(int i=0;i<input.length();i++){
+            if (m.find()) {
+                String s = m.group();
+                if (StringUtils.getParameterNumber(s, 0) == 1) {
+                    allMatches.add(s);
+                }
+            } else break;
         }
         for(String s: allMatches.toArray(new String[allMatches.size()])) {
             String match = s.replace("ROOT","SQRT");
@@ -233,12 +244,15 @@ public class MathEvaluator {
     public static String logToLogb(String input) {
         List<String> allMatches = new ArrayList<String>();
         Matcher m = Pattern.compile("LOG\\(.+\\)").matcher(input);
-        while (m.find()) {
-            String s = m.group();
-            if(StringUtils.getParameterNumber(s,0) == 1){
-                allMatches.add(s);
-            }
+        for(int i=0;i<input.length();i++){
+            if (m.find()) {
+                String s = m.group();
+                if(StringUtils.getParameterNumber(s,0) == 1){
+                    allMatches.add(s);
+                }
+            }else break;
         }
+
         for(String s: allMatches.toArray(new String[allMatches.size()])) {
             String match = s.replace("LOG","LOG10");
             input = input.replace(s,match);
