@@ -160,6 +160,51 @@ public class CalcModelUnitTest {
         calcModel.setVarMode("unknown"); assertEquals("HarVar",calcModel.var_mode); assertEquals(calcModel.var_mode,calcModel.getVarMode());
         //getInputText(), setContent(...)
         String content = "1+1"; calcModel.setInputText(content); assertEquals(content,calcModel.getInputText());
+
+        //setModes
+        CalcModel.setModes(new String[]{"test"}); assertArrayEquals(new String[]{"test"},CalcModel.modes);
+
+        //translatePrimeFactorization,
+        CalcModel.translatePrimeFactorization("123"); assertEquals("123",CalcModel.modeAdvancedText[0]);
+        CalcModel.translateGreatestCommonDenominator("123"); assertEquals("123",CalcModel.modeAdvancedText[1]);
+        CalcModel.translateLeastCommonMultiply("123"); assertEquals("123",CalcModel.modeAdvancedText[2]);
+        CalcModel.translateRandomNumber("123"); assertEquals("123",CalcModel.modeStatisticText[0]);
+        assertEquals("123",CalcModel.modeStatisticText[1]);
+    }
+
+    @Test public void testModeSetter(){
+        calcModel.setMode(0);
+        //nextMode, previousMode
+        for(int i=0;i<1000;i++){
+            int currentMode = calcModel.getMode();
+            calcModel.nextMode();
+            assertEquals((currentMode+1)%modes.length,calcModel.getMode());
+            assertTrue(calcModel.getMode()>=0 && calcModel.getMode()<=modes.length);
+        }
+        for(int i=0;i<1000;i++){
+            int currentMode = calcModel.getMode();
+            calcModel.previousMode();
+            assertEquals(fixedModulo(currentMode-1,modes.length),calcModel.getMode());
+            assertTrue(calcModel.getMode()>=0 && calcModel.getMode()<=modes.length);
+        }
+        assertEquals(0,calcModel.getMode());
+    }
+
+    private int fixedModulo(int a, int m){
+        if(a>=0)return a%m;
+        else return (a+m)%m;
+    }
+
+    @Test public void testGetInverseFunctionality(){
+        for(int mode=0;mode<modes.length;mode++){
+            for(int b=0;b<12;b++){
+                int btnIndex = (((b/6)+1)*10) + (b%6)+1;
+                String btnFun = calcModel.getFunctionButtonFunctionality(btnIndex);
+                if(CalcModel.inverseFunction.containsKey(btnFun))assertEquals(CalcModel.inverseFunction.get(btnFun),calcModel.getInverseFunctionButtonFunctionality(btnIndex));
+                else assertEquals("",calcModel.getInverseFunctionButtonFunctionality(btnIndex));
+            }
+        }
+
     }
 
     @Test public void testMeanVarModes(){

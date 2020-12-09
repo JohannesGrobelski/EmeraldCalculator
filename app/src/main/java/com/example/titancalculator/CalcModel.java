@@ -30,8 +30,8 @@ public class CalcModel {
         public static String[] modeAdvancedFunctionality = {">PFZ","GCD(,)","LCM(,)","∑(,)","∏(,)","LB",">%",">A/B",">x\u207B\u00B9",">+/-","MIN(,)","MAX(,)"};
 
         public static String[] modeTrigoText = {"SIN","COS","TAN","COT","SEC","CSC","SINH","COSH","TANH","COTH","SECH","CSCH"};
-    public static String[] modeTrigoFunctionalityInverse = {"ASIN","ACOS","ATAN","ACOT","ASEC","ACSC","ASINH","ACOSH","ATANH","ACOTH","ASECH","ACSCH"};
-    public static String[] modeTrigoFunctionality = {"SIN","COS","TAN","COT","SEC","CSC","SINH","COSH","TANH","COTH","SECH","CSCH"};
+        public static String[] modeTrigoFunctionalityInverse = {"ASIN","ACOS","ATAN","ACOT","ASEC","ACSC","ASINH","ACOSH","ATANH","ACOTH","ASECH","ACSCH"};
+        public static String[] modeTrigoFunctionality = {"SIN","COS","TAN","COT","SEC","CSC","SINH","COSH","TANH","COTH","SECH","CSCH"};
 
         public static String[] modeLogicText = {"AND","OR","XOR","NOT","","","","","","","",""};
         public static String[] modeLogicFunctionality = {"AND(,)","OR(,)","XOR(,)","NOT()","","","","","","","",""};
@@ -55,7 +55,7 @@ public class CalcModel {
         public static void translatePrimeFactorization(String translation){if(modeAdvancedText[0].equals("PFZ"))modeAdvancedText[0] = translation;}
         public static void translateGreatestCommonDenominator(String translation){if(modeAdvancedText[1].equals("GCD")){modeAdvancedText[1] = translation;modeAdvancedFunctionality[1] = translation+"(,)";}}
         public static void translateLeastCommonMultiply(String translation){if(modeAdvancedText[2].equals("LCM")){modeAdvancedText[2] = translation;modeAdvancedFunctionality[2] = translation+"(,)";}}
-        public static void translateRandomNumber(String translation){if(modeStatisticText[3].equals("ZN")){
+        public static void translateRandomNumber(String translation){if(modeStatisticText[0].equals("RAND")){
             modeStatisticText[0] = translation;modeStatisticText[1] = translation;
             modeStatisticFunctionality[0] = translation+"()";modeStatisticFunctionality[1] = translation+"(,)";
         }}
@@ -218,13 +218,13 @@ public class CalcModel {
             default: return "";
         }
         switch(output){
-            case ((">PFZ")):{setOuputString(MathEvaluator.toPFZ(InputString));break;}
-            case((">%")):{setOuputString(MathEvaluator.toPercent(InputString));break;}
-            case((">A/B")):{setOuputString(MathEvaluator.toFraction(InputString));break;}
-            case((">+/-")):{setOuputString(MathEvaluator.toInvert(InputString));break;}
-            case((">x\u207B\u00B9")):{setOuputString(MathEvaluator.toReciproke(InputString));break;}
-            case((">DEG")):{setOuputString(MathEvaluator.toDEG(InputString));break;}
-            case((">RAD")):{setOuputString(MathEvaluator.toRAD(InputString));break;}
+            case ((">PFZ")):{setOuputString(MathEvaluator.toPFZ(MathEvaluator.evaluate(InputString)));break;}
+            case((">%")):{setOuputString(MathEvaluator.toPercent(MathEvaluator.evaluate(InputString)));break;}
+            case((">A/B")):{setOuputString(MathEvaluator.toFraction(MathEvaluator.evaluate(InputString)));break;}
+            case((">+/-")):{setOuputString(MathEvaluator.toInvert(MathEvaluator.evaluate(InputString)));break;}
+            case((">x\u207B\u00B9")):{setOuputString(MathEvaluator.toReciproke(MathEvaluator.evaluate(InputString)));break;}
+            case((">DEG")):{setOuputString(MathEvaluator.toDEG(MathEvaluator.evaluate(InputString)));break;}
+            case((">RAD")):{setOuputString(MathEvaluator.toRAD(MathEvaluator.evaluate(InputString)));break;}
         }
         return output;
     }

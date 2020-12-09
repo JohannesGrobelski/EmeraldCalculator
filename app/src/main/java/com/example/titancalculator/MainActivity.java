@@ -75,8 +75,6 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
             if(menuItemsID[i].equals(idName))indexMenuItem = i;
         }
 
-
-
         presenter.setMode(indexMenuItem);
         setViewsAccordingToMode(CalcModel.modes[presenter.getMode()]);
         return true;
@@ -89,8 +87,6 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
         eT_output.setOnFocusChangeListener(focusListener);
         eT_input.setOnFocusChangeListener(focusListener);
     }
-
-
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override

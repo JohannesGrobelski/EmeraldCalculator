@@ -29,13 +29,21 @@ public class MathEvaluator {
     public static String toRAD(String input) {
         if(input.isEmpty() || input.equals("Math Error"))return input;
         input = input.replace(',','.');
-        return String.valueOf(Math.toRadians(Double.valueOf(input)));
+        String ret = "";
+        try{
+            ret = String.valueOf(Math.toRadians(Double.valueOf(input)));
+        } catch (Exception e){return "Math Error";}
+        return ret;
     }
 
     public static String toDEG(String input) {
         if(input.isEmpty() || input.equals("Math Error"))return input;
         input = input.replace(',','.');
-        return String.valueOf(Math.toDegrees(Double.valueOf(input)));
+        String ret = "";
+        try{
+            ret = String.valueOf(Math.toDegrees(Double.valueOf(input)));
+        } catch (Exception e){return "Math Error";}
+        return ret;
     }
 
     public static String toPFZ(String input){
@@ -62,7 +70,8 @@ public class MathEvaluator {
 
     public static String toReciproke(String input) {
         if(input.isEmpty() || input.equals("Math Error"))return input;
-        return MathEvaluator.evaluate("1/(" + input+")", 5, 15);
+        String ret =  MathEvaluator.evaluate("1/(" + input+")", 5, 15);
+        return ret;
     }
 
     /**
@@ -112,7 +121,6 @@ public class MathEvaluator {
         if(input.contains("!"))input = factorialCorrection(input);
         Expression expression = new Expression(input);
         try {
-            System.out.println(expression.toString());
             expression.setPrecision(decimal_places_pref + 1);
             String res = format(expression.eval()).toString();
             return res;

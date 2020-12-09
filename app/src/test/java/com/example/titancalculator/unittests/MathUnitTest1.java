@@ -13,6 +13,12 @@ import java.util.regex.Pattern;
 
 import static com.example.titancalculator.helper.Math_String.MathEvaluator.evaluate;
 import static com.example.titancalculator.helper.Math_String.MathEvaluator.resembles;
+import static com.example.titancalculator.helper.Math_String.MathEvaluator.toDEG;
+import static com.example.titancalculator.helper.Math_String.MathEvaluator.toFraction;
+import static com.example.titancalculator.helper.Math_String.MathEvaluator.toInvert;
+import static com.example.titancalculator.helper.Math_String.MathEvaluator.toPercent;
+import static com.example.titancalculator.helper.Math_String.MathEvaluator.toRAD;
+import static com.example.titancalculator.helper.Math_String.MathEvaluator.toReciproke;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -373,7 +379,22 @@ public class MathUnitTest1 {
         }
     }
 
+    @Test public void testSpecialCases(){
+        assertEquals("Math Error",calcTerm("PI8"));
+        assertEquals("Math Error",calcTerm("e8"));
+        assertEquals("Math Error",MathEvaluator.toFraction(MathEvaluator.evaluate("LOGLOG")));
 
+        //realy big numbers:
+        String bigNumber = "10^10000000";
+        assertEquals("1E10000002",toPercent(bigNumber));
+        assertEquals("Math Error",toDEG(bigNumber));
+        assertEquals("Math Error",toRAD(bigNumber));
+        assertEquals("0",toReciproke(bigNumber));
+        assertEquals("-1E10000000",toInvert(bigNumber));
+        assertEquals("1E10000000",toFraction(bigNumber));
+
+
+    }
 
 
     private String calcTerm(String term){

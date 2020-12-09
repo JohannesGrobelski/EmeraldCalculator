@@ -19,6 +19,7 @@ import static com.example.titancalculator.helper.Math_String.StringUtils.findLon
 import static com.example.titancalculator.helper.Math_String.StringUtils.getParameterNumber;
 import static com.example.titancalculator.helper.Math_String.StringUtils.insertString;
 import static com.example.titancalculator.helper.Math_String.StringUtils.occurences;
+import static com.example.titancalculator.helper.Math_String.StringUtils.paraInAtomic;
 import static com.example.titancalculator.helper.Math_String.StringUtils.paraInComplex;
 import static com.example.titancalculator.helper.Math_String.StringUtils.parenthesise;
 import static com.example.titancalculator.helper.Math_String.StringUtils.randomString;
@@ -60,13 +61,20 @@ public class StringUtilsUnitTest {
         for(int ti=0;ti<testIterations;ti++) {
             String randomInput = StringUtils.randomString(Math.min(100,((int) (Math.random()*testIterations/10))+1));
             //System.out.println(ti+": "+randomInput);
-            String[] splitted = splitTokens(randomInput);
+            String[] splitted1 = splitTokens(randomInput);
+            String[] splitted2 = splitTokens(randomInput);
+
             //System.out.println(ti+": "+Arrays.toString(splitted));
-            int lengthSplitted = 0;
-            for(String subsplit: splitted){
-                lengthSplitted += subsplit.length();
+            int lengthSplitted1 = 0; int lengthSplitted2 = 0;
+            assertEquals(splitted1.length,splitted2.length);
+            for(String subsplit: splitted1){
+                lengthSplitted1 += subsplit.length();
             }
-            assertTrue(lengthSplitted<=randomInput.length());
+            for(String subsplit: splitted2){
+                lengthSplitted2 += subsplit.length();
+            }
+            assertTrue(lengthSplitted1<=randomInput.length());
+            assertEquals(lengthSplitted1,lengthSplitted2);
         }
 
 
@@ -221,9 +229,20 @@ public class StringUtilsUnitTest {
     }
 
     @Test
+    public void paraInAtomicTest(){
+        for(String function: StringUtils.functions_paraIn){
+            String number1 = String.valueOf(Math.random()*1000);
+            String number2 = String.valueOf(Math.random()*1000);
+
+            assertEquals(function.replace("SQRT","ROOT")+"("+number1+","+number2+")",paraInAtomic(number1+function+number2));
+            assertEquals(number1,paraInAtomic(number1));
+        }
+
+    }
+
+    @Test
     public void paraIn2SimpleTest(){
         assertEquals("ROOT(9,ROOT(7,5))",paraInComplex("9SQRT7SQRT5"));
-
         assertTrue("wrong: 768SQRT22",paraInComplex("768SQRT22").equals("ROOT(768,22)"));
         assertTrue("wrong: 768C22",paraInComplex("768C22").equals("C(768,22)"));
         assertTrue("wrong: 1.2SQRT3SQRT4",paraInComplex("1.2SQRT3SQRT4").equals("ROOT(1.2,ROOT(3,4))"));

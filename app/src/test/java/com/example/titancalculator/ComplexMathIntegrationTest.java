@@ -388,6 +388,8 @@ public class ComplexMathIntegrationTest {
             calcTerm(a+"PF"); output = ((EditText) mainActivity.findViewById(R.id.eT_output)).getText().toString(); result = calcTerm(output.replace("(","").replace(")","").replace(",","*"));
             Assert.assertTrue(MathEvaluator.resembles(String.valueOf(a),result)); mainActivity.findViewById(R.id.btn_clear_all).performClick();
         }
+
+
     }
 
 

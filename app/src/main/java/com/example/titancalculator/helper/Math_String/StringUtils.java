@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
 public class StringUtils {
     public static boolean debug = false;
     public static HashMap<String, String> replacements = new HashMap<String, String>() {{
-        put("²","^2");  put("√","SQRT"); put("³","^3"); put("∏","MULP"); put("∑","SUME"); put("π","PI"); put("PI",String.valueOf(Math.PI));
+        put("²","^2");  put("√","SQRT"); put("³","^3"); put("∏","MULP"); put("∑","SUME"); put("π","PI");
     }};
     public static String[] functions_parentIn = {"ASINH","ACOSH","ATANH","ACOTH","ACSCH","ASECH","ASIN","ACOS","ATAN","ACOT","ASEC","ACSC","SINH","COSH","TANH","COTH","SECH","CSCH","SIN","COS","TAN","COT","MEAN","ROOT","LN","LB","LOG","P","R","C"};
     public static String[] functions_paraIn = {"SQRT","LOG","P","C","R"};
@@ -297,9 +297,11 @@ public class StringUtils {
      */
     public static String paraInAtomic(String input){
         String[] resFirstParaFun = paraIn_getTerms(input);
-        resFirstParaFun[1] = resFirstParaFun[1].replace("SQRT","ROOT");
-        if(resFirstParaFun.length == 3) return resFirstParaFun[1]+"("+resFirstParaFun[0]+","+resFirstParaFun[2]+")";
-        else return input;
+        if(resFirstParaFun.length != 3)return input;
+        else {
+            resFirstParaFun[1] = resFirstParaFun[1].replace("SQRT","ROOT");
+            return resFirstParaFun[1]+"("+resFirstParaFun[0]+","+resFirstParaFun[2]+")";
+        }
     }
 
     /**

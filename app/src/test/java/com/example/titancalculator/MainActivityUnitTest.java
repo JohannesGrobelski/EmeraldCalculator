@@ -1,6 +1,9 @@
 package com.example.titancalculator;
 
+import android.app.Instrumentation;
 import android.content.pm.ActivityInfo;
+import android.graphics.Path;
+import android.graphics.Point;
 import android.os.SystemClock;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -33,6 +36,8 @@ import static com.example.titancalculator.CalcModel.modesModesText;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static org.robolectric.shadows.ShadowInstrumentation.getInstrumentation;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = 28)
@@ -275,10 +280,9 @@ public class MainActivityUnitTest {
 
         mainActivity.requestFocusInput();
         mainActivity.setInputText("1+2");
-        mainActivity.setSelectionInput(0,0); assertEquals("",mainActivity.getSelection());
+        mainActivity.setSelectionInput(0,0); assertEquals("1+2",mainActivity.getSelection());
         mainActivity.setSelectionInput(0,1); assertEquals("1",mainActivity.getSelection());
         mainActivity.setSelectionInput(2,3); assertEquals("2",mainActivity.getSelection());
-
     }
 
     @Test public void testModeSwitch(){
@@ -292,6 +296,64 @@ public class MainActivityUnitTest {
             for(int i=0; i<12; i++){assertEquals(modesModesText[mode][i],mainActivity.getBtnText(10*((i/6)+1) + (i%6)+1));}
         }
     }
+
+    @Test public void testNavigation(){
+        //L and R
+        assertEquals(-1,mainActivity.getSelectionStartInput()); assertEquals(-1,mainActivity.getSelectionEndInput());
+
+        mainActivity.requestFocusInput();
+        int selection = 0; mainActivity.setSelectionInput(selection);
+        mainActivity.btn_left.performClick();
+        assertEquals(0,mainActivity.getSelectionStartInput()); assertEquals(0,mainActivity.getSelectionEndInput());
+        mainActivity.btn_right.performClick();
+        assertEquals(0,mainActivity.getSelectionStartInput()); assertEquals(0,mainActivity.getSelectionEndInput());
+
+        selection = 0; mainActivity.setSelectionInput(selection);
+        String input = "1+1"; mainActivity.setInputText(input);
+        for(int i=0; i<input.length()+5; i++){mainActivity.btn_right.performClick();}
+        assertEquals(input.length(),mainActivity.getSelectionEndInput());
+        for(int i=0; i<input.length()+5; i++){mainActivity.btn_left.performClick();}
+        assertEquals(0,mainActivity.getSelectionEndInput());
+    }
+
+    @Test public void testFocus(){
+        assertEquals(false,mainActivity.hasFocusInput());
+        assertEquals(false,mainActivity.hasFocusOutput());
+
+        mainActivity.requestFocusOutput();
+        assertEquals(false,mainActivity.hasFocusInput());
+        assertEquals(true,mainActivity.hasFocusOutput());
+
+        mainActivity.clearFocusInput();
+        assertEquals(false,mainActivity.hasFocusInput());
+        assertEquals(true,mainActivity.hasFocusOutput());
+        mainActivity.clearFocusOutput();
+        assertEquals(false,mainActivity.hasFocusInput());
+        assertEquals(false,mainActivity.hasFocusOutput());
+
+        mainActivity.requestFocusInput();
+        assertEquals(true,mainActivity.hasFocusInput());
+        assertEquals(false,mainActivity.hasFocusOutput());
+        mainActivity.clearFocusOutput();
+        assertEquals(true,mainActivity.hasFocusInput());
+        assertEquals(false,mainActivity.hasFocusOutput());
+        mainActivity.clearFocusInput();
+        assertEquals(false,mainActivity.hasFocusInput());
+        assertEquals(false,mainActivity.hasFocusOutput());
+    }
+
+    @Test public void testSelection(){
+        assertEquals(false,mainActivity.hasFocusInput());
+        assertEquals(false,mainActivity.hasFocusOutput());
+        assertEquals(-1,mainActivity.getSelectionStartOutput());
+        assertEquals(-1,mainActivity.getSelectionEndOutput());
+        assertEquals(-1,mainActivity.getSelectionStartInput());
+        assertEquals(-1,mainActivity.getSelectionEndInput());
+    }
+
+
+
+
 
 
 
