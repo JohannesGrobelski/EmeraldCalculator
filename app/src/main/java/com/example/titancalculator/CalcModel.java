@@ -147,7 +147,7 @@ public class CalcModel {
         a = a.replaceAll(modeAdvancedText[1],"GCD");
         a = a.replaceAll(modeAdvancedText[2],"LCM");
 
-        a = a.replace("³√","3ROOT");
+        a = a.replace("³√","3SQRT");
         for(String r: StringUtils.replacements.keySet()){
             a = a.replace(r, StringUtils.replacements.get(r));
         }

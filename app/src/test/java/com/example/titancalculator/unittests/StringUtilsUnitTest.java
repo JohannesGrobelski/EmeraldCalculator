@@ -222,15 +222,17 @@ public class StringUtilsUnitTest {
 
     @Test
     public void paraIn2SimpleTest(){
-        assertTrue("wrong: 768ROOT22",paraInComplex("768ROOT22").equals("ROOT(768,22)"));
+        assertEquals("ROOT(9,ROOT(7,5))",paraInComplex("9SQRT7SQRT5"));
+
+        assertTrue("wrong: 768SQRT22",paraInComplex("768SQRT22").equals("ROOT(768,22)"));
         assertTrue("wrong: 768C22",paraInComplex("768C22").equals("C(768,22)"));
-        assertTrue("wrong: 1.2ROOT3ROOT4",paraInComplex("1.2ROOT3ROOT4").equals("ROOT(1.2,ROOT(3,4))"));
+        assertTrue("wrong: 1.2SQRT3SQRT4",paraInComplex("1.2SQRT3SQRT4").equals("ROOT(1.2,ROOT(3,4))"));
         for(int i=0; i<testIterationen; i++){
             for(String para: StringUtils.functions_paraIn){
                 String number1 = numbergenerator();
                 String number2 = numbergenerator();
                 String result = paraInComplex(number1+para+number2);
-                assertTrue("wrong: "+result,result.equals(para+"("+number1+","+number2+")"));
+                assertTrue("wrong: "+result,result.equals(para.replace("SQRT","ROOT")+"("+number1+","+number2+")"));
             }
         }
     }

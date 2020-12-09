@@ -107,7 +107,6 @@ public class MathEvaluator {
     }
 
     public static String evaluate(String input) {
-        input = rootToSqrt(input);
         input = logToLogb(input);
 
         if(input.contains("!"))input = factorialCorrection(input);
@@ -125,7 +124,6 @@ public class MathEvaluator {
         decimal_places_pref = dec_places;
         pre_decimal_places_pref = predec_places;
 
-        input = rootToSqrt(input);
         input = logToLogb(input);
         if(input.contains("!"))input = factorialCorrection(input);
         Expression expression = new Expression(input);
@@ -212,29 +210,6 @@ public class MathEvaluator {
         for(int i=0; i<allMatches.size(); i++) {
             String newEl = "!"+allMatches.get(i).replace("!", "");
             input = input.replaceAll(allMatches.get(i),newEl);
-        }
-        return input;
-    }
-
-    /**
-     * @param input
-     * @return transforms root to sqrt
-     */
-    private static String rootToSqrt(String input) {
-        List<String> allMatches = new ArrayList<String>();
-        if(input.matches("ROOT\\(.+,.+\\)"))return input;
-        Matcher m = Pattern.compile("ROOT\\(.+\\)").matcher(input); //square root
-        for(int i=0;i<input.length();i++){
-            if (m.find()) {
-                String s = m.group();
-                if (StringUtils.getParameterNumber(s, 0) == 1) {
-                    allMatches.add(s);
-                }
-            } else break;
-        }
-        for(String s: allMatches.toArray(new String[allMatches.size()])) {
-            String match = s.replace("ROOT","SQRT");
-            input = input.replace(s,match);
         }
         return input;
     }

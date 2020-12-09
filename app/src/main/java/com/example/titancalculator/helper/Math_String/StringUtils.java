@@ -17,10 +17,10 @@ import java.util.regex.Pattern;
 public class StringUtils {
     public static boolean debug = false;
     public static HashMap<String, String> replacements = new HashMap<String, String>() {{
-        put("²","^2");  put("√","ROOT"); put("³","^3"); put("∏","MULP"); put("∑","SUME"); put("π","PI"); put("PI",String.valueOf(Math.PI));
+        put("²","^2");  put("√","SQRT"); put("³","^3"); put("∏","MULP"); put("∑","SUME"); put("π","PI"); put("PI",String.valueOf(Math.PI));
     }};
     public static String[] functions_parentIn = {"ASINH","ACOSH","ATANH","ACOTH","ACSCH","ASECH","ASIN","ACOS","ATAN","ACOT","ASEC","ACSC","SINH","COSH","TANH","COTH","SECH","CSCH","SIN","COS","TAN","COT","MEAN","ROOT","LN","LB","LOG","P","R","C"};
-    public static String[] functions_paraIn = {"ROOT","LOG","P","C","R"};
+    public static String[] functions_paraIn = {"SQRT","LOG","P","C","R"};
     static String[] mathTokens= new String[]{
             "RANDB","ASINH","ACOSH","ATANH","ACOTH","ACSCH","ASECH",
             "RAND","MEAN",">A/B",">x\u207B\u00B9",">+/-","SINH","COSH","TANH",">DEG",">RAD",">BIN",">OCT",">DEC",">HEX","10^x",
@@ -230,6 +230,7 @@ public class StringUtils {
      * transform String like numberX1numberX2...XNnumber
      * to X1(number,X2(number,...(XN(number,number)...)
      * with Xi element of functions_parentIn (ROOT, LOG etc.)
+     * special: replace xSQRTy with ROOT(x,y)
      * @param input
      * @return
      */
@@ -241,6 +242,7 @@ public class StringUtils {
         String patternNumber = "[0-9]*(\\.)?[0-9]+";
         String patternAtomic = patternNumber+patternFct+patternNumber;
         String patternComplex = "("+patternNumber+patternFct+"\\(?"+")+"+patternNumber+"\\)*";
+        patternFct = patternFct.replaceAll("SQRT","ROOT");
         String patternResult = "("+patternFct+"\\("+patternNumber+",)+"+patternNumber+"\\)*";
 
         if(input.matches(patternAtomic)){
@@ -269,10 +271,12 @@ public class StringUtils {
                     }
 
                     String[] terms = paraIn_getTerms(allMatches.get(allMatches.size()-1));
+                    terms[1] = terms[1].replace("SQRT","ROOT");
                     String transformed = terms[1]+"("+terms[0]+","+terms[2]+")";
                     allMatches.set(allMatches.size()-1,transformed);
                     for(int j=allMatches.size()-2; j>=0; j--){
                         terms = paraIn_getTerms(allMatches.get(j));
+                        terms[1] = terms[1].replace("SQRT","ROOT");
                         transformed = terms[1]+"("+terms[0]+","+allMatches.get(j+1)+")";
                         allMatches.set(j,transformed);
                     }
@@ -288,10 +292,12 @@ public class StringUtils {
     /**
      * transform numberFCTParathentised into FCT(number,Parathentised)
      * with Parathentised beeing a number or FCT(number,Parathentised)
+     * special: replace xSQRTy with ROOT(x,y)
      * @param input
      */
     public static String paraInAtomic(String input){
         String[] resFirstParaFun = paraIn_getTerms(input);
+        resFirstParaFun[1] = resFirstParaFun[1].replace("SQRT","ROOT");
         if(resFirstParaFun.length == 3) return resFirstParaFun[1]+"("+resFirstParaFun[0]+","+resFirstParaFun[2]+")";
         else return input;
     }
