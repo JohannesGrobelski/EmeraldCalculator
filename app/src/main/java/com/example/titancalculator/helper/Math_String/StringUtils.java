@@ -428,19 +428,4 @@ public class StringUtils {
         return opening == closing;
     }
 
-    public static String arrayToString(String[] array){
-        if(array == null)return "";
-        if(array.length == 0)return"";
-        String output="";
-        for(int i=0; i<array.length-1; i++)output+=array[i]+"_";
-        output+=array[array.length-1];
-        return output;
-    }
-
-    public static String[] stringToArray(String array_string){
-        if(array_string==null)return new String[0];
-        if(array_string=="")return new String[0];
-        String[] array = (java.lang.String[]) Arrays.asList(array_string.split("_")).toArray();
-        return array;
-    }
 }

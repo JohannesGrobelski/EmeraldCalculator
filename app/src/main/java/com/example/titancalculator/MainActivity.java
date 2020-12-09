@@ -24,6 +24,8 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.example.titancalculator.helper.Math_String.OnSwipeTouchListener;
 
+import java.util.Locale;
+
 import javax.inject.Inject;
 
 /** View implemented by Activity, will contain a reference to the presenter.
@@ -72,8 +74,11 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
         for(int i=0; i<menuItems.length; i++){
             if(menuItemsID[i].equals(idName))indexMenuItem = i;
         }
+
+
+
         presenter.setMode(indexMenuItem);
-        setViewsAccordingToMode(idName);
+        setViewsAccordingToMode(CalcModel.modes[presenter.getMode()]);
         return true;
     }
 
@@ -85,10 +90,13 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
         eT_input.setOnFocusChangeListener(focusListener);
     }
 
+
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //TODO: menü ist localized, problem nach auswahl!
         setContentView(R.layout.activity_main);
         setTitle("Calculator");
         toolbar = (Toolbar) findViewById(R.id.toolbar);
