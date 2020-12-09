@@ -548,12 +548,11 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
         if (eT_input.hasFocus()) {
             selStart = eT_input.getSelectionStart();
             selEnd = eT_input.getSelectionEnd();
-            System.out.println(selStart+" "+selEnd);
             if (selStart >= 0 && selEnd > 0 && selStart < selEnd
                     && selEnd <= eT_input.getText().length() && selStart <= eT_input.getText().length()  ) {
                 selection = eT_input.getText().toString().substring(selStart, selEnd);
             } else {
-                selection = "";
+                selection = eT_input.getText().toString();
             }
         } else if (eT_output.hasFocus()) {
             selStart = eT_output.getSelectionStart();
@@ -562,7 +561,7 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
                     && selEnd <= eT_output.getText().length() && selStart <= eT_output.getText().length()  ) {
                 selection = eT_output.getText().toString().substring(selStart, selEnd);
             } else {
-                selection = "";
+                selection = eT_output.getText().toString();
             }
         } else {
             selection = eT_input.getText().toString();

@@ -346,7 +346,7 @@ public class ComplexMathIntegrationTest {
             Integer result = Integer.valueOf(output);
             assertTrue(result > 0); assertTrue(result <= a);  //0 < result < a
             calcTerm("RANDBLL"+a+"R"+b);  result = Integer.valueOf(((EditText) mainActivity.findViewById(R.id.eT_output)).getText().toString());
-            assertTrue(result > a); assertTrue(result <= b);  //0 < result < a
+            assertTrue(result >= a); assertTrue(result <= b);  //0 < result < a
             assertTrue(MathEvaluator.resembles(calcTerm("nPr("+n+"R"+r+")"),calcTerm(n+"!"+"/("+n+"-"+r+")!"))); //nPr(n,r)=n!/(n−r)!
             assertTrue(MathEvaluator.resembles(calcTerm("nCr("+n+"R"+r+")"),calcTerm("nPr("+n+"R"+r+")/"+r+"!"))); //nCr(n,r)=nPr(n,r)/r!
 

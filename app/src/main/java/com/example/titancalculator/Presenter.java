@@ -58,9 +58,16 @@ public class Presenter {
 
         if(identifier.matches("[1-2][1-6]")){
             int nr = Integer.valueOf(identifier);
-            if(calcModel.getMode() == 5){replaceSelection(calcModel.getMemory((nr-1)%10));}
-            ret = calcModel.getFunctionButtonFunctionality(nr);
-            if(!ret.contains(">")){ addInputText(calcModel.getFunctionButtonFunctionality(nr));}
+            System.out.println("mode: "+calcModel.getMode());
+            if(calcModel.getMode() == 5){
+                if(Integer.valueOf(identifier)>20){
+                    calcModel.setMemory(view.getSelection(),Integer.valueOf((nr-1)%10));
+                }
+                else {replaceSelection(calcModel.getMemory((nr-1)%10));}
+            } else {
+                ret = calcModel.getFunctionButtonFunctionality(nr);
+                if(!ret.contains(">")){ addInputText(calcModel.getFunctionButtonFunctionality(nr));}
+            }
         }  else if(Arrays.asList(otherIdentifiers).contains(identifier) || identifier.matches("[0-9]")) {
             addInputText(identifier);
             ret =  identifier;
@@ -88,6 +95,7 @@ public class Presenter {
         if (input == null || input.isEmpty()) return;
         int selStart = view.getSelectionStartInput();
         int selEnd =  view.getSelectionEndInput();
+        System.out.println(input);
         if (view.hasFocusInput()) {
             if (selStart >= 0 && selEnd >= 0 && selStart <= selEnd && selStart <= view.getInputText().length() && selEnd <= view.getInputText().length()) {
                 String etE_text = view.getInputText();
