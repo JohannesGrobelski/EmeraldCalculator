@@ -11,6 +11,7 @@ import java.text.NumberFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.example.titancalculator.helper.Math_String.MathEvaluator.evaluate;
 import static com.example.titancalculator.helper.Math_String.MathEvaluator.resembles;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

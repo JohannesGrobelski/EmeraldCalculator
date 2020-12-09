@@ -1,5 +1,6 @@
 package com.example.titancalculator;
 
+import android.content.pm.ActivityInfo;
 import android.os.SystemClock;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -202,7 +203,16 @@ public class MainActivityUnitTest {
 
     @Test
     public void testOrientationChange(){
-        //TODO: change to land
+        mainActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        mainActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT);
+    }
+
+    @Test
+    public void testModes(){
+        for(int i=0;i<mainActivity.toolbar.getMenu().size();i++){
+            mainActivity.toolbar.getMenu().getItem(i).setChecked(true);
+            mainActivity.toolbar.getMenu().getItem(i).setChecked(false);
+        }
     }
 
 
@@ -232,10 +242,8 @@ public class MainActivityUnitTest {
                 allButtons[randomButtonIndex].performLongClick();
             } catch (Exception e){
 
-
             }
             System.out.println();
-
         }
 
 

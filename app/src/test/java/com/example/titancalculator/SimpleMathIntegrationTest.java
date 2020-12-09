@@ -1,5 +1,6 @@
 package com.example.titancalculator;
 
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,9 +18,14 @@ import org.robolectric.annotation.Config;
 import org.robolectric.fakes.RoboMenuItem;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
 
 @Config(sdk = 28)
 @RunWith(RobolectricTestRunner.class)
@@ -44,24 +50,75 @@ public class SimpleMathIntegrationTest {
     private RoboMenuItem currentMode;
 
 
+    /**
+     * do some basic calculations
+     */
     @Test
     public void testCalculation(){
-        //TODO: use all buttons and functions in calculations
+        for(int a=0;a<10;a++) {
+            for (int b = 0; b < 10; b++) {
+                assertEquals(String.valueOf(a+b),calcTerm(a+"+"+b));
+                assertEquals(String.valueOf(a-b),calcTerm(a+"-"+b));
+                assertEquals(String.valueOf(a*b),calcTerm(a+"*"+b));
+                assertEquals(String.valueOf(a/b),calcTerm(a+"/"+b));
+            }
+        }
+        assertEquals("0",calcTerm("(((0)))"));
+        assertEquals("Math Error",calcTerm("((0)"));
     }
 
+    /**
+     * test if all input buttons work correct
+     */
+    @Test
+    public void testInputButtonMatchesFunctionality(){
+        MenuItem[] modes = new MenuItem[]{
+                new RoboMenuItem(R.id.basic), new RoboMenuItem(R.id.advanced), new RoboMenuItem(R.id.trigo),
+                new RoboMenuItem(R.id.statistic), new RoboMenuItem(R.id.logic),
+        };
+
+        mainActivity.setInputText(""); mainActivity.setOutputText("");
+        for(int mode=0;mode<CalcModel.modesModesText.length;mode++){
+            mainActivity.onOptionsItemSelected(modes[mode]);
+            for(int function=0;function<CalcModel.modesModesText[mode].length;function++){
+                System.out.println(mode+" "+function+" "+CalcModel.modesModesText[mode][function]);
+                idToViewMap.get(CalcModel.modesModesText[mode][function]).performClick();
+                assertEquals(CalcModel.modesModesFunctionality[mode][function],mainActivity.getInputText());
+                mainActivity.findViewById(R.id.btn_clear_all).performLongClick();
+            }
+
+        }
+    }
+
+
+
+    /**
+     * test if ANS Button works
+     */
     @Test
     public void testANSButton(){
-        //TODO: test if ANS Button works
+        mainActivity.setInputText("1+11");
+        mainActivity.findViewById(R.id.btn_eq_ANS).performClick();
+        assertEquals("12",mainActivity.getOutputText());
+        mainActivity.findViewById(R.id.btn_clear_all).performClick();
+        mainActivity.findViewById(R.id.btn_eq_ANS).performLongClick();
+        assertEquals("ANS",mainActivity.getInputText());
+        mainActivity.findViewById(R.id.btn_eq_ANS).performClick();
+        assertEquals("12",mainActivity.getOutputText());
     }
 
+    /**
+     * test if clear / clear all works
+     */
     @Test
     public void testClearButtons(){
-        //TODO: test if clear / clear all works
-    }
-
-    @Test
-    public void testModes(){
-        //TODO: switch through modes
+        mainActivity.setInputText("1+11");
+        mainActivity.findViewById(R.id.btn_clear_all).performClick();
+        assertEquals("1+1",mainActivity.getInputText());
+        mainActivity.setOutputText("2");
+        mainActivity.findViewById(R.id.btn_clear_all).performLongClick();
+        assertEquals("",mainActivity.getInputText());
+        assertEquals("",mainActivity.getOutputText());
     }
 
     @Test public void testMemoryFunctions() {
@@ -71,14 +128,14 @@ public class SimpleMathIntegrationTest {
         mainActivity.findViewById(R.id.btn_21).performClick();
         mainActivity.findViewById(R.id.btn_clear_all).performClick();
         mainActivity.findViewById(R.id.btn_11).performClick();
-        Assert.assertEquals("",((EditText) mainActivity.findViewById(R.id.eT_input)).getText().toString());
+        assertEquals("",((EditText) mainActivity.findViewById(R.id.eT_input)).getText().toString());
         mainActivity.findViewById(R.id.btn_clear_all).performClick();
 
         calcTerm("1+1");
         mainActivity.findViewById(R.id.btn_22).performClick();
         mainActivity.findViewById(R.id.btn_clear_all).performClick();
         mainActivity.findViewById(R.id.btn_12).performClick();
-        Assert.assertEquals("1+1",((EditText) mainActivity.findViewById(R.id.eT_input)).getText().toString());
+        assertEquals("1+1",((EditText) mainActivity.findViewById(R.id.eT_input)).getText().toString());
         mainActivity.findViewById(R.id.btn_clear_all).performClick();
 
         calcTerm("1+224*124");
@@ -86,7 +143,7 @@ public class SimpleMathIntegrationTest {
         mainActivity.findViewById(R.id.btn_23).performClick();
         mainActivity.findViewById(R.id.btn_clear_all).performClick();
         mainActivity.findViewById(R.id.btn_13).performClick();
-        Assert.assertEquals("1+224",((EditText) mainActivity.findViewById(R.id.eT_input)).getText().toString());
+        assertEquals("1+224",((EditText) mainActivity.findViewById(R.id.eT_input)).getText().toString());
         mainActivity.findViewById(R.id.btn_clear_all).performClick();
 
         calcTerm("1+224*124");
@@ -94,7 +151,7 @@ public class SimpleMathIntegrationTest {
         mainActivity.findViewById(R.id.btn_23).performClick();
         mainActivity.findViewById(R.id.btn_clear_all).performClick();
         mainActivity.findViewById(R.id.btn_13).performClick();
-        Assert.assertEquals("224*124",((EditText) mainActivity.findViewById(R.id.eT_input)).getText().toString());
+        assertEquals("224*124",((EditText) mainActivity.findViewById(R.id.eT_input)).getText().toString());
         mainActivity.findViewById(R.id.btn_clear_all).performClick();
 
         calcTerm("101*9");
@@ -103,7 +160,7 @@ public class SimpleMathIntegrationTest {
         mainActivity.findViewById(R.id.btn_24).performClick();
         mainActivity.findViewById(R.id.btn_clear_all).performClick();
         mainActivity.findViewById(R.id.btn_14).performClick();
-        Assert.assertEquals("909",((EditText) mainActivity.findViewById(R.id.eT_input)).getText().toString());
+        assertEquals("909",((EditText) mainActivity.findViewById(R.id.eT_input)).getText().toString());
         mainActivity.findViewById(R.id.btn_clear_all).performClick();
 
         calcTerm("101*9");
@@ -112,7 +169,7 @@ public class SimpleMathIntegrationTest {
         mainActivity.findViewById(R.id.btn_25).performClick();
         mainActivity.findViewById(R.id.btn_clear_all).performClick();
         mainActivity.findViewById(R.id.btn_15).performClick();
-        Assert.assertEquals("90",((EditText) mainActivity.findViewById(R.id.eT_input)).getText().toString());
+        assertEquals("90",((EditText) mainActivity.findViewById(R.id.eT_input)).getText().toString());
         mainActivity.findViewById(R.id.btn_clear_all).performClick();
 
         calcTerm("101*9");
@@ -121,7 +178,7 @@ public class SimpleMathIntegrationTest {
         mainActivity.findViewById(R.id.btn_25).performClick();
         mainActivity.findViewById(R.id.btn_clear_all).performClick();
         mainActivity.findViewById(R.id.btn_15).performClick();
-        Assert.assertEquals("09",((EditText) mainActivity.findViewById(R.id.eT_input)).getText().toString());
+        assertEquals("09",((EditText) mainActivity.findViewById(R.id.eT_input)).getText().toString());
         mainActivity.findViewById(R.id.btn_clear_all).performClick();
     }
 
@@ -152,8 +209,8 @@ public class SimpleMathIntegrationTest {
         mainActivity.btn_right.performClick();
         mainActivity.btn_right.performClick();
         int pos3 = ((EditText) mainActivity.findViewById(R.id.eT_input)).getSelectionStart();
-        Assert.assertEquals(pos1,pos3);
-        Assert.assertEquals(pos1,pos2+1);
+        assertEquals(pos1,pos3);
+        assertEquals(pos1,pos2+1);
 
         mainActivity.findViewById(R.id.btn_0).performClick();
         mainActivity.btn_left.performClick();
@@ -162,8 +219,8 @@ public class SimpleMathIntegrationTest {
         String i1 = ((EditText) mainActivity.findViewById(R.id.eT_input)).getText().toString();
         mainActivity.findViewById(R.id.btn_clear_all).performClick();
         String i2 = ((EditText) mainActivity.findViewById(R.id.eT_input)).getText().toString();
-        Assert.assertEquals(i1,"0");
-        Assert.assertEquals(i2,"");
+        assertEquals(i1,"0");
+        assertEquals(i2,"");
     }
 
     @Test public void testANSFunction(){
@@ -184,8 +241,8 @@ public class SimpleMathIntegrationTest {
         mainActivity.findViewById(R.id.btn_eq_ANS).performClick();
         String ans3 = ((EditText) mainActivity.findViewById(R.id.eT_output)).getText().toString();
 
-        Assert.assertEquals(ans2,"2");
-        Assert.assertEquals(ans3,"4");
+        assertEquals(ans2,"2");
+        assertEquals(ans3,"4");
     }
 
 
@@ -219,17 +276,17 @@ public class SimpleMathIntegrationTest {
         idToViewMap.put("(",mainActivity.findViewById(R.id.btn_open_bracket));
         idToViewMap.put(")",mainActivity.findViewById(R.id.btn_close_bracket));
 
-        String[] fun1 = CalcModel.modeBasicFunctionality;
+        String[] fun1 = CalcModel.modeBasicText;
         for(int i=0; i<12; i++) {if(fun1[i].equals(""))continue;idToViewMap.put(fun1[i], B[i]);idToModeMap.put(fun1[i], new RoboMenuItem(R.id.basic));}
         fun1 = CalcModel.modeAdvancedText;
         for(int i=0; i<12; i++) {if(fun1[i].equals(""))continue;idToViewMap.put(fun1[i], B[i]);idToModeMap.put(fun1[i],  new RoboMenuItem(R.id.advanced));}
-        fun1 = CalcModel.modeTrigoFunctionality;
+        fun1 = CalcModel.modeTrigoText;
         for(int i=0; i<12; i++) {if(fun1[i].equals(""))continue;idToViewMap.put(fun1[i], B[i]);idToModeMap.put(fun1[i],  new RoboMenuItem(R.id.trigo));}
-        fun1 = CalcModel.modeStatisticFunctionality;
+        fun1 = CalcModel.modeStatisticText;
         for(int i=0; i<12; i++) {if(fun1[i].equals(""))continue;idToViewMap.put(fun1[i], B[i]);idToModeMap.put(fun1[i],  new RoboMenuItem(R.id.statistic));}
-        fun1 = CalcModel.modeLogicFunctionality;
+        fun1 = CalcModel.modeLogicText;
         for(int i=0; i<12; i++) {if(fun1[i].equals(""))continue;idToViewMap.put(fun1[i], B[i]);idToModeMap.put(fun1[i],  new RoboMenuItem(R.id.logic));}
-        fun1 = CalcModel.modeMemoryFunctionality;
+        fun1 = CalcModel.modeMemoryText;
         for(int i=0; i<12; i++) {if(fun1[i].equals(""))continue;idToViewMap.put(fun1[i], B[i]);idToModeMap.put(fun1[i],  new RoboMenuItem(R.id.memory));}
         idToViewMap.put("L",mainActivity.btn_left);
         idToViewMap.put("R",mainActivity.btn_right);
@@ -303,7 +360,7 @@ public class SimpleMathIntegrationTest {
         System.out.println("cT final input: "+((EditText) mainActivity.findViewById(R.id.eT_input)).getText().toString()+"\n\n");
         System.out.println("cT final output: "+((EditText) mainActivity.findViewById(R.id.eT_output)).getText().toString()+"\n\n");
         if(!containsOutputFunctions)mainActivity.findViewById(R.id.btn_eq_ANS).performClick();
-        if(inputShouldEqualtTerm) Assert.assertEquals(((EditText) mainActivity.findViewById(R.id.eT_input)).getText().toString(),term);
+        if(inputShouldEqualtTerm) assertEquals(((EditText) mainActivity.findViewById(R.id.eT_input)).getText().toString(),term);
         return ((EditText) mainActivity.findViewById(R.id.eT_output)).getText().toString();
     }
 }

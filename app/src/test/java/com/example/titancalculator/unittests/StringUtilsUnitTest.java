@@ -51,9 +51,11 @@ public class StringUtilsUnitTest {
 
     @Test
     public void testSplit(){
+
         //assertArrayEquals("1+2".split(""),split("1+2"));
         //assertArrayEquals(new String[]{""},split(""));
         //assertArrayEquals("1+2".split(""),split("1+2","".split("")));
+
 
         for(int ti=0;ti<testIterations;ti++) {
             String randomInput = StringUtils.randomString(Math.min(100,((int) (Math.random()*testIterations/10))+1));
@@ -66,6 +68,8 @@ public class StringUtilsUnitTest {
             }
             assertTrue(lengthSplitted<=randomInput.length());
         }
+
+
 
 
 

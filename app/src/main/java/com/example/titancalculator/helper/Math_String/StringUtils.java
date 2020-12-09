@@ -22,11 +22,11 @@ public class StringUtils {
     public static String[] functions_parentIn = {"ASINH","ACOSH","ATANH","ACOTH","ACSCH","ASECH","ASIN","ACOS","ATAN","ACOT","ASEC","ACSC","SINH","COSH","TANH","COTH","SECH","CSCH","SIN","COS","TAN","COT","MEAN","ROOT","LN","LB","LOG","P","R","C"};
     public static String[] functions_paraIn = {"ROOT","LOG","P","C","R"};
     static String[] mathTokens= new String[]{
-            "ASINH","ACOSH","ATANH","ACOTH","ACSCH","ASECH",
-            "MEAN",">A/B",">x\u207B\u00B9",">+/-","SINH","COSH","TANH",">DEG",">RAD",">BIN",">OCT",">DEC",">HEX","10^x",
+            "RANDB","ASINH","ACOSH","ATANH","ACOTH","ACSCH","ASECH",
+            "RAND","MEAN",">A/B",">x\u207B\u00B9",">+/-","SINH","COSH","TANH",">DEG",">RAD",">BIN",">OCT",">DEC",">HEX","10^x",
             "ASIN","ACOS","ATAN","ACOT","ASEC","ACSC","SINH","COSH","TANH","COTH","SECH","CSCH",
-            "MIN","MAX","NCR","NPR","VAR",">M1",">M2",">M3",">M4",">M5",">M6","ANS","SIN","COS","TAN","COT","SEC","CSC","AND","OR","XOR","NOT","LOG","PFZ","GCD","LCM",
-            ">%","LN","LB","Zn","Zb",
+            "MIN","MAX","nCr","nPr","VAR",">M1",">M2",">M3",">M4",">M5",">M6","ANS","SIN","COS","TAN","COT","SEC","CSC","AND","OR","XOR","NOT","LOG","PFZ","GCD","LCM",
+            ">%","LN","LB",
             "∑","∏","1","2","3","4","5","6","7","8","9","0",".",",","*","/","+","-","(",")","π","e","^","³√","√","³","²","!","S","M1","M2","M3","M4","M5","M6",
     };
 
@@ -163,12 +163,14 @@ public class StringUtils {
      * @return
       * */
     private static String[] split(String input, String[] delimiters) {
+        int maxRepitions = input.length()*3;
         if (input.length() == 0) return new String[]{""};
         if(delimiters.length == 0) return new String[]{input};
         //if(debug)System.out.println("split: \""+input+"\"");
         LinkedList<String> output = new LinkedList<>();
 
-        for(int i=0;i<(input.length()*3);i++){
+        for(int i=0;i<maxRepitions;i++){
+            //if(debug)System.out.println(i+"/"+input.length()*3);
             if (input.length() > 0) {
                 //if(debug)System.out.println("   splitInput: "+input);
                 //if(debug)System.out.println("   splitArray: "+Arrays.toString(output.toArray(new String[output.size()])));

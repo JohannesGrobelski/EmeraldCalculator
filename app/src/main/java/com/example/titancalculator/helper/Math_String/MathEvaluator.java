@@ -113,6 +113,7 @@ public class MathEvaluator {
         if(input.contains("!"))input = factorialCorrection(input);
         Expression expression = new Expression(input);
         try {
+            System.out.println(expression.toString());
             expression.setPrecision(decimal_places_pref + 1);
             String res = format(expression.eval()).toString();
             return res;
@@ -221,7 +222,8 @@ public class MathEvaluator {
      */
     private static String rootToSqrt(String input) {
         List<String> allMatches = new ArrayList<String>();
-        Matcher m = Pattern.compile("ROOT\\(.+\\)").matcher(input);
+        if(input.matches("ROOT\\(.+,.+\\)"))return input;
+        Matcher m = Pattern.compile("ROOT\\(.+\\)").matcher(input); //square root
         for(int i=0;i<input.length();i++){
             if (m.find()) {
                 String s = m.group();

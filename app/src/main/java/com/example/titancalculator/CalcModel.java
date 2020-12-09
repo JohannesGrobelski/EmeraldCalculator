@@ -30,7 +30,8 @@ public class CalcModel {
         public static String[] modeAdvancedFunctionality = {">PFZ","GCD(,)","LCM(,)","∑(,)","∏(,)","LB",">%",">A/B",">x\u207B\u00B9",">+/-","MIN(,)","MAX(,)"};
 
         public static String[] modeTrigoText = {"SIN","COS","TAN","COT","SEC","CSC","SINH","COSH","TANH","COTH","SECH","CSCH"};
-        public static String[] modeTrigoFunctionality = {"SIN","COS","TAN","COT","SEC","CSC","SINH","COSH","TANH","COTH","SECH","CSCH"};
+    public static String[] modeTrigoFunctionalityInverse = {"ASIN","ACOS","ATAN","ACOT","ASEC","ACSC","ASINH","ACOSH","ATANH","ACOTH","ASECH","ACSCH"};
+    public static String[] modeTrigoFunctionality = {"SIN","COS","TAN","COT","SEC","CSC","SINH","COSH","TANH","COTH","SECH","CSCH"};
 
         public static String[] modeLogicText = {"AND","OR","XOR","NOT","","","","","","","",""};
         public static String[] modeLogicFunctionality = {"AND(,)","OR(,)","XOR(,)","NOT()","","","","","","","",""};
