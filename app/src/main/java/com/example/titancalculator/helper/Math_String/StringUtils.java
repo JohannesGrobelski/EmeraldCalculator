@@ -26,7 +26,7 @@ public class StringUtils {
             "RAND","MEAN",">A/B",">x\u207B\u00B9",">+/-","SINH","COSH","TANH",">DEG",">RAD",">BIN",">OCT",">DEC",">HEX","10^x",
             "ASIN","ACOS","ATAN","ACOT","ASEC","ACSC","SINH","COSH","TANH","COTH","SECH","CSCH",
             "MIN","MAX","nCr","nPr","VAR",">M1",">M2",">M3",">M4",">M5",">M6","ANS","SIN","COS","TAN","COT","SEC","CSC","AND","OR","XOR","NOT","LOG","PFZ","GCD","LCM",
-            ">%","LN","LB",
+            "PF",">%","LN","LB",
             "∑","∏","1","2","3","4","5","6","7","8","9","0",".",",","*","/","+","-","(",")","π","e","^","³√","√","³","²","!","S","M1","M2","M3","M4","M5","M6",
     };
 
@@ -218,7 +218,7 @@ public class StringUtils {
 	    int number_comma = 0;
 	    int klammern_offen = 0; int klammern_geschlossen = 0;
 	    for(int position=posBeginning; position<eval.length()-2;position++){
-	        char charAtPosition = eval.charAt(posBeginning);
+	        char charAtPosition = eval.charAt(position);
 	        if(charAtPosition == '(')++klammern_offen;
             if(charAtPosition == ')')++klammern_geschlossen;
             if(charAtPosition == ',' && klammern_offen - klammern_geschlossen <= 1)++number_comma;

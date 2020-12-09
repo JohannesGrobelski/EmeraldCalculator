@@ -372,6 +372,25 @@ public class ComplexMathIntegrationTest {
         assertTrue(MathEvaluator.resembles(calcTerm("SLL1.12,124.12,12.241,-12.124124,40783420,-792.2"),"15199132.952412"));
     }
 
+    @Test public void testVoids(){
+        currentMode = new RoboMenuItem(R.id.advanced);
+        for(int i=0; i<iterationsSubtests; i++) {
+            int a = (int) ((Math.random() * 1000) - 500);
+            double x = ((Math.random() * 1000) - 500);
+
+            Assert.assertTrue(MathEvaluator.resembles(calcTerm(x+">%"),calcTerm(((EditText) mainActivity.findViewById(R.id.eT_input)).getText().toString()+"*100"))); mainActivity.findViewById(R.id.btn_clear_all).performClick();
+            Assert.assertTrue(MathEvaluator.resembles(calcTerm(x+">+/-"),calcTerm(((EditText) mainActivity.findViewById(R.id.eT_input)).getText().toString()+"*-1"))); mainActivity.findViewById(R.id.btn_clear_all).performClick();
+            Assert.assertTrue(MathEvaluator.resembles(calcTerm("3"+">x\u207B\u00B9"),calcTerm("1/3"/*+((EditText) mainActivity.findViewById(R.id.eT_input)).getText().toString()*/))); mainActivity.findViewById(R.id.btn_clear_all).performClick();
+
+            calcTerm(x+">A/B"); String output = ((EditText) mainActivity.findViewById(R.id.eT_output)).getText().toString(); String result = calcTerm(output);
+            Assert.assertTrue(MathEvaluator.resembles(String.valueOf(x),result,4)); mainActivity.findViewById(R.id.btn_clear_all).performClick();
+
+            calcTerm(a+"PF"); output = ((EditText) mainActivity.findViewById(R.id.eT_output)).getText().toString(); result = calcTerm(output.replace("(","").replace(")","").replace(",","*"));
+            Assert.assertTrue(MathEvaluator.resembles(String.valueOf(a),result)); mainActivity.findViewById(R.id.btn_clear_all).performClick();
+        }
+    }
+
+
     private boolean testEquation(String term, String result) {
         return testEquation(term+"="+result);
     }
@@ -428,7 +447,7 @@ public class ComplexMathIntegrationTest {
                 if(idToModeMap.containsKey(s))mainActivity.onOptionsItemSelected(idToModeMap.get(s));
                 if(debug)System.out.println("click: "+((Button) idToViewClickMap.get(s)).getText());
                 idToViewClickMap.get(s).performClick();
-                if(s.length() > 1 || s.equals("∑") || s.equals("Π") || s.equals("S")){
+                if(s.length() > 1 || s.equals("∑") || s.equals("Π") || s.equals("S") || s.equals("PF")){
                     inputShouldEqualtTerm = false;
                     for(int i=0; i<s.length(); i++)mainActivity.btn_right.performClick();
                 }

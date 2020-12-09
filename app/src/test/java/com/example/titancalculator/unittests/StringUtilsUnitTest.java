@@ -317,9 +317,9 @@ public class StringUtilsUnitTest {
     public void parathentiseSimpleTestPreBrackets(){
         String groupPattern = "((ROOT|LOG|P|C|R)\\([0-9]*(\\.)?[0-9]+,)+[0-9]*(\\.)?[0-9]+\\)+";
 
-        assertTrue(StringUtils.paraInComplex("3ROOT(8)").matches(groupPattern));
-        assertTrue(StringUtils.paraInComplex("3ROOT3ROOT(8)").matches(groupPattern));
-        assertTrue(StringUtils.paraInComplex("3ROOT(3ROOT(8))").matches(groupPattern));
+        assertTrue(StringUtils.paraInComplex("3SQRT(8)").matches(groupPattern));
+        assertTrue(StringUtils.paraInComplex("3SQRT3SQRT(8)").matches(groupPattern));
+        assertTrue(StringUtils.paraInComplex("3SQRT(3SQRT(8))").matches(groupPattern));
     }
 
     @Test
@@ -332,13 +332,13 @@ public class StringUtilsUnitTest {
                StringBuilder input = new StringBuilder(function+"(");
                for(int i=0;i<numberParameter;i++)input.append(numbergenerator()+",");
                input.deleteCharAt(input.length()-1); input.append(")");
+               System.out.println(input);
                assertEquals(numberParameter,getParameterNumber(input.toString(),0));
             }
         }
 
         String input = "LOG(LOG(13))";
         assertEquals("LOG10(LOG10(13))",logToLogb(input));
-        assertEquals("0.0468631061",evaluate(input));
     }
 
     public String numbergenerator(){

@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 @Config(sdk = 28)
 @RunWith(RobolectricTestRunner.class)
@@ -60,7 +61,13 @@ public class SimpleMathIntegrationTest {
                 assertEquals(String.valueOf(a+b),calcTerm(a+"+"+b));
                 assertEquals(String.valueOf(a-b),calcTerm(a+"-"+b));
                 assertEquals(String.valueOf(a*b),calcTerm(a+"*"+b));
-                assertEquals(String.valueOf(a/b),calcTerm(a+"/"+b));
+                if(b!=0){
+                    if(a%b==0)assertEquals(String.valueOf(a/b),calcTerm(a+"/"+b));
+                    else{
+                        String res = String.valueOf((double) a/ (double) b);
+                        assertTrue(MathEvaluator.resembles(res,calcTerm(a+"/"+b)));
+                    }
+                }
             }
         }
         assertEquals("0",calcTerm("(((0)))"));
@@ -74,19 +81,26 @@ public class SimpleMathIntegrationTest {
     public void testInputButtonMatchesFunctionality(){
         MenuItem[] modes = new MenuItem[]{
                 new RoboMenuItem(R.id.basic), new RoboMenuItem(R.id.advanced), new RoboMenuItem(R.id.trigo),
-                new RoboMenuItem(R.id.statistic), new RoboMenuItem(R.id.logic),
+                new RoboMenuItem(R.id.statistic), new RoboMenuItem(R.id.logic)
+        };
+        
+        Button[] functionButtons = new Button[]{
+                mainActivity.findViewById(R.id.btn_11),mainActivity.findViewById(R.id.btn_12),mainActivity.findViewById(R.id.btn_13),
+                mainActivity.findViewById(R.id.btn_14),mainActivity.findViewById(R.id.btn_15),mainActivity.findViewById(R.id.btn_16),
+                mainActivity.findViewById(R.id.btn_21),mainActivity.findViewById(R.id.btn_22),mainActivity.findViewById(R.id.btn_23),
+                mainActivity.findViewById(R.id.btn_24),mainActivity.findViewById(R.id.btn_25),mainActivity.findViewById(R.id.btn_26),
         };
 
         mainActivity.setInputText(""); mainActivity.setOutputText("");
-        for(int mode=0;mode<CalcModel.modesModesText.length;mode++){
+        for(int mode=0;mode<(CalcModel.modesModesText.length-2);mode++){
             mainActivity.onOptionsItemSelected(modes[mode]);
             for(int function=0;function<CalcModel.modesModesText[mode].length;function++){
-                System.out.println(mode+" "+function+" "+CalcModel.modesModesText[mode][function]);
-                idToViewMap.get(CalcModel.modesModesText[mode][function]).performClick();
+                if(CalcModel.modesModesFunctionality[mode][function].startsWith(">"))continue;
+                System.out.println(mode+" "+function+" "+CalcModel.modesModesFunctionality[mode][function]);
+                functionButtons[function].performClick();
                 assertEquals(CalcModel.modesModesFunctionality[mode][function],mainActivity.getInputText());
                 mainActivity.findViewById(R.id.btn_clear_all).performLongClick();
             }
-
         }
     }
 
@@ -100,7 +114,7 @@ public class SimpleMathIntegrationTest {
         mainActivity.setInputText("1+11");
         mainActivity.findViewById(R.id.btn_eq_ANS).performClick();
         assertEquals("12",mainActivity.getOutputText());
-        mainActivity.findViewById(R.id.btn_clear_all).performClick();
+        mainActivity.findViewById(R.id.btn_clear_all).performLongClick();
         mainActivity.findViewById(R.id.btn_eq_ANS).performLongClick();
         assertEquals("ANS",mainActivity.getInputText());
         mainActivity.findViewById(R.id.btn_eq_ANS).performClick();
@@ -126,101 +140,73 @@ public class SimpleMathIntegrationTest {
 
         calcTerm("");
         mainActivity.findViewById(R.id.btn_21).performClick();
-        mainActivity.findViewById(R.id.btn_clear_all).performClick();
+        mainActivity.findViewById(R.id.btn_clear_all).performLongClick();
         mainActivity.findViewById(R.id.btn_11).performClick();
         assertEquals("",((EditText) mainActivity.findViewById(R.id.eT_input)).getText().toString());
-        mainActivity.findViewById(R.id.btn_clear_all).performClick();
+        mainActivity.findViewById(R.id.btn_clear_all).performLongClick();
 
         calcTerm("1+1");
         mainActivity.findViewById(R.id.btn_22).performClick();
-        mainActivity.findViewById(R.id.btn_clear_all).performClick();
+        mainActivity.findViewById(R.id.btn_clear_all).performLongClick();
         mainActivity.findViewById(R.id.btn_12).performClick();
         assertEquals("1+1",((EditText) mainActivity.findViewById(R.id.eT_input)).getText().toString());
-        mainActivity.findViewById(R.id.btn_clear_all).performClick();
+        mainActivity.findViewById(R.id.btn_clear_all).performLongClick();
 
         calcTerm("1+224*124");
         mainActivity.setSelectionInput(0,5);
         mainActivity.findViewById(R.id.btn_23).performClick();
-        mainActivity.findViewById(R.id.btn_clear_all).performClick();
+        mainActivity.findViewById(R.id.btn_clear_all).performLongClick();
         mainActivity.findViewById(R.id.btn_13).performClick();
         assertEquals("1+224",((EditText) mainActivity.findViewById(R.id.eT_input)).getText().toString());
-        mainActivity.findViewById(R.id.btn_clear_all).performClick();
+        mainActivity.findViewById(R.id.btn_clear_all).performLongClick();
 
         calcTerm("1+224*124");
         mainActivity.setSelectionInput(2,9);
         mainActivity.findViewById(R.id.btn_23).performClick();
-        mainActivity.findViewById(R.id.btn_clear_all).performClick();
+        mainActivity.findViewById(R.id.btn_clear_all).performLongClick();
         mainActivity.findViewById(R.id.btn_13).performClick();
         assertEquals("224*124",((EditText) mainActivity.findViewById(R.id.eT_input)).getText().toString());
-        mainActivity.findViewById(R.id.btn_clear_all).performClick();
+        mainActivity.findViewById(R.id.btn_clear_all).performLongClick();
 
         calcTerm("101*9");
         mainActivity.findViewById(R.id.eT_output).requestFocus();
         mainActivity.setSelectionOutput(0,3);
         mainActivity.findViewById(R.id.btn_24).performClick();
-        mainActivity.findViewById(R.id.btn_clear_all).performClick();
+        mainActivity.findViewById(R.id.btn_clear_all).performLongClick();
         mainActivity.findViewById(R.id.btn_14).performClick();
         assertEquals("909",((EditText) mainActivity.findViewById(R.id.eT_input)).getText().toString());
-        mainActivity.findViewById(R.id.btn_clear_all).performClick();
+        mainActivity.findViewById(R.id.btn_clear_all).performLongClick();
 
         calcTerm("101*9");
         mainActivity.findViewById(R.id.eT_output).requestFocus();
         mainActivity.setSelectionOutput(0,2);
         mainActivity.findViewById(R.id.btn_25).performClick();
-        mainActivity.findViewById(R.id.btn_clear_all).performClick();
+        mainActivity.findViewById(R.id.btn_clear_all).performLongClick();
         mainActivity.findViewById(R.id.btn_15).performClick();
         assertEquals("90",((EditText) mainActivity.findViewById(R.id.eT_input)).getText().toString());
-        mainActivity.findViewById(R.id.btn_clear_all).performClick();
+        mainActivity.findViewById(R.id.btn_clear_all).performLongClick();
 
         calcTerm("101*9");
         mainActivity.findViewById(R.id.eT_output).requestFocus();
         mainActivity.setSelectionOutput(1,3);
         mainActivity.findViewById(R.id.btn_25).performClick();
-        mainActivity.findViewById(R.id.btn_clear_all).performClick();
+        mainActivity.findViewById(R.id.btn_clear_all).performLongClick();
         mainActivity.findViewById(R.id.btn_15).performClick();
         assertEquals("09",((EditText) mainActivity.findViewById(R.id.eT_input)).getText().toString());
-        mainActivity.findViewById(R.id.btn_clear_all).performClick();
+        mainActivity.findViewById(R.id.btn_clear_all).performLongClick();
     }
 
-    @Test public void testVoids(){
-        currentMode = new RoboMenuItem(R.id.advanced);
-        for(int i=0; i<iterationsSubtests; i++) {
-            int a = (int) ((Math.random() * 1000) - 500);
-            double x = ((Math.random() * 1000) - 500);
 
-            Assert.assertTrue(MathEvaluator.resembles(calcTerm(x+">%"),calcTerm(((EditText) mainActivity.findViewById(R.id.eT_input)).getText().toString()+"*100"))); mainActivity.findViewById(R.id.btn_clear_all).performClick();
-            Assert.assertTrue(MathEvaluator.resembles(calcTerm(x+">+/-"),calcTerm(((EditText) mainActivity.findViewById(R.id.eT_input)).getText().toString()+"*-1"))); mainActivity.findViewById(R.id.btn_clear_all).performClick();
-            Assert.assertTrue(MathEvaluator.resembles(calcTerm("3"+">x\u207B\u00B9"),calcTerm("1/3"/*+((EditText) mainActivity.findViewById(R.id.eT_input)).getText().toString()*/))); mainActivity.findViewById(R.id.btn_clear_all).performClick();
-
-            calcTerm(x+">A/B"); String output = ((EditText) mainActivity.findViewById(R.id.eT_output)).getText().toString(); String result = calcTerm(output);
-            Assert.assertTrue(MathEvaluator.resembles(String.valueOf(x),result,4)); mainActivity.findViewById(R.id.btn_clear_all).performClick();
-
-            calcTerm(a+"PFZ"); output = ((EditText) mainActivity.findViewById(R.id.eT_output)).getText().toString(); result = calcTerm(output.replace("(","").replace(")","").replace(",","*"));
-            Assert.assertTrue(MathEvaluator.resembles(String.valueOf(a),result)); mainActivity.findViewById(R.id.btn_clear_all).performClick();
-        }
-    }
-
-    @Test public void testNavigationButtons(){
+    @Test public void testNavigation(){
         mainActivity.findViewById(R.id.btn_1).performClick();
+        mainActivity.setSelectionInput(0);
         int pos1 = ((EditText) mainActivity.findViewById(R.id.eT_input)).getSelectionStart();
-        mainActivity.btn_left.performClick();
-        mainActivity.btn_left.performClick();
+        mainActivity.setSelectionInput(1);
         int pos2 = ((EditText) mainActivity.findViewById(R.id.eT_input)).getSelectionStart();
-        mainActivity.btn_right.performClick();
-        mainActivity.btn_right.performClick();
+        mainActivity.setSelectionInput(0);
         int pos3 = ((EditText) mainActivity.findViewById(R.id.eT_input)).getSelectionStart();
         assertEquals(pos1,pos3);
-        assertEquals(pos1,pos2+1);
-
-        mainActivity.findViewById(R.id.btn_0).performClick();
-        mainActivity.btn_left.performClick();
-        mainActivity.findViewById(R.id.btn_clear_all).performClick();
-        System.out.println(mainActivity.getInputText());
-        String i1 = ((EditText) mainActivity.findViewById(R.id.eT_input)).getText().toString();
-        mainActivity.findViewById(R.id.btn_clear_all).performClick();
-        String i2 = ((EditText) mainActivity.findViewById(R.id.eT_input)).getText().toString();
-        assertEquals(i1,"0");
-        assertEquals(i2,"");
+        assertEquals(pos1,pos2-1);
     }
 
     @Test public void testANSFunction(){
@@ -229,13 +215,13 @@ public class SimpleMathIntegrationTest {
         mainActivity.findViewById(R.id.btn_add).performClick();
         mainActivity.findViewById(R.id.btn_1).performClick();
         mainActivity.findViewById(R.id.btn_eq_ANS).performClick();
-        mainActivity.findViewById(R.id.btn_clear_all).performClick();
-        mainActivity.findViewById(R.id.btn_clear_all).performClick();
+        mainActivity.findViewById(R.id.btn_clear_all).performLongClick();
+        mainActivity.findViewById(R.id.btn_eq_ANS).performLongClick();
         mainActivity.findViewById(R.id.btn_eq_ANS).performClick();
         String ans2 = ((EditText) mainActivity.findViewById(R.id.eT_output)).getText().toString();
 
-        mainActivity.findViewById(R.id.btn_clear_all).performClick();
-        mainActivity.findViewById(R.id.btn_clear_all).performClick();
+        mainActivity.findViewById(R.id.btn_clear_all).performLongClick();
+        mainActivity.findViewById(R.id.btn_eq_ANS).performLongClick();
         mainActivity.findViewById(R.id.btn_mul).performClick();
         mainActivity.findViewById(R.id.btn_2).performClick();
         mainActivity.findViewById(R.id.btn_eq_ANS).performClick();

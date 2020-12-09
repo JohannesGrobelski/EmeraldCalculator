@@ -124,7 +124,7 @@ public class MathEvaluator {
         decimal_places_pref = dec_places;
         pre_decimal_places_pref = predec_places;
 
-        input = logToLogb(input);
+        //input = logToLogb(input);
         if(input.contains("!"))input = factorialCorrection(input);
         Expression expression = new Expression(input);
         try {

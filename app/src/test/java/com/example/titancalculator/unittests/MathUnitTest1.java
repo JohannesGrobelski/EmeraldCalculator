@@ -69,6 +69,8 @@ public class MathUnitTest1 {
 
 
     @Test public void testBasicFunctions(){
+        assertTrue(testEquation("-0.086402098906667985852332933888574482159078964774695348",calcTerm("LOG(9,LOG(7,5))")));
+
         assertTrue(testEquation("π","3.141592653589793"));
         assertTrue(testEquation("e","2.718281828459045"));
         assertTrue(testEquation("e^0","1"));
@@ -177,10 +179,6 @@ public class MathUnitTest1 {
             assertTrue(testEquation("SUME("+min+","+max+")","SUME("+min+","+q+")+SUME("+(q+1)+","+max+")")); //sum(i=1...n)ak = sum(i=1...m)ak+sum(i=m+1...n)
             if(max!=min){
                 assertTrue(min!=max);
-                if(!testEquation(String.valueOf(0),"SUME("+max+","+min+")")){
-                    System.out.println("min: "+min+",max: "+max);
-                    System.out.println(min+"=="+max+": "+(max==min));
-                }
                 assertTrue(testEquation(String.valueOf(0),"SUME("+max+","+min+")")); //sum(b,a) with b>a = 0
             }
             assertTrue(testEquation(String.valueOf(max),"SUME("+max+","+max+")")); //sum(a,a) = a
