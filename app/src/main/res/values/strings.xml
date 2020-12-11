@@ -18,12 +18,13 @@
     <string name="app_name">CUSTOM CALC</string>
 
     //not changing
-    <string name="MUL" translatable="false">*</string>
-    <string name="DIV" translatable="false">/</string>
+    <string name="MUL" translatable="false">×</string>
+    <string name="DIV" translatable="false">÷</string>
     <string name="POT" translatable="false">^</string>
     <string name="ADD" translatable="false">+</string>
     <string name="SUB" translatable="false">-</string>
-    <string name="CLEAR_ALL" translatable="false">⌫ ⌧</string>
+    <string name="CLEAR" translatable="false">⌫</string>
+    <string name="CLEAR_ALL" translatable="false">⌧</string>
     <string name="BRACKET_OPEN" translatable="false">(</string>
     <string name="BRACKET_CLOSE" translatable="false">)</string>
     <string name="DECLOG" translatable="false">LOG</string>
@@ -49,7 +50,8 @@
     <string name="zero" translatable="false">0</string>
     <string name="comma" translatable="false">.</string>
     <string name="seperator" translatable="false">,</string>
-    <string name="equal_answer" translatable="false">= ANS</string>
+    <string name="equal" translatable="false">=</string>
+    <string name="last_answer" translatable="false">ANS</string>
     <string name="sin" translatable="false">SIN</string>
     <string name="cos" translatable="false">COS</string>
     <string name="tan" translatable="false">TAN</string>

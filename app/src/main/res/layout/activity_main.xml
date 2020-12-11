@@ -70,7 +70,7 @@
             android:paddingLeft="5sp"
             android:textAlignment="textStart"
             android:textColor="@color/primary_dark"
-            android:textSize="60sp"
+            android:textSize="50sp"
             android:visibility="visible"
             android:windowSoftInputMode="stateAlwaysHidden|adjustNothing"
             android:autofillHints="" />
@@ -91,7 +91,7 @@
 
             android:textAlignment="textStart"
             android:textColor="@color/primary_dark"
-            android:textSize="60sp"
+            android:textSize="50sp"
             android:visibility="visible"
             android:windowSoftInputMode="stateAlwaysHidden|adjustNothing"
             android:autofillHints="" />
@@ -413,7 +413,7 @@
             android:id="@+id/btn_clear_all"
             style="@style/NumberFlatButton"
 
-            android:text="@string/CLEAR_ALL"
+            android:text="@string/CLEAR"
             app:autoSizeStepGranularity="10sp"
             app:autoSizeTextType="uniform" />
 
@@ -421,7 +421,7 @@
             android:id="@+id/btn_eq_ANS"
             style="@style/NumberFlatButton"
 
-            android:text="@string/equal_answer"
+            android:text="@string/equal"
             app:autoSizeStepGranularity="10sp"
             app:autoSizeTextType="uniform" />
 

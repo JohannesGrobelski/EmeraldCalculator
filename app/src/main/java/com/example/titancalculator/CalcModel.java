@@ -142,6 +142,17 @@ public class CalcModel {
     }
     public String getVarMode(){return var_mode;}
 
+    /**
+     *
+     * @param input
+     * @return
+     */
+    public String translateOperator(String input){
+       input = input.replace("×","*")
+                    .replace("÷","/");
+       return input;
+    }
+
     public String getCalcuableString(String a){
         //language settings
         a = a.replaceAll(modeAdvancedText[1],"GCD");
@@ -178,6 +189,8 @@ public class CalcModel {
         //settings
         a = a.replaceAll("MEAN",mean_mode);
         a = a.replaceAll("VAR",var_mode);
+
+        a = translateOperator(a);
 
         return a;
     }

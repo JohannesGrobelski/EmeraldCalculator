@@ -332,12 +332,12 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
         });
         btn_mul.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View view) {
-                presenter.inputButton("*");
+                presenter.inputButton("×");
             }
         });
         btn_div.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View view) {
-                presenter.inputButton("/");
+                presenter.inputButton("÷");
             }
         });
         btn_eq_ans.setOnClickListener(new View.OnClickListener() {

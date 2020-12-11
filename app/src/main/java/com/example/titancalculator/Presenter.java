@@ -54,7 +54,7 @@ public class Presenter {
         else if(identifier.equals("=")){inputEqual(); return "=";}
 
         String ret = "";
-        String[] otherIdentifiers = new String[]{".",",","ANS","(",")","+","-","*","/"};
+        String[] otherIdentifiers = new String[]{".",",","ANS","(",")","+","-","×","÷"};
 
         if(identifier.matches("[1-2][1-6]")){
             int nr = Integer.valueOf(identifier);
