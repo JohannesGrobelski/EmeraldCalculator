@@ -4,8 +4,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.example.titancalculator.helper.Math_String.MathEvaluator;
-import com.example.titancalculator.helper.Math_String.StringUtils;
+import com.example.titancalculator.helper.MathEvaluator;
+import com.example.titancalculator.helper.StringUtils;
+import com.example.titancalculator.model.CalcModel;
+import com.example.titancalculator.view.MainActivity;
 
 import org.junit.Assert;
 import org.junit.Before;

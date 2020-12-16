@@ -1,9 +1,7 @@
 package com.example.titancalculator.unittests;
 
-import androidx.core.widget.TextViewCompat;
-
-import com.example.titancalculator.helper.Math_String.MathEvaluator;
-import com.example.titancalculator.helper.Math_String.StringUtils;
+import com.example.titancalculator.helper.MathEvaluator;
+import com.example.titancalculator.helper.StringUtils;
 
 import org.junit.Test;
 
@@ -11,21 +9,21 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static com.example.titancalculator.helper.Math_String.MathEvaluator.evaluate;
-import static com.example.titancalculator.helper.Math_String.MathEvaluator.logToLogb;
-import static com.example.titancalculator.helper.Math_String.StringUtils.concatenate;
-import static com.example.titancalculator.helper.Math_String.StringUtils.deleteSpan;
-import static com.example.titancalculator.helper.Math_String.StringUtils.findLongestMatch;
-import static com.example.titancalculator.helper.Math_String.StringUtils.getParameterNumber;
-import static com.example.titancalculator.helper.Math_String.StringUtils.insertString;
-import static com.example.titancalculator.helper.Math_String.StringUtils.occurences;
-import static com.example.titancalculator.helper.Math_String.StringUtils.paraInAtomic;
-import static com.example.titancalculator.helper.Math_String.StringUtils.paraInComplex;
-import static com.example.titancalculator.helper.Math_String.StringUtils.parenthesise;
-import static com.example.titancalculator.helper.Math_String.StringUtils.randomString;
-import static com.example.titancalculator.helper.Math_String.StringUtils.repeat;
-import static com.example.titancalculator.helper.Math_String.StringUtils.replace;
-import static com.example.titancalculator.helper.Math_String.StringUtils.splitTokens;
+import static com.example.titancalculator.helper.MathEvaluator.evaluate;
+import static com.example.titancalculator.helper.MathEvaluator.logToLogb;
+import static com.example.titancalculator.helper.StringUtils.concatenate;
+import static com.example.titancalculator.helper.StringUtils.deleteSpan;
+import static com.example.titancalculator.helper.StringUtils.findLongestMatch;
+import static com.example.titancalculator.helper.StringUtils.getParameterNumber;
+import static com.example.titancalculator.helper.StringUtils.insertString;
+import static com.example.titancalculator.helper.StringUtils.occurences;
+import static com.example.titancalculator.helper.StringUtils.paraInAtomic;
+import static com.example.titancalculator.helper.StringUtils.paraInComplex;
+import static com.example.titancalculator.helper.StringUtils.parenthesise;
+import static com.example.titancalculator.helper.StringUtils.randomString;
+import static com.example.titancalculator.helper.StringUtils.repeat;
+import static com.example.titancalculator.helper.StringUtils.replace;
+import static com.example.titancalculator.helper.StringUtils.splitTokens;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

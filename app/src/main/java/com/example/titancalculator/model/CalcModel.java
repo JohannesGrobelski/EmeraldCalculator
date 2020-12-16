@@ -1,10 +1,7 @@
-package com.example.titancalculator;
+package com.example.titancalculator.model;
 
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-
-import com.example.titancalculator.helper.Math_String.MathEvaluator;
-import com.example.titancalculator.helper.Math_String.StringUtils;
+import com.example.titancalculator.helper.MathEvaluator;
+import com.example.titancalculator.helper.StringUtils;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -16,6 +13,7 @@ import java.util.regex.Pattern;
 /** The model is the only gateway to the domain layer or business logic.
   */
 public class CalcModel {
+
     //debug settings
         public boolean enableLog = true;
     //static data
@@ -107,26 +105,21 @@ public class CalcModel {
         else InputString = StringUtils.insertString(InputString,i,selectionStart);
     }
 
-    public String getResult(){
-        if(isScientificNotation())return getScientificResult();
-        else return calculateResult();
-    }
 
-    private String calculateResult(){
-        System.out.println("calculateResult: "+InputString);
+
+    public void calculateResult(){
+        int predec = predec_places;
+        int dec = dec_places;
         String input = getCalcuableString(InputString);
-        System.out.println("evaluate: "+input);
-        String c = MathEvaluator.evaluate(input,predec_places,dec_places);
-        if(!c.equals("Math Error"))last_answer = c;
-        return c;
+
+        if(isScientificNotation()){
+           predec = dec = 7;
+        }
+        String c = MathEvaluator.evaluate(input,predec,dec);
+        setOuputString(c);
     }
 
-    public String getScientificResult(){
-        String input = StringUtils.getDisplayableString(InputString);
-        String c = MathEvaluator.evaluate(input,7,7);
-        if(!c.equals("Math Error"))last_answer = c;
-        return c;
-    }
+
 
     public void setMeanMode(String mode){
         if(mode.equals("AriMit") || mode.equals("GeoMit") || mode.equals("HarMit") ){
@@ -252,7 +245,5 @@ public class CalcModel {
         if(inverseFunction.containsKey(function))return inverseFunction.get(function);
         else return "";
     }
-
-
 
 }

@@ -1,12 +1,15 @@
-package com.example.titancalculator;
+package com.example.titancalculator.presenter;
 
-import android.content.Context;
+import android.os.AsyncTask;
 
-import com.example.titancalculator.helper.Math_String.StringUtils;
+import com.example.titancalculator.evalex.Expression;
+import com.example.titancalculator.helper.MathEvaluator;
+import com.example.titancalculator.helper.StringUtils;
+import com.example.titancalculator.model.CalcModel;
 
 import java.util.Arrays;
 
-import static com.example.titancalculator.helper.Math_String.StringUtils.deleteSpan;
+import static com.example.titancalculator.helper.StringUtils.deleteSpan;
 
 /** The Presenter is the mediator between Model and View.
   * It retrieves data from Model and returns it formatted to the View.
@@ -24,7 +27,6 @@ public class Presenter {
     public void attachView(View view){
         this.view = view;
     }
-
     public void detachView(){
         this.view = null;
     }
@@ -95,7 +97,6 @@ public class Presenter {
         if (input == null || input.isEmpty()) return;
         int selStart = view.getSelectionStartInput();
         int selEnd =  view.getSelectionEndInput();
-        System.out.println(input);
         if (view.hasFocusInput()) {
             if (selStart >= 0 && selEnd >= 0 && selStart <= selEnd && selStart <= view.getInputText().length() && selEnd <= view.getInputText().length()) {
                 String etE_text = view.getInputText();
@@ -157,12 +158,16 @@ public class Presenter {
         if (!view.getInputText().equals(calcModel.getInputText())) {
             setInputText(view.getInputText());
         }
-        String answer = calcModel.getResult();
-        calcModel.setOutputString(answer);
+
+        CalcOperationTask calcOperationTask = new CalcOperationTask();
+        calcOperationTask.execute();
+    }
+
+    public void setOutput(String ouput){
+        calcModel.setOutputString(ouput);
         view.setOutputText(calcModel.getOutputString());
     }
 
-    public String getSelection(){return view.getSelection();}
     public void setInputText(String text){calcModel.setInputText(text);}
 
     /**
@@ -211,5 +216,25 @@ public class Presenter {
         void clearFocusOutput();
         boolean hasFocusInput();
         boolean hasFocusOutput();
+    }
+
+    class CalcOperationTask extends AsyncTask<Void, Void, Void>{
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            calcModel.calculateResult();
+            return null;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            setOutput(calcModel.getOutputString());
+        }
     }
 }

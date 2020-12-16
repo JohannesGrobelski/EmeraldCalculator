@@ -2,6 +2,8 @@ package com.example.titancalculator;
 
 import android.view.View;
 
+import com.example.titancalculator.view.MainActivity;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,5 +1,6 @@
-package com.example.titancalculator;
+package com.example.titancalculator.view;
 
+import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Typeface;
@@ -22,9 +23,10 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.example.titancalculator.helper.Math_String.OnSwipeTouchListener;
-
-import java.util.Locale;
+import com.example.titancalculator.presenter.Presenter;
+import com.example.titancalculator.R;
+import com.example.titancalculator.helper.OnSwipeTouchListener;
+import com.example.titancalculator.model.CalcModel;
 
 import javax.inject.Inject;
 
@@ -32,6 +34,7 @@ import javax.inject.Inject;
   * The only thing that the view does is to call a method from the Presenter every time there is an interface action.
   */
 public class MainActivity extends AppCompatActivity implements Presenter.View {
+    private static Context context;
     private Presenter presenter;
     private static String[] menuItems;
     private static String[] menuItemsID;
@@ -54,6 +57,8 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
     Button btn_open_bracket; Button btn_close_bracket; Button btn_add; Button btn_sub; Button btn_mul; Button btn_div; Button btn_com; Button btn_sep; Button btn_eq_ans;
     EditText eT_input; EditText eT_output;
     Button[] allButtons;
+
+    public static Context getContext(){return context;}
 
     @Override public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_modes, menu);
@@ -86,13 +91,13 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
         setTitle("Calculator");
         eT_output.setOnFocusChangeListener(focusListener);
         eT_input.setOnFocusChangeListener(focusListener);
+        context = this;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //TODO: menü ist localized, problem nach auswahl!
         setContentView(R.layout.activity_main);
         setTitle("Calculator");
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -134,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
         localization();
         requestFocusInput();
         setSupportActionBar(toolbar);
-
+        context = this;
     }
 
     @Override

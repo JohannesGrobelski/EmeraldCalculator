@@ -18,7 +18,7 @@
         android:fullBackupContent="@xml/backup_descriptor">
 
         <activity
-            android:name="com.example.titancalculator.MainActivity"
+            android:name="com.example.titancalculator.view.MainActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

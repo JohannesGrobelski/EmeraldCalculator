@@ -1,8 +1,8 @@
 package com.example.titancalculator.optionalTests;
 
-import com.example.titancalculator.CalcModel;
-import com.example.titancalculator.MainActivity;
-import com.example.titancalculator.Presenter;
+import com.example.titancalculator.model.CalcModel;
+import com.example.titancalculator.view.MainActivity;
+import com.example.titancalculator.presenter.Presenter;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -11,8 +11,8 @@ import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
-import static com.example.titancalculator.CalcModel.modes;
-import static com.example.titancalculator.CalcModel.modesModesFunctionality;
+import static com.example.titancalculator.model.CalcModel.modes;
+import static com.example.titancalculator.model.CalcModel.modesModesFunctionality;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 

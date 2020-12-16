@@ -1,7 +1,7 @@
 package com.example.titancalculator.unittests;
 
-import com.example.titancalculator.helper.Math_String.MathEvaluator;
-import com.example.titancalculator.helper.Math_String.StringUtils;
+import com.example.titancalculator.helper.MathEvaluator;
+import com.example.titancalculator.helper.StringUtils;
 
 import org.junit.Test;
 
@@ -11,14 +11,14 @@ import java.text.NumberFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.example.titancalculator.helper.Math_String.MathEvaluator.evaluate;
-import static com.example.titancalculator.helper.Math_String.MathEvaluator.resembles;
-import static com.example.titancalculator.helper.Math_String.MathEvaluator.toDEG;
-import static com.example.titancalculator.helper.Math_String.MathEvaluator.toFraction;
-import static com.example.titancalculator.helper.Math_String.MathEvaluator.toInvert;
-import static com.example.titancalculator.helper.Math_String.MathEvaluator.toPercent;
-import static com.example.titancalculator.helper.Math_String.MathEvaluator.toRAD;
-import static com.example.titancalculator.helper.Math_String.MathEvaluator.toReciproke;
+import static com.example.titancalculator.helper.MathEvaluator.evaluate;
+import static com.example.titancalculator.helper.MathEvaluator.resembles;
+import static com.example.titancalculator.helper.MathEvaluator.toDEG;
+import static com.example.titancalculator.helper.MathEvaluator.toFraction;
+import static com.example.titancalculator.helper.MathEvaluator.toInvert;
+import static com.example.titancalculator.helper.MathEvaluator.toPercent;
+import static com.example.titancalculator.helper.MathEvaluator.toRAD;
+import static com.example.titancalculator.helper.MathEvaluator.toReciproke;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 

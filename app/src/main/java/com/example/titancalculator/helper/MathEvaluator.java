@@ -1,7 +1,8 @@
-package com.example.titancalculator.helper.Math_String;
+package com.example.titancalculator.helper;
 
-import com.example.titancalculator.CalcModel;
+import com.example.titancalculator.model.CalcModel;
 import com.example.titancalculator.evalex.Expression;
+import com.example.titancalculator.view.MainActivity;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -134,9 +135,13 @@ public class MathEvaluator {
 
         //input = logToLogb(input);
         if(input.contains("!"))input = factorialCorrection(input);
-        Expression expression = new Expression(input);
+        final Expression expression = new Expression(input);
         try {
             expression.setPrecision(100);
+/*          CalcOperation calcOperation = new CalcOperation(expression);
+            calcOperation.start();
+            calcOperation.join(1000);*/
+
             String res = format(expression.eval()).toString();
             return res;
         }

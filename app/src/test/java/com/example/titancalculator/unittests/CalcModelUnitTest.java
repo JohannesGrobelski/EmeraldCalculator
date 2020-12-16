@@ -1,21 +1,13 @@
 package com.example.titancalculator.unittests;
 
-import android.content.Context;
-
-import com.example.titancalculator.CalcModel;
-import com.example.titancalculator.helper.Math_String.StringUtils;
+import com.example.titancalculator.model.CalcModel;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Stream;
-
-import static com.example.titancalculator.CalcModel.modes;
-import static com.example.titancalculator.CalcModel.modesModesFunctionality;
-import static com.example.titancalculator.CalcModel.modesModesText;
+import static com.example.titancalculator.model.CalcModel.modes;
+import static com.example.titancalculator.model.CalcModel.modesModesFunctionality;
+import static com.example.titancalculator.model.CalcModel.modesModesText;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

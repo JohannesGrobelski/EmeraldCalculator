@@ -1,4 +1,4 @@
-package com.example.titancalculator.helper.Math_String;
+package com.example.titancalculator.helper;
 
 import android.content.Context;
         import android.view.GestureDetector;

@@ -1,8 +1,4 @@
-package com.example.titancalculator.helper.Math_String;
-
-import android.net.http.SslCertificate;
-
-import com.example.titancalculator.MainActivity;
+package com.example.titancalculator.helper;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;

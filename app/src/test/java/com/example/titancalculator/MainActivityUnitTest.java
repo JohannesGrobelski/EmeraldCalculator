@@ -1,9 +1,6 @@
 package com.example.titancalculator;
 
-import android.app.Instrumentation;
 import android.content.pm.ActivityInfo;
-import android.graphics.Path;
-import android.graphics.Point;
 import android.os.SystemClock;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -15,7 +12,9 @@ import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
 
-import com.example.titancalculator.helper.Math_String.StringUtils;
+import com.example.titancalculator.helper.StringUtils;
+import com.example.titancalculator.model.CalcModel;
+import com.example.titancalculator.view.MainActivity;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -26,18 +25,14 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 import org.robolectric.fakes.RoboMenuItem;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.example.titancalculator.CalcModel.modeStatisticFunctionality;
-import static com.example.titancalculator.CalcModel.modesModesText;
+import static com.example.titancalculator.model.CalcModel.modesModesText;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import static org.robolectric.shadows.ShadowInstrumentation.getInstrumentation;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = 28)

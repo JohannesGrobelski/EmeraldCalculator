@@ -5,8 +5,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.example.titancalculator.helper.Math_String.MathEvaluator;
-import com.example.titancalculator.helper.Math_String.StringUtils;
+import com.example.titancalculator.helper.MathEvaluator;
+import com.example.titancalculator.helper.StringUtils;
+import com.example.titancalculator.model.CalcModel;
+import com.example.titancalculator.view.MainActivity;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -18,8 +20,6 @@ import org.robolectric.annotation.Config;
 import org.robolectric.fakes.RoboMenuItem;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -92,7 +92,7 @@ public class SimpleMathIntegrationTest {
         };
 
         mainActivity.setInputText(""); mainActivity.setOutputText("");
-        for(int mode=0;mode<(CalcModel.modesModesText.length-2);mode++){
+        for(int mode = 0; mode<(CalcModel.modesModesText.length-2); mode++){
             mainActivity.onOptionsItemSelected(modes[mode]);
             for(int function=0;function<CalcModel.modesModesText[mode].length;function++){
                 if(CalcModel.modesModesFunctionality[mode][function].startsWith(">"))continue;

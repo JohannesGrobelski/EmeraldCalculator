@@ -26,9 +26,6 @@
  */
 package com.example.titancalculator.evalex;
 
-import com.example.titancalculator.MainActivity;
-import com.example.titancalculator.helper.Math_String.MathEvaluator;
-
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
