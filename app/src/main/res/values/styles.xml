@@ -7,7 +7,7 @@
 
 
     <style name="FlatButton" parent="@style/Widget.MaterialComponents.Button.TextButton">
-        <item name="android:textColor">@color/background</item>
+        <item name="android:textColor">@color/white</item>
 
         <item name="android:textAlignment">center</item>
         <item name="android:visibility">visible</item>
@@ -27,7 +27,7 @@
     </style>
 
     <style name="FunctionFlatButton" parent="FlatButton">
-        <item name="background">@color/accent</item>
+        <item name="background">@color/colorAccent</item>
         <item name="android:textColor">@color/white</item>
     </style>
 
