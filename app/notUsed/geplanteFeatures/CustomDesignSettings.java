@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.titancalculator.geplanteFeatures;
+package com.example.calcitecalculator.geplanteFeatures;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -41,8 +41,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.ActionBar;
 import androidx.core.app.NavUtils;
 
-import com.example.titancalculator.R;
-import com.example.titancalculator.geplanteFeatures.helper.MainDisplay.SettingsApplier;
+import com.example.calcitecalculator.R;
+import com.example.calcitecalculator.geplanteFeatures.helper.MainDisplay.SettingsApplier;
 
 import java.util.List;
 

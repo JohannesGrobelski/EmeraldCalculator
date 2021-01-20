@@ -1,4 +1,4 @@
-package com.example.titancalculator.geplanteFeatures;
+package com.example.calcitecalculator.geplanteFeatures;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,10 +17,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
-import com.example.titancalculator.R;
-import com.example.titancalculator.geplanteFeatures.notUsedHelper.InitConstMapDE;
-import com.example.titancalculator.geplanteFeatures.notUsedHelper.InitConstMapEN;
-import com.example.titancalculator.geplanteFeatures.helper.MainDisplay.SettingsApplier;
+import com.example.calcitecalculator.R;
+import com.example.calcitecalculator.geplanteFeatures.notUsedHelper.InitConstMapDE;
+import com.example.calcitecalculator.geplanteFeatures.notUsedHelper.InitConstMapEN;
+import com.example.calcitecalculator.geplanteFeatures.helper.MainDisplay.SettingsApplier;
 
 import java.text.DecimalFormat;
 import java.util.Arrays;

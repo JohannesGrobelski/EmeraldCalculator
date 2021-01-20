@@ -1,4 +1,4 @@
-package com.example.titancalculator.geplanteFeatures;
+package com.example.calcitecalculator.geplanteFeatures;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
@@ -15,9 +15,9 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.titancalculator.R;
-import com.example.titancalculator.geplanteFeatures.helper.MainDisplay.DesignApplier;
-import com.example.titancalculator.geplanteFeatures.helper.MainDisplay.SettingsApplier;
+import com.example.calcitecalculator.R;
+import com.example.calcitecalculator.geplanteFeatures.helper.MainDisplay.DesignApplier;
+import com.example.calcitecalculator.geplanteFeatures.helper.MainDisplay.SettingsApplier;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package com.example.titancalculator.geplanteFeatures.helper.MainDisplay;
+package com.example.calcitecalculator.geplanteFeatures.helper.MainDisplay;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.example.titancalculator.geplanteFeatures.notUsedHelper.ArrayUtils;
+import com.example.calcitecalculator.geplanteFeatures.notUsedHelper.ArrayUtils;
 import java.util.ArrayList;
 
 public class DesignApplier {
