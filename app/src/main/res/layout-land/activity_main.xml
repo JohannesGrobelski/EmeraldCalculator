@@ -69,7 +69,7 @@
             android:maxLines="1"
             android:paddingLeft="5sp"
             android:textAlignment="textStart"
-            android:textColor="@color/primary_dark"
+            android:textColor="@color/primary"
             android:textSize="40sp"
             android:visibility="visible"
             android:windowSoftInputMode="stateAlwaysHidden|adjustNothing"
@@ -92,7 +92,7 @@
 
             android:paddingLeft="5sp"
             android:textAlignment="textStart"
-            android:textColor="@color/primary_dark"
+            android:textColor="@color/primary"
             android:textSize="40sp"
             android:visibility="visible"
             android:windowSoftInputMode="stateAlwaysHidden|adjustNothing"
@@ -103,7 +103,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 
-        android:background="@color/primary_light"
+        android:background="@color/accent"
         android:layout_weight="1"
         android:measureWithLargestChild="true"
         android:clickable="false">
@@ -192,7 +192,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 
-        android:background="@color/primary_light"
+        android:background="@color/accent"
         android:layout_weight="1"
         android:elevation="0sp"
         android:clickable="false">
@@ -277,7 +277,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 
-        android:background="@color/primary_light"
+        android:background="@color/accent"
         android:layout_weight="1"
         android:elevation="0sp"
         android:clickable="false">
@@ -372,7 +372,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 
-        android:background="@color/primary_light"
+        android:background="@color/accent"
         android:layout_weight="1"
         android:elevation="0sp"
         android:clickable="false">

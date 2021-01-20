@@ -21,7 +21,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/accent"
+            android:background="@color/primary"
             android:minHeight="?attr/actionBarSize"
             android:textAlignment="center"
             app:title="STANDART"
@@ -29,11 +29,11 @@
 
             <TextView
                 android:id="@+id/toolbar_title"
+                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
-                android:layout_gravity="center" />
+                android:layout_gravity="center"
+                android:textColor="@color/white" />
 
         </androidx.appcompat.widget.Toolbar>
 
@@ -61,19 +61,19 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="0dp"
 
+            android:autofillHints=""
             android:background="#00464646"
             android:fontFamily="monospace"
             android:inputType="textNoSuggestions"
+
+
             android:maxLines="1"
-
-
             android:paddingLeft="5sp"
             android:textAlignment="textStart"
-            android:textColor="@color/primary_dark"
+            android:textColor="@color/primary"
             android:textSize="50sp"
             android:visibility="visible"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustNothing"
-            android:autofillHints="" />
+            android:windowSoftInputMode="stateAlwaysHidden|adjustNothing" />
 
         <EditText
             android:id="@+id/eT_output"
@@ -82,19 +82,19 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="0dp"
 
+            android:autofillHints=""
             android:background="#00464646"
             android:cursorVisible="false"
             android:fontFamily="monospace"
             android:inputType="textNoSuggestions"
             android:maxLines="1"
-            android:paddingLeft="5sp"
 
+            android:paddingLeft="5sp"
             android:textAlignment="textStart"
-            android:textColor="@color/primary_dark"
+            android:textColor="@color/primary"
             android:textSize="50sp"
             android:visibility="visible"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustNothing"
-            android:autofillHints="" />
+            android:windowSoftInputMode="stateAlwaysHidden|adjustNothing" />
 
     </LinearLayout>
 
@@ -106,53 +106,59 @@
 
         android:layout_weight="1"
         android:background="@color/accent"
+        android:clickable="false"
         android:measureWithLargestChild="true"
-        android:visibility="visible"
-        android:clickable="false">
+        android:visibility="visible">
 
         <Button
-            android:id="@+id/btn_11" android:tag="btn11"
+            android:id="@+id/btn_11"
             style="@style/FunctionFlatButton"
-            android:tint = "@drawable/touchselector"
+            android:tag="btn11"
             android:text="@string/PI"
+            android:tint="@drawable/touchselector"
             app:autoSizeStepGranularity="10sp"
             app:autoSizeTextType="uniform" />
 
         <Button
-            android:id="@+id/btn_12" android:tag="btn12"
+            android:id="@+id/btn_12"
             style="@style/FunctionFlatButton"
+            android:tag="btn12"
 
             android:text="@string/e"
             app:autoSizeStepGranularity="10sp"
             app:autoSizeTextType="uniform" />
 
         <Button
-            android:id="@+id/btn_13" android:tag="btn13"
+            android:id="@+id/btn_13"
             style="@style/FunctionFlatButton"
+            android:tag="btn13"
 
             android:text="@string/POT"
             app:autoSizeStepGranularity="10sp"
             app:autoSizeTextType="uniform" />
 
         <Button
-            android:id="@+id/btn_14" android:tag="btn14"
+            android:id="@+id/btn_14"
             style="@style/FunctionFlatButton"
+            android:tag="btn14"
 
             android:text="@string/DECLOG"
             app:autoSizeStepGranularity="10sp"
             app:autoSizeTextType="uniform" />
 
         <Button
-            android:id="@+id/btn_15" android:tag="btn11"
+            android:id="@+id/btn_15"
             style="@style/FunctionFlatButton"
+            android:tag="btn11"
 
             android:text="@string/LN"
             app:autoSizeStepGranularity="10sp"
             app:autoSizeTextType="uniform" />
 
         <Button
-            android:id="@+id/btn_16" android:tag="btn16"
+            android:id="@+id/btn_16"
             style="@style/FunctionFlatButton"
+            android:tag="btn16"
 
             android:text="@string/LB"
             app:autoSizeStepGranularity="10sp"
@@ -166,45 +172,50 @@
 
         android:layout_weight="1"
         android:background="@color/accent"
+        android:clickable="false"
         android:measureWithLargestChild="true"
-        android:visibility="visible"
-        android:clickable="false">
+        android:visibility="visible">
 
         <Button
-            android:id="@+id/btn_21" android:tag="btn21"
+            android:id="@+id/btn_21"
             style="@style/FunctionFlatButton"
+            android:tag="btn21"
 
             android:text="@string/ROOT3"
             app:autoSizeStepGranularity="10sp"
             app:autoSizeTextType="uniform" />
 
         <Button
-            android:id="@+id/btn_22" android:tag="btn22"
+            android:id="@+id/btn_22"
             style="@style/FunctionFlatButton"
+            android:tag="btn22"
 
             android:text="@string/ROOT"
             app:autoSizeStepGranularity="10sp"
             app:autoSizeTextType="uniform" />
 
         <Button
-            android:id="@+id/btn_23" android:tag="btn23"
+            android:id="@+id/btn_23"
             style="@style/FunctionFlatButton"
+            android:tag="btn23"
 
             android:text="@string/x_cube"
             app:autoSizeStepGranularity="10sp"
             app:autoSizeTextType="uniform" />
 
         <Button
-            android:id="@+id/btn_24" android:tag="btn24"
+            android:id="@+id/btn_24"
             style="@style/FunctionFlatButton"
+            android:tag="btn24"
 
             android:text="@string/x_squared"
             app:autoSizeStepGranularity="10sp"
             app:autoSizeTextType="uniform" />
 
         <Button
-            android:id="@+id/btn_25" android:tag="btn25"
+            android:id="@+id/btn_25"
             style="@style/FunctionFlatButton"
+            android:tag="btn25"
 
             android:text="@string/ten_power_x"
             app:autoSizeStepGranularity="10sp"
@@ -212,8 +223,9 @@
 
 
         <Button
-            android:id="@+id/btn_26" android:tag="btn26"
+            android:id="@+id/btn_26"
             style="@style/FunctionFlatButton"
+            android:tag="btn26"
 
             android:text="@string/factorial"
             app:autoSizeStepGranularity="10sp"
@@ -225,10 +237,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 
-        android:background="@color/primary_light"
         android:layout_weight="1"
-        android:measureWithLargestChild="true"
-        android:clickable="false">
+        android:background="@color/primary"
+        android:clickable="false"
+        android:measureWithLargestChild="true">
 
 
         <Button
@@ -236,6 +248,7 @@
             style="@style/NumberFlatButton"
 
             android:text="@string/seven"
+            android:textColor="@color/white"
             app:autoSizeStepGranularity="10sp"
             app:autoSizeTextType="uniform" />
 
@@ -244,6 +257,7 @@
             style="@style/NumberFlatButton"
 
             android:text="@string/eight"
+            android:textColor="@color/white"
             app:autoSizeStepGranularity="10sp"
             app:autoSizeTextType="uniform" />
 
@@ -252,6 +266,7 @@
             style="@style/NumberFlatButton"
 
             android:text="@string/nine"
+            android:textColor="@color/white"
             app:autoSizeStepGranularity="10sp"
             app:autoSizeTextType="uniform" />
 
@@ -260,6 +275,7 @@
             style="@style/NumberFlatButton"
 
             android:text="@string/BRACKET_OPEN"
+            android:textColor="@color/white"
             app:autoSizeStepGranularity="10sp"
             app:autoSizeTextType="uniform" />
 
@@ -269,6 +285,7 @@
             style="@style/NumberFlatButton"
 
             android:text="@string/BRACKET_CLOSE"
+            android:textColor="@color/white"
             app:autoSizeStepGranularity="10sp"
             app:autoSizeTextType="uniform" />
 
@@ -278,16 +295,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 
-        android:background="@color/primary_light"
         android:layout_weight="1"
-        android:elevation="0sp"
-        android:clickable="false">
+        android:background="@color/primary"
+        android:clickable="false"
+        android:elevation="0sp">
 
         <Button
             android:id="@+id/btn_4"
             style="@style/NumberFlatButton"
 
             android:text="@string/four"
+            android:textColor="@color/white"
             app:autoSizeStepGranularity="10sp"
             app:autoSizeTextType="uniform" />
 
@@ -296,6 +314,7 @@
             style="@style/NumberFlatButton"
 
             android:text="@string/five"
+            android:textColor="@color/white"
             app:autoSizeStepGranularity="10sp"
             app:autoSizeTextType="uniform" />
 
@@ -304,6 +323,7 @@
             style="@style/NumberFlatButton"
 
             android:text="@string/six"
+            android:textColor="@color/white"
             app:autoSizeStepGranularity="10sp"
             app:autoSizeTextType="uniform" />
 
@@ -312,6 +332,7 @@
             style="@style/NumberFlatButton"
 
             android:text="@string/MUL"
+            android:textColor="@color/white"
             app:autoSizeStepGranularity="10sp"
             app:autoSizeTextType="uniform" />
 
@@ -320,6 +341,7 @@
             style="@style/NumberFlatButton"
 
             android:text="@string/DIV"
+            android:textColor="@color/white"
             app:autoSizeStepGranularity="10sp"
             app:autoSizeTextType="uniform" />
 
@@ -329,16 +351,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 
-        android:background="@color/primary_light"
         android:layout_weight="1"
-        android:elevation="0sp"
-        android:clickable="false">
+        android:background="@color/primary"
+        android:clickable="false"
+        android:elevation="0sp">
 
         <Button
             android:id="@+id/btn_1"
             style="@style/NumberFlatButton"
 
             android:text="@string/one"
+            android:textColor="@color/white"
             app:autoSizeStepGranularity="10sp"
             app:autoSizeTextType="uniform" />
 
@@ -347,6 +370,7 @@
             style="@style/NumberFlatButton"
 
             android:text="@string/two"
+            android:textColor="@color/white"
             app:autoSizeStepGranularity="10sp"
             app:autoSizeTextType="uniform" />
 
@@ -355,6 +379,7 @@
             style="@style/NumberFlatButton"
 
             android:text="@string/three"
+            android:textColor="@color/white"
             app:autoSizeStepGranularity="10sp"
             app:autoSizeTextType="uniform" />
 
@@ -363,6 +388,7 @@
             style="@style/NumberFlatButton"
 
             android:text="@string/SUB"
+            android:textColor="@color/white"
             app:autoSizeStepGranularity="10sp"
             app:autoSizeTextType="uniform" />
 
@@ -371,6 +397,7 @@
             style="@style/NumberFlatButton"
 
             android:text="@string/ADD"
+            android:textColor="@color/white"
             app:autoSizeStepGranularity="10sp"
             app:autoSizeTextType="uniform" />
 
@@ -380,16 +407,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 
-        android:background="@color/primary_light"
         android:layout_weight="1"
-        android:elevation="0sp"
-        android:clickable="false">
+        android:background="@color/primary"
+        android:clickable="false"
+        android:elevation="0sp">
 
         <Button
             android:id="@+id/btn_0"
             style="@style/NumberFlatButton"
 
             android:text="@string/zero"
+            android:textColor="@color/white"
             app:autoSizeStepGranularity="10sp"
             app:autoSizeTextType="uniform" />
 
@@ -398,6 +426,7 @@
             style="@style/NumberFlatButton"
 
             android:text="@string/comma"
+            android:textColor="@color/white"
             app:autoSizeStepGranularity="10sp"
             app:autoSizeTextType="uniform" />
 
@@ -406,6 +435,7 @@
             style="@style/NumberFlatButton"
 
             android:text="@string/seperator"
+            android:textColor="@color/white"
             app:autoSizeStepGranularity="10sp"
             app:autoSizeTextType="uniform" />
 
@@ -414,6 +444,7 @@
             style="@style/NumberFlatButton"
 
             android:text="@string/CLEAR"
+            android:textColor="@color/white"
             app:autoSizeStepGranularity="10sp"
             app:autoSizeTextType="uniform" />
 
@@ -422,6 +453,7 @@
             style="@style/NumberFlatButton"
 
             android:text="@string/equal"
+            android:textColor="@color/white"
             app:autoSizeStepGranularity="10sp"
             app:autoSizeTextType="uniform" />
 
