@@ -15,7 +15,7 @@
 
 
 
-    <string name="app_name">Calcite Calculator</string>
+    <string name="app_name">Emerald Calculator</string>
 
     //not changing
     <string name="MUL" translatable="false">×</string>

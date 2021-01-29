@@ -6,7 +6,7 @@ android {
     compileSdkVersion 30
     buildToolsVersion "29.0.2"
     defaultConfig {
-        applicationId "com.example.calcitecalculator"
+        applicationId "com.example.emeraldcalculator"
         minSdkVersion 25
         targetSdkVersion 30
         versionCode 1
