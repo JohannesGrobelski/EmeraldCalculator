@@ -1,4 +1,4 @@
-package com.example.titancalculator.geplanteFeatures;
+package com.example.calcitecalculator.geplanteFeatures;
 
 import android.Manifest;
 import android.content.ContentResolver;
@@ -22,8 +22,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceManager;
 
-import com.example.titancalculator.R;
-import com.example.titancalculator.geplanteFeatures.notUsedHelper.PathUtils;
+import com.example.calcitecalculator.R;
+import com.example.calcitecalculator.geplanteFeatures.notUsedHelper.PathUtils;
 
 import java.io.File;
 import java.net.URISyntaxException;

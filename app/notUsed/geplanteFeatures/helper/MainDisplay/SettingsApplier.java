@@ -1,4 +1,4 @@
-package com.example.titancalculator.geplanteFeatures.helper.MainDisplay;
+package com.example.calcitecalculator.geplanteFeatures.helper.MainDisplay;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -31,8 +31,8 @@ import android.widget.TextView;
 
 import androidx.preference.PreferenceManager;
 
-import com.example.titancalculator.geplanteFeatures.FontSettingsActivity;
-import com.example.titancalculator.R;
+import com.example.calcitecalculator.geplanteFeatures.FontSettingsActivity;
+import com.example.calcitecalculator.R;
 
 import java.util.ArrayList;
 import java.util.regex.Pattern;

@@ -1,4 +1,4 @@
-package com.example.titancalculator.geplanteFeatures.MathString;
+package com.example.calcitecalculator.geplanteFeatures.MathString;
 
 import android.text.InputFilter;
 import android.text.Spanned;

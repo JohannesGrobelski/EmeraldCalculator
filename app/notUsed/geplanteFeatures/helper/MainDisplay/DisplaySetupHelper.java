@@ -1,11 +1,11 @@
-package com.example.titancalculator.geplanteFeatures.helper.MainDisplay;
+package com.example.calcitecalculator.geplanteFeatures.helper.MainDisplay;
 
 import android.content.Context;
 
 
 import android.util.DisplayMetrics;
 
-import com.example.titancalculator.R;
+import com.example.calcitecalculator.R;
 
 public class DisplaySetupHelper {
         public static float getDefaultTextSize(Context context){

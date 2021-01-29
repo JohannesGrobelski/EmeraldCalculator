@@ -1,4 +1,4 @@
-package com.example.titancalculator.geplanteFeatures.notUsedHelper;
+package com.example.calcitecalculator.geplanteFeatures.notUsedHelper;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.titancalculator.R;
+import com.example.calcitecalculator.R;
 
 import java.util.ArrayList;
 

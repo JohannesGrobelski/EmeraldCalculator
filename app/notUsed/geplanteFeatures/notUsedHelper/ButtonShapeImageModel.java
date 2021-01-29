@@ -1,4 +1,4 @@
-package com.example.titancalculator.geplanteFeatures.notUsedHelper;
+package com.example.calcitecalculator.geplanteFeatures.notUsedHelper;
 
 public class ButtonShapeImageModel {
 

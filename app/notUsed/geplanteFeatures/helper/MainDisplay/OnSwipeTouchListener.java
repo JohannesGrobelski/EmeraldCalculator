@@ -1,4 +1,4 @@
-package com.example.titancalculator.geplanteFeatures.helper.MainDisplay;
+package com.example.calcitecalculator.geplanteFeatures.helper.MainDisplay;
 
 import android.content.Context;
 import android.view.GestureDetector;
