@@ -36,7 +36,7 @@ public class SimpleMathIntegrationTest {
     private static int iterationsSubtests = 10;
     private Map<String, View> idToViewMap = new HashMap<>();
     private Map<String, RoboMenuItem> idToModeMap = new HashMap<>();
-    private String[] delimiters = new String[]{"1","2","3","4","5","6","7","8","9","0",".",",","ANS","*","/","+","-","(",")",
+    private String[] delimiters = new String[]{"1","2","3","4","5","6","7","8","9","0",".",",","ANS","×","÷","+","-","(",")",
             "π","e","^","LOG","LN","LB","³√","√","³","²","10^x","!",
             "PFZ","GCD","LCM","∑","∏",">%",">A/B",">x\u207B\u00B9",">+/-","MIN","MAX",
             "SIN","COS","TAN","COT","SEC","CSC","ASIN","ACOS","ATAN","ACOT","ASEC","ACSC",
@@ -60,12 +60,12 @@ public class SimpleMathIntegrationTest {
             for (int b = 0; b < 10; b++) {
                 assertEquals(String.valueOf(a+b),calcTerm(a+"+"+b));
                 assertEquals(String.valueOf(a-b),calcTerm(a+"-"+b));
-                assertEquals(String.valueOf(a*b),calcTerm(a+"*"+b));
+                assertEquals(String.valueOf(a*b),calcTerm(a+"×"+b));
                 if(b!=0){
-                    if(a%b==0)assertEquals(String.valueOf(a/b),calcTerm(a+"/"+b));
+                    if(a%b==0)assertEquals(String.valueOf(a/b),calcTerm(a+"÷"+b));
                     else{
                         String res = String.valueOf((double) a/ (double) b);
-                        assertTrue(MathEvaluator.resembles(res,calcTerm(a+"/"+b)));
+                        assertTrue(MathEvaluator.resembles(res,calcTerm(a+"÷"+b)));
                     }
                 }
             }
@@ -73,6 +73,8 @@ public class SimpleMathIntegrationTest {
         assertEquals("0",calcTerm("(((0)))"));
         assertEquals("Math Error",calcTerm("((0)"));
     }
+
+
 
     /**
      * test if all input buttons work correct
@@ -152,7 +154,7 @@ public class SimpleMathIntegrationTest {
         assertEquals("1+1",((EditText) mainActivity.findViewById(R.id.eT_input)).getText().toString());
         mainActivity.findViewById(R.id.btn_clear_all).performLongClick();
 
-        calcTerm("1+224*124");
+        calcTerm("1+224×124");
         mainActivity.setSelectionInput(0,5);
         mainActivity.findViewById(R.id.btn_23).performClick();
         mainActivity.findViewById(R.id.btn_clear_all).performLongClick();
@@ -160,15 +162,15 @@ public class SimpleMathIntegrationTest {
         assertEquals("1+224",((EditText) mainActivity.findViewById(R.id.eT_input)).getText().toString());
         mainActivity.findViewById(R.id.btn_clear_all).performLongClick();
 
-        calcTerm("1+224*124");
+        calcTerm("1+224×124");
         mainActivity.setSelectionInput(2,9);
         mainActivity.findViewById(R.id.btn_23).performClick();
         mainActivity.findViewById(R.id.btn_clear_all).performLongClick();
         mainActivity.findViewById(R.id.btn_13).performClick();
-        assertEquals("224*124",((EditText) mainActivity.findViewById(R.id.eT_input)).getText().toString());
+        assertEquals("224×124",((EditText) mainActivity.findViewById(R.id.eT_input)).getText().toString());
         mainActivity.findViewById(R.id.btn_clear_all).performLongClick();
 
-        calcTerm("101*9");
+        calcTerm("101×9");
         mainActivity.findViewById(R.id.eT_output).requestFocus();
         mainActivity.setSelectionOutput(0,3);
         mainActivity.findViewById(R.id.btn_24).performClick();
@@ -177,7 +179,7 @@ public class SimpleMathIntegrationTest {
         assertEquals("909",((EditText) mainActivity.findViewById(R.id.eT_input)).getText().toString());
         mainActivity.findViewById(R.id.btn_clear_all).performLongClick();
 
-        calcTerm("101*9");
+        calcTerm("101×9");
         mainActivity.findViewById(R.id.eT_output).requestFocus();
         mainActivity.setSelectionOutput(0,2);
         mainActivity.findViewById(R.id.btn_25).performClick();
@@ -186,7 +188,7 @@ public class SimpleMathIntegrationTest {
         assertEquals("90",((EditText) mainActivity.findViewById(R.id.eT_input)).getText().toString());
         mainActivity.findViewById(R.id.btn_clear_all).performLongClick();
 
-        calcTerm("101*9");
+        calcTerm("101×9");
         mainActivity.findViewById(R.id.eT_output).requestFocus();
         mainActivity.setSelectionOutput(1,3);
         mainActivity.findViewById(R.id.btn_25).performClick();
@@ -257,8 +259,8 @@ public class SimpleMathIntegrationTest {
 
         idToViewMap.put("+",mainActivity.findViewById(R.id.btn_add));
         idToViewMap.put("-",mainActivity.findViewById(R.id.btn_sub));
-        idToViewMap.put("*",mainActivity.findViewById(R.id.btn_mul));
-        idToViewMap.put("/",mainActivity.findViewById(R.id.btn_div));
+        idToViewMap.put("×",mainActivity.findViewById(R.id.btn_mul));
+        idToViewMap.put("÷",mainActivity.findViewById(R.id.btn_div));
         idToViewMap.put("(",mainActivity.findViewById(R.id.btn_open_bracket));
         idToViewMap.put(")",mainActivity.findViewById(R.id.btn_close_bracket));
 

@@ -46,7 +46,7 @@ public class MainActivityUnitTest {
     private static double toleranceDigits = 10;
     private Map<String, View> idToViewMap = new HashMap<>();
     private Map<String, RoboMenuItem> idToModeMap = new HashMap<>();
-    private String[] delimiters = new String[]{"1","2","3","4","5","6","7","8","9","0",".",",","ANS","*","/","+","-","(",")",
+    private String[] delimiters = new String[]{"1","2","3","4","5","6","7","8","9","0",".",",","ANS","×","÷","+","-","(",")",
             "π","e","^","LOG","LN","LB","³√","√","³","²","10^x","!",
             "PFZ","GCD","LCM","∑","∏",">%",">A/B",">x\u207B\u00B9",">+/-","MIN","MAX",
             "SIN","COS","TAN","COT","SEC","CSC","ASIN","ACOS","ATAN","ACOT","ASEC","ACSC",
@@ -110,11 +110,11 @@ public class MainActivityUnitTest {
         EditText INPUT  = mainActivity.findViewById(R.id.eT_input);
         EditText OUTPUT = mainActivity.findViewById(R.id.eT_output);
 
-        String[] fun1 = new String[]{"1","2","3","4","5","6","7","8","9","0",".",",","(",")","*","/","+","-"};
+        String[] fun1 = new String[]{"1","2","3","4","5","6","7","8","9","0",".",",","(",")","×","÷","+","-"};
         for(int i=0; i<fun1.length; i++){
             assertEquals(((Button) A[i]).getText().toString(),fun1[i]);
         }
-        fun1 = new String[]{"1","2","3","4","5","6","7","8","9","0",".",",","(",")","*","/","+","-"};
+        fun1 = new String[]{"1","2","3","4","5","6","7","8","9","0",".",",","(",")","×","÷","+","-"};
         for(int i=0; i<10; i++){
             A[i].performClick(); assertEquals(fun1[i],INPUT.getText().toString()); S[1].performClick(); assertEquals(OUTPUT.getText().toString(),INPUT.getText().toString()); S[0].performLongClick();
         }
@@ -238,17 +238,16 @@ public class MainActivityUnitTest {
         int testIterations = 1000;
         for(int it=0;it<testIterations;it++){
             int randomButtonIndex = ((int) (Math.random()*allButtons.length));
-            System.out.println(it);
-            System.out.println("input: "+mainActivity.getInputText());
-            System.out.println("output: "+mainActivity.getOutputText());
-            System.out.println("next button: "+allButtons[randomButtonIndex].getText().toString());
+
             try {
                 allButtons[randomButtonIndex].performClick();
                 allButtons[randomButtonIndex].performLongClick();
             } catch (Exception e){
-
+                System.out.println(it);
+                System.out.println("input: "+mainActivity.getInputText());
+                System.out.println("output: "+mainActivity.getOutputText());
+                System.out.println("button: "+allButtons[randomButtonIndex].getText().toString());
             }
-            System.out.println();
         }
 
 

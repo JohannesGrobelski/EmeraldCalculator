@@ -571,6 +571,9 @@ public class Expression {
 			 * @return
 			 */
 			private BigDecimal fac(BigDecimal b){
+				if(b.compareTo(new BigDecimal(1000000))>0){
+					throw new ExpressionException("Number to large: "+b.toString());
+				}
 				if(b.compareTo(BigDecimal.ZERO) < 0)return BigDecimal.ZERO;
 				else if(b.equals(BigDecimal.ZERO))return BigDecimal.ONE;
 				else if(b.equals(BigDecimal.ONE))return BigDecimal.ONE;

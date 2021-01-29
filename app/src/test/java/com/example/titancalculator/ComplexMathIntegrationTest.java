@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 @Config(sdk = 28)
@@ -390,6 +391,24 @@ public class ComplexMathIntegrationTest {
         }
 
 
+    }
+
+    @Test
+    public void testSpecialCases(){
+        Assert.assertTrue(MathEvaluator.resembles("Math Error",calcTerm("!151307674368000")));
+
+        assertEquals("Math Error",calcTerm("PI8"));
+        assertEquals("Math Error",calcTerm("e8"));
+        assertEquals("Math Error",MathEvaluator.toFraction(MathEvaluator.evaluate("LOGLOG")));
+
+        //realy big numbers:
+        String bigNumber = "10^10000000";
+        assertEquals("1E10000002",toPercent(bigNumber));
+        assertEquals("Math Error",toDEG(bigNumber));
+        assertEquals("Math Error",toRAD(bigNumber));
+        assertEquals("0",toReciproke(bigNumber));
+        assertEquals("-1E10000000",toInvert(bigNumber));
+        assertEquals("1E10000000",toFraction(bigNumber));
     }
 
 

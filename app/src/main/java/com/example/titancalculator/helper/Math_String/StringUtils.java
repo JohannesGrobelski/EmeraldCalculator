@@ -27,7 +27,7 @@ public class StringUtils {
             "ASIN","ACOS","ATAN","ACOT","ASEC","ACSC","SINH","COSH","TANH","COTH","SECH","CSCH",
             "MIN","MAX","nCr","nPr","VAR",">M1",">M2",">M3",">M4",">M5",">M6","ANS","SIN","COS","TAN","COT","SEC","CSC","AND","OR","XOR","NOT","LOG","PFZ","GCD","LCM",
             "PF",">%","LN","LB",
-            "∑","∏","1","2","3","4","5","6","7","8","9","0",".",",","*","/","+","-","(",")","π","e","^","³√","√","³","²","!","S","M1","M2","M3","M4","M5","M6",
+            "∑","∏","1","2","3","4","5","6","7","8","9","0",".",",","×","÷","+","-","(",")","π","e","^","³√","√","³","²","!","S","M1","M2","M3","M4","M5","M6",
     };
 
     static String[] allTokens = StringUtils.concatenate(mathTokens,new String[]{"L","R"});

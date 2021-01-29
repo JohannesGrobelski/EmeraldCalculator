@@ -35,7 +35,7 @@ public class Presenter {
         if(identifier.matches("[1-2][1-6]")){
             int nr = Integer.valueOf(identifier);
             ret = calcModel.getInverseFunctionButtonFunctionality(nr);
-            System.out.println(identifier+" "+calcModel.getFunctionButtonText(nr)+" "+ret);
+            //System.out.println(identifier+" "+calcModel.getFunctionButtonText(nr)+" "+ret);
             if(!ret.isEmpty())addInputText(ret);
         }
         return ret;
@@ -58,7 +58,7 @@ public class Presenter {
 
         if(identifier.matches("[1-2][1-6]")){
             int nr = Integer.valueOf(identifier);
-            System.out.println("mode: "+calcModel.getMode());
+            //System.out.println("mode: "+calcModel.getMode());
             if(calcModel.getMode() == 5){
                 if(Integer.valueOf(identifier)>20){
                     calcModel.setMemory(view.getSelection(),Integer.valueOf((nr-1)%10));
@@ -76,7 +76,7 @@ public class Presenter {
             view.setOutputText(calcModel.getOutputString());
             return "";
         }
-        System.out.println("inputButton: "+ret);
+        //System.out.println("inputButton: "+ret);
         return ret;
     }
 
