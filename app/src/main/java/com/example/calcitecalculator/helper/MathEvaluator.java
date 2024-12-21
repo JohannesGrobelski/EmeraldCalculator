@@ -1,10 +1,11 @@
 package com.example.calcitecalculator.helper;
 
 import com.example.calcitecalculator.model.CalcModel;
-import com.example.calcitecalculator.evalex.Expression;
+import com.ezylang.evalex.Expression;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
@@ -121,9 +122,7 @@ public class MathEvaluator {
         if(input.contains("!"))input = factorialCorrection(input);
         Expression expression = new Expression(input);
         try {
-            expression.setPrecision(decimal_places_pref + 1);
-            String res = format(expression.eval()).toString();
-            return res;
+            return format(expression.evaluate().getNumberValue().setScale(decimal_places_pref + 1, RoundingMode.HALF_UP));
         }
         catch (Exception e) {return "Math Error";}
     }
@@ -136,13 +135,11 @@ public class MathEvaluator {
         if(input.contains("!"))input = factorialCorrection(input);
         final Expression expression = new Expression(input);
         try {
-            expression.setPrecision(100);
 /*          CalcOperation calcOperation = new CalcOperation(expression);
             calcOperation.start();
             calcOperation.join(1000);*/
 
-            String res = format(expression.eval()).toString();
-            return res;
+            return format(expression.evaluate().getNumberValue().setScale(100, RoundingMode.HALF_UP));
         }
         catch (Exception e) {
             return "Math Error";
@@ -183,7 +180,7 @@ public class MathEvaluator {
 
     private static String format(BigDecimal input){
         int realDecPlaces = input.toString().substring(input.toPlainString().indexOf(".")+1).length();
-        input = input.setScale(Math.min(realDecPlaces,decimal_places_pref),BigDecimal.ROUND_HALF_UP);
+        input = input.setScale(Math.min(realDecPlaces,decimal_places_pref), RoundingMode.HALF_UP);
 
         DecimalFormatSymbols otherSymbols = new DecimalFormatSymbols(Locale.US);
         otherSymbols.setDecimalSeparator('.');
