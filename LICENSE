@@ -1,0 +1,48 @@
+Copyright (c) 2025 Johannes Grobelski
+
+All rights reserved.
+
+This software and its source code are made publicly available for transparency and educational purposes. 
+However, the following restrictions apply:
+
+Modification of the Original Software is strictly prohibited.
+1. Distribution is permitted only in its unmodified form.
+2. Viewing, studying, and learning from the code is explicitly permitted.
+3. The original author (Johannes Grobelski) must be prominently credited in all copies, portions, or distributions 
+of the software, including in all documentation and user interfaces where credits or authorship are displayed.
+4. Commercial use of the software is strictly prohibited.
+5. No contributions to the codebase will be accepted. 
+Users may submit bug reports and feature requests.
+6. This license applies exclusively to the original code of MoonStone Music Player, 
+excluding all dependencies listed in the THIRD_PARTY_LICENSES file, which retain their respective licenses.
+
+Disclaimer of Warranty and Limitation of Liability:
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO 
+THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR 
+THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+The above copyright notice, attribution requirements, and this permission notice shall be included in 
+all copies or substantial portions of the Original Software.
+
+Termination Clause:
+Your rights under this license will terminate automatically if you fail to comply with any of its terms. 
+Upon termination, you must cease all use and distribution of the software.
+
+Personal Use Definition:
+This software is intended for personal, non-commercial use only. Personal use means:
+- Use by an individual for their own personal entertainment.
+- Use in non-profit educational settings.
+- Use in non-commercial research.
+
+Severability Clause:
+If any provision of this license is held to be unenforceable or invalid, that provision will be enforced 
+to the maximum extent possible, and the remaining provisions will remain in full force.
+
+Bug Reporting and Feature Requests:
+- Bug reports and feature requests may be submitted only through the project's GitHub Issues section.
+- Bug reports must include clear steps to reproduce the issue.
+- Submissions must not include code modifications or pull requests.
+- The author reserves the right to implement, modify, or reject any suggestions at their sole discretion.

@@ -1,0 +1,56 @@
+THIRD-PARTY LICENSES
+
+This project includes the following third-party libraries, along with their respective licenses:
+
+AndroidX Libraries
+
+androidx.appcompat:appcompat:1.2.0Description: AndroidX UI componentsLicense: Apache License 2.0License URL: https://www.apache.org/licenses/LICENSE-2.0
+
+androidx.constraintlayout:constraintlayout:2.0.4Description: Layout managementLicense: Apache License 2.0License URL: https://www.apache.org/licenses/LICENSE-2.0
+
+androidx.legacy:legacy-support-v4:1.0.0Description: Legacy support libraryLicense: Apache License 2.0License URL: https://www.apache.org/licenses/LICENSE-2.0
+
+androidx.preference:preference:1.1.1Description: Preferences UILicense: Apache License 2.0License URL: https://www.apache.org/licenses/LICENSE-2.0
+
+androidx.navigation:navigation-fragment:2.3.2Description: Navigation supportLicense: Apache License 2.0License URL: https://www.apache.org/licenses/LICENSE-2.0
+
+androidx.navigation:navigation-ui:2.3.2Description: Navigation UI toolsLicense: Apache License 2.0License URL: https://www.apache.org/licenses/LICENSE-2.0
+
+androidx.lifecycle:lifecycle-extensions:2.2.0Description: Lifecycle-aware componentsLicense: Apache License 2.0License URL: https://www.apache.org/licenses/LICENSE-2.0
+
+androidx.test.ext:junit:1.1.1Description: AndroidX JUnit extensionsLicense: Apache License 2.0License URL: https://www.apache.org/licenses/LICENSE-2.0
+
+androidx.test:runner:1.3.0Description: Android test runnerLicense: Apache License 2.0License URL: https://www.apache.org/licenses/LICENSE-2.0
+
+androidx.test.espresso:espresso-core:3.3.0Description: UI testingLicense: Apache License 2.0License URL: https://www.apache.org/licenses/LICENSE-2.0
+
+androidx.test:rules:1.3.1-alpha02Description: Testing rulesLicense: Apache License 2.0License URL: https://www.apache.org/licenses/LICENSE-2.0
+
+Material Design Components
+
+com.google.android.material:material:1.2.1Description: Material Design componentsLicense: Apache License 2.0License URL: https://www.apache.org/licenses/LICENSE-2.0
+
+Testing Libraries
+
+junit:junit:4.12Description: JUnit 4 for unit testsLicense: Eclipse Public License 1.0License URL: https://www.eclipse.org/legal/epl-v10.html
+
+org.mockito:mockito-core:3.0.0Description: Mocking frameworkLicense: MIT LicenseLicense URL: https://opensource.org/licenses/MIT
+
+org.robolectric:robolectric:4.2.1Description: Android unit testingLicense: Apache License 2.0License URL: https://www.apache.org/licenses/LICENSE-2.0
+
+Utility Libraries
+
+com.google.guava:guava:28.1-androidDescription: Utility library for JavaLicense: Apache License 2.0License URL: https://www.apache.org/licenses/LICENSE-2.0
+
+Dependency Injection
+
+javax.inject:javax.inject:1@jarDescription: Dependency injection APILicense: Apache License 2.0License URL: https://www.apache.org/licenses/LICENSE-2.0
+
+Math Expression Evaluator
+
+com.ezylang:EvalEx:3.4.0Description: Math expression evaluatorLicense: Apache License 2.0License URL: https://www.apache.org/licenses/LICENSE-2.0
+
+Note
+
+This project may also include JAR files from the libs directory. Please refer to the respective documentation of those libraries for license information, as it may vary.
+
