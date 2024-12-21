@@ -34,7 +34,6 @@ gradle/wrapper/
 !README.md
 
 # Optional: Allow LICENSE and settings files to be included
-!LICENSE
 !settings.gradle
 !gradle.properties
 
