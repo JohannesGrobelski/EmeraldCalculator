@@ -1,17 +1,47 @@
+# Ignore IDE and build system files
 *.iml
-.gradle
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-/.idea
-/.idea/*
+.gradle/
+local.properties
+.idea/
 .DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
+
+# Ignore build outputs
+/build/
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Ignore log files
 *.log
+
+# Ignore version control metadata and unwanted files
+*.log
+.settings/
+caches/
+daemon/
+wrapper/
+
+# Ignore Gradle-specific files
+gradle/libs.versions.toml
+gradle/wrapper/
+
+# Keep only source files in version control
+!app/src/
+!app/src/main/
+!app/src/main/**
+
+# Allow README.md to be included
+!README.md
+
+# Optional: Allow LICENSE and settings files to be included
+!LICENSE
+!settings.gradle
+!gradle.properties
+
+# Ensure all files in root are ignored unless explicitly allowed
+/*
+!.gitignore
+!build.gradle
+!app/build.gradle
+!gradlew
+!gradlew.bat

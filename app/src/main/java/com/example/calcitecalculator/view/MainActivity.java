@@ -24,9 +24,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.calcitecalculator.presenter.Presenter;
-import com.example.calcitecalculator.R;
 import com.example.calcitecalculator.helper.OnSwipeTouchListener;
 import com.example.calcitecalculator.model.CalcModel;
+import com.example.emeraldcalculator.R;
 
 import javax.inject.Inject;
 
