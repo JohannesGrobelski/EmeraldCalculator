@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/basic"
-        android:title="@string/basic_mode1" />
+        android:title="@string/BASIC_DE" />
     <item android:id="@+id/advanced"
-        android:title="@string/advanced_mode2" />
+        android:title="@string/ADVANCED_DE" />
     <item android:id="@+id/trigo"
-        android:title="@string/trigo_mode3" />
-    <item android:id="@+id/statistic"
-        android:title="@string/stats_mode4" />
+        android:title="@string/TRIGO_DE" />
     <item android:id="@+id/logic"
-        android:title="@string/logic_mode5" />
+        android:title="@string/LOGIC_DE" />
+    <item android:id="@+id/statistic"
+        android:title="@string/STATS_DE" />
     <item android:id="@+id/memory"
-        android:title="@string/memory_mode6" />
+        android:title="@string/MEMORY_DE" />
 </menu>

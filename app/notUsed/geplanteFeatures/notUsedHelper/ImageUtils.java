@@ -1,4 +1,4 @@
-package com.example.calcitecalculator.geplanteFeatures.notUsedHelper;
+package com.example.titancalculator.geplanteFeatures.notUsedHelper;
 
 import android.content.Context;
 import android.graphics.Bitmap;

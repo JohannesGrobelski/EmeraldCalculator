@@ -1,4 +1,4 @@
-package com.example.calcitecalculator.geplanteFeatures;
+package com.example.titancalculator.geplanteFeatures;
 
 import android.content.res.Configuration;
 import android.os.Bundle;

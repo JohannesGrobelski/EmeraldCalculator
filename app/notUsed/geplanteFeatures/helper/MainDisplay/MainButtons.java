@@ -1,4 +1,4 @@
-package com.example.calcitecalculator.geplanteFeatures.helper.MainDisplay;
+package com.example.titancalculator.geplanteFeatures.helper.MainDisplay;
 
 public class MainButtons {
 }

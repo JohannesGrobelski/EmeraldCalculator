@@ -1,4 +1,4 @@
-package com.example.calcitecalculator.geplanteFeatures.notUsedHelper;
+package com.example.titancalculator.geplanteFeatures.notUsedHelper;
 
 import java.util.TimerTask;
 

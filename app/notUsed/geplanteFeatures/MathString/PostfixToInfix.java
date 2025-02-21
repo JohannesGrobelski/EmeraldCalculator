@@ -1,4 +1,4 @@
-package com.example.calcitecalculator.geplanteFeatures.MathString;
+package com.example.titancalculator.geplanteFeatures.MathString;
 
 import java.util.Stack;
 

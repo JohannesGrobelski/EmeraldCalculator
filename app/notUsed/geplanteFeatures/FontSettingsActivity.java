@@ -1,4 +1,4 @@
-package com.example.calcitecalculator.geplanteFeatures;
+package com.example.titancalculator.geplanteFeatures;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -18,9 +18,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
-import com.example.calcitecalculator.R;
-import com.example.calcitecalculator.geplanteFeatures.helper.MainDisplay.DisplaySetupHelper;
-import com.example.calcitecalculator.geplanteFeatures.helper.MainDisplay.SettingsApplier;
+import com.example.titancalculator.R;
+import com.example.titancalculator.geplanteFeatures.helper.MainDisplay.DisplaySetupHelper;
+import com.example.titancalculator.geplanteFeatures.helper.MainDisplay.SettingsApplier;
 
 public class FontSettingsActivity extends AppCompatActivity {
 

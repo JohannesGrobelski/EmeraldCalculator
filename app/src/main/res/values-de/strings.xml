@@ -22,6 +22,7 @@
 
 
     <string name="app_name">Emerald Calculator</string>
+    <string name="random_number">random number</string>
 
     <!-- Preference Titles -->
 

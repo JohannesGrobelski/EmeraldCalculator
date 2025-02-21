@@ -5,81 +5,81 @@
     <header
         android:icon="@drawable/ic_info_outline_black_24dp"
         android:title="Allgemein"
-        android:fragment="com.example.calcitecalculator.geplanteFeatures.SettingsActivity$GeneralPreferenceFragment" />
+        android:fragment="com.example.titancalculator.geplanteFeatures.SettingsActivity$GeneralPreferenceFragment" />
 
     <header
         android:icon="@drawable/ic_filter_1_black_24dp"
         android:title="Mathematische Einstellungen"
-        android:fragment="com.example.calcitecalculator.geplanteFeatures.SettingsActivity$MathSettingsFragment" />
+        android:fragment="com.example.titancalculator.geplanteFeatures.SettingsActivity$MathSettingsFragment" />
 
     <header
         android:icon="@drawable/ic_layout_24dp"
         android:title="Layout"
-        android:fragment="com.example.calcitecalculator.geplanteFeatures.SettingsActivity$LayoutPreferenceFragment" />
+        android:fragment="com.example.titancalculator.geplanteFeatures.SettingsActivity$LayoutPreferenceFragment" />
 
 
     <header
         android:icon="@drawable/ic_design"
         android:title="Design">
         <intent
-            android:targetPackage="com.example.calcitecalculator"
-            android:targetClass="com.example.calcitecalculator.DesignSettingsActivity" />
+            android:targetPackage="com.example.titancalculator"
+            android:targetClass="com.example.titancalculator.DesignSettingsActivity" />
     </header>
 
 
     <header
         android:icon="@drawable/ic_colorpicker"
         android:title="Activity Farben"
-        android:fragment="com.example.calcitecalculator.geplanteFeatures.SettingsActivity$ColorActFragment" />
+        android:fragment="com.example.titancalculator.geplanteFeatures.SettingsActivity$ColorActFragment" />
 
     <header
         android:icon="@drawable/ic_colorpicker"
         android:title="Farbeinstellungen Rechner"
-        android:fragment="com.example.calcitecalculator.geplanteFeatures.SettingsActivity$ButtoncolorSettingsFragment" />
+        android:fragment="com.example.titancalculator.geplanteFeatures.SettingsActivity$ButtoncolorSettingsFragment" />
 
     <header
         android:icon="@drawable/ic_schriftart"
         android:title="Schriftart">
         <intent
-            android:targetPackage="com.example.calcitecalculator"
-            android:targetClass="com.example.calcitecalculator.FontSettingsActivity" />
+            android:targetPackage="com.example.titancalculator"
+            android:targetClass="com.example.titancalculator.FontSettingsActivity" />
     </header>
 
     <header
         android:icon="@drawable/ic_formen"
         android:title="Formen">
         <intent
-            android:targetPackage="com.example.calcitecalculator"
-            android:targetClass="com.example.calcitecalculator.ButtonshapeActivity" />
+            android:targetPackage="com.example.titancalculator"
+            android:targetClass="com.example.titancalculator.ButtonshapeActivity" />
     </header>
 
     <header
         android:icon="@drawable/ic_language_black_24dp"
         android:title="Sprache"
-        android:fragment="com.example.calcitecalculator.geplanteFeatures.SettingsActivity$LanguagePreferenceFragment" />
+        android:fragment="com.example.titancalculator.geplanteFeatures.SettingsActivity$LanguagePreferenceFragment" />
     <!--
 
       <header
         android:icon="@drawable/ic_design"
         android:title="eigenes Design">
         <intent
-            android:targetPackage="calcitecalculatoror"
-            android:targetClass="calcitecalculatoror.geplanteFeatures.CustomDesignSettings" />
+            android:targetPackage="com.example.titancalculator"
+            android:targetClass="com.example.titancalculator.geplanteFeatures.CustomDesignSettings" />
     </header>
        <header
            android:icon="@drawable/ic_button_fct"
            android:title="Funktionsgruppen erstellen">
            <intent
-               android:targetPackage="calcitecalculatoror"
-               android:targetClass="calcitecalculatoror.geplanteFeatures.FunctionGroupSettingsActivity" />
+               android:targetPackage="com.example.titancalculator"
+               android:targetClass="com.example.titancalculator.geplanteFeatures.FunctionGroupSettingsActivity" />
        </header>
 
        <header
            android:icon="@drawable/ic_button_fct"
            android:title="Funktionsgruppen bearbeiten">
            <intent
-               android:targetPackage="calcitecalculatoror"
-               android:targetClass="calcitecalculatoror.geplanteFeatures.ButtonSettingsActivity" />
+               android:targetPackage="com.example.titancalculator"
+               android:targetClass="com.example.titancalculator.geplanteFeatures.ButtonSettingsActivity" />
        </header>
        -->
 </preference-headers>

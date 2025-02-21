@@ -1,4 +1,4 @@
-package com.example.calcitecalculator.geplanteFeatures;
+package com.example.titancalculator.geplanteFeatures;
 
 import android.content.Context;
 import android.content.Intent;
@@ -24,22 +24,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.preference.PreferenceManager;
 
-import com.example.calcitecalculator.MainActivity;
-import com.example.calcitecalculator.R;
-import com.example.calcitecalculator.geplanteFeatures.helper.MainDisplay.SettingsApplier;
-import com.example.calcitecalculator.helper.Math_String.MathEvaluator;
-import com.example.calcitecalculator.geplanteFeatures.Umrechnung.DatenspeicherUmrechnung;
-import com.example.calcitecalculator.geplanteFeatures.Umrechnung.DatentransferUmrechnung;
-import com.example.calcitecalculator.geplanteFeatures.Umrechnung.FlächenUmrechnung;
-import com.example.calcitecalculator.geplanteFeatures.Umrechnung.GeschwindigkeitUmrechnung;
-import com.example.calcitecalculator.geplanteFeatures.Umrechnung.KraftUmrechnung;
-import com.example.calcitecalculator.geplanteFeatures.Umrechnung.LaengeUmrechnung;
-import com.example.calcitecalculator.geplanteFeatures.Umrechnung.LeistungUmrechnung;
-import com.example.calcitecalculator.geplanteFeatures.Umrechnung.MasseUmrechnung;
-import com.example.calcitecalculator.geplanteFeatures.Umrechnung.StromstärkeUmrechnung;
-import com.example.calcitecalculator.geplanteFeatures.Umrechnung.TemperaturUmrechnung;
-import com.example.calcitecalculator.geplanteFeatures.Umrechnung.VolumenUmrechnung;
-import com.example.calcitecalculator.geplanteFeatures.Umrechnung.ZeitUmrechnung;
+import com.example.titancalculator.MainActivity;
+import com.example.titancalculator.R;
+import com.example.titancalculator.geplanteFeatures.helper.MainDisplay.SettingsApplier;
+import com.example.titancalculator.helper.Math_String.MathEvaluator;
+import com.example.titancalculator.geplanteFeatures.Umrechnung.DatenspeicherUmrechnung;
+import com.example.titancalculator.geplanteFeatures.Umrechnung.DatentransferUmrechnung;
+import com.example.titancalculator.geplanteFeatures.Umrechnung.FlächenUmrechnung;
+import com.example.titancalculator.geplanteFeatures.Umrechnung.GeschwindigkeitUmrechnung;
+import com.example.titancalculator.geplanteFeatures.Umrechnung.KraftUmrechnung;
+import com.example.titancalculator.geplanteFeatures.Umrechnung.LaengeUmrechnung;
+import com.example.titancalculator.geplanteFeatures.Umrechnung.LeistungUmrechnung;
+import com.example.titancalculator.geplanteFeatures.Umrechnung.MasseUmrechnung;
+import com.example.titancalculator.geplanteFeatures.Umrechnung.StromstärkeUmrechnung;
+import com.example.titancalculator.geplanteFeatures.Umrechnung.TemperaturUmrechnung;
+import com.example.titancalculator.geplanteFeatures.Umrechnung.VolumenUmrechnung;
+import com.example.titancalculator.geplanteFeatures.Umrechnung.ZeitUmrechnung;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

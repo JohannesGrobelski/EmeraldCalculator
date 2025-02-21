@@ -1,6 +1,6 @@
-package com.example.calcitecalculator.geplanteFeatures.Umrechnung;
+package com.example.titancalculator.geplanteFeatures.Umrechnung;
 
-import com.example.calcitecalculator.helper.Math_String.MathEvaluator;
+import com.example.titancalculator.helper.Math_String.MathEvaluator;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
